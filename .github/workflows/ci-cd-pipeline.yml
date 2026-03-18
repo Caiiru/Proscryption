@@ -12,11 +12,11 @@ on:
       validDeployTargets:
         type: string
         required: true
-        default: '[]'
+        default: "[]"
       buildTargets:
         type: string
         required: true
-        default: '[]'
+        default: "[]"
       metadataConfig:
         type: string
         required: true
@@ -104,7 +104,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   build:
     name: Build
-    needs: 
+    needs:
       - unpack_inputs
       - run_tests
     if: >
@@ -117,7 +117,8 @@ jobs:
       runnerMain: ${{ inputs.runnerMain }}
       runnerMacos: ${{ inputs.runnerMacos }}
       projectName: ${{ needs.unpack_inputs.outputs.projectName }}
-      unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
+      unityVersion: 6000.3.10f1
+      # unityVersion: ${{ needs.unpack_inputs.outputs.unityVersion }}
       buildVersion: ${{ needs.unpack_inputs.outputs.buildVersion }}
       buildType: ${{ needs.unpack_inputs.outputs.buildType }}
       buildTargets: ${{ inputs.buildTargets }}
@@ -134,15 +135,15 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   release:
     name: Release
-    needs: 
+    needs:
       - unpack_inputs
       - build
-    if: > 
+    if: >
       always() &&
       needs.unpack_inputs.outputs.testsOnly != 'true' &&
-      needs.build.result == 'success' && 
+      needs.build.result == 'success' &&
       (
-        needs.unpack_inputs.outputs.buildType == 'release' || 
+        needs.unpack_inputs.outputs.buildType == 'release' ||
         needs.unpack_inputs.outputs.buildType == 'release_candidate'
       )
     uses: avalin/unity-ci-cd/.github/workflows/step-3-release.yml@v1
@@ -160,11 +161,11 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   deploy:
     name: Deploy
-    needs: 
+    needs:
       - unpack_inputs
       - build
       - release
-    if: > 
+    if: >
       always() &&
        needs.unpack_inputs.outputs.testsOnly != 'true' &&
        needs.release.result == 'success' &&
@@ -207,17 +208,17 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   notify:
     name: Notify
-    needs: 
+    needs:
       - unpack_inputs
       - run_tests
       - build
       - release
       - deploy
-    if: > 
-      always() && 
+    if: >
+      always() &&
       needs.unpack_inputs.outputs.testsOnly != 'true' &&
       (
-        needs.unpack_inputs.outputs.buildType == 'release' || 
+        needs.unpack_inputs.outputs.buildType == 'release' ||
         needs.unpack_inputs.outputs.buildType == 'release_candidate'
       )
     uses: avalin/unity-ci-cd/.github/workflows/step-5-notify.yml@v1
