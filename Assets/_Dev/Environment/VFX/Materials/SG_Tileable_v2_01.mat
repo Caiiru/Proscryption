@@ -32,6 +32,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 601bcf721abc06147abe5dd1270d86a6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Triplanar_224d17fa7ea1474eb7dada804847bb8b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 601bcf721abc06147abe5dd1270d86a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Divisible_by_2: 0
-    - _Is_cairuu_enabled: 1
+    - _Is_cairuu_enabled: 0
     - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
