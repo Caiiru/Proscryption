@@ -157,64 +157,37 @@ jobs:
 
   trigger_ci:
     name: Trigger CI/CD Pipeline
-    needs:
-      - resolve_runners
-      - validation
-      - tagging
-      - prepare_metadata
-    if: ${{ needs.validation.outputs.should_run == 'true'}}
-    runs-on: ${{ needs.resolve_runners.outputs.main }}
-    steps:
-      - name: Checkout Workflows Only
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/workflows
-          sparse-checkout-cone-mode: false
-          fetch-depth: 1
-
-      - name: Install GitHub CLI
-        shell: bash
-        run: |
-          if command -v gh &> /dev/null; then
-            echo "GitHub CLI already installed."
-          elif [[ "$RUNNER_OS" == "Linux" ]]; then
-            sudo apt-get update
-            sudo apt-get install gh -y
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            brew install gh
-          else
-            echo "Please ensure GitHub CLI is installed on your Windows runner." >&2
-            exit 1
-          fi
-
-      - name: Call CI/CD Pipeline from GitHub CLI
-        env:
-          GITHUB_TOKEN: ${{ secrets.CICD_PAT }}
-        run: |
-          gh workflow run ci-cd-pipeline.yml \
-            --ref "${{ github.ref }}" \
-            --field runnerMain="$(printf '%s' '${{ needs.resolve_runners.outputs.main }}')" \
-            --field runnerMacos="$(printf '%s' '${{ needs.resolve_runners.outputs.macos }}')" \
-            --field buildTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.buildTargets }}')" \
-            --field validDeployTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.validDeployTargets }}')" \
-            --field metadataConfig="$(jq -c -n \
-              --arg projectName "${{ needs.prepare_metadata.outputs.projectName }}" \
-              --arg skipTests "${{ needs.prepare_metadata.outputs.skipTests }}" \
-              --arg testsOnly "${{ needs.prepare_metadata.outputs.testsOnly }}" \
-              --arg buildType "${{ needs.prepare_metadata.outputs.buildType }}" \
-              --arg buildVersion "${{ needs.prepare_metadata.outputs.buildVersion }}" \
-              --arg retentionDays "${{ needs.prepare_metadata.outputs.retentionDays }}" \
-              --arg timeoutMinutesTests "${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}" \
-              --arg timeoutMinutesBuild "${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}" \
-              '{projectName: $projectName, skipTests: $skipTests, testsOnly: $testsOnly, buildType: $buildType, buildVersion: $buildVersion, retentionDays: $retentionDays, timeoutMinutesTests: $timeoutMinutesTests, timeoutMinutesBuild: $timeoutMinutesBuild}')" \
-            --field artifactConfig="$(jq -c -n \
-              --arg requiresCombined "${{ needs.prepare_metadata.outputs.requiresCombined }}" \
-              --arg skipPerBuildTarget "${{ needs.prepare_metadata.outputs.skipPerBuildTarget }}" \
-              '{requiresCombined: $requiresCombined, skipPerBuildTarget: $skipPerBuildTarget}')" \
-            --field testDataConfig="$(jq -c -n \
-              --arg unityVersion "${{ needs.prepare_metadata.outputs.unityVersion }}" \
-              --arg useGitLfs "${{ needs.prepare_metadata.outputs.useGitLfs }}" \
-              --arg editModePath "${{ needs.prepare_metadata.outputs.editModePath }}" \
-              --arg playModePath "${{ needs.prepare_metadata.outputs.playModePath }}" \
-              --arg quietMode "${{ needs.prepare_metadata.outputs.quietMode }}" \
-              '{unityVersion: $unityVersion, useGitLfs: $useGitLfs, editModePath: $editModePath, playModePath: $playModePath, quietMode: $quietMode}')"
+    needs: [resolve_runners, validation, tagging, prepare_metadata]
+    if: ${{ needs.validation.outputs.should_run == 'true' }}
+    uses: ./.github/workflows/ci-cd-pipeline.yml
+    with:
+      runnerMain: ${{ needs.resolve_runners.outputs.main }}
+      runnerMacos: ${{ needs.resolve_runners.outputs.macos }}
+      buildTargets: ${{ needs.prepare_metadata.outputs.buildTargets }}
+      validDeployTargets: ${{ needs.prepare_metadata.outputs.validDeployTargets }}
+      # Aqui passamos os JSONs que você estava montando com o JQ
+      metadataConfig: |
+        {
+          "projectName": "${{ needs.prepare_metadata.outputs.projectName }}",
+          "skipTests": "${{ needs.prepare_metadata.outputs.skipTests }}",
+          "testsOnly": "${{ needs.prepare_metadata.outputs.testsOnly }}",
+          "buildType": "${{ needs.prepare_metadata.outputs.buildType }}",
+          "buildVersion": "${{ needs.prepare_metadata.outputs.buildVersion }}",
+          "retentionDays": "${{ needs.prepare_metadata.outputs.retentionDays }}",
+          "timeoutMinutesTests": "${{ needs.prepare_metadata.outputs.timeoutMinutesTests }}",
+          "timeoutMinutesBuild": "${{ needs.prepare_metadata.outputs.timeoutMinutesBuild }}"
+        }
+      artifactConfig: |
+        {
+          "requiresCombined": "${{ needs.prepare_metadata.outputs.requiresCombined }}",
+          "skipPerBuildTarget": "${{ needs.prepare_metadata.outputs.skipPerBuildTarget }}"
+        }
+      testDataConfig: |
+        {
+          "unityVersion": "${{ needs.prepare_metadata.outputs.unityVersion }}",
+          "useGitLfs": "${{ needs.prepare_metadata.outputs.useGitLfs }}",
+          "editModePath": "${{ needs.prepare_metadata.outputs.editModePath }}",
+          "playModePath": "${{ needs.prepare_metadata.outputs.playModePath }}",
+          "quietMode": "${{ needs.prepare_metadata.outputs.quietMode }}"
+        }
+    secrets: inherit

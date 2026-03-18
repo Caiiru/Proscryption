@@ -27,8 +27,39 @@ on:
         type: string
         required: true
 
+  workflow_call:
+    inputs:
+      runnerMain:
+        type: string
+        required: true
+      runnerMacos:
+        type: string
+        required: true
+      validDeployTargets:
+        type: string
+        required: true
+        default: "[]"
+      buildTargets:
+        type: string
+        required: true
+        default: "[]"
+      metadataConfig:
+        type: string
+        required: true
+      testDataConfig:
+        type: string
+        required: true
+      artifactConfig:
+        type: string
+        required: true
+      secrets:
+        UNITY_EMAIL: required:true
+        UNITY_PASSWORD: required:true
+        UNITY_LICENSE: required:true
+
 permissions:
   contents: write
+  checks: write
 
 jobs:
   unpack_inputs:
@@ -95,9 +126,9 @@ jobs:
       timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesTests) }}
       quietMode: ${{ needs.unpack_inputs.outputs.quietMode }}
     secrets:
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
       UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 2. Build
