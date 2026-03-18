@@ -26,36 +26,15 @@ on:
       artifactConfig:
         type: string
         required: true
-
-  workflow_call:
-    inputs:
-      runnerMain:
+      unityEmail:
         type: string
         required: true
-      runnerMacos:
+      unityPassword:
         type: string
         required: true
-      validDeployTargets:
+      unityLicense:
         type: string
         required: true
-        default: "[]"
-      buildTargets:
-        type: string
-        required: true
-        default: "[]"
-      metadataConfig:
-        type: string
-        required: true
-      testDataConfig:
-        type: string
-        required: true
-      artifactConfig:
-        type: string
-        required: true
-      secrets:
-        UNITY_EMAIL: required:true
-        UNITY_PASSWORD: required:true
-        UNITY_LICENSE: required:true
 
 permissions:
   contents: write
@@ -126,9 +105,9 @@ jobs:
       timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesTests) }}
       quietMode: ${{ needs.unpack_inputs.outputs.quietMode }}
     secrets:
-      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_EMAIL: ${{ inputs.unityEmail }}
+      UNITY_PASSWORD: ${{ inputs.unityPassword }}
+      UNITY_LICENSE: ${{ inputs.unityLicense }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 2. Build

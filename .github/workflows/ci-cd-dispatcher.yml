@@ -190,6 +190,9 @@ jobs:
       - name: Call CI/CD Pipeline from GitHub CLI
         env:
           GITHUB_TOKEN: ${{ secrets.CICD_PAT }}
+          U_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          U_PASS: ${{ secrets.UNITY_PASSWORD }}
+          U_LICENSE: ${{ secrets.UNITY_LICENSE }}
         run: |
           gh workflow run ci-cd-pipeline.yml \
             --ref "${{ github.ref }}" \
@@ -197,6 +200,9 @@ jobs:
             --field runnerMacos="$(printf '%s' '${{ needs.resolve_runners.outputs.macos }}')" \
             --field buildTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.buildTargets }}')" \
             --field validDeployTargets="$(printf '%s' '${{ needs.prepare_metadata.outputs.validDeployTargets }}')" \
+            --field unityEmail="$U_EMAIL" \
+            --field unityPassword="$U_PASS" \
+            --field unityLicense="$U_LICENSE" \
             --field metadataConfig="$(jq -c -n \
               --arg projectName "${{ needs.prepare_metadata.outputs.projectName }}" \
               --arg skipTests "${{ needs.prepare_metadata.outputs.skipTests }}" \
