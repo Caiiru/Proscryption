@@ -94,7 +94,10 @@ jobs:
       playModePath: ${{ needs.unpack_inputs.outputs.playModePath }}
       timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesTests) }}
       quietMode: ${{ needs.unpack_inputs.outputs.quietMode }}
-    secrets: inherit
+    secrets:
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 2. Build
