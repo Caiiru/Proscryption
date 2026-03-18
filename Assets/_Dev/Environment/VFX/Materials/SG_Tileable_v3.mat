@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SG_Tileable_Hero
-  m_Shader: {fileID: -6465566751694194690, guid: 555c8318f492eba4492c2e48fa39bce8, type: 3}
+  m_Name: SG_Tileable_v3
+  m_Shader: {fileID: -6465566751694194690, guid: 249607a9847dd6042a132b0b30469f46, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -25,15 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: 03f3293a9fd8e6548a7ab15f0c80a3c0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3fe239e19d10e284cb9bb5a748ecb82e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_a7b13a2c00e942228c0e24b8457b5439_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 601bcf721abc06147abe5dd1270d86a6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Triplanar_224d17fa7ea1474eb7dada804847bb8b_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 601bcf721abc06147abe5dd1270d86a6, type: 3}
+    - _Triplanar_3600c0c4aa99411db9775e66f7c0a43b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 9f330c3257a74b3448aec8bd1380c899, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -50,20 +46,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Divisible_by_2: 0
-    - _Is_cairuu_enabled: 0
+    - _10_Meter_Grid: 1
+    - _Divisible_by_2: 1
     - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0
     - _Tile: 1
     m_Colors:
+    - _10_Meter_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _10_Meter_Grid_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Color_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 1}
-    - _Offset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2286955894582115504
+--- !u!114 &5180858058060401447
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

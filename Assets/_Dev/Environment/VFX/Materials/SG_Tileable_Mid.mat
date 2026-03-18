@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SG_Tileable_Hero
+  m_Name: SG_Tileable_Mid
   m_Shader: {fileID: -6465566751694194690, guid: 555c8318f492eba4492c2e48fa39bce8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: 03f3293a9fd8e6548a7ab15f0c80a3c0, type: 3}
+        m_Texture: {fileID: 2800000, guid: b447276aa5b91be44bd37bdb0705b5b1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_a7b13a2c00e942228c0e24b8457b5439_Texture_1_Texture2D:
