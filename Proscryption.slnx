@@ -1,4 +1,6 @@
 ﻿<Solution>
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="FMODUnityResonanceEditor.csproj" />
   <Project Path="FMODUnityEditor.csproj" />
   <Project Path="DOTween.Modules.csproj" />
@@ -7,4 +9,5 @@
   <Project Path="FMODUnityResonance.csproj" />
   <Project Path="DOTweenPro.EditorScripts.csproj" />
   <Project Path="DOTweenPro.Scripts.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
 </Solution>
