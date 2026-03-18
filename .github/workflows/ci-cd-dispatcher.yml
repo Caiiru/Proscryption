@@ -19,16 +19,16 @@ on:
         default: "default"
         type: choice
         options:
-          - 'default'
-          - 'true'
-          - 'false'
+          - "default"
+          - "true"
+          - "false"
       deployTargets:
-        description: "JSON array of deploy targets (e.g. [\"itch.io\",\"s3\"])"
+        description: 'JSON array of deploy targets (e.g. ["itch.io","s3"])'
         required: true
         default: '["gh-pages"]'
         type: string
       buildTargets:
-        description: "JSON array of build targets (e.g. [\"WebGL\",\"iOS\"])"
+        description: 'JSON array of build targets (e.g. ["WebGL","iOS"])'
         required: true
         default: '["WebGL"]'
         type: string
@@ -39,20 +39,20 @@ on:
   # Automatically run tests & builds on certain branches or PR changes
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'            # matches v1.2.3
-      - 'v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'  # matches v1.2.3-rc.1
+      - "v[0-9]+.[0-9]+.[0-9]+" # matches v1.2.3
+      - "v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+" # matches v1.2.3-rc.1
     paths:
-      - 'Assets/**'
-      - 'Packages/**'
-      - 'ProjectSettings/**'
-      - 'Tests/**'
+      - "Assets/**"
+      - "Packages/**"
+      - "ProjectSettings/**"
+      - "Tests/**"
   pull_request:
     types: [ready_for_review, synchronize, reopened]
     paths:
-      - 'Assets/**'
-      - 'Packages/**'
-      - 'ProjectSettings/**'
-      - 'Tests/**'
+      - "Assets/**"
+      - "Packages/**"
+      - "ProjectSettings/**"
+      - "Tests/**"
 
 permissions:
   contents: write
@@ -77,13 +77,13 @@ jobs:
 
   validation:
     name: Check Skip CI triggers
-    needs: 
+    needs:
       - resolve_runners
     runs-on: ${{ needs.resolve_runners.outputs.main }}
     outputs:
       should_run: ${{ steps.check.outputs.should_run }}
     steps:
-      - name: Check last commit for [skip ci]   
+      - name: Check last commit for [skip ci]
         id: check
         run: |
           COMMIT_MSG="${{ github.event.head_commit.message }}"
@@ -96,6 +96,9 @@ jobs:
             echo "Proceeding with CI."
             echo "should_run=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Unity - Activate
+        uses: game-ci/unity-activate@v2.0.0
 
       - name: Validate Required GitHub Secrets
         run: |
@@ -126,7 +129,7 @@ jobs:
 
   prepare_metadata:
     name: Prepare Metadata
-    needs: 
+    needs:
       - resolve_runners
       - validation
     if: ${{ needs.validation.outputs.should_run == 'true'}}
@@ -144,7 +147,7 @@ jobs:
 
   tagging:
     name: Create or Verify Tag
-    needs: 
+    needs:
       - validation
       - resolve_runners
       - prepare_metadata
@@ -157,7 +160,7 @@ jobs:
 
   trigger_ci:
     name: Trigger CI/CD Pipeline
-    needs: 
+    needs:
       - resolve_runners
       - validation
       - tagging
