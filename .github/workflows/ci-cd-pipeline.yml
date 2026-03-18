@@ -12,11 +12,11 @@ on:
       validDeployTargets:
         type: string
         required: true
-        default: "[]"
+        default: '[]'
       buildTargets:
         type: string
         required: true
-        default: "[]"
+        default: '[]'
       metadataConfig:
         type: string
         required: true
@@ -26,19 +26,9 @@ on:
       artifactConfig:
         type: string
         required: true
-      unityEmail:
-        type: string
-        required: true
-      unityPassword:
-        type: string
-        required: true
-      unityLicense:
-        type: string
-        required: true
 
 permissions:
   contents: write
-  checks: write
 
 jobs:
   unpack_inputs:
@@ -105,16 +95,16 @@ jobs:
       timeoutMinutes: ${{ fromJson(needs.unpack_inputs.outputs.timeoutMinutesTests) }}
       quietMode: ${{ needs.unpack_inputs.outputs.quietMode }}
     secrets:
-      UNITY_EMAIL: ${{ inputs.unityEmail }}
-      UNITY_PASSWORD: ${{ inputs.unityPassword }}
-      UNITY_LICENSE: ${{ inputs.unityLicense }}
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 2. Build
   # ─────────────────────────────────────────────────────────────────────────────
   build:
     name: Build
-    needs:
+    needs: 
       - unpack_inputs
       - run_tests
     if: >
@@ -144,15 +134,15 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   release:
     name: Release
-    needs:
+    needs: 
       - unpack_inputs
       - build
-    if: >
+    if: > 
       always() &&
       needs.unpack_inputs.outputs.testsOnly != 'true' &&
-      needs.build.result == 'success' &&
+      needs.build.result == 'success' && 
       (
-        needs.unpack_inputs.outputs.buildType == 'release' ||
+        needs.unpack_inputs.outputs.buildType == 'release' || 
         needs.unpack_inputs.outputs.buildType == 'release_candidate'
       )
     uses: avalin/unity-ci-cd/.github/workflows/step-3-release.yml@v1
@@ -170,11 +160,11 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   deploy:
     name: Deploy
-    needs:
+    needs: 
       - unpack_inputs
       - build
       - release
-    if: >
+    if: > 
       always() &&
        needs.unpack_inputs.outputs.testsOnly != 'true' &&
        needs.release.result == 'success' &&
@@ -217,17 +207,17 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   notify:
     name: Notify
-    needs:
+    needs: 
       - unpack_inputs
       - run_tests
       - build
       - release
       - deploy
-    if: >
-      always() &&
+    if: > 
+      always() && 
       needs.unpack_inputs.outputs.testsOnly != 'true' &&
       (
-        needs.unpack_inputs.outputs.buildType == 'release' ||
+        needs.unpack_inputs.outputs.buildType == 'release' || 
         needs.unpack_inputs.outputs.buildType == 'release_candidate'
       )
     uses: avalin/unity-ci-cd/.github/workflows/step-5-notify.yml@v1
