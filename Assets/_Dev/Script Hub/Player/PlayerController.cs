@@ -64,8 +64,7 @@ namespace proscryption
         {
             if (_velocity.magnitude == 0)
             {
-                _animator.SetBool("isMoving", false);
-                _animator.speed = 1;
+                _animator.SetBool("isMoving", false); 
                 return;
             }
             else
@@ -73,8 +72,7 @@ namespace proscryption
 
             _animator.SetFloat("velocityX", _input.MoveInput.x);
             _animator.SetFloat("velocityY", _input.MoveInput.y);
-
-            _animator.speed = movementSpeed / 2;
+ 
         }
 
         protected Vector3 CalculateMovementVelocity()
@@ -152,7 +150,7 @@ namespace proscryption
         private void ExecuteRoll()
         {
             Vector3 rollVelocity = CalculateRollVelocity();
-            _rigidbody.linearVelocity = new Vector3(rollVelocity.x, _rigidbody.linearVelocity.y, rollVelocity.z);
+            // _rigidbody.linearVelocity = new Vector3(rollVelocity.x, _rigidbody.linearVelocity.y, rollVelocity.z);
             _isRolling = false;
             // _animator.ResetTrigger("Roll");
 
