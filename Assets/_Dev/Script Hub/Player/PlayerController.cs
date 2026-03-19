@@ -9,7 +9,7 @@ namespace proscryption
         [Header("Player Settings")]
         [SerializeField] private float movementSpeed = 6;
         [SerializeField] private float rollForce = 10;
-        [SerializeField] private float rollCooldown = 1f;
+        [SerializeField] private float rollCooldown = 4f;
 
         #region Internal Variables
         private bool _isRolling;
@@ -120,6 +120,8 @@ namespace proscryption
             // Verificar se deve fazer roll
             if (_input.RollInput && _rollCooldownTimer <= 0)
             {
+
+                _animator.SetBool("Roll",true);
                 _isRolling = true;
                 _rollCooldownTimer = rollCooldown;
             }
@@ -143,6 +145,8 @@ namespace proscryption
             Vector3 rollVelocity = CalculateRollVelocity();
             _rigidbody.linearVelocity = new Vector3(rollVelocity.x, _rigidbody.linearVelocity.y, rollVelocity.z);
             _isRolling = false;
+            // _animator.ResetTrigger("Roll");
+
         }
 
     }
