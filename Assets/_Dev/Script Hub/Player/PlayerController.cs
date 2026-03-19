@@ -83,10 +83,19 @@ namespace proscryption
 
             MovementAnimation(_velocity, movementSpeed);
 
+            RotateTowards(_velocity);
 
             _velocity *= movementSpeed;
             return _velocity;
 
+        }
+        protected void RotateTowards(Vector3 direction)
+        {
+            if (direction.magnitude == 0)
+                return;
+
+            Vector3 dir = new Vector3(transform.position.x + direction.x, _transform.position.y, transform.position.z + direction.z);
+            _transform.LookAt(dir);
         }
 
         protected Vector3 CalculateRollDirection()
@@ -121,7 +130,7 @@ namespace proscryption
             if (_input.RollInput && _rollCooldownTimer <= 0)
             {
 
-                _animator.SetBool("Roll",true);
+                _animator.SetBool("Roll", true);
                 _isRolling = true;
                 _rollCooldownTimer = rollCooldown;
             }
