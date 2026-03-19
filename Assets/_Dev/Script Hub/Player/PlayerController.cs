@@ -22,6 +22,8 @@ namespace proscryption
         protected Transform _mainCameraTransform;
 
         protected Rigidbody _rigidbody;
+
+        protected Animator _animator;
         #endregion
         void Start()
         {
@@ -34,11 +36,16 @@ namespace proscryption
             _input = GetComponent<CharacterInput>();
             _mainCameraTransform = Camera.main.transform;
             _rigidbody = GetComponent<Rigidbody>();
+            _animator = GetComponentInChildren<Animator>();
         }
 
         protected Vector3 CalculateMovementDirection()
         {
-            if (!_input) return Vector3.zero;
+            if (!_input)
+            {
+                return Vector3.zero;
+            }
+
 
             Vector3 _velocity = Vector3.zero;
 
@@ -49,12 +56,34 @@ namespace proscryption
             {
                 _velocity = _velocity.normalized;
             }
+
+
             return _velocity;
+        }
+        protected void MovementAnimation(Vector3 _velocity, float movementSpeed)
+        {
+            if (_velocity.magnitude == 0)
+            {
+                _animator.SetBool("isMoving", false);
+                _animator.speed = 1;
+                return;
+            }
+            else
+                _animator.SetBool("isMoving", true);
+
+            _animator.SetFloat("velocityX", _input.MoveInput.x);
+            _animator.SetFloat("velocityY", _input.MoveInput.y);
+
+            _animator.speed = movementSpeed / 2;
         }
 
         protected Vector3 CalculateMovementVelocity()
         {
             Vector3 _velocity = CalculateMovementDirection();
+
+            MovementAnimation(_velocity, movementSpeed);
+
+
             _velocity *= movementSpeed;
             return _velocity;
 
