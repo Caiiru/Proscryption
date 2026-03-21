@@ -13,6 +13,7 @@ namespace proscryption
         private InputAction _rollAction;
         private InputAction _interactAction;
         private InputAction _lookAction;
+        private InputAction _attackAction;
         #endregion
 
         #region Public Input Properties
@@ -35,9 +36,14 @@ namespace proscryption
         /// Valor atual do input de câmera (X: horizontal, Y: vertical)
         /// </summary>
         public Vector2 LookInput { get; private set; }
+
+        /// <summary>
+        /// Valor de input: boolean 
+        /// </summary>
+        public bool Attackinput { get; private set; }
         #endregion
 
-        #region Public Callbacks (Opcional)
+        #region Public Callbacks
         /// <summary>
         /// Callback acionado quando o movimento muda
         /// </summary>
@@ -57,6 +63,11 @@ namespace proscryption
         /// Callback acionado quando o look muda
         /// </summary>
         public Action<Vector2> OnLookInput;
+
+        /// <summary>
+        /// Callback para quando o player apertar para atacar 
+        /// </summary>
+        public Action<Boolean> OnAttackInput;
         #endregion
 
         private void Awake()
@@ -78,6 +89,7 @@ namespace proscryption
             _rollAction = _playerInput.actions["Roll"];
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
+            _attackAction = _playerInput.actions["Attack"];
 
             // Registrar callbacks
             RegisterCallbacks();
@@ -108,6 +120,11 @@ namespace proscryption
                 _lookAction.performed += HandleLookInput;
                 _lookAction.canceled += HandleLookInput;
             }
+            if (_attackAction != null)
+            {
+                _attackAction.performed += HandleAttackInput;
+                _attackAction.canceled += HandleAttackInput;
+            }
         }
 
         private void UnregisterCallbacks()
@@ -135,6 +152,11 @@ namespace proscryption
                 _lookAction.performed -= HandleLookInput;
                 _lookAction.canceled -= HandleLookInput;
             }
+            if (_attackAction != null)
+            {
+                _attackAction.performed -= HandleAttackInput;
+                _attackAction.canceled -= HandleAttackInput;
+            }
         }
 
         #region Input Handlers
@@ -146,8 +168,7 @@ namespace proscryption
 
         private void HandleRollInput(InputAction.CallbackContext context)
         {
-            RollInput = context.ReadValueAsButton();
-            Debug.Log("RollInput: " + RollInput.ToString());
+            RollInput = context.ReadValueAsButton(); 
             OnRollInput?.Invoke(RollInput);
         }
 
@@ -161,6 +182,12 @@ namespace proscryption
         {
             LookInput = context.ReadValue<Vector2>();
             OnLookInput?.Invoke(LookInput);
+        }
+
+        private void HandleAttackInput(InputAction.CallbackContext context)
+        {
+            Attackinput = context.ReadValueAsButton();
+            OnAttackInput?.Invoke(Attackinput);
         }
         #endregion
 
