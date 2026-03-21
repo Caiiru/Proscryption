@@ -5,9 +5,9 @@ namespace proscryption
     public abstract class BaseEntity : MonoBehaviour
     {
         [Header("Status")]
-        [SerializeField] private int health = 10;
-        [SerializeField] private int maxHealth = 10;
-        [SerializeField] private bool canTakeDamage = true;
+        [SerializeField] protected int health = 10;
+        [SerializeField] protected int maxHealth = 10;
+        [SerializeField] protected bool canTakeDamage = true;
 
         private Animator _animator;
 
