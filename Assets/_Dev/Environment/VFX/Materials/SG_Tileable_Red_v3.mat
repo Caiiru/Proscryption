@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _10_Meter_Grid: 1
-    - _Divisible_by_2: 1
+    - _Divisible_by_2: 0
     - _Metallic: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -58,6 +58,7 @@ Material:
     - _10_Meter_Grid_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Color_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 1}
+    - _R: {r: 4.5, g: 4.5, b: 4.5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5180858058060401447
