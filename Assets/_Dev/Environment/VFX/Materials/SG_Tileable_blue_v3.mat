@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _10_Meter_Grid: 1
-    - _Divisible_by_2: 1
+    - _Divisible_by_2: 0
     - _Metallic: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
