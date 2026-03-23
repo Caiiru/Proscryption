@@ -1,14 +1,9 @@
 ﻿<Solution>
   <Project Path="BetterHierarchy.csproj" />
-  <Project Path="FMODUnityResonanceEditor.csproj" />
-  <Project Path="FMODUnityEditor.csproj" />
   <Project Path="DOTween.Modules.csproj" />
-  <Project Path="FMODUnity.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="FMODUnityHaptics.csproj" />
   <Project Path="BetterHierarchyDemoScripts.csproj" />
   <Project Path="vkg.virgoc.Editor.csproj" />
-  <Project Path="FMODUnityResonance.csproj" />
   <Project Path="DOTweenPro.EditorScripts.csproj" />
   <Project Path="DOTweenPro.Scripts.csproj" />
   <Project Path="vkg.virgoc.csproj" />
