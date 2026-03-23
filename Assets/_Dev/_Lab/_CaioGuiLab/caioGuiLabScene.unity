@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &92551932
+--- !u!1 &260349384
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,10 +127,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 92551936}
-  - component: {fileID: 92551935}
-  - component: {fileID: 92551934}
-  - component: {fileID: 92551933}
+  - component: {fileID: 260349388}
+  - component: {fileID: 260349387}
+  - component: {fileID: 260349386}
+  - component: {fileID: 260349385}
   m_Layer: 0
   m_Name: audioManager
   m_TagString: Untagged
@@ -138,13 +138,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &92551933
+--- !u!114 &260349385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92551932}
+  m_GameObject: {fileID: 260349384}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
@@ -153,11 +153,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -1807774049
-      Data2: 1315538797
-      Data3: 608891040
-      Data4: -172970670
-    Path: event:/SFX/ambience/mainAmbience
+      Data1: 91032058
+      Data2: 1253640999
+      Data3: 1941051041
+      Data4: -699084526
+    Path: event:/SFX_PLAYER_FootSteps
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -169,13 +169,13 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
---- !u!114 &92551934
+--- !u!114 &260349386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92551932}
+  m_GameObject: {fileID: 260349384}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
@@ -184,11 +184,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1370713162
-      Data2: 1188519074
-      Data3: -242239310
-      Data4: 1076664884
-    Path: event:/Music/music
+      Data1: 180653611
+      Data2: 1261838606
+      Data3: -1431630145
+      Data4: -801239973
+    Path: event:/MSC_VerticalSlice
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -200,13 +200,13 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
---- !u!114 &92551935
+--- !u!114 &260349387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92551932}
+  m_GameObject: {fileID: 260349384}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
@@ -215,20 +215,20 @@ MonoBehaviour:
   LoadEvent: 1
   UnloadEvent: 2
   Banks:
+  - musics
   - sfx
-  - music
   CollisionTag: 
-  PreloadSamples: 1
---- !u!4 &92551936
+  PreloadSamples: 0
+--- !u!4 &260349388
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92551932}
+  m_GameObject: {fileID: 260349384}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.02568, y: 0.38459, z: -3.52357}
+  m_LocalPosition: {x: -13.6095, y: 0.5, z: 1.92793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -885,7 +885,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 457253967}
   - {fileID: 1999463695}
-  - {fileID: 92551936}
   - {fileID: 673265472}
   - {fileID: 1047291913}
   - {fileID: 637565175}
+  - {fileID: 260349388}
