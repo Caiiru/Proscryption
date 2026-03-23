@@ -9,7 +9,7 @@ namespace proscryption
         [SerializeField] protected int maxHealth = 10;
         [SerializeField] protected bool canTakeDamage = true;
 
-        private Animator _animator;
+        protected Animator _animator;
 
         public virtual void Start()
         {

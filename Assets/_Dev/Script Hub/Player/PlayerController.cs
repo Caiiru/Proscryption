@@ -10,6 +10,7 @@ namespace proscryption
         [SerializeField] private float movementSpeed = 6;
         [SerializeField] private float rollForce = 10;
         [SerializeField] private float rollCooldown = 4f;
+        public bool canWalk = true;
 
         #region Internal Variables
         private bool _isRolling;
@@ -64,7 +65,7 @@ namespace proscryption
         {
             if (_velocity.magnitude == 0)
             {
-                _animator.SetBool("isMoving", false); 
+                _animator.SetBool("isMoving", false);
                 return;
             }
             else
@@ -72,7 +73,7 @@ namespace proscryption
 
             _animator.SetFloat("velocityX", _input.MoveInput.x);
             _animator.SetFloat("velocityY", _input.MoveInput.y);
- 
+
         }
 
         protected Vector3 CalculateMovementVelocity()
@@ -122,7 +123,8 @@ namespace proscryption
         void FixedUpdate()
         {
             UpdateRollCooldown();
-            _rigidbody.linearVelocity = CalculateMovementVelocity();
+            if (this.canWalk)
+                _rigidbody.linearVelocity = CalculateMovementVelocity();
 
             // Verificar se deve fazer roll
             if (_input.RollInput && _rollCooldownTimer <= 0)
@@ -154,6 +156,15 @@ namespace proscryption
             _isRolling = false;
             // _animator.ResetTrigger("Roll");
 
+        }
+
+        public void SetCanWalk()
+        {
+            this.canWalk = true;
+        }
+        public void SetCantWalk()
+        {
+            this.canWalk = false;
         }
 
     }
