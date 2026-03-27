@@ -7,9 +7,9 @@ namespace proscryption
         public bool isImmortal = false;
 
 
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(int damage, GameObject source = null)
         {
-            base.TakeDamage(damage);
+            base.TakeDamage(damage, source);
             Debug.Log($"{this.transform.name} is taking {damage} damage");
 
             if (isImmortal)
