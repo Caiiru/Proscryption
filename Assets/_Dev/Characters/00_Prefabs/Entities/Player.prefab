@@ -126,11 +126,12 @@ GameObject:
   - component: {fileID: 6794402935568589503}
   - component: {fileID: 3963556821605608916}
   - component: {fileID: 7217968523188182017}
-  - component: {fileID: 2028625304838262762}
   - component: {fileID: 5392360213223897924}
+  - component: {fileID: 3464906276277422550}
+  - component: {fileID: 948268413005835966}
   - component: {fileID: 7373672771933974766}
   - component: {fileID: 8337065188239082356}
-  - component: {fileID: 3760558370402854593}
+  - component: {fileID: 7704474945843181718}
   - component: {fileID: 758348147772611608}
   - component: {fileID: 7599260421958652182}
   m_Layer: 0
@@ -236,21 +237,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2028625304838262762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067021595199211702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 897e142f470b6534a8b1a653b593926b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerEntity
-  health: 10
-  maxHealth: 10
-  canTakeDamage: 1
 --- !u!114 &5392360213223897924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +267,36 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3464906276277422550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067021595199211702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651f9fda633c1f24ea39b3df89b01d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
+  maxHealth: 100
+  maxStamina: 100
+  staminaRegenPerSec: 5
+  moveSpeed: 3
+  _currentHealth: 0
+  _currentStamina: 0
+--- !u!114 &948268413005835966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067021595199211702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be76e7f4cea673040accf9a3b328e923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerView
 --- !u!114 &7373672771933974766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,11 +321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2675fbde3c139408827f3647875ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerController
-  movementSpeed: 4
-  rollForce: 40
+  rotationSpeed: 10
+  rollForce: 8
+  rollDuration: 0.5
   rollCooldown: 2
-  canWalk: 1
---- !u!114 &3760558370402854593
+  _moveInput: {x: 0, y: 0}
+--- !u!114 &7704474945843181718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,11 +335,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067021595199211702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e389ac6bd5fa424d82eb18951b16314, type: 3}
+  m_Script: {fileID: 11500000, guid: 433b5eb8bb9b7f74abf2ef978c7861c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerAttack
-  isAttacking: 0
-  _currentWeapon: {fileID: 2410817867551441389}
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.CombatSystem
+  baseAttackDamage: 10
+  critDamage: 20
+  critChance: 0.1
+  attackCooldown: 0.5
 --- !u!54 &758348147772611608
 Rigidbody:
   m_ObjectHideFlags: 0

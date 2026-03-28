@@ -10,13 +10,13 @@ public class PlayerModel : MonoBehaviour
 {
     // ===== CONFIGURATION =====
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int maxStamina = 100;
+    [SerializeField] private float maxStamina = 100;
     [SerializeField] private float staminaRegenPerSec = 10f;
     [SerializeField] private float moveSpeed = 6f;
 
     // ===== STATE DATA =====
     [SerializeField] private int _currentHealth;
-    [SerializeField] private int _currentStamina;
+    [SerializeField] private float _currentStamina;
     private PlayerState _currentState = PlayerState.Idle;
     private bool _isInvulnerable = false;
     private bool _canMove = true;
@@ -46,10 +46,10 @@ public class PlayerModel : MonoBehaviour
 
     // ===== PUBLIC GETTERS (Read-only access to state) =====
 
-    public int CurrentHealth => _currentHealth;
-    public int MaxHealth => maxHealth;
-    public int CurrentStamina => _currentStamina;
-    public int MaxStamina => maxStamina;
+    public float CurrentHealth => _currentHealth;
+    public float MaxHealth => maxHealth;
+    public float CurrentStamina => _currentStamina;
+    public float MaxStamina => maxStamina;
     public PlayerState CurrentState => _currentState;
     public bool IsInvulnerable => _isInvulnerable;
     public bool IsAlive => _currentHealth > 0;
@@ -93,9 +93,10 @@ public class PlayerModel : MonoBehaviour
         if (_currentStamina == maxStamina) return;
 
         float regenAmount = (float)(staminaRegenPerSec * deltaTime);
-        _currentStamina = (int)Mathf.Min(_currentStamina + regenAmount, maxStamina);
 
-        // Debug.Log(regenAmount);
+        _currentStamina = Mathf.Min(_currentStamina + regenAmount, maxStamina);
+ 
+ 
         // Only broadcast if actually changed
         if (regenAmount > 0)
             EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);

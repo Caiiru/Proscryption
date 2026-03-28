@@ -39,7 +39,7 @@ public static class EventManager
     public static event Action<int, int> OnPlayerHealthChanged;
     
     /// Broadcast when player stamina changes (currentStamina, maxStamina)
-    public static event Action<int, int> OnPlayerStaminaChanged;
+    public static event Action<float, float> OnPlayerStaminaChanged;
     
     // ===== BROADCAST METHODS (Controllers call these) =====
     
@@ -93,7 +93,7 @@ public static class EventManager
         OnPlayerHealthChanged?.Invoke(newHealth, maxHealth);
     }
     
-    public static void BroadcastPlayerStaminaChanged(int newStamina, int maxStamina)
+    public static void BroadcastPlayerStaminaChanged(float newStamina, float maxStamina)
     {
         OnPlayerStaminaChanged?.Invoke(newStamina, maxStamina);
     }

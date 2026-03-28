@@ -11,7 +11,7 @@ namespace proscryption
             _slider = GetComponent<Slider>();
             EventManager.OnPlayerStaminaChanged += HandleStaminaChanged;
         }
-        void HandleStaminaChanged(int currentStamina, int maxStamina)
+        void HandleStaminaChanged(float currentStamina, float  maxStamina)
         {
             
             _slider.value = (float)currentStamina / maxStamina;
