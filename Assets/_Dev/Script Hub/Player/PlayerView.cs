@@ -67,7 +67,7 @@ public class PlayerView : MonoBehaviour
                 break;
 
             case PlayerState.Attacking:
-                Debug.Log("Attack State");
+
                 _animator.SetBool(PARAM_IS_ATTACKING, true);
                 break;
 

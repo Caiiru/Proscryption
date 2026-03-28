@@ -36,7 +36,7 @@ namespace proscryption
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
 
 
-            Debug.Log("Combat system", this.gameObject);
+            
         }
 
         void OnEnable()
