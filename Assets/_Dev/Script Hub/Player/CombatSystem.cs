@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace proscryption
@@ -13,6 +14,8 @@ namespace proscryption
         [SerializeField] private int critDamage = 20;
         [SerializeField] private float critChance = 0.1f; // 10%
         [SerializeField] private float attackCooldown = 0.5f;
+        [SerializeField] private const int ATTACK_STAMINA_COST = 10;
+
 
         // ===== REFERENCES =====
         private PlayerModel _model;
@@ -31,6 +34,9 @@ namespace proscryption
 
             if (_currentWeapon == null)
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
+
+
+            Debug.Log("Combat system", this.gameObject);
         }
 
         void OnEnable()
@@ -51,19 +57,20 @@ namespace proscryption
             // Validate: Can we attack?
             if (!_model.CanAttack())
             {
-                Debug.Log("[CombatSystem] Cannot attack - invalid state", gameObject);
+
+                Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} "); 
                 return;
             }
 
-            // Validate: Is cooldown finished?
-            if (Time.time - _lastAttackTime < attackCooldown)
-            {
-                Debug.Log("[CombatSystem] Attack on cooldown", gameObject);
-                return;
-            }
+            // // Validate: Is cooldown finished?
+            // if (Time.time - _lastAttackTime < attackCooldown)
+            // {
+            //     Debug.Log("[CombatSystem] Attack on cooldown", gameObject);
+            //     return;
+            // }
 
             // Validate: Do we have stamina?
-            if (!_model.TryConsumeStamina(10))
+            if (!_model.TryConsumeStamina(ATTACK_STAMINA_COST))
             {
                 Debug.Log("[CombatSystem] Not enough stamina", gameObject);
                 return;
@@ -84,15 +91,29 @@ namespace proscryption
             int damage = CalculateDamage();
 
             // Activate weapon hitbox
-            if (_currentWeapon != null)
-            {
-                _currentWeapon.ActivateHitbox(damage);
-            }
+            // if (_currentWeapon != null)
+            // {
+            //     _currentWeapon.ActivateHitbox(damage);
+            // }
 
             // Broadcast to all listeners
             EventManager.BroadcastPlayerAttack(damage);
 
-            Debug.Log($"[CombatSystem] Attack executed! Damage: {damage}", gameObject);
+            // Debug.Log($"[CombatSystem] Attack executed! Damage: {damage}", gameObject);
+        }
+        public void ActivateWeaponHitbox()
+        {
+            if (_currentWeapon != null)
+            {
+                _currentWeapon.ActivateHitbox(CalculateDamage());
+            }
+        }
+        public void DesactivateWeaponHitbox()
+        {
+            if (_currentWeapon != null)
+            {
+                _currentWeapon.DesactivateHitBox();
+            }
         }
 
         // ===== DAMAGE CALCULATION =====

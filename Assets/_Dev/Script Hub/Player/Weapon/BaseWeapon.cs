@@ -38,6 +38,10 @@ namespace proscryption
             _isAttacking = true;
             _canHit = true;
         }
+        public void DesactivateHitBox()
+        {
+            _canHit = false;
+        }
 
         /// <summary>
         /// Deprecated - use ActivateHitbox instead

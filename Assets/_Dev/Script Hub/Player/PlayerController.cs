@@ -21,6 +21,7 @@ namespace proscryption
         [SerializeField] private float rollForce = 20f;
         [SerializeField] private float rollDuration = 0.5f;
         [SerializeField] private float rollCooldown = 1.5f;
+        [SerializeField] private const int ROLL_STAMINA_COST = 20;
 
         // ===== REFERENCES =====
         private PlayerModel _model;
@@ -29,7 +30,7 @@ namespace proscryption
         private Camera _mainCamera;
 
         // ===== STATE =====
-        private Vector2 _moveInput = Vector2.zero;
+        [SerializeField] private Vector2 _moveInput = Vector2.zero;
         private Vector3 _currentVelocity = Vector3.zero;
         private float _rollCooldownTimer = 0f;
         private float _rollTimer = 0f;
@@ -69,12 +70,12 @@ namespace proscryption
         {
             _moveInput = input;
 
-            // Ask model if we can move
-            if (!_model.GetCanMove())
-            {
-                _moveInput = Vector2.zero;
-                return;
-            }
+            // // Ask model if we can move
+            // if (!_model.GetCanMove())
+            // {
+            //     _moveInput = Vector2.zero;
+            //     return;
+            // }
 
             // Update model state
             if (_moveInput.magnitude > 0.1f)
@@ -97,12 +98,12 @@ namespace proscryption
             // Ask model if we can roll
             if (!_model.CanRoll())
             {
-                 Debug.Log("[PlayerController] Cannot roll - state doesn't allow it or not enough stamina", gameObject);
+                Debug.Log("[PlayerController] Cannot roll - state doesn't allow it or not enough stamina", gameObject);
                 return;
             }
 
             // Consume stamina
-            if (!_model.TryConsumeStamina(0))
+            if (!_model.TryConsumeStamina(ROLL_STAMINA_COST))
             {
                 Debug.Log("[PlayerController] Not enough stamina to roll", gameObject);
                 return;
@@ -120,6 +121,10 @@ namespace proscryption
 
         void FixedUpdate()
         {
+
+            // Always regenerate stamina
+            _model.RegenerateStamina(Time.fixedDeltaTime);
+
             if (!_model.IsAlive) return;
             if (!_model.CanMove) return;
 
@@ -137,8 +142,6 @@ namespace proscryption
                 HandleMovement();
             }
 
-            // Always regenerate stamina
-            _model.RegenerateStamina(Time.fixedDeltaTime);
         }
 
         void LateUpdate()

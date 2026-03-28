@@ -15,8 +15,8 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float moveSpeed = 6f;
 
     // ===== STATE DATA =====
-    private int _currentHealth;
-    private int _currentStamina;
+    [SerializeField] private int _currentHealth;
+    [SerializeField] private int _currentStamina;
     private PlayerState _currentState = PlayerState.Idle;
     private bool _isInvulnerable = false;
     private bool _canMove = true;
@@ -59,11 +59,17 @@ public class PlayerModel : MonoBehaviour
     void Start()
     {
         SetupHealth();
+        SetupStamina();
     }
 
 
     // ===== STAMINA MANAGEMENT =====
+    private void SetupStamina()
+    {
+        _currentStamina = maxStamina;
+        EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
 
+    }
     /// <summary>
     /// Try to consume stamina for an action. Returns true if successful.
     /// </summary>
@@ -84,10 +90,12 @@ public class PlayerModel : MonoBehaviour
     public void RegenerateStamina(float deltaTime)
     {
         if (_currentState == PlayerState.Dead) return;
+        if (_currentStamina == maxStamina) return;
 
-        int regenAmount = (int)(staminaRegenPerSec * deltaTime);
-        _currentStamina = Mathf.Min(_currentStamina + regenAmount, maxStamina);
+        float regenAmount = (float)(staminaRegenPerSec * deltaTime);
+        _currentStamina = (int)Mathf.Min(_currentStamina + regenAmount, maxStamina);
 
+        // Debug.Log(regenAmount);
         // Only broadcast if actually changed
         if (regenAmount > 0)
             EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);

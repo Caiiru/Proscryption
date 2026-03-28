@@ -42,7 +42,7 @@ public class PlayerView : MonoBehaviour
         EventManager.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
         EventManager.OnPlayerHealthChanged -= HandleHealthChanged;
-    } 
+    }
     // ===== STATE CHANGE HANDLERS =====
 
     /// <summary>
@@ -67,6 +67,7 @@ public class PlayerView : MonoBehaviour
                 break;
 
             case PlayerState.Attacking:
+                Debug.Log("Attack State");
                 _animator.SetBool(PARAM_IS_ATTACKING, true);
                 break;
 

@@ -113955,25 +113955,32 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.7333333
-    functionName: OnCanHit
+    functionName: ActivateWeaponHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.7333333
-    functionName: OnCanHit
+    functionName: ActivateWeaponHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 4.1666665
-    functionName: OnAttackEnd
+  - time: 3.4333334
+    functionName: DesactivateWeaponHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
+    messageOptions: 0
+  - time: 4.633333
+    functionName: SetState
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 4.6666665
     functionName: SetCanMove
