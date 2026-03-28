@@ -36,6 +36,8 @@ namespace proscryption
         private float _rollTimer = 0f;
         private bool _isRolling = false;
 
+        [SerializeField] private bool _isParrying = false;
+
         void Awake()
         {
             _model = GetComponent<PlayerModel>();
@@ -53,12 +55,14 @@ namespace proscryption
             // Subscribe to movement and roll inputs via EventManager
             EventManager.OnPlayerMoveInput += HandleMoveInput;
             EventManager.OnPlayerRollInput += HandleRollInput;
+            EventManager.OnPlayerParryInput += HandleParryInput;
         }
 
         void OnDisable()
         {
             EventManager.OnPlayerMoveInput -= HandleMoveInput;
             EventManager.OnPlayerRollInput -= HandleRollInput;
+            EventManager.OnPlayerParryInput -= HandleParryInput;
         }
 
         // ===== INPUT HANDLERS =====
@@ -115,6 +119,29 @@ namespace proscryption
             _rollTimer = rollDuration;
             _rollCooldownTimer = rollCooldown;
             _isRolling = true;
+        }
+
+        private void HandleParryInput()
+        {
+
+            if (!_model.TryConsumeStamina(15))
+            {
+                Debug.Log("[PlayerController] Not enough stamina to parry", gameObject);
+                return;
+            }
+            _model.SetState(PlayerState.Parrying);
+        }
+
+        public void EnableParryImunity()
+        {
+            _isParrying = true;
+            _model.SetInvulnerable(true, 0.25f);
+
+        }
+        public void DisableParryImunity()
+        {
+            _isParrying = false;
+            _model.SetState(PlayerState.Idle);
         }
 
         // ===== PHYSICS LOOP =====

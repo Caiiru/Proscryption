@@ -14,6 +14,7 @@ namespace proscryption
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
+        private InputAction _parryAction;
         #endregion
 
         #region Public Input Properties
@@ -41,6 +42,7 @@ namespace proscryption
         /// Valor de input: boolean 
         /// </summary>
         public bool Attackinput { get; private set; }
+        public bool ParryInput { get; private set; }
         #endregion
 
         #region Public Callbacks
@@ -68,6 +70,11 @@ namespace proscryption
         /// Callback para quando o player apertar para atacar 
         /// </summary>
         public Action<Boolean> OnAttackInput;
+
+        /// <summary>
+        /// Callback para quando o player apertar para usar a habilidade de Parry  
+        /// </summary>
+        public Action<Boolean> OnParryInput;
         #endregion
 
         private void Awake()
@@ -90,6 +97,7 @@ namespace proscryption
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
+            _parryAction = _playerInput.actions["Parry"];
 
             // Registrar callbacks
             RegisterCallbacks();
@@ -125,6 +133,11 @@ namespace proscryption
                 _attackAction.performed += HandleAttackInput;
                 _attackAction.canceled += HandleAttackInput;
             }
+            if (_parryAction != null)
+            {
+                _parryAction.performed += HandleParryInput;
+
+            }
         }
 
         private void UnregisterCallbacks()
@@ -157,6 +170,11 @@ namespace proscryption
                 _attackAction.performed -= HandleAttackInput;
                 _attackAction.canceled -= HandleAttackInput;
             }
+            if (_parryAction != null)
+            {
+                _parryAction.performed -= HandleParryInput;
+
+            }
         }
 
         #region Input Handlers
@@ -170,7 +188,7 @@ namespace proscryption
 
         private void HandleRollInput(InputAction.CallbackContext context)
         {
-            RollInput = context.ReadValueAsButton(); 
+            RollInput = context.ReadValueAsButton();
             OnRollInput?.Invoke(RollInput);
             // NEW: Broadcast to EventManager when roll is performed
             if (RollInput)
@@ -196,6 +214,14 @@ namespace proscryption
             // NEW: Broadcast to EventManager when attack is performed
             if (Attackinput)
                 EventManager.BroadcastPlayerAttackInput();
+        }
+
+        private void HandleParryInput(InputAction.CallbackContext context)
+        { 
+            ParryInput = context.ReadValueAsButton();
+            OnParryInput?.Invoke(ParryInput);
+            if (ParryInput)
+                EventManager.BroadcastPlayerParryInput();
         }
         #endregion
 

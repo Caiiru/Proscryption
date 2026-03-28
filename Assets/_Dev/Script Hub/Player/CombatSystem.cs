@@ -36,18 +36,20 @@ namespace proscryption
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
 
 
-            
+
         }
 
         void OnEnable()
         {
             // Subscribe to attack input
             EventManager.OnPlayerAttackInput += HandleAttackInput;
+            // EventManager.OnPlayerParryInput += HandleParryInput;
         }
 
         void OnDisable()
         {
             EventManager.OnPlayerAttackInput -= HandleAttackInput;
+            // EventManager.OnPlayerParryInput -= HandleParryInput;
         }
 
         // ===== ATTACK HANDLER =====
@@ -58,7 +60,7 @@ namespace proscryption
             if (!_model.CanAttack())
             {
 
-                Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} "); 
+                Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} ");
                 return;
             }
 
@@ -116,6 +118,16 @@ namespace proscryption
             }
         }
 
+        // // ===== PARRY =====
+
+        // private void HandleParryInput()
+        // {
+        //     if (!_model.CanAttack())
+        //     {
+        //         return;
+        //     }
+        //     _model.SetState(PlayerState.Parrying);
+        // }
         // ===== DAMAGE CALCULATION =====
 
         private int CalculateDamage()

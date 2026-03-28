@@ -15,10 +15,10 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float moveSpeed = 6f;
 
     // ===== STATE DATA =====
-    [SerializeField] private int _currentHealth;
-    [SerializeField] private float _currentStamina;
+    private int _currentHealth;
+    private float _currentStamina;
     private PlayerState _currentState = PlayerState.Idle;
-    private bool _isInvulnerable = false;
+    [SerializeField]private bool _isInvulnerable = false;
     private bool _canMove = true;
 
     // ===== REFERENCES =====
@@ -132,7 +132,11 @@ public class PlayerModel : MonoBehaviour
     {
         if (target != gameObject) return;
         if (!IsAlive) return;
-        if (_isInvulnerable) return;
+        if (_isInvulnerable)
+        {
+            //to-do: ADD PARRY JUICE
+            return; 
+        }
 
         _currentHealth -= damage;
         EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);

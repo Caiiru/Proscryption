@@ -19,6 +19,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "takeDamage";
+    private const string PARAM_IS_PARRYING = "isParrying";
     private const string PARAM_DIE = "die";
 
     void Awake()
@@ -54,6 +55,7 @@ public class PlayerView : MonoBehaviour
         _animator.SetBool(PARAM_IS_MOVING, false);
         _animator.SetBool(PARAM_IS_ATTACKING, false);
         _animator.SetBool(PARAM_IS_ROLLING, false);
+        _animator.SetBool(PARAM_IS_PARRYING, false);
 
         // Set new animation state
         switch (next)
@@ -82,6 +84,10 @@ public class PlayerView : MonoBehaviour
             case PlayerState.Stunned:
                 // Could add stun animation here
                 break;
+
+            case PlayerState.Parrying:
+                _animator.SetBool(PARAM_IS_PARRYING, true);
+                break;
         }
     }
 
@@ -103,6 +109,7 @@ public class PlayerView : MonoBehaviour
         if (damageSource == gameObject || damageSource.GetComponent<BaseWeapon>()?.transform.parent != transform)
             return;
 
+        
         _animator.SetTrigger(PARAM_TAKE_DAMAGE);
         Debug.Log($"[PlayerView] Hit animation played", gameObject);
     }
@@ -113,7 +120,7 @@ public class PlayerView : MonoBehaviour
     private void HandleHealthChanged(int newHealth, int maxHealth)
     {
         float healthPercent = (float)newHealth / maxHealth;
-        Debug.Log($"[PlayerView] Health changed: {newHealth}/{maxHealth} ({healthPercent:P0})", gameObject);
+        // Debug.Log($"[PlayerView] Health changed: {newHealth}/{maxHealth} ({healthPercent:P0})", gameObject);
     }
 
     public void UpdateInputAnimation(Vector2 moveInput)
