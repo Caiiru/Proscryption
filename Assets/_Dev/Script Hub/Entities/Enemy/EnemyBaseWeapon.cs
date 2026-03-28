@@ -16,11 +16,12 @@ namespace proscryption
             if (!_owner.GetCanHit()) return;
             if (other.CompareTag("Player"))
             {
-                other.TryGetComponent<BaseEntity>(out BaseEntity playerEntity);
+                other.TryGetComponent<PlayerModel>(out PlayerModel playerEntity);
 
                 if (!playerEntity) return;
 
-                playerEntity.TakeDamage(_owner.GetDamage());
+                EventManager.BroadcastHitDetected(other.transform.position, _owner.GetDamage(), other.gameObject);
+                // _owner.GetDamage(), _owner.gameObject);
 
             }
         }

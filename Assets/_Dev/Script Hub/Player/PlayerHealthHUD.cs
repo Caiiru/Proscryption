@@ -13,7 +13,8 @@ namespace proscryption
         }
         void HandleHealthChanged(int newHealth, int maxHealth)
         {
-            _slider.value = newHealth / maxHealth;
+            
+            _slider.value = (float)newHealth / maxHealth;
         }
         void OnDestroy()
         {
