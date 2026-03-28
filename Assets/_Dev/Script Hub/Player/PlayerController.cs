@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace proscryption
@@ -68,7 +70,7 @@ namespace proscryption
             _moveInput = input;
 
             // Ask model if we can move
-            if (!_model.CanMove())
+            if (!_model.GetCanMove())
             {
                 _moveInput = Vector2.zero;
                 return;
@@ -95,7 +97,7 @@ namespace proscryption
             // Ask model if we can roll
             if (!_model.CanRoll())
             {
-                Debug.Log("[PlayerController] Cannot roll - state doesn't allow it or not enough stamina", gameObject);
+                 Debug.Log("[PlayerController] Cannot roll - state doesn't allow it or not enough stamina", gameObject);
                 return;
             }
 
@@ -119,6 +121,8 @@ namespace proscryption
         void FixedUpdate()
         {
             if (!_model.IsAlive) return;
+            if (!_model.CanMove) return;
+
 
             UpdateTimers();
 
@@ -142,7 +146,9 @@ namespace proscryption
             if (!_model.IsAlive) return;
 
             // Update animation with current velocity
-            _view.UpdateMovementAnimation(_currentVelocity);
+            // _view.UpdateMovementAnimation(_currentVelocity);
+            _view.UpdateInputAnimation(_moveInput);
+            // Debug.Log("late update");
         }
 
         // ===== MOVEMENT LOGIC =====
@@ -150,6 +156,9 @@ namespace proscryption
         private void HandleMovement()
         {
             // Calculate camera-relative movement direction
+            if (!_model.CanMove) return;
+
+
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
             _currentVelocity = movement * _model.MoveSpeed;
 

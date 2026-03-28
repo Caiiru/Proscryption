@@ -85,7 +85,7 @@ public static class EventManager
     public static void BroadcastPlayerStateChanged(PlayerState prev, PlayerState next)
     {
         OnPlayerStateChanged?.Invoke(prev, next);
-        Debug.Log($"[Event] Player state: {prev} → {next}", null);
+        // Debug.Log($"[Event] Player state: {prev} → {next}", null);
     }
     
     public static void BroadcastPlayerHealthChanged(int newHealth, int maxHealth)

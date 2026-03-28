@@ -72,7 +72,8 @@ namespace proscryption
 
             // Prevent multi-hit in single attack
             _canHit = false;
-
+            other.TryGetComponent<EnemyEntity>(out EnemyEntity _entity);
+            _entity.TakeDamage(_currentDamage);
             // Broadcast hit event (not direct damage call)
             EventManager.BroadcastHitDetected(
                 transform.position,
