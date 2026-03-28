@@ -56,6 +56,12 @@ public class PlayerModel : MonoBehaviour
     public float MoveSpeed => moveSpeed;
     public bool CanMove => _canMove;
 
+    void Start()
+    {
+        SetupHealth();
+    }
+
+
     // ===== STAMINA MANAGEMENT =====
 
     /// <summary>
@@ -107,6 +113,12 @@ public class PlayerModel : MonoBehaviour
     /// <summary>
     /// Handle incoming damage. Called via EventManager when hit is detected.
     /// </summary>
+
+    void SetupHealth()
+    {
+        this._currentHealth = maxHealth;
+        EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+    }
     private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)
     {
         if (target != gameObject) return;

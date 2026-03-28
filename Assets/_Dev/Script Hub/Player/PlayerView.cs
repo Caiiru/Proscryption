@@ -42,8 +42,7 @@ public class PlayerView : MonoBehaviour
         EventManager.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
         EventManager.OnPlayerHealthChanged -= HandleHealthChanged;
-    }
-
+    } 
     // ===== STATE CHANGE HANDLERS =====
 
     /// <summary>
