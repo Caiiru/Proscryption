@@ -164,12 +164,17 @@ namespace proscryption
         {
             MoveInput = context.ReadValue<Vector2>();
             OnMoveInput?.Invoke(MoveInput);
+            // NEW: Broadcast to EventManager for event-driven architecture
+            EventManager.BroadcastPlayerMoveInput(MoveInput);
         }
 
         private void HandleRollInput(InputAction.CallbackContext context)
         {
             RollInput = context.ReadValueAsButton(); 
             OnRollInput?.Invoke(RollInput);
+            // NEW: Broadcast to EventManager when roll is performed
+            if (RollInput)
+                EventManager.BroadcastPlayerRollInput();
         }
 
         private void HandleInteractInput(InputAction.CallbackContext context)
@@ -188,6 +193,9 @@ namespace proscryption
         {
             Attackinput = context.ReadValueAsButton();
             OnAttackInput?.Invoke(Attackinput);
+            // NEW: Broadcast to EventManager when attack is performed
+            if (Attackinput)
+                EventManager.BroadcastPlayerAttackInput();
         }
         #endregion
 
