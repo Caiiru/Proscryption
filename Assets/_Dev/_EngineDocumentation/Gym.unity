@@ -3054,6 +3054,11 @@ Transform:
   - {fileID: 83110564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &600912451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1418526657633803074, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+  m_PrefabInstance: {fileID: 7187680749256708664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &639355092
 GameObject:
   m_ObjectHideFlags: 0
@@ -11301,6 +11306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CAM_Holder
       objectReference: {fileID: 0}
+    - target: {fileID: 6088962802845101644, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_VolumeTrigger
+      value: 
+      objectReference: {fileID: 600912451}
     - target: {fileID: 6122200575920847710, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
@@ -11325,6 +11334,18 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1739414347}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.666928
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.2938488
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

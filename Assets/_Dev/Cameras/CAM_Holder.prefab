@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1356375637261624668}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4618104, y: -0.00000001796458, z: 0.000000009353358, w: 0.8869787}
-  m_LocalPosition: {x: 0, y: 4.666928, z: -2.2938488}
+  m_LocalPosition: {x: 0.000000059604645, y: 4.666928, z: -2.2938488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68,7 +68,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 55
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -123,7 +123,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -300,7 +300,7 @@ MonoBehaviour:
   PivotOffset: {x: 1.19, y: 0, z: 0}
   AmplitudeGain: 2.26
   FrequencyGain: 1.84
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 330.832, y: -941.5824, z: -306.54587}
 --- !u!1 &1896696190998342426
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +974,7 @@ Transform:
   m_Children:
   - {fileID: 9148223302414240928}
   - {fileID: 800551250964351712}
+  - {fileID: 1418526657633803074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6731510478006964282
@@ -1100,7 +1101,56 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 1
   FrequencyGain: 1
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: -927.9265, y: 537.32465, z: -716.5492}
+--- !u!1 &7020028854514171272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418526657633803074}
+  - component: {fileID: 3462238793790676475}
+  m_Layer: 0
+  m_Name: GlobalVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1418526657633803074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7020028854514171272}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 54.88153, y: 4.3539324, z: 129.52303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3003899521026024557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3462238793790676475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7020028854514171272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: cb44603b21b0397489cc39f8189b21b9, type: 2}
 --- !u!1 &7714018895911833740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,7 +1275,7 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 1
   FrequencyGain: 1
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 179.6235, y: 766.9818, z: 718.30225}
 --- !u!1 &8626968717723312802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 800551250964351712}
   - component: {fileID: 3786575582296469871}
+  - component: {fileID: 6839323511980328158}
   m_Layer: 0
   m_Name: State-Driven Camera
   m_TagString: Untagged
@@ -1334,23 +1385,26 @@ MonoBehaviour:
     Camera: {fileID: 0}
     ActivateAfter: 10
     MinDuration: 0
-  HashOfParent:
-  - Hash: 1432961145
-    HashOfParent: 756556552
-  - Hash: -123739329
-    HashOfParent: 756556552
-  - Hash: 1876241581
-    HashOfParent: 756556552
-  - Hash: -1716903120
-    HashOfParent: 756556552
-  - Hash: 652133569
-    HashOfParent: 756556552
-  - Hash: -1654444511
-    HashOfParent: 756556552
-  - Hash: -507633752
-    HashOfParent: -1654444511
+  HashOfParent: []
   m_LegacyLookAt: {fileID: 0}
   m_LegacyFollow: {fileID: 0}
+--- !u!114 &6839323511980328158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8626968717723312802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineVolumeSettings
+  Weight: 0
+  FocusTracking: 0
+  FocusTarget: {fileID: 0}
+  FocusOffset: 0
+  Profile: {fileID: 11400000, guid: cb44603b21b0397489cc39f8189b21b9, type: 2}
 --- !u!1 &8866530585680856476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,4 +1529,4 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 1
   FrequencyGain: 1
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 533.36975, y: 8.63562, z: -475.35477}
