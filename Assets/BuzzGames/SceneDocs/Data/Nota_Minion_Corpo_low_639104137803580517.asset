@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167679525c68ee84dbc5900167a21cd1, type: 3}
+  m_Name: Nota_Minion_Corpo_low_639104137803580517
+  m_EditorClassIdentifier: BuzzGames.SceneDocs.Runtime::BuzzGames.SceneDocs.SceneNoteData
+  isSetup: 1
+  title: anim broken
+  content: "erros na exporta\xE7ao do blender pra unity, algumas actions continuam
+    quebrando em diversos workflows diferentes. \n"
+  author: caioanimationdesign@gmail.com
+  createdDate: 29/03/2026 20:43:00
+  sprint: Sprint 1
+  noteTypeId: bug
+  targetRoleId: 
+  status: 0
+  position: {x: -10.072162, y: 1.4133499, z: -0.063745715}
+  sceneName: Zoo
+  cameraPosition: {x: -10.393342, y: 0.9350893, z: -0.9078597}
+  cameraRotation: {x: -0.05886281, y: -0.6282452, z: 0.047802996, w: -0.77436626}
+  cameraSize: 0.8660254
+  isOrthographic: 0
+  notionPageId: 
+  screenshotPaths: []
+  comments: []

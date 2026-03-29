@@ -1,6 +1,7 @@
 ﻿<Solution>
   <Project Path="BetterHierarchy.csproj" />
   <Project Path="SimpleFolderIcon.csproj" />
+  <Project Path="BuzzGames.SceneDocs.Editor.csproj" />
   <Project Path="FMODUnityResonanceEditor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="FMODUnityEditor.csproj" />
@@ -8,6 +9,7 @@
   <Project Path="FMODUnity.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="FMODUnityHaptics.csproj" />
+  <Project Path="BuzzGames.SceneDocs.Runtime.csproj" />
   <Project Path="BetterHierarchyDemoScripts.csproj" />
   <Project Path="vkg.virgoc.Editor.csproj" />
   <Project Path="FMODUnityResonance.csproj" />

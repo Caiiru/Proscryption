@@ -4557,6 +4557,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3586415332087181912, guid: 9b143a4a69aa46842a348b5a02a102a0, type: 3}
   m_PrefabInstance: {fileID: 1316417632}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1105115867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105115868}
+  m_Layer: 0
+  m_Name: Nova Nota
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1105115868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105115867}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.8705, y: 0.46127942, z: 130.17482}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1115058503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7575,3 +7606,4 @@ SceneRoots:
   - {fileID: 487711730}
   - {fileID: 1164133332}
   - {fileID: 1205514157}
+  - {fileID: 1105115868}
