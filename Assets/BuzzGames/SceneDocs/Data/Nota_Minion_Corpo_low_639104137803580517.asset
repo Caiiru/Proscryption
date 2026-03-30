@@ -15,7 +15,7 @@ MonoBehaviour:
   isSetup: 1
   title: anim broken
   content: "erros na exporta\xE7ao do blender pra unity, algumas actions continuam
-    quebrando em diversos workflows diferentes. \n"
+    quebrando em diversos workflows diferentes. \n   \n\n_\nAnimationsFixed\n"
   author: caioanimationdesign@gmail.com
   createdDate: 29/03/2026 20:43:00
   sprint: Sprint 1
