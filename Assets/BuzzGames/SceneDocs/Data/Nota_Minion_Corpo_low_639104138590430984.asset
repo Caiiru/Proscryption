@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167679525c68ee84dbc5900167a21cd1, type: 3}
+  m_Name: Nota_Minion_Corpo_low_639104138590430984
+  m_EditorClassIdentifier: BuzzGames.SceneDocs.Runtime::BuzzGames.SceneDocs.SceneNoteData
+  isSetup: 1
+  title: Teste de altura
+  content: Testes de altura iniciais
+  author: caioanimationdesign@gmail.com
+  createdDate: 29/03/2026 20:44:19
+  sprint: Sprint 1
+  noteTypeId: design
+  targetRoleId: 
+  status: 0
+  position: {x: -10.072159, y: 1.9580693, z: -1.7537676}
+  sceneName: Zoo
+  cameraPosition: {x: -10.06263, y: 1.3314935, z: -0.6239445}
+  cameraRotation: {x: -0.06604993, y: -0.7453252, z: 0.074731074, w: -0.6592634}
+  cameraSize: 0.8660254
+  isOrthographic: 0
+  notionPageId: 
+  screenshotPaths: []
+  comments: []

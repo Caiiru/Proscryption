@@ -1,0 +1,929 @@
+fileFormatVersion: 2
+guid: f732aa3e1486014439e65955f244f297
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: ARM_Enemy_Minion/MCH-torso.parent/torso
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 3
+    animationRotationError: 0
+    animationPositionError: 0
+    animationScaleError: 0
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ANIM_Enemy_Minion_Idle
+      takeName: ANIM_Enemy_Minion_Idle
+      internalID: 8172315252095437939
+      firstFrame: 0
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_Minion_ForwardRC
+      takeName: ANIM_Enemy_Minion_ForwardRC
+      internalID: 3958947703266651128
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionAtk1
+      takeName: ANIM_Enemy_MinionAtk1
+      internalID: 5399238757817397863
+      firstFrame: 0
+      lastFrame: 61
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionAtk2
+      takeName: ANIM_Enemy_MinionAtk2
+      internalID: -42882464292150435
+      firstFrame: 0
+      lastFrame: 43
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionBackwardWC
+      takeName: ANIM_Enemy_MinionBackwardWC
+      internalID: 3228570609986759024
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionForwardWC
+      takeName: ANIM_Enemy_MinionForwardWC
+      internalID: 1421684683572678598
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionWC_L
+      takeName: ANIM_Enemy_MinionWC_L
+      internalID: -2526694360702948874
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ANIM_Enemy_MinionWC_R
+      takeName: ANIM_Enemy_MinionWC_R
+      internalID: 2144525588655446793
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_Minion_ForwardRC
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_Minion_ForwardRC
+      internalID: 9188508774192373697
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_Minion_Idle
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_Minion_Idle
+      internalID: 8307166210708078314
+      firstFrame: 0
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionAtk1
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionAtk1
+      internalID: 3741131792638006236
+      firstFrame: 0
+      lastFrame: 61
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionAtk2
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionAtk2
+      internalID: 287660239867153094
+      firstFrame: 0
+      lastFrame: 43
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionBackwardWC
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionBackwardWC
+      internalID: 7296166016374364978
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionForwardWC
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionForwardWC
+      internalID: -2187161843571350963
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionWC_L
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionWC_L
+      internalID: 1400031271036972782
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ARM_Enemy_Minion|ANIM_Enemy_MinionWC_R
+      takeName: ARM_Enemy_Minion|ANIM_Enemy_MinionWC_R
+      internalID: 6475733068746080384
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 1
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: MDL_Enemy_Minion(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ARM_Enemy_Minion
+      parentName: MDL_Enemy_Minion(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root
+      parentName: ARM_Enemy_Minion
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.00000008940697, y: 0.000000043711392, z: -3.5220975e-15, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: DEF-spine
+      parentName: root
+      position: {x: 5.837085e-15, y: 0.10561772, z: 0.4466046}
+      rotation: {x: 0.6635883, y: -0.00000008918006, z: -0.000000079105746, w: 0.748098}
+      scale: {x: 0.9999999, y: 0.99999964, z: 0.99999934}
+    - name: DEF-spine.001
+      parentName: DEF-spine
+      position: {x: -2.748029e-17, y: 0.11790916, z: -0.000000007450581}
+      rotation: {x: 0.015508742, y: -2.8421713e-14, z: -0.0000000036975722, w: 0.9998798}
+      scale: {x: 0.9999999, y: 1.0000002, z: 0.9999999}
+    - name: DEF-spine.002
+      parentName: DEF-spine.001
+      position: {x: 5.2763106e-16, y: 0.086341925, z: 0.0000000018626451}
+      rotation: {x: 0.1248472, y: -0.000000118276795, z: -0.000000044648793, w: 0.992176}
+      scale: {x: 1.0000001, y: 0.9999998, z: 1.0000004}
+    - name: DEF-spine.003
+      parentName: DEF-spine.002
+      position: {x: 1.8759034e-14, y: 0.07633671, z: 0.000000029802322}
+      rotation: {x: 0.22666177, y: 0.00000034832024, z: -0.000000027020205, w: 0.9739736}
+      scale: {x: 1.0000002, y: 0.9999996, z: 0.99999976}
+    - name: DEF-spine.004
+      parentName: DEF-spine.003
+      position: {x: -1.4537656e-15, y: 0.12486102, z: -0.000000022351742}
+      rotation: {x: 0.08651539, y: 0.0000001187626, z: 0.000000030940367, w: 0.99625057}
+      scale: {x: 0.9999997, y: 1.0000008, z: 0.9999998}
+    - name: DEF-spine.005
+      parentName: DEF-spine.004
+      position: {x: -2.3586874e-14, y: 0.045982353, z: 0.0000000055879354}
+      rotation: {x: 0.14290911, y: 0.000000117986005, z: 0.00000008518063, w: 0.98973584}
+      scale: {x: 1.0000004, y: 0.9999996, z: 1}
+    - name: DEF-spine.006
+      parentName: DEF-spine.005
+      position: {x: -1.3102617e-14, y: 0.07942966, z: -0.000000026077032}
+      rotation: {x: -0.4488385, y: -0.00000042610878, z: -0.00000010701155, w: 0.8936129}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1.0000006}
+    - name: DEF-spine.006_end
+      parentName: DEF-spine.006
+      position: {x: -0, y: 0.13949153, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MCH-torso.parent
+      parentName: ARM_Enemy_Minion
+      position: {x: -4.2714395e-18, y: 0.08385871, z: 0.8068944}
+      rotation: {x: -0.00000008940697, y: 0.000000043711392, z: -3.5220975e-15, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: torso
+      parentName: MCH-torso.parent
+      position: {x: 2.6645353e-15, y: -0.000000035282568, z: -0.05268555}
+      rotation: {x: -0, y: -0, z: 4.2351647e-22, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: MCH-spine.001
+      parentName: torso
+      position: {x: -7.49215e-18, y: 0.014670411, z: 0.14453697}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: spine_fk.001
+      parentName: MCH-spine.001
+      position: {x: 1.6543612e-24, y: 0.000000013038516, z: 0.0000000018626451}
+      rotation: {x: 0.6751105, y: -0.000000087942524, z: -0.00000008047931, w: 0.7377166}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: MCH-spine
+      parentName: spine_fk.001
+      position: {x: -9.15658e-16, y: -0.08634195, z: -0.000000014901161}
+      rotation: {x: -0.6751104, y: 0.00000008794254, z: 0.00000008047927, w: 0.73771673}
+      scale: {x: 1, y: 0.9999997, z: 0.9999997}
+    - name: spine_fk
+      parentName: MCH-spine
+      position: {x: -2.6966088e-22, y: -0.000000018626451, z: -0.000000018626451}
+      rotation: {x: 0.6635881, y: -0.00000008918011, z: -0.00000007910571, w: 0.74809813}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: tweak_spine
+      parentName: spine_fk
+      position: {x: 5.0801436e-16, y: -0.11790919, z: -0.000000022351742}
+      rotation: {x: -0, y: -7.81597e-14, z: -3.5527137e-15, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: ORG-spine
+      parentName: tweak_spine
+      position: {x: 7.50242e-15, y: -0.000000029802322, z: 0.000000007450581}
+      rotation: {x: -1.5146129e-28, y: 4.2632564e-14, z: -0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: ORG-pelvis.L
+      parentName: ORG-spine
+      position: {x: 5.7260626e-15, y: -0.000000029802322, z: 0.000000007450581}
+      rotation: {x: -0.06990039, y: 0.7232302, z: 0.4241842, w: 0.5404811}
+      scale: {x: 0.9999997, y: 1.0000001, z: 1}
+    - name: DEF-pelvis.L
+      parentName: ORG-pelvis.L
+      position: {x: 0.000000001479399, y: 0.000000039292182, z: 0.000000021581696}
+      rotation: {x: -0.000000029802322, y: 0.0000004172325, z: 0.00000012665987, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 1}
+    - name: DEF-pelvis.L_end
+      parentName: DEF-pelvis.L
+      position: {x: -0, y: 0.14580709, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ORG-pelvis.R
+      parentName: ORG-spine
+      position: {x: 5.7260626e-15, y: -0.000000029802322, z: 0.000000007450581}
+      rotation: {x: -0.0699005, y: -0.72323006, z: -0.42418408, w: 0.5404814}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: DEF-pelvis.R
+      parentName: ORG-pelvis.R
+      position: {x: 0.00000003349495, y: 0.000000017261625, z: 0.000000008433935}
+      rotation: {x: -0.000000063329935, y: -0.00000044703484, z: 0.000000037252903, w: 1}
+      scale: {x: 1.0000002, y: 0.9999999, z: 1}
+    - name: DEF-pelvis.R_end
+      parentName: DEF-pelvis.R
+      position: {x: -0, y: 0.14580709, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: DEF-thigh.L
+      parentName: ORG-spine
+      position: {x: -0.06538506, y: 0.013348444, z: 0.0706492}
+      rotation: {x: 0.88541645, y: -0.085903786, z: 0.4567781, w: -0.0034654038}
+      scale: {x: 1.117061, y: 0.7997527, z: 1.1170613}
+    - name: DEF-thigh.L.001
+      parentName: DEF-thigh.L
+      position: {x: 0.000000011175871, y: 0.15981914, z: -0.00000005029142}
+      rotation: {x: -0.0000000072177504, y: 0.00000036024724, z: 0.000000014901163, w: 1}
+      scale: {x: 0.99999934, y: 1.0000001, z: 1.0000011}
+    - name: DEF-shin.L
+      parentName: DEF-thigh.L.001
+      position: {x: -0, y: 0.15981916, z: -0.000000028871}
+      rotation: {x: 0.09128263, y: -0.00000025998625, z: -0.00000047369295, w: 0.99582505}
+      scale: {x: 0.92416745, y: 1.1838741, z: 0.93480736}
+    - name: DEF-shin.L.001
+      parentName: DEF-shin.L
+      position: {x: 0.0000000037252903, y: 0.18439549, z: -0.000000011175871}
+      rotation: {x: 0.000000007450581, y: -0.00000021080578, z: -0.000000014344607, w: 1}
+      scale: {x: 1.000245, y: 1.0000007, z: 0.9997569}
+    - name: DEF-foot.L
+      parentName: DEF-shin.L.001
+      position: {x: -0.000000016763806, y: 0.18439543, z: -0.0000000027939677}
+      rotation: {x: -0.44074035, y: -0.4028295, z: -0.23133653, w: 0.7680884}
+      scale: {x: 0.97734773, y: 1.0597546, z: 0.9669323}
+    - name: DEF-toe.L
+      parentName: DEF-foot.L
+      position: {x: 0.000000032547177, y: 0.11956999, z: 0.000000009313226}
+      rotation: {x: 0.00013884903, y: 0.96970606, z: -0.24427433, w: 0.0005499721}
+      scale: {x: 0.9996516, y: 0.9238999, z: 1.0883175}
+    - name: DEF-toe.L_end
+      parentName: DEF-toe.L
+      position: {x: -0, y: 0.060533248, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: DEF-thigh.R
+      parentName: ORG-spine
+      position: {x: 0.06538508, y: 0.013348422, z: 0.070649184}
+      rotation: {x: 0.8854127, y: 0.08590256, z: -0.45678568, w: -0.003465543}
+      scale: {x: 1.0187562, y: 0.96166015, z: 1.0187564}
+    - name: DEF-thigh.R.001
+      parentName: DEF-thigh.R
+      position: {x: 0.000000011175871, y: 0.15981916, z: 0.000000009313226}
+      rotation: {x: -0.000000093365074, y: 0.000000146043, z: -0.00000008940696, w: 1}
+      scale: {x: 1.0000004, y: 0.9999995, z: 0.99999994}
+    - name: DEF-shin.R
+      parentName: DEF-thigh.R.001
+      position: {x: 0.000000014901161, y: 0.15981923, z: -0.000000022351742}
+      rotation: {x: 0.09128283, y: 0.00000021756196, z: -0.00000017330656, w: 0.99582505}
+      scale: {x: 0.9987401, y: 0.9986822, z: 1.0025107}
+    - name: DEF-shin.R.001
+      parentName: DEF-shin.R
+      position: {x: 0.000000011175871, y: 0.18439563, z: 0.000000033527613}
+      rotation: {x: 0.0000000074505797, y: 0.00000039199543, z: 0.0000000014766923, w: 1}
+      scale: {x: 1.0000138, y: 1.0000002, z: 0.99998796}
+    - name: DEF-foot.R
+      parentName: DEF-shin.R.001
+      position: {x: -0.0000000018626451, y: 0.18439561, z: -0.000000015832484}
+      rotation: {x: -0.441001, y: 0.4037123, z: 0.23083892, w: 0.7676248}
+      scale: {x: 0.9830765, y: 1.0065749, z: 1.0120473}
+    - name: DEF-toe.R
+      parentName: DEF-foot.R
+      position: {x: 0.000000011372322, y: 0.11957021, z: -0.0000000011641532}
+      rotation: {x: 0.00013881922, y: 0.96970624, z: -0.24427369, w: 0.00055518746}
+      scale: {x: 0.99992216, y: 0.9559515, z: 1.047478}
+    - name: DEF-toe.R_end
+      parentName: DEF-toe.R
+      position: {x: -0, y: 0.060533248, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MCH-spine.002
+      parentName: torso
+      position: {x: -7.492149e-18, y: 0.014670411, z: 0.14453697}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: spine_fk.002
+      parentName: MCH-spine.002
+      position: {x: -0, y: 0.000000013038516, z: 0.0000000018626451}
+      rotation: {x: 0.76193035, y: -0.00000015441431, z: -0.00000018165879, w: 0.64765906}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: MCH-spine.003
+      parentName: spine_fk.002
+      position: {x: -4.4090626e-14, y: 0.0763367, z: -0.000000038184226}
+      rotation: {x: -0.76193047, y: 0.00000015441427, z: 0.00000018165886, w: 0.64765894}
+      scale: {x: 1, y: 0.9999998, z: 0.9999998}
+    - name: spine_fk.003
+      parentName: MCH-spine.003
+      position: {x: 1.1523547e-15, y: 0.0000000018626451, z: -0.000000027008355}
+      rotation: {x: 0.88889956, y: 0.000000054609792, z: 0.0000001059647, w: 0.45810223}
+      scale: {x: 1, y: 1.0000004, z: 1.0000004}
+    - name: tweak_spine.003
+      parentName: spine_fk.003
+      position: {x: -1.8513355e-14, y: -0.000000044703484, z: 0}
+      rotation: {x: 0.00000041723246, y: 3.0908606e-13, z: 8.526512e-14, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: ORG-spine.003
+      parentName: tweak_spine.003
+      position: {x: 7.0217727e-15, y: -0.000000033527613, z: -0.000000009313226}
+      rotation: {x: -0.00000041723246, y: -3.0198114e-14, z: -6.7501675e-14, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: ORG-shoulder.L
+      parentName: ORG-spine.003
+      position: {x: -0.012209683, y: 0.12984511, z: 0.069402285}
+      rotation: {x: -0.72200114, y: 0.51912177, z: 0.26038438, w: 0.37606785}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.99999994}
+    - name: DEF-shoulder.L
+      parentName: ORG-shoulder.L
+      position: {x: 0.000000029336661, y: -0.000000027939677, z: -0.000000027917395}
+      rotation: {x: -0.0000001490116, y: -0.00000023841855, z: -0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000001}
+    - name: DEF-shoulder.L_end
+      parentName: DEF-shoulder.L
+      position: {x: -0, y: 0.11696753, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: DEF-upper_arm.L
+      parentName: ORG-shoulder.L
+      position: {x: -0.0011414215, y: 0.12706722, z: -0.00471699}
+      rotation: {x: 0.1182659, y: -0.6577008, z: 0.15130638, w: 0.7283881}
+      scale: {x: 1.0105554, y: 0.98108536, z: 1.0105546}
+    - name: DEF-upper_arm.L.001
+      parentName: DEF-upper_arm.L
+      position: {x: -0.00000005098991, y: 0.13058448, z: -9.313226e-10}
+      rotation: {x: -0.000000014901158, y: 0.00000017881389, z: -0.000000014901158, w: 1}
+      scale: {x: 1.0000006, y: 1.0000005, z: 0.9999999}
+    - name: DEF-forearm.L
+      parentName: DEF-upper_arm.L.001
+      position: {x: 0.000000040396117, y: 0.13058446, z: 0.000000014901161}
+      rotation: {x: 0.006246238, y: 0.00088495004, z: -0.0068709967, w: 0.9999565}
+      scale: {x: 1.0003533, y: 0.9983725, z: 1.0017183}
+    - name: DEF-forearm.L.001
+      parentName: DEF-forearm.L
+      position: {x: -0.00000008638017, y: 0.12785739, z: -0.000000016996637}
+      rotation: {x: 0.00000011920926, y: -0.00000047262824, z: -0.000000430395, w: 1}
+      scale: {x: 0.99999756, y: 1.0000006, z: 1.0000029}
+    - name: DEF-hand.L
+      parentName: DEF-forearm.L.001
+      position: {x: 0.0000000081490725, y: 0.1278573, z: -0.000000015133992}
+      rotation: {x: -0.013956495, y: 0.00062155485, z: 0.044511795, w: 0.9989112}
+      scale: {x: 0.9890662, y: 1.0220015, z: 0.98763025}
+    - name: DEF-hand.L_end
+      parentName: DEF-hand.L
+      position: {x: -0, y: 0.22452389, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ORG-shoulder.R
+      parentName: ORG-spine.003
+      position: {x: 0.012209651, y: 0.12984511, z: 0.069402285}
+      rotation: {x: -0.72200114, y: -0.51912194, z: -0.26038444, w: 0.3760674}
+      scale: {x: 0.9999998, y: 0.99999964, z: 0.9999996}
+    - name: DEF-shoulder.R
+      parentName: ORG-shoulder.R
+      position: {x: 0.000000008381903, y: -0.000000009313226, z: -0.000000010836629}
+      rotation: {x: -0.000000089406946, y: 0.00000013411042, z: -0.000000029802315, w: 1}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000004}
+    - name: DEF-shoulder.R_end
+      parentName: DEF-shoulder.R
+      position: {x: -0, y: 0.11696753, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: DEF-upper_arm.R
+      parentName: ORG-shoulder.R
+      position: {x: 0.001141414, y: 0.12706715, z: -0.004717047}
+      rotation: {x: 0.11826591, y: 0.65770054, z: -0.15130645, w: 0.7283883}
+      scale: {x: 1.0134225, y: 0.9717514, z: 1.013421}
+    - name: DEF-upper_arm.R.001
+      parentName: DEF-upper_arm.R
+      position: {x: 0.000000067055225, y: 0.13058442, z: 0.000000018626451}
+      rotation: {x: -0.00000019371507, y: -0.00000020861623, z: 0.00000008195638, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 0.9999998}
+    - name: DEF-forearm.R
+      parentName: DEF-upper_arm.R.001
+      position: {x: -0.00000007136259, y: 0.13058442, z: 0.000000004656613}
+      rotation: {x: 0.0046842243, y: -0.00090897223, z: 0.0068953154, w: 0.99996483}
+      scale: {x: 1.0012531, y: 0.9930309, z: 1.0055958}
+    - name: DEF-forearm.R.001
+      parentName: DEF-forearm.R
+      position: {x: 0.000000063329935, y: 0.1278573, z: -0.000000007450581}
+      rotation: {x: 0.00000012665984, y: 0.00000048161985, z: 0.0000005043562, w: 1}
+      scale: {x: 1.0001794, y: 1.0000005, z: 0.999822}
+    - name: DEF-hand.R
+      parentName: DEF-forearm.R.001
+      position: {x: 0.000000052154064, y: 0.1278573, z: 0.000000016763806}
+      rotation: {x: -0.013956529, y: -0.0006214776, z: -0.044511925, w: 0.9989112}
+      scale: {x: 0.9861598, y: 1.037708, z: 0.98117787}
+    - name: DEF-hand.R_end
+      parentName: DEF-hand.R
+      position: {x: -0, y: 0.22452389, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ORG-breast.L
+      parentName: ORG-spine.003
+      position: {x: -0.06406399, y: -0.0066358633, z: 0.07087896}
+      rotation: {x: -0.00000005566386, y: 0.88889956, z: 0.4581022, w: 0.00000006711}
+      scale: {x: 1.0000002, y: 0.99999994, z: 0.99999994}
+    - name: DEF-breast.L
+      parentName: ORG-breast.L
+      position: {x: -0.0000000042192885, y: -0.0000000021605813, z: 0.000000019388326}
+      rotation: {x: -3.8230976e-15, y: 0.000000040476838, z: -0.000000016862629, w: 1}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000002}
+    - name: DEF-breast.L_end
+      parentName: DEF-breast.L
+      position: {x: -0, y: 0.09287353, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ORG-breast.R
+      parentName: ORG-spine.003
+      position: {x: 0.064063944, y: -0.006635893, z: 0.07087905}
+      rotation: {x: -0.00000005566386, y: 0.88889956, z: 0.4581022, w: 0.00000006711}
+      scale: {x: 1.0000002, y: 0.99999994, z: 0.99999994}
+    - name: DEF-breast.R
+      parentName: ORG-breast.R
+      position: {x: 0.000000003231299, y: 0.0000000021605808, z: 0.000000010413998}
+      rotation: {x: -3.8230976e-15, y: 0.000000040476838, z: -0.000000016862629, w: 1}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000002}
+    - name: DEF-breast.R_end
+      parentName: DEF-breast.R
+      position: {x: -0, y: 0.09287353, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Minion_Corpo_low
+      parentName: MDL_Enemy_Minion(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Minion_Eye_low
+      parentName: MDL_Enemy_Minion(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

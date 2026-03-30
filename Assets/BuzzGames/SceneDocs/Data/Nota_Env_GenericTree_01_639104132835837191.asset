@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167679525c68ee84dbc5900167a21cd1, type: 3}
+  m_Name: Nota_Env_GenericTree_01_639104132835837191
+  m_EditorClassIdentifier: BuzzGames.SceneDocs.Runtime::BuzzGames.SceneDocs.SceneNoteData
+  isSetup: 1
+  title: Asset place holder
+  content: 'Arvores place Holder '
+  author: caioanimationdesign@gmail.com
+  createdDate: 29/03/2026 20:34:43
+  sprint: Sprint 1
+  noteTypeId: todo
+  targetRoleId: 
+  status: 0
+  position: {x: 0, y: 1, z: 30}
+  sceneName: Zoo
+  cameraPosition: {x: 14.495693, y: -0.14163595, z: 30.5701}
+  cameraRotation: {x: -0.071262866, y: -0.69596285, z: 0.069777206, w: -0.7111682}
+  cameraSize: 12.124355
+  isOrthographic: 0
+  notionPageId: 
+  screenshotPaths:
+  - Assets/BuzzGames/SceneDocs/Screenshots\Screen_Nota_Env_GenericTree_01_639104132835837191_639104133539458229.png
+  comments: []

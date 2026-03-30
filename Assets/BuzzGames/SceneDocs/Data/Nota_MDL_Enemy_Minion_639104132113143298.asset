@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167679525c68ee84dbc5900167a21cd1, type: 3}
+  m_Name: Nota_MDL_Enemy_Minion_639104132113143298
+  m_EditorClassIdentifier: BuzzGames.SceneDocs.Runtime::BuzzGames.SceneDocs.SceneNoteData
+  isSetup: 0
+  title: MDL_Enemy_Minion
+  content: 
+  author: caioanimationdesign@gmail.com
+  createdDate: 29/03/2026 20:33:31
+  sprint: Sprint 1
+  noteTypeId: bug
+  targetRoleId: 
+  status: 0
+  position: {x: 0, y: 0, z: 0}
+  sceneName: CaioGuiTestLevel
+  cameraPosition: {x: 0, y: 0, z: 0}
+  cameraRotation: {x: 0, y: 0, z: 0, w: 0}
+  cameraSize: 0
+  isOrthographic: 0
+  notionPageId: 
+  screenshotPaths: []
+  comments: []
