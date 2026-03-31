@@ -27,7 +27,7 @@ public static class EventManager
 
     /// Broadcast when hit detection occurs (hitPosition, damage, target)
     public static event Action<Vector3, int, GameObject> OnHitDetected;
-    
+
 
     /// Broadcast when any entity takes damage (damage, damageSource)
     public static event Action<int, GameObject> OnEntityDamaged;
@@ -44,6 +44,11 @@ public static class EventManager
 
     /// Broadcast when player stamina changes (currentStamina, maxStamina)
     public static event Action<float, float> OnPlayerStaminaChanged;
+
+    // ===== GAME EVENTS =====
+    public static event Action OnGameLoaded;
+
+
 
     // ===== BROADCAST METHODS (Controllers call these) =====
 
@@ -72,7 +77,7 @@ public static class EventManager
         OnPlayerAttack?.Invoke(damage);
         Debug.Log($"[Event] Player attacked for {damage} damage", null);
     }
-    
+
     public static void BroadcastHitDetected(Vector3 hitPos, int damage, GameObject target)
     {
         OnHitDetected?.Invoke(hitPos, damage, target);
@@ -105,6 +110,11 @@ public static class EventManager
     public static void BroadcastPlayerStaminaChanged(float newStamina, float maxStamina)
     {
         OnPlayerStaminaChanged?.Invoke(newStamina, maxStamina);
+    }
+
+    public static void BroadcastGameLoaded()
+    {
+        OnGameLoaded?.Invoke();
     }
 }
 

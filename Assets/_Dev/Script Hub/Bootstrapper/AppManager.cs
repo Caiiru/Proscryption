@@ -27,9 +27,21 @@ namespace proscryption
         }
         void Start()
         {
-            if (SceneManager.GetActiveScene().name == "Bootstrapper")
+            Scene activeScene = SceneManager.GetActiveScene();
+
+            if (activeScene.name == "Bootstrapper")
+            {
                 ChangeAppState(AppState.MainMenu).Forget();
-            else
+                return;
+            }
+
+            if (activeScene.name == "MainMenuScreen")
+            {
+                CurrentState = AppState.MainMenu;
+                return;
+            }
+
+            if (activeScene.name == "GameScreen")
             {
                 CurrentState = AppState.Playing;
             }
@@ -91,12 +103,37 @@ namespace proscryption
             if (targetScene.IsValid())
             {
                 SceneManager.SetActiveScene(targetScene);
+                EnsureInitializer(targetScene);
+                
+                EventManager.OnGameLoaded += UnloadLoadingScreen;
             }
 
             // 6. Finalmente, descarregamos o loading e resetamos o progresso
-            await SceneManager.UnloadSceneAsync("LoadingScreen").ToUniTask();
-            LoadingProgress = 0f;
-        }
 
+        }
+        private void UnloadLoadingScreen()
+        {
+            SceneManager.UnloadSceneAsync("LoadingScreen").ToUniTask().Forget();
+        }
+        private void EnsureInitializer(Scene gameScene)
+        {
+            if (Initializer.Instance == null)
+            {
+
+                foreach (GameObject rootObject in gameScene.GetRootGameObjects())
+                {
+                    Initializer existingManager = rootObject.GetComponentInChildren<Initializer>(true);
+                    if (existingManager != null)
+                    {
+                        return;
+                    }
+                }
+
+                GameObject systemsRoot = new GameObject("[Initializer]");
+                SceneManager.MoveGameObjectToScene(systemsRoot, gameScene);
+                systemsRoot.AddComponent<Initializer>();
+            }
+            Initializer.Instance.Initialize();
+        }
     }
 }

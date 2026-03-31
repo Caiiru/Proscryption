@@ -14,9 +14,9 @@ namespace proscryption
 
         void Start()
         {
-            BindButtons().Forget();
+            BindButtons();
         }
-        async UniTask BindButtons()
+        void BindButtons()
         {
             if (PlayButton == null || ConfigButton == null || QuitButton == null)
             {

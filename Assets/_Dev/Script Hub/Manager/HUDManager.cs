@@ -10,22 +10,7 @@ namespace proscryption
         [SerializeField] GameObject deathScreen;
         bool _isActive = true;
 
-        void Start()
-        {
-            foreach (Transform child in transform)
-            {
-                _hudComponents.Add(child.gameObject);
-            }
-            if (deathScreen == null)
-            {
-                Debug.LogWarning("Death Screen reference is missing in HUDManager.");
 
-            }
-
-            //event subscribe
-            // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
-            GameManager.OnGameStateChanged += OnGameStateChanged;
-        }
         void OnDisable()
         {
             GameManager.OnGameStateChanged -= OnGameStateChanged;
@@ -51,7 +36,9 @@ namespace proscryption
 
         private void SetHUDActive(bool isActive)
         {
-            if (_isActive == isActive) return;
+            if (_isActive == isActive && _hudComponents.TrueForAll(hud => hud.activeSelf == isActive)) return;
+
+            _isActive = isActive;
             foreach (GameObject hudComponent in _hudComponents)
             {
                 hudComponent.SetActive(isActive);
@@ -64,6 +51,28 @@ namespace proscryption
             {
                 deathScreen.SetActive(true);
                 deathScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
+            }
+        }
+
+        internal void Initialize()
+        {
+            foreach (Transform child in transform)
+            {
+                _hudComponents.Add(child.gameObject);
+            }
+            if (deathScreen == null)
+            {
+                Debug.LogWarning("Death Screen reference is missing in HUDManager.");
+
+            }
+            SetHUDActive(false);
+            //event subscribe
+            // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
+            GameManager.OnGameStateChanged += OnGameStateChanged;
+
+            if (GameManager.Instance != null)
+            {
+                OnGameStateChanged(GameManager.Instance.CurrentState);
             }
         }
     }

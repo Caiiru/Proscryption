@@ -130,6 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8095122564205990912}
+  - component: {fileID: 579002131211835770}
   - component: {fileID: 3049679364578046141}
   - component: {fileID: 2999709852698169943}
   - component: {fileID: 8693190755593616350}
@@ -162,6 +163,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &579002131211835770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425421427686207879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b950d027b9772241840d36e4a57e276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.HUDManager
+  deathScreen: {fileID: 6464647121607205128}
 --- !u!223 &3049679364578046141
 Canvas:
   m_ObjectHideFlags: 0
