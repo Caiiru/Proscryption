@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerController
   rotationSpeed: 10
-  rollForce: 8
+  rollForce: 5
   rollDuration: 0.5
   rollCooldown: 2
   _moveInput: {x: 0, y: 0}
@@ -301,7 +301,9 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegenPerSec: 5
   moveSpeed: 3
+  _currentState: 0
   _isInvulnerable: 0
+  killPlayer: 0
 --- !u!114 &948268413005835966
 MonoBehaviour:
   m_ObjectHideFlags: 0

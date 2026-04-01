@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace proscryption
 {
@@ -43,7 +44,7 @@ namespace proscryption
             _model = GetComponent<PlayerModel>();
             _view = GetComponent<PlayerView>();
             _rigidbody = GetComponent<Rigidbody>();
-            _mainCamera = Camera.main;
+            RefreshMainCamera();
 
             if (_model == null) Debug.LogError("[PlayerController] PlayerModel not found!");
             if (_view == null) Debug.LogError("[PlayerController] PlayerView not found!");
@@ -56,6 +57,8 @@ namespace proscryption
             EventManager.OnPlayerMoveInput += HandleMoveInput;
             EventManager.OnPlayerRollInput += HandleRollInput;
             EventManager.OnPlayerParryInput += HandleParryInput;
+            SceneManager.activeSceneChanged += HandleActiveSceneChanged;
+            RefreshMainCamera();
         }
 
         void OnDisable()
@@ -63,6 +66,7 @@ namespace proscryption
             EventManager.OnPlayerMoveInput -= HandleMoveInput;
             EventManager.OnPlayerRollInput -= HandleRollInput;
             EventManager.OnPlayerParryInput -= HandleParryInput;
+            SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
         }
 
         // ===== INPUT HANDLERS =====
@@ -186,9 +190,7 @@ namespace proscryption
         private void HandleMovement()
         {
             // Calculate camera-relative movement direction
-            if (!_model.CanMove) return;
-
-
+            if (!_model.CanMove) return;  
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
             _currentVelocity = movement * _model.MoveSpeed;
 
@@ -235,7 +237,12 @@ namespace proscryption
 
         private Vector3 GetCameraRelativeMovement(Vector2 input)
         {
-            if (_mainCamera == null) return Vector3.zero;
+            RefreshMainCamera();
+
+            if (_mainCamera == null)
+            {
+                return Vector3.ClampMagnitude(new Vector3(input.x, 0f, input.y), 1f);
+            }
 
             // Get camera forward and right projected onto ground plane
             Vector3 forward = Vector3.ProjectOnPlane(_mainCamera.transform.forward, Vector3.up).normalized;
@@ -245,6 +252,32 @@ namespace proscryption
             Vector3 movement = (forward * input.y + right * input.x).normalized * input.magnitude;
 
             return movement;
+        }
+
+        private void HandleActiveSceneChanged(Scene previousScene, Scene newScene)
+        {
+            RefreshMainCamera();
+        }
+
+        private void RefreshMainCamera()
+        {
+            if (_mainCamera != null && _mainCamera.isActiveAndEnabled)
+                return;
+
+            _mainCamera = Camera.main;
+
+            if (_mainCamera != null)
+                return;
+
+            Camera[] cameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
+            foreach (Camera cameraCandidate in cameras)
+            {
+                if (cameraCandidate.isActiveAndEnabled)
+                {
+                    _mainCamera = cameraCandidate;
+                    break;
+                }
+            }
         }
 
         private void RotateTowardsVelocity(Vector3 velocity)

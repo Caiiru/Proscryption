@@ -17,10 +17,14 @@ public class PlayerModel : MonoBehaviour
     // ===== STATE DATA =====
     private int _currentHealth;
     private float _currentStamina;
-    private PlayerState _currentState = PlayerState.Idle;
-    [SerializeField]private bool _isInvulnerable = false;
+    [SerializeField] private PlayerState _currentState = PlayerState.Idle;
+    [SerializeField] private bool _isInvulnerable = false;
     private bool _canMove = true;
 
+    //Debug
+    [Space]
+    [Header("DEBUG")]
+    public bool killPlayer = false;
     // ===== REFERENCES =====
     private Rigidbody _rigidbody;
 
@@ -61,6 +65,14 @@ public class PlayerModel : MonoBehaviour
         SetupHealth();
         SetupStamina();
     }
+    void Update()
+    {
+        if (killPlayer)
+        {
+            killPlayer = false;
+            HandleHitDetected(transform.position, maxHealth, gameObject);
+        }
+    }
 
 
     // ===== STAMINA MANAGEMENT =====
@@ -95,8 +107,8 @@ public class PlayerModel : MonoBehaviour
         float regenAmount = (float)(staminaRegenPerSec * deltaTime);
 
         _currentStamina = Mathf.Min(_currentStamina + regenAmount, maxStamina);
- 
- 
+
+
         // Only broadcast if actually changed
         if (regenAmount > 0)
             EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
@@ -135,7 +147,7 @@ public class PlayerModel : MonoBehaviour
         if (_isInvulnerable)
         {
             //to-do: ADD PARRY JUICE
-            return; 
+            return;
         }
 
         _currentHealth -= damage;
