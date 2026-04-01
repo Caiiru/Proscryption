@@ -104,7 +104,7 @@ namespace proscryption
             {
                 SceneManager.SetActiveScene(targetScene);
                 EnsureInitializer(targetScene);
-                
+
                 EventManager.OnGameLoaded += UnloadLoadingScreen;
             }
 
@@ -113,7 +113,7 @@ namespace proscryption
         }
         private void UnloadLoadingScreen()
         {
-            SceneManager.UnloadSceneAsync("LoadingScreen").ToUniTask().Forget();
+            SceneManager.UnloadSceneAsync("LoadingScreen");
         }
         private void EnsureInitializer(Scene gameScene)
         {

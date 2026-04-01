@@ -15,44 +15,6 @@ namespace proscryption
         {
             GameManager.OnGameStateChanged -= OnGameStateChanged;
         }
-        private void OnGameStateChanged(GameState newState)
-        {
-            switch (newState)
-            {
-                case GameState.Roaming:
-                    _isActive = false;
-                    break;
-                case GameState.Dead:
-                    _isActive = false;
-                    TurnOnDeathScreen();
-                    break;
-                case GameState.Combat:
-                    _isActive = true;
-                    break;
-                    // Handle other states as needed
-            }
-            SetHUDActive(_isActive);
-        }
-
-        private void SetHUDActive(bool isActive)
-        {
-            if (_isActive == isActive && _hudComponents.TrueForAll(hud => hud.activeSelf == isActive)) return;
-
-            _isActive = isActive;
-            foreach (GameObject hudComponent in _hudComponents)
-            {
-                hudComponent.SetActive(isActive);
-            }
-        }
-
-        private void TurnOnDeathScreen()
-        {
-            if (deathScreen != null)
-            {
-                deathScreen.SetActive(true);
-                deathScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
-            }
-        }
 
         internal void Initialize()
         {
@@ -65,6 +27,7 @@ namespace proscryption
                 Debug.LogWarning("Death Screen reference is missing in HUDManager.");
 
             }
+            UpdateDeathScreenVisibility(false);
             SetHUDActive(false);
             //event subscribe
             // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
@@ -75,5 +38,51 @@ namespace proscryption
                 OnGameStateChanged(GameManager.Instance.CurrentState);
             }
         }
+        private void OnGameStateChanged(GameState newState)
+        {
+            switch (newState)
+            {
+                case GameState.Roaming:
+                    _isActive = false;
+                    break;
+                case GameState.Dead:
+                    // _isActive = false;
+                    UpdateDeathScreenVisibility(true);
+                    return;
+                case GameState.Combat:
+                    _isActive = true;
+                    break;
+                    // Handle other states as needed
+            }
+            SetHUDActive(_isActive);
+        }
+
+        private void SetHUDActive(bool isActive)
+        {
+            if (_isActive == isActive && _hudComponents.TrueForAll(hud => hud.activeSelf == isActive)) return;
+            Debug.Log("Update HUD, isActive: " + isActive);
+            _isActive = isActive;
+            foreach (GameObject hudComponent in _hudComponents)
+            {
+                if (hudComponent == deathScreen) continue; // Death screen is handled separately
+                hudComponent.SetActive(isActive);
+            }
+        }
+
+        private void UpdateDeathScreenVisibility(bool newVisibility)
+        {
+            if (deathScreen != null)
+            {
+                deathScreen.SetActive(newVisibility);
+                if (newVisibility)
+                {
+                    deathScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
+                }
+            }
+
+            _isActive = false;
+            SetHUDActive(_isActive);
+        }
+
     }
 }
