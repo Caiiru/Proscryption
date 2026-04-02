@@ -41,10 +41,7 @@ namespace proscryption
                 return;
             }
 
-            if (activeScene.name == "GameScreen")
-            {
-                CurrentState = AppState.Playing;
-            }
+            CurrentState = AppState.Playing;
         }
 
         public async UniTask ChangeAppState(AppState newState)

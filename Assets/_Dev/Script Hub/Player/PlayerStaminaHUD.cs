@@ -14,6 +14,14 @@ namespace proscryption
             EventManager.OnPlayerStaminaChanged += HandleStaminaChanged;
             EventManager.OnGameLoaded += () => this.isPlaying = true;
         }
+
+        void Start()
+        {
+            if(Initializer.Instance == null)
+            {
+                this.isPlaying = true;
+            }
+        }
         void HandleStaminaChanged(float currentStamina, float maxStamina)
         {
             if (!isPlaying) return;

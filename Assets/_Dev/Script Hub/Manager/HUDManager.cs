@@ -16,6 +16,22 @@ namespace proscryption
             GameManager.OnGameStateChanged -= OnGameStateChanged;
         }
 
+        void Start()
+        {
+            if (Initializer.Instance == null)
+            {
+                Initialize();
+                EventManager.OnEntityDied += (entity) =>
+                {
+                    if (entity.CompareTag("Player"))
+                    {
+                        UpdateDeathScreenVisibility(true);
+                    }
+                };
+
+            }
+        }
+
         internal void Initialize()
         {
             foreach (Transform child in transform)

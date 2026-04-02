@@ -30,6 +30,13 @@ namespace proscryption
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        void Start()
+        {
+            if (Initializer.Instance == null)
+            {
+                InitializeGameSession();
+            }
+        }
 
         public void Initialize(GameObject playerObject)
         {
