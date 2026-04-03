@@ -8,6 +8,9 @@ namespace proscryption
     {
         List<GameObject> _hudComponents = new List<GameObject>();
         [SerializeField] GameObject deathScreen;
+        //Pause Menu
+        [SerializeField] GameObject pauseScreen;
+        PauseManager _pauseManager;
         bool _isActive = true;
 
 
@@ -43,8 +46,17 @@ namespace proscryption
                 Debug.LogWarning("Death Screen reference is missing in HUDManager.");
 
             }
+            if (pauseScreen == null)
+            {
+                Debug.LogWarning("Pause Screen reference is missing in HUDManager.");
+            }
+            _pauseManager = pauseScreen.GetComponent<PauseManager>();
+            SetupEvents();
             UpdateDeathScreenVisibility(false);
             SetHUDActive(false);
+        }
+        private void SetupEvents()
+        {
             //event subscribe
             // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
             GameManager.OnGameStateChanged += OnGameStateChanged;
@@ -53,6 +65,8 @@ namespace proscryption
             {
                 OnGameStateChanged(GameManager.Instance.CurrentState);
             }
+
+
         }
         private void OnGameStateChanged(GameState newState)
         {
@@ -68,6 +82,9 @@ namespace proscryption
                 case GameState.Combat:
                     _isActive = true;
                     break;
+                case GameState.Paused: 
+                    return;
+
                     // Handle other states as needed
             }
             SetHUDActive(_isActive);
@@ -80,9 +97,12 @@ namespace proscryption
             _isActive = isActive;
             foreach (GameObject hudComponent in _hudComponents)
             {
-                if (hudComponent == deathScreen) continue; // Death screen is handled separately
+                if (hudComponent == deathScreen ||
+                    hudComponent == pauseScreen) continue;
                 hudComponent.SetActive(isActive);
             }
+
+
         }
 
         private void UpdateDeathScreenVisibility(bool newVisibility)
@@ -99,6 +119,7 @@ namespace proscryption
             _isActive = false;
             SetHUDActive(_isActive);
         }
+         
 
     }
 }

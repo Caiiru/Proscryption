@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace proscryption
 {
-    public enum GameState { Starting, Roaming, Combat, Dead }
+    [Serializable]
+    public enum GameState { Starting, Roaming, Combat, Dead, Paused }
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
@@ -17,7 +18,7 @@ namespace proscryption
         //Ref
         GameObject _playerObject;
 
-        [Header("level")]
+        [Header("Level Settings")]
         public Transform[] playerSpawnPoints;
         void Awake()
         {
@@ -46,9 +47,13 @@ namespace proscryption
         }
         public void InitializeGameSession()
         {
+            Debug.Log("initializing...");
             SetupEvents();
+
             CurrentState = GameState.Starting;
             OnGameStateChanged?.Invoke(CurrentState);
+
+
             ChangeGameState(GameState.Roaming);
             OnGameLoaded?.Invoke();
         }
@@ -56,14 +61,18 @@ namespace proscryption
         {
             EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
             EventManager.OnHitDetected += HandleHitDetected;
-
-
+            EventManager.OnGamePauseInput += HandleGamePauseToggle;
         }
+
+
+
         private void OnDestroy()
         {
             // Clean up event subscriptions
             EventManager.OnHitDetected -= HandleHitDetected;
             EventManager.OnPlayerStateChanged -= OnPlayerStateChanged;
+            EventManager.OnGamePauseInput -= HandleGamePauseToggle;
+
 
             if (Instance == this)
             {
@@ -76,6 +85,7 @@ namespace proscryption
         public void ChangeGameState(GameState newState)
         {
             if (CurrentState == newState) return;
+            Debug.Log("Game State: " + CurrentState + " → " + newState);
             CurrentState = newState;
             OnGameStateChanged?.Invoke(newState);
         }
@@ -113,5 +123,14 @@ namespace proscryption
         }
 
 
+        private void HandleGamePauseToggle()
+        { 
+            if (CurrentState == GameState.Paused)
+            {
+                ChangeGameState(GameState.Roaming);
+            }
+            else
+                ChangeGameState(GameState.Paused);
+        }
     }
 }

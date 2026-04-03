@@ -1,4 +1,5 @@
 using System;
+using proscryption;
 using UnityEngine;
 
 /// <summary>
@@ -47,6 +48,8 @@ public static class EventManager
 
     // ===== GAME EVENTS =====
     public static event Action OnGameLoaded;
+    public static event Action OnGamePauseInput;
+
 
 
 
@@ -115,6 +118,13 @@ public static class EventManager
     public static void BroadcastGameLoaded()
     {
         OnGameLoaded?.Invoke();
+    }
+
+
+    public static void BroadcastPauseInput()
+    {
+        Debug.Log("Broadcasting pause input from EventManager.");
+        OnGamePauseInput?.Invoke();
     }
 }
 
