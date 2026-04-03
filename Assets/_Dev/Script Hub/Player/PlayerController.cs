@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace proscryption
@@ -23,6 +24,7 @@ namespace proscryption
         [SerializeField] private float rollDuration = 0.5f;
         [SerializeField] private float rollCooldown = 1.5f;
         [SerializeField] private const int ROLL_STAMINA_COST = 20;
+
 
         // ===== REFERENCES =====
         private PlayerModel _model;

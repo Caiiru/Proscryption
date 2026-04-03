@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 namespace DeveloperConsole
 {
     [CustomPropertyDrawer(typeof(ColorHtmlPropertyAttribute))]
-    public class ColorHtmlPropertyDrawer : PropertyDrawer
+    public class ColorHtmlPropertyDrawer : UnityEditor.PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -21,3 +22,4 @@ namespace DeveloperConsole
         }
     }
 }
+#endif

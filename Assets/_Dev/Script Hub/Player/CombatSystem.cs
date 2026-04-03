@@ -19,7 +19,7 @@ namespace proscryption
 
         // ===== REFERENCES =====
         private PlayerModel _model;
-        private BaseWeapon _currentWeapon;
+        [SerializeField] private BaseWeapon _currentWeapon;
 
         // ===== STATE =====
         private float _lastAttackTime = 0f;
@@ -34,7 +34,7 @@ namespace proscryption
 
             if (_currentWeapon == null)
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
-
+            
 
 
         }

@@ -169,6 +169,7 @@ MonoBehaviour:
   rollForce: 5
   rollDuration: 0.5
   rollCooldown: 2
+  spellCast: 31
   _moveInput: {x: 0, y: 0}
   _isParrying: 0
 --- !u!114 &3464906276277422550
@@ -230,6 +231,7 @@ MonoBehaviour:
   critDamage: 20
   critChance: 0.1
   attackCooldown: 0.5
+  _currentWeapon: {fileID: 0}
 --- !u!54 &758348147772611608
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -297,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6486541676186878977, guid: e828d3448303a364caf806ec995a5c88, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6486541676186878977, guid: e828d3448303a364caf806ec995a5c88, type: 3}
       propertyPath: m_LocalPosition.z

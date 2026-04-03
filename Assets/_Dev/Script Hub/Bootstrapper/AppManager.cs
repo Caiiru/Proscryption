@@ -1,8 +1,7 @@
+using Cysharp.Threading.Tasks; 
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Cysharp.Threading.Tasks;
-using UnityEngine.UI;
-using System;
 
 namespace proscryption
 {
