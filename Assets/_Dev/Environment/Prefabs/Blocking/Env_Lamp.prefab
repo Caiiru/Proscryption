@@ -76,14 +76,14 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 0.9032117, g: 1, b: 0.18396229, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.719234, b: 0.18431371, a: 1}
+  m_Intensity: 6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -223,6 +223,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ad967d13b4f56044686c0ac396e45ba1, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ad967d13b4f56044686c0ac396e45ba1, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: ad967d13b4f56044686c0ac396e45ba1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
