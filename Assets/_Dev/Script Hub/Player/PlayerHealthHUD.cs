@@ -14,8 +14,7 @@ namespace proscryption
         }
         void HandleHealthChanged(int newHealth, int maxHealth)
         {
-            if (this.gameObject.activeSelf == false)
-                this.gameObject.SetActive(true);
+            this.gameObject.SetActive(true);
 
 
             _slider.value = (float)newHealth / maxHealth;

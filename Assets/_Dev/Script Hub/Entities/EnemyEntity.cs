@@ -1,4 +1,5 @@
 using UnityEngine;
+using proscryption.Enemy;
 
 namespace proscryption
 {
@@ -6,63 +7,99 @@ namespace proscryption
     {
         [Header("Attack Settings")]
 
-        
         public bool canAttack = false;
         public int attackTime = 6;
         private float currentAttackTime;
         public int minDamage = 3;
         public int maxDamage = 8;
         public EnemyBaseWeapon currentWeapon;
-        private bool canHit; 
+        private bool canHit;
 
-
+        // State Machine
+        private EnemyController _enemyController;
 
         public override void Start()
         {
             base.Start();
+
+            // Obtém o EnemyController (que contém a state machine)
+            _enemyController = GetComponent<EnemyController>();
+
             if (currentWeapon)
             {
                 currentWeapon.SetOwner(this);
             }
-
         }
 
-        public void Update()
+        // public void Update()
+        // {
+        // HandleAttackTimer();
+        // }
+
+        // private void HandleAttackTimer()
+        // {
+        //     if (!canAttack) return;
+        //     if (currentAttackTime < attackTime)
+        //     {
+        //         currentAttackTime += Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         currentAttackTime = 0;
+        //         Attack();
+        //     }
+        // }
+
+        // private void Attack()
+        // {
+        //     if (_animator)
+        //     {
+        //         _animator.SetTrigger("Attack");
+        //     }
+        // }
+
+        /// <summary>
+        /// Sobrescreve o método TakeDamage da BaseEntity para integrar com state machine
+        /// </summary>
+        public override void TakeDamage(int damage, GameObject source = null)
         {
-            HandleAttackTimer();
-        }
-        private void HandleAttackTimer()
-        {
-            if (!canAttack) return;
-            if (currentAttackTime < attackTime)
+            base.TakeDamage(damage, source);
+
+            // Notifica ao estado machine que recebeu dano
+            if (_enemyController && !_isDead)
             {
-                currentAttackTime += Time.deltaTime;
-            }
-            else
-            {
-
-                currentAttackTime = 0;
-                Attack();
+                _enemyController.OnDamageTaken();
             }
         }
 
-        private void Attack()
+        /// <summary>
+        /// Sobrescreve OnDeath para notificar state machine
+        /// </summary>
+        public override void OnDeath()
         {
-            _animator.SetTrigger("Attack");
+            base.OnDeath();
+
+            if (_enemyController)
+            {
+                _enemyController.OnDeath();
+            }
         }
 
         public int GetDamage()
         {
             return Random.Range(minDamage, maxDamage);
         }
+
         public bool GetCanHit()
         {
-            return canHit; 
+            return canHit;
         }
+
         public void MakeCanHit()
         {
             canHit = true;
         }
+
         public void MakeCantHit()
         {
             canHit = false;

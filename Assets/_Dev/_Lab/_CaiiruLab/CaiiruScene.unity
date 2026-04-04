@@ -538,7 +538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &530869179
 RectTransform:
   m_ObjectHideFlags: 0
@@ -582,6 +582,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2874609851258684856, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6673063669247858700, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
       propertyPath: isImmortal
       value: 1
@@ -592,7 +596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8143782157087743938, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 8143782157087743938, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -633,7 +637,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8813357648072230264, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 1055331058}
+    - targetCorrespondingSourceObject: {fileID: 8813357648072230264, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1055331059}
   m_SourcePrefab: {fileID: 100100000, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
 --- !u!1 &753904139
 GameObject:
@@ -965,6 +975,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
+--- !u!1 &1055331053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8813357648072230264, guid: a45ae4b4a6ce7ab459918f8f02289f9f, type: 3}
+  m_PrefabInstance: {fileID: 587229593}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1055331058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055331053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80316ed697b490498e99693e0738e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.Enemy.EnemyController
+  currentStateName: 
+  detectionRange: 15
+  attackRange: 1
+  moveSpeed: 1
+  attackTime: 1.5
+  attackCooldown: 15
+  rotationSpeed: 10
+  maxPoise: 100
+  poiseRegenerationRate: 5
+  damageToPoiseDamageMultiplier: 0.5
+  attackChargeDelays:
+  - 0.3
+  - 0.5
+  - 0.8
+  - 1.2
+  inputReadingRange: 15
+  healingDetectionCooldown: 3
+--- !u!54 &1055331059
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055331053}
+  serializedVersion: 5
+  m_Mass: 100
+  m_LinearDamping: 0
+  m_AngularDamping: 1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1001 &1122059380
 PrefabInstance:
   m_ObjectHideFlags: 0

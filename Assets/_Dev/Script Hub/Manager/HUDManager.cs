@@ -73,21 +73,21 @@ namespace proscryption
             switch (newState)
             {
                 case GameState.Roaming:
-                    _isActive = false;
+                    // _isActive = false;
                     break;
                 case GameState.Dead:
                     // _isActive = false;
                     UpdateDeathScreenVisibility(true);
                     return;
                 case GameState.Combat:
-                    _isActive = true;
+                    // _isActive = true;
                     break;
                 case GameState.Paused: 
                     return;
 
                     // Handle other states as needed
             }
-            SetHUDActive(_isActive);
+            // SetHUDActive(_isActive);
         }
 
         private void SetHUDActive(bool isActive)
