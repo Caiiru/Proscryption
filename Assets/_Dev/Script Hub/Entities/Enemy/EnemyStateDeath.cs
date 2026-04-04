@@ -17,7 +17,7 @@ namespace proscryption.Enemy
         public void Enter()
         {
             _controller.SetAnimationState("Death");
-            _controller.DisableCollision();
+            // _controller.DisableCollision();
             _controller.StopMovement();
         }
 

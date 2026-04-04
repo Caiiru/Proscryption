@@ -30,11 +30,15 @@ namespace proscryption.Enemy
             if (_currentState == newState)
                 return;
 
+            Debug.Log($"Transição de estado: {_currentState?.GetType().Name ?? "NULO"} -> {newState.GetType().Name}");
+
             _previousState = _currentState;
             _currentState.Exit();
 
             _currentState = newState;
             _currentState.Enter();
+
+            
         }
 
         /// <summary>
