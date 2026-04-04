@@ -29,10 +29,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7879141106805718666}
+  - {fileID: 677075144264676062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &7697474653826603361
+--- !u!1001 &1076304497214035253
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7166631974265513845, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbd7d5589eab7e429a544ac9f7b8922, type: 2}
     - target: {fileID: -4171717898059822437, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -94,21 +98,21 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1848513060997880287}
+      addedObject: {fileID: 2021413768239729246}
   m_SourcePrefab: {fileID: 100100000, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
---- !u!1 &7355369658069115952 stripped
+--- !u!1 &157244375868647524 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
-  m_PrefabInstance: {fileID: 7697474653826603361}
+  m_PrefabInstance: {fileID: 1076304497214035253}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1848513060997880287
+--- !u!95 &2021413768239729246
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7355369658069115952}
+  m_GameObject: {fileID: 157244375868647524}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ea87d7f4637c0c34a828d09f11f2b59c, type: 2}
@@ -123,8 +127,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!4 &7879141106805718666 stripped
+--- !u!4 &677075144264676062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
-  m_PrefabInstance: {fileID: 7697474653826603361}
+  m_PrefabInstance: {fileID: 1076304497214035253}
   m_PrefabAsset: {fileID: 0}
