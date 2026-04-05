@@ -32,7 +32,8 @@ namespace proscryption.Enemy
 
         public void Enter()
         {
-            _controller.SetAnimationState("Run");
+            // _controller.SetAnimationState("Run");
+            _controller.SetAnimationFloat("Speed", 0.5f); // Assume que 1 é a velocidade de corrida
             _circleTransitionTimer = 0f;
             Debug.Log($"[{_controller.gameObject.name}] Iniciando Chase - perseguindo player");
         }
@@ -66,7 +67,7 @@ namespace proscryption.Enemy
             {
                 _controller.MoveTowardsPlayer();
                 _circleTransitionTimer = 0f;
-                
+
                 return;
             }
 

@@ -29,7 +29,9 @@ namespace proscryption.Enemy
         public void Enter()
         {
             // Transição para animação de ataque
-            _controller.SetAnimationState("Attack");
+            // _controller.SetAnimationState("Attack");
+            int randomAttack = Random.Range(1,2);
+            _controller.SetAnimationFloat("Attack", (float)randomAttack); // Assume que 1 é a velocidade de ataque
             _attackStartTime = Time.time;
             _hasAttackedThisSequence = false;
             _isCharging = true;
@@ -42,7 +44,7 @@ namespace proscryption.Enemy
             // Registra que atacou (para cooldown)
             _controller.RegisterAttack();
             _alreadyAttack = false;
-            Debug.Log($"[{_controller.gameObject.name}] Iniciando ataque com charge delay: {_chargeDelayTime:F2}s");
+            Debug.Log($"[{_controller.gameObject.name}] Iniciando ataque com charge delay: {_chargeDelayTime:F2}s, random animation: {randomAttack}");
         }
 
         public void Update()
@@ -98,7 +100,7 @@ namespace proscryption.Enemy
             }
             else
             {
-                Debug.Log("Aguardando animação de ataque terminar...");
+                // Debug.Log("Aguardando animação de ataque terminar...");
             }
         }
 

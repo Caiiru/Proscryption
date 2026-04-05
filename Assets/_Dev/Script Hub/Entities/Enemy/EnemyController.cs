@@ -6,7 +6,7 @@ namespace proscryption.Enemy
     /// Controlador do inimigo com state machine
     /// Integra-se com EnemyEntity para combater sistema existente
     /// </summary>
-    [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(Rigidbody))]
     public class EnemyController : MonoBehaviour
     {
 
@@ -64,7 +64,7 @@ namespace proscryption.Enemy
         private void OnEnable()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _animator = GetComponent<Animator>();
+            _animator = GetComponentInChildren<Animator>();
             _enemyEntity = GetComponent<EnemyEntity>();
 
             // Procura o jogador
@@ -110,6 +110,13 @@ namespace proscryption.Enemy
             if (_animator)
             {
                 _animator.SetTrigger(stateName);
+            }
+        }
+        public void SetAnimationFloat(string parameterName, float value)
+        {
+            if (_animator)
+            {
+                _animator.SetFloat(parameterName, value);
             }
         }
 
@@ -443,5 +450,18 @@ namespace proscryption.Enemy
 
         #endregion
         #endregion
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, inputReadingRange);   
+
+        }
     }
+
+    
 }
