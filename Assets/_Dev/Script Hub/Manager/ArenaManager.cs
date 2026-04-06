@@ -12,7 +12,8 @@ namespace proscryption
         private bool _wasStarted;
 
         [SerializeField] private int howMuchKilled = 0;
-
+        public int maxKill = 4;
+        private int howMuchSpawned = 0;
         [Header("Spawn Point")]
         public GameObject[] spawnPoint;
 
@@ -35,14 +36,22 @@ namespace proscryption
             Debug.Log("[Arena Manager] Arena started!");
             _enemyManager = EnemyManager.Instance;
             _wasStarted = true;
-            _currentInterval = 0;
+            _currentInterval = spawnInterval - 1;
+            howMuchKilled = 0;
+            howMuchSpawned = 0;
         }
 
         void Update()
         {
             if (!_wasStarted) return;
+            if (howMuchSpawned >= maxKill) return;
+
             _currentInterval += Time.deltaTime;
-            if (_currentInterval < spawnInterval) ;
+            if (_currentInterval < spawnInterval)
+            {
+
+            }
+
             else
             {
                 SpawnEnemy();
@@ -67,9 +76,19 @@ namespace proscryption
 
             return spawnPoint[r].transform.position;
         }
-        private void HandleEntityDied(GameObject @object)
+        private void HandleEntityDied(GameObject entity)
         {
-            throw new System.NotImplementedException();
+            if (entity.CompareTag("Enemy"))
+            {
+                howMuchKilled++;
+            }
+
+            if (howMuchKilled >= maxKill)
+            {
+                EventManager.BroadcastGameWin();
+                _wasStarted = false;
+
+            }
         }
 
 

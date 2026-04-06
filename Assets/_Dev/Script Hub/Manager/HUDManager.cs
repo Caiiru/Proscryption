@@ -8,6 +8,7 @@ namespace proscryption
     {
         List<GameObject> _hudComponents = new List<GameObject>();
         [SerializeField] GameObject deathScreen;
+        [SerializeField] GameObject winScreen;
         //Pause Menu
         [SerializeField] GameObject pauseScreen;
         PauseManager _pauseManager;
@@ -16,6 +17,7 @@ namespace proscryption
 
         void OnDisable()
         {
+            EventManager.OnGameWin -= OnGameWin;
             GameManager.OnGameStateChanged -= OnGameStateChanged;
         }
 
@@ -50,6 +52,10 @@ namespace proscryption
             {
                 Debug.LogWarning("Pause Screen reference is missing in HUDManager.");
             }
+            if (winScreen == null)
+            {
+                Debug.LogWarning("Win Screen reference is missing in HUDManager.");
+            }
             _pauseManager = pauseScreen.GetComponent<PauseManager>();
             SetupEvents();
             UpdateDeathScreenVisibility(false);
@@ -60,6 +66,8 @@ namespace proscryption
             //event subscribe
             // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
             GameManager.OnGameStateChanged += OnGameStateChanged;
+            EventManager.OnGameWin += OnGameWin;
+
 
             if (GameManager.Instance != null)
             {
@@ -68,6 +76,21 @@ namespace proscryption
 
 
         }
+
+        private void OnGameWin()
+        {
+            if (winScreen != null)
+            {
+                winScreen.SetActive(true);
+
+                winScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
+
+            }
+
+            _isActive = false;
+            SetHUDActive(_isActive);
+        }
+
         private void OnGameStateChanged(GameState newState)
         {
             switch (newState)
@@ -82,7 +105,7 @@ namespace proscryption
                 case GameState.Combat:
                     // _isActive = true;
                     break;
-                case GameState.Paused: 
+                case GameState.Paused:
                     return;
 
                     // Handle other states as needed
@@ -98,7 +121,8 @@ namespace proscryption
             foreach (GameObject hudComponent in _hudComponents)
             {
                 if (hudComponent == deathScreen ||
-                    hudComponent == pauseScreen) continue;
+                    hudComponent == pauseScreen ||
+                    hudComponent == winScreen) continue;
                 hudComponent.SetActive(isActive);
             }
 
@@ -119,7 +143,7 @@ namespace proscryption
             _isActive = false;
             SetHUDActive(_isActive);
         }
-         
+
 
     }
 }

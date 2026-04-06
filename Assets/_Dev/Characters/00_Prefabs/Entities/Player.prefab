@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651f9fda633c1f24ea39b3df89b01d75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
-  maxHealth: 100
-  maxStamina: 100
+  maxHealth: 25
+  maxStamina: 25
   staminaRegenPerSec: 5
   moveSpeed: 3
   _currentState: 0

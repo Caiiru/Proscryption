@@ -60,6 +60,7 @@ namespace proscryption
             EventManager.OnPlayerRollInput += HandleRollInput;
             EventManager.OnPlayerParryInput += HandleParryInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
+            EventManager.OnGameWin += OnGameWin;
             RefreshMainCamera();
         }
 
@@ -69,10 +70,11 @@ namespace proscryption
             EventManager.OnPlayerRollInput -= HandleRollInput;
             EventManager.OnPlayerParryInput -= HandleParryInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
+            EventManager.OnGameWin -= OnGameWin;
         }
         void Start()
         {
-            if(GameManager.Instance != null)
+            if (GameManager.Instance != null)
             {
                 transform.position = GameManager.Instance.GetPlayerSpawnPointPosition(0);
             }
@@ -319,6 +321,11 @@ namespace proscryption
         public void PrintState()
         {
             Debug.Log($"[PlayerController] State: {_model.CurrentState} | Health: {_model.CurrentHealth}/{_model.MaxHealth} | Stamina: {_model.CurrentStamina}/{_model.MaxStamina}", gameObject);
+        }
+
+        public void OnGameWin()
+        {
+            _model.SetCantMove();
         }
     }
 }

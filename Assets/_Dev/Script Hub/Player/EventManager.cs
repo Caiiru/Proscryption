@@ -50,6 +50,7 @@ public static class EventManager
     public static event Action OnGameLoaded;
     public static event Action OnGamePauseInput;
     public static event Action OnArenaStart;
+    public static event Action OnGameWin; 
 
 
 
@@ -131,6 +132,11 @@ public static class EventManager
     public static void TriggerEvent(string eventName)
     {
         BroadcastByName(eventName);
+    }
+    public static void BroadcastGameWin()
+    {
+        Debug.Log("Broadcast... GAME WIN ");
+        OnGameWin?.Invoke();
     }
     private static void BroadcastByName(string eventName)
     {

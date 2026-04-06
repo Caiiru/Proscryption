@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,6 +10,25 @@ namespace proscryption
         public ObjectPool<GameObject> enemyPool;
 
         public GameObject enemyPrefab;
+
+        void Start()
+        {
+            Initialize();
+            SetupEvents();
+        }
+        private void SetupEvents()
+        {
+
+            EventManager.OnGameWin += OnGameWinHandler;
+        }
+
+
+
+        void OnDisable()
+        {
+
+            EventManager.OnGameWin -= OnGameWinHandler;
+        }
         public void Initialize()
         {
             enemyPool = new ObjectPool<GameObject>(
@@ -19,10 +39,6 @@ namespace proscryption
                 maxSize: 50
                 );
 
-        }
-        void Start()
-        {
-            Initialize();
         }
 
         GameObject CreateEnemy()
@@ -39,6 +55,17 @@ namespace proscryption
         void OnReleaseEnemy(GameObject enemy)
         {
             enemy.SetActive(false);
+        }
+        private void OnGameWinHandler()
+        {
+            enemyPool.Clear();
+            enemyPool.Dispose();
+            var enemiesAlive = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (var enemy in enemiesAlive)
+            {
+                enemy.SetActive(false);
+                Destroy(enemy);
+            }
         }
 
         #region Singleton

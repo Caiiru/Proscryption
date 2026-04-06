@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.Initializer
   gameManagerPrefab: {fileID: 4355990986492020641, guid: c02f24111f8242d448be4b80481f259e, type: 3}
-  environmentPrefab: {fileID: 832108522188719393, guid: d20f156e69f52f14e9693f325c0cad4d, type: 3}
+  environmentPrefab: {fileID: 4896647480072312367, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
   playerPrefab: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-  enemyManagerPrefab: {fileID: 0}
-  hudManagerPrefab: {fileID: 425421427686207879, guid: 43c87516abc1bce41b0c578d510ae250, type: 3}
+  enemyManagerPrefab: {fileID: 5096701878161966981, guid: 524d37df0e1313f439092d67ee7c9c44, type: 3}
+  hudManagerPrefab: {fileID: 119639330005758828, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
   mainCameraPrefab: {fileID: 5712211188501300756, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+  arenaManagerPrefab: {fileID: 8682705496286556380, guid: fecd82dd3a288d54cabd5cb26ac9b5d0, type: 3}
+  audioManagerPrefab: {fileID: 2082700047927122447, guid: 3e8c8d9365e42b64e8918188e61b8707, type: 3}

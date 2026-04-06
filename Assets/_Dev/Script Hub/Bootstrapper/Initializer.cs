@@ -11,6 +11,7 @@ namespace proscryption
         public GameObject enemyManagerPrefab;
         public GameObject hudManagerPrefab;
         public GameObject mainCameraPrefab;
+        public GameObject arenaManagerPrefab;
         public GameObject audioManagerPrefab;
 
 
@@ -43,11 +44,12 @@ namespace proscryption
         {
             gameManagerPrefab = Instantiate(gameManagerPrefab);
             environmentPrefab = Instantiate(environmentPrefab);
-            // enemyManagerPrefab = Instantiate(enemyManagerPrefab);
+            enemyManagerPrefab = Instantiate(enemyManagerPrefab);
             playerPrefab = Instantiate(playerPrefab);
             hudManagerPrefab = Instantiate(hudManagerPrefab);
             mainCameraPrefab = Instantiate(mainCameraPrefab);
             audioManagerPrefab = Instantiate(audioManagerPrefab);
+            arenaManagerPrefab= Instantiate(arenaManagerPrefab);
         }
         async UniTask InitializeObjects()
         {

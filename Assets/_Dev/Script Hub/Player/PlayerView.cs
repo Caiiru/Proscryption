@@ -19,7 +19,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_INPUTING_TO_MOVE = "isMoveInput";
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
-    private const string PARAM_TAKE_DAMAGE = "takeDamage";
+    private const string PARAM_TAKE_DAMAGE = "TakeDamage";
     private const string PARAM_IS_PARRYING = "isParrying";
     private const string PARAM_DIE = "die";
 
@@ -133,8 +133,10 @@ public class PlayerView : MonoBehaviour
         if (target != gameObject) return;
         if (!_model.IsAlive) return;
         if (_model.IsInvulnerable) return;
-        
-        _animator.SetTrigger(PARAM_TAKE_DAMAGE);
+
+        Debug.Log("VIEW - TAKE DAMAGE");
+        if (_model.CurrentState != PlayerState.Attacking)
+            _animator.SetTrigger(PARAM_TAKE_DAMAGE);
 
         if (takeDamageVFX)
         {
