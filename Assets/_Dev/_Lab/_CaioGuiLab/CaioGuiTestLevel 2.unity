@@ -305,6 +305,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -110.03732
       objectReference: {fileID: 0}
+    - target: {fileID: 6088962802845101644, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_RenderShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6088962802845101644, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6122200575920847710, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
