@@ -326,7 +326,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 0.827451, g: 0.5130196, b: 0.53001595, a: 1}
-  m_Intensity: 3.39
+  m_Intensity: 9.22
   m_Range: 19.7
   m_SpotAngle: 83.90991
   m_InnerSpotAngle: 44.340836
@@ -525,6 +525,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4766021774276380747, guid: 974b2a3f8f11a274393618093532b3fa, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e60672e7cb3403d4a8cdca6e7da883c6, type: 2}
+    - target: {fileID: 4766021774276380747, guid: 974b2a3f8f11a274393618093532b3fa, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b4e7c56cf2ccd14884e6145563a85ac, type: 2}
     - target: {fileID: 5019816676016246694, guid: 974b2a3f8f11a274393618093532b3fa, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
