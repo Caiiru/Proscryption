@@ -11,6 +11,7 @@ namespace proscryption
         public GameObject enemyManagerPrefab;
         public GameObject hudManagerPrefab;
         public GameObject mainCameraPrefab;
+        public GameObject audioManagerPrefab;
 
 
         public static Initializer Instance { get; private set; }
@@ -46,6 +47,7 @@ namespace proscryption
             playerPrefab = Instantiate(playerPrefab);
             hudManagerPrefab = Instantiate(hudManagerPrefab);
             mainCameraPrefab = Instantiate(mainCameraPrefab);
+            audioManagerPrefab = Instantiate(audioManagerPrefab);
         }
         async UniTask InitializeObjects()
         {

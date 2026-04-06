@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: environmentPrefab
       value: 
       objectReference: {fileID: 4896647480072312367, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
+    - target: {fileID: 5196569782127050194, guid: 659b1747991274b4e85a5ce467806884, type: 3}
+      propertyPath: audioManagerPrefab
+      value: 
+      objectReference: {fileID: 2082700047927122447, guid: 3e8c8d9365e42b64e8918188e61b8707, type: 3}
     - target: {fileID: 8106946664199051553, guid: 659b1747991274b4e85a5ce467806884, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
