@@ -11,15 +11,19 @@ namespace proscryption
         private float _currentInterval = 0;
         private bool _wasStarted;
 
+        [SerializeField] private int howMuchKilled = 0;
+
         [Header("Spawn Point")]
         public GameObject[] spawnPoint;
 
         void OnEnable()
         {
             EventManager.OnArenaStart += StartArena;
-
+            EventManager.OnEntityDied += HandleEntityDied;
             GetEnemySpawnPoints();
         }
+
+
 
         void OnDisable()
         {
@@ -62,6 +66,10 @@ namespace proscryption
             int r = Random.Range(0, spawnPoint.Length);
 
             return spawnPoint[r].transform.position;
+        }
+        private void HandleEntityDied(GameObject @object)
+        {
+            throw new System.NotImplementedException();
         }
 
 

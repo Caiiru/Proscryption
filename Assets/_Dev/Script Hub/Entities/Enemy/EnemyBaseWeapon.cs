@@ -18,9 +18,11 @@ namespace proscryption
             {
                 other.TryGetComponent<PlayerModel>(out PlayerModel playerEntity);
 
-                if (!playerEntity) return;
-
+                if (!playerEntity) return;  
                 EventManager.BroadcastHitDetected(other.transform.position, _owner.GetDamage(), other.gameObject);
+                _owner.MakeCantHit();
+
+
                 // _owner.GetDamage(), _owner.gameObject);
 
             }

@@ -329,6 +329,7 @@ namespace proscryption.Enemy
         {
             SetIsAttacking(true);
             _lastAttackTime = Time.time;
+            _enemyEntity.MakeCanHit();
         }
 
         /// <summary>

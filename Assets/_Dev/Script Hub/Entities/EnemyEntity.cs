@@ -12,7 +12,7 @@ namespace proscryption
         private float currentAttackTime;
         public int minDamage = 3;
         public int maxDamage = 8;
-        public EnemyBaseWeapon currentWeapon;
+        public EnemyBaseWeapon[] weapons;
         private bool canHit;
 
         // State Machine
@@ -25,9 +25,10 @@ namespace proscryption
             // Obtém o EnemyController (que contém a state machine)
             _enemyController = GetComponent<EnemyController>();
 
-            if (currentWeapon)
+            foreach (EnemyBaseWeapon weapon in weapons)
             {
-                currentWeapon.SetOwner(this);
+                weapon.SetOwner(this);
+
             }
         }
 
@@ -92,7 +93,7 @@ namespace proscryption
 
         public bool GetCanHit()
         {
-            return canHit;
+            return _enemyController.GetIsAttacking() && canHit;
         }
 
         public void MakeCanHit()

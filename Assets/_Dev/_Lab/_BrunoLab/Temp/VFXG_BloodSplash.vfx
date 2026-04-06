@@ -38,9 +38,9 @@ MonoBehaviour:
   uiBounds:
     serializedVersion: 2
     x: 662
-    y: -1434
+    y: -1433
     width: 1461
-    height: 4336
+    height: 4354
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3732,7 +3732,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.TArcSphere, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":0.1599999964237213},"arc":6.2831854820251469}'
+      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":0.1599999964237213},"arc":3.0}'
     m_Space: 0
   m_Property:
     name: arcSphere
@@ -5489,7 +5489,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.2
     m_Space: -1
   m_Property:
     name: A
@@ -5523,7 +5523,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 3
+      m_SerializableObject: 1
     m_Space: -1
   m_Property:
     name: B
@@ -6019,7 +6019,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"0106dd1d395a7b241b50e8e7b1bede38","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9cf0f0105c9310f40849dcdfa310530d","type":3}}'
     m_Space: -1
   m_Property:
     name: baseColorMap

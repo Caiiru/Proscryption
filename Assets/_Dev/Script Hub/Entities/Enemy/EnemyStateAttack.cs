@@ -33,8 +33,7 @@ namespace proscryption.Enemy
             _isCharging = true;
  
             _controller.SelectRandomAttackCharge();
-            _chargeDelayTime = _controller.GetAttackChargeDelay();
-
+            _chargeDelayTime = _controller.GetAttackChargeDelay(); 
             // Registra que atacou (para cooldown)
             _controller.RegisterAttack();
             _alreadyAttack = false; 

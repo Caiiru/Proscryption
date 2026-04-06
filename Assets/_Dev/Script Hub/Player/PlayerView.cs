@@ -1,6 +1,7 @@
 using System;
 using proscryption;
 using UnityEngine;
+using UnityEngine.VFX;
 
 /// <summary>
 /// PlayerView - MVC View Layer
@@ -22,6 +23,9 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_PARRYING = "isParrying";
     private const string PARAM_DIE = "die";
 
+    [Header("VFX")]
+    public VisualEffect takeDamageVFX;
+
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -35,14 +39,24 @@ public class PlayerView : MonoBehaviour
         EventManager.OnPlayerAttack += HandleAttackPlayed;
         EventManager.OnEntityDamaged += HandleDamageTaken;
         EventManager.OnPlayerHealthChanged += HandleHealthChanged;
+        EventManager.OnHitDetected += HandleHitDetected;
     }
+
 
     void OnDisable()
     {
+        EventManager.OnHitDetected -= HandleHitDetected;
         EventManager.OnPlayerStateChanged -= HandleStateChanged;
         EventManager.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
         EventManager.OnPlayerHealthChanged -= HandleHealthChanged;
+    }
+    void Start()
+    {
+        if (takeDamageVFX)
+        {
+            takeDamageVFX.Stop();
+        }
     }
     // ===== STATE CHANGE HANDLERS =====
 
@@ -106,15 +120,31 @@ public class PlayerView : MonoBehaviour
     private void HandleDamageTaken(int damage, GameObject damageSource)
     {
         // Only if damage was to this player
-        if (damageSource == gameObject || damageSource.GetComponent<BaseWeapon>()?.transform.parent != transform)
-            return;
+        // if (damageSource == gameObject || damageSource.GetComponent<BaseWeapon>()?.transform.parent != transform)
+        //     return;
 
-        
-        _animator.SetTrigger(PARAM_TAKE_DAMAGE);
+
+
         Debug.Log($"[PlayerView] Hit animation played", gameObject);
     }
+    private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)
+    {
 
+        if (target != gameObject) return;
+        if (!_model.IsAlive) return;
+        if (_model.IsInvulnerable) return;
+        
+        _animator.SetTrigger(PARAM_TAKE_DAMAGE);
+
+        if (takeDamageVFX)
+        {
+            takeDamageVFX.Play();
+        }
+
+
+    }
     /// <summary>
+    /// 
     /// React to health changes (could change UI color, visual indicator)
     /// </summary>
     private void HandleHealthChanged(int newHealth, int maxHealth)
