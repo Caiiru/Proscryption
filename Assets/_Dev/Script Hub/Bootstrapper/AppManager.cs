@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 namespace proscryption
 {
     [Serializable]
-    public enum AppState { Initializing, MainMenu, Config, Playing, Paused, GameOver }
+    public enum AppState { Initializing, MainMenu, Config, Cutscene, Playing, Paused, GameOver }
     public class AppManager : MonoBehaviour
     {
         public static AppManager Instance { get; private set; }
@@ -53,6 +53,10 @@ namespace proscryption
                 case AppState.MainMenu:
                     SceneManager.LoadScene("MainMenuScreen"); // Example: Load main menu scene
                     // Load main menu scene or show main menu UI
+                    break;
+                case AppState.Cutscene:
+                    SceneManager.LoadScene("CutsceneScreen");
+                    
                     break;
                 case AppState.Playing:
                     SceneManager.LoadScene("LoadingScreen");

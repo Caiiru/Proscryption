@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScreen.unity
     guid: 44963e54866b2424ca622c2cf4c5b4f7
+  - enabled: 1
+    path: Assets/Scenes/CutsceneScreen.unity
+    guid: 273b48ea648f85b47a64726777aeec05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

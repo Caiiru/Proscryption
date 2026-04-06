@@ -24,7 +24,7 @@ namespace proscryption
                 return;
             }
 
-            PlayButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Playing).Forget());
+            PlayButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget());
             ConfigButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Config).Forget());
             QuitButton.onClick.AddListener(() => Application.Quit());
         }

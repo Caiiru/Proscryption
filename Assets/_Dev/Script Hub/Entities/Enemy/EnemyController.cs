@@ -81,7 +81,7 @@ namespace proscryption.Enemy
         private void CacheComponentReferences()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _animator = GetComponentInChildren<Animator>();
+            _animator = GetComponent<Animator>();
             _enemyEntity = GetComponent<EnemyEntity>();
         }
 
@@ -337,7 +337,7 @@ namespace proscryption.Enemy
         {
             SetIsAttacking(true);
             _lastAttackTime = Time.time;
-            _enemyEntity.MakeCanHit();
+            // _enemyEntity.MakeCanHit();
         }
 
         /// <summary>
