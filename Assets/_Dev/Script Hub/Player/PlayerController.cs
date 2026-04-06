@@ -38,6 +38,7 @@ namespace proscryption
         private float _rollCooldownTimer = 0f;
         private float _rollTimer = 0f;
         private bool _isRolling = false;
+        private bool _canGetInput = true;
 
         [SerializeField] private bool _isParrying = false;
 
@@ -61,8 +62,10 @@ namespace proscryption
             EventManager.OnPlayerParryInput += HandleParryInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
+            EventManager.OnPlayerStateChanged += HandlePlayerState;
             RefreshMainCamera();
         }
+
 
         void OnDisable()
         {
@@ -70,6 +73,7 @@ namespace proscryption
             EventManager.OnPlayerRollInput -= HandleRollInput;
             EventManager.OnPlayerParryInput -= HandleParryInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
+            EventManager.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
         }
         void Start()
@@ -78,6 +82,7 @@ namespace proscryption
             {
                 transform.position = GameManager.Instance.GetPlayerSpawnPointPosition(0);
             }
+            _canGetInput = true;
         }
 
         // ===== INPUT HANDLERS =====
@@ -87,6 +92,7 @@ namespace proscryption
         /// </summary>
         private void HandleMoveInput(Vector2 input)
         {
+            if (!_canGetInput) return;
             _moveInput = input;
 
             // // Ask model if we can move
@@ -114,6 +120,7 @@ namespace proscryption
         /// </summary>
         private void HandleRollInput()
         {
+            if (!_canGetInput) return;
             // Ask model if we can roll
             if (!_model.CanRoll())
             {
@@ -138,6 +145,7 @@ namespace proscryption
 
         private void HandleParryInput()
         {
+            if (!_canGetInput) return;
 
             if (!_model.TryConsumeStamina(15))
             {
@@ -164,6 +172,7 @@ namespace proscryption
         void FixedUpdate()
         {
 
+            if (!_canGetInput) return;
             // Always regenerate stamina
             _model.RegenerateStamina(Time.fixedDeltaTime);
 
@@ -313,6 +322,14 @@ namespace proscryption
             if (_rollCooldownTimer > 0)
             {
                 _rollCooldownTimer -= Time.fixedDeltaTime;
+            }
+        }
+
+        private void HandlePlayerState(PlayerState oldstate, PlayerState newState)
+        {
+            if (newState == PlayerState.Dead)
+            {
+                _model.SetCantMove();
             }
         }
 

@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks; 
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -57,11 +57,17 @@ namespace proscryption
                 case AppState.Playing:
                     SceneManager.LoadScene("LoadingScreen");
                     await LoadSceneAsync("GameScreen");
+                    SetCursor(CursorLockMode.Locked);
+                    SetCursorVisibility(false);
                     break;
                 case AppState.Paused:
+                    SetCursor(CursorLockMode.None);
+                    SetCursorVisibility(true);
                     // Pause the game, show pause menu, etc.
                     break;
                 case AppState.GameOver:
+                    SetCursor(CursorLockMode.None);
+                    SetCursorVisibility(true);
                     // Show game over screen, handle cleanup, etc.
                     break;
                 default:
@@ -130,6 +136,16 @@ namespace proscryption
                 systemsRoot.AddComponent<Initializer>();
             }
             Initializer.Instance.Initialize();
+        }
+
+        private void SetCursor(CursorLockMode mode)
+        {
+            Cursor.lockState = mode;
+        }
+        private void SetCursorVisibility(bool visible)
+        {
+            Cursor.visible = visible;
+
         }
     }
 }

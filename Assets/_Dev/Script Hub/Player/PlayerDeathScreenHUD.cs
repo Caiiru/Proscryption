@@ -31,6 +31,9 @@ namespace proscryption
 
         public void ShowDeathScreen()
         {
+
+            _ = AppManager.Instance.ChangeAppState(AppState.GameOver);
+            Cursor.visible = true;
             this.gameObject.SetActive(true);
             Color startColor = new Color(backgroundImage.color.r, backgroundImage.color.g, backgroundImage.color.b, 0);
             Color endColor = new Color(backgroundImage.color.r, backgroundImage.color.g, backgroundImage.color.b, 0.75f);
@@ -44,11 +47,11 @@ namespace proscryption
             {
                 respawnButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).Play();
             });
- 
+
         }
         private void OnRespawnButtonClicked()
         {
-            AppManager.Instance.ChangeAppState(AppState.MainMenu);
+            _ = AppManager.Instance.ChangeAppState(AppState.MainMenu);
         }
     }
 }

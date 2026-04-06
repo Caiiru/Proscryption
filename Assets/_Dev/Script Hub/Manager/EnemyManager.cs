@@ -18,7 +18,7 @@ namespace proscryption
         }
         private void SetupEvents()
         {
-
+            EventManager.OnEntityDied += OnEntityDieHandler;
             EventManager.OnGameWin += OnGameWinHandler;
         }
 
@@ -27,6 +27,7 @@ namespace proscryption
         void OnDisable()
         {
 
+            EventManager.OnEntityDied -= OnEntityDieHandler;
             EventManager.OnGameWin -= OnGameWinHandler;
         }
         public void Initialize()
@@ -65,6 +66,13 @@ namespace proscryption
             {
                 enemy.SetActive(false);
                 Destroy(enemy);
+            }
+        }
+        private void OnEntityDieHandler(GameObject entity)
+        {
+            if (entity.CompareTag("Player"))
+            {
+                OnGameWinHandler();
             }
         }
 

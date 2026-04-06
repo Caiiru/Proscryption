@@ -93,6 +93,7 @@ public class PlayerView : MonoBehaviour
 
             case PlayerState.Dead:
                 _animator.SetTrigger(PARAM_DIE);
+                this.gameObject.SetActive(false);
                 break;
 
             case PlayerState.Stunned:
