@@ -294,9 +294,17 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1026583773}
+    - target: {fileID: 5660801458522368935, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: field of view
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 5712211188501300756, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_Name
       value: CAM_Holder
+      objectReference: {fileID: 0}
+    - target: {fileID: 6088962802845101644, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6122200575920847710, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: Target.TrackingTarget
@@ -322,6 +330,18 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1026583773}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -113.77364
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.269778
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -106.27216
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
