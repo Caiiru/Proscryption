@@ -591,6 +591,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: DropShadow
       objectReference: {fileID: 0}
+    - target: {fileID: 2237255617596359692, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.13966852
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237255617596359692, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13966852
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237255617596359692, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.13966852
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6255334018210407199, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
     m_RemovedGameObjects: []
