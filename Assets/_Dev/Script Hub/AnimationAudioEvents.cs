@@ -19,7 +19,7 @@ public class AnimationAudioEvents : MonoBehaviour
             if (e.name == eventName)
             {
                 RuntimeManager.PlayOneShot(e.fmodEvent, transform.position);
-                Debug.Log($"Sound played: {eventName}");
+                // Debug.Log($"Sound played: {eventName}");
                 return;
             }
         }

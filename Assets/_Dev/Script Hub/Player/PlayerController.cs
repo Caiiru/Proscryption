@@ -70,6 +70,13 @@ namespace proscryption
             EventManager.OnPlayerParryInput -= HandleParryInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
         }
+        void Start()
+        {
+            if(GameManager.Instance != null)
+            {
+                transform.position = GameManager.Instance.GetPlayerSpawnPointPosition(0);
+            }
+        }
 
         // ===== INPUT HANDLERS =====
 

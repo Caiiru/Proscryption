@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0985531fd2f5a94fb657b550f485dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.GameManager
+  playerSpawnPoint: {fileID: 0}

@@ -19,7 +19,7 @@ namespace proscryption
         GameObject _playerObject;
 
         [Header("Level Settings")]
-        public Transform[] playerSpawnPoints;
+        public Transform playerSpawnPoint;
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -114,17 +114,19 @@ namespace proscryption
 
         public Vector3 GetPlayerSpawnPointPosition(int index)
         {
-            if (index < 0 || index >= playerSpawnPoints.Length)
+            var _spawnPoint = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            if (index < 0 || index >= _spawnPoint.Length)
             {
-                // Debug.LogWarning($"Requested spawn point index {index} is out of range. Returning default spawn point.");
-                return new Vector3(0, 0.5f, 0);
+                Debug.LogWarning($"Invalid spawn point index: {index}. Returning default position.");
+                return new Vector3(0, 0.5f, 0); ;
             }
-            return playerSpawnPoints[index].position;
+            this.playerSpawnPoint = _spawnPoint[index].transform;
+            return _spawnPoint[index].transform.position;
         }
 
 
         private void HandleGamePauseToggle()
-        { 
+        {
             if (CurrentState == GameState.Paused)
             {
                 ChangeGameState(GameState.Roaming);
@@ -132,5 +134,7 @@ namespace proscryption
             else
                 ChangeGameState(GameState.Paused);
         }
+
+       
     }
 }
