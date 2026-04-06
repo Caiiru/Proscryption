@@ -99,6 +99,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2021413768239729246}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3564005915297293976}
   m_SourcePrefab: {fileID: 100100000, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
 --- !u!1 &157244375868647524 stripped
 GameObject:
@@ -127,6 +130,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3564005915297293976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157244375868647524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63437acbc0bcf51438d75cd47f3ab64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FmodAnimation
+  events:
+  - name: MinionAttack
+    fmodEvent:
+      Guid:
+        Data1: 1865009693
+        Data2: 1147255893
+        Data3: 1170539967
+        Data4: 258735322
+      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Attack_01
+  - name: MinionDeath
+    fmodEvent:
+      Guid:
+        Data1: 1091577455
+        Data2: 1320003332
+        Data3: 624248240
+        Data4: -96288173
+      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Death
+  - name: MinionStunned
+    fmodEvent:
+      Guid:
+        Data1: -1908012775
+        Data2: 1202699806
+        Data3: -535921266
+        Data4: -988388042
+      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Stunned
+  - name: MinionTakeDamage
+    fmodEvent:
+      Guid:
+        Data1: 1174184294
+        Data2: 1151514617
+        Data3: -1396518215
+        Data4: 90440435
+      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_TakeDamage
 --- !u!4 &677075144264676062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
