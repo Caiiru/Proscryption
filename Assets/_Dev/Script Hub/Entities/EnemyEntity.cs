@@ -1,5 +1,6 @@
 using UnityEngine;
 using proscryption.Enemy;
+using UnityEngine.VFX;
 
 namespace proscryption
 {
@@ -18,6 +19,10 @@ namespace proscryption
         // State Machine
         private EnemyController _enemyController;
 
+        [Header("VFX")]
+        public VisualEffect takeDamageVFX;
+        public VisualEffect deathVFX;
+
         public override void Start()
         {
             base.Start();
@@ -30,6 +35,20 @@ namespace proscryption
                 weapon.SetOwner(this);
 
             }
+
+            SetupVFX();
+        }
+        void SetupVFX()
+        {
+            if (takeDamageVFX)
+            {
+                takeDamageVFX.Stop();
+            }
+            if (deathVFX)
+            {
+                deathVFX.Stop();
+            }
+
         }
 
         // public void Update()
@@ -71,6 +90,10 @@ namespace proscryption
             {
                 _enemyController.OnDamageTaken();
             }
+            if (takeDamageVFX)
+            {
+                takeDamageVFX.Play();
+            }
         }
 
         /// <summary>
@@ -83,6 +106,10 @@ namespace proscryption
             if (_enemyController)
             {
                 _enemyController.OnDeath();
+            }
+            if (deathVFX)
+            {
+                deathVFX.Play();
             }
         }
 

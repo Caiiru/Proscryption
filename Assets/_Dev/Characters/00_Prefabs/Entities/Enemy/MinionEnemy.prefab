@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4657855042612550368
 Transform:
   m_ObjectHideFlags: 0
@@ -34,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7661723537863776744}
+  - {fileID: 8872150038778333940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4774630135149927782
@@ -76,8 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a792294a498d14e9fda5fd6afe09c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.MinionEntity
-  health: 10
-  maxHealth: 10
+  health: 15
+  maxHealth: 15
   canTakeDamage: 1
   canAttack: 0
   attackTime: 6
@@ -86,6 +87,8 @@ MonoBehaviour:
   weapons:
   - {fileID: 2294611590630411918}
   - {fileID: 900633042171722267}
+  takeDamageVFX: {fileID: 4515936448572087485}
+  deathVFX: {fileID: 0}
 --- !u!54 &5668625411635622873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -973,4 +976,71 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7537606510616246680, guid: 8171e2e07f5c7f34589a240f481e2676, type: 3}
   m_PrefabInstance: {fileID: 200724479065546864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2544967918981801513
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4657855042612550368}
+    m_Modifications:
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042894999313757407, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_Name
+      value: VFX_BloodSplash
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+--- !u!2083052967 &4515936448572087485 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+  m_PrefabInstance: {fileID: 2544967918981801513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8872150038778333940 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+  m_PrefabInstance: {fileID: 2544967918981801513}
   m_PrefabAsset: {fileID: 0}

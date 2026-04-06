@@ -208,6 +208,14 @@ namespace proscryption.Enemy
             }
         }
 
+        internal void SetAnimationBool(string parameterName, bool value)
+        {
+            if (_animator)
+            {
+                _animator.SetBool(parameterName, value);
+            }
+        }
+
         public bool CanSeePlayer()
         {
             if (!_playerTransform)
@@ -226,7 +234,7 @@ namespace proscryption.Enemy
             return distanceToPlayer <= attackRange;
         }
 
-        
+
         public void MoveTowardsPlayer()
         {
             if (!_playerTransform || (_movementSystem == null))
@@ -266,7 +274,7 @@ namespace proscryption.Enemy
             if (!_playerTransform || (_movementSystem == null))
                 return;
 
-            _movementSystem.MoveAwayFrom(_playerTransform.position); 
+            _movementSystem.MoveAwayFrom(_playerTransform.position);
         }
 
         public void ExecuteAttack()
@@ -374,7 +382,8 @@ namespace proscryption.Enemy
             float speedMultiplier = speed / moveSpeed;
             _movementSystem.MoveInDirection(direction, speedMultiplier);
         }
-        public void RotateTowardsDirection(Vector3 direction, float? rotationSpeed = null){
+        public void RotateTowardsDirection(Vector3 direction, float? rotationSpeed = null)
+        {
             if (_movementSystem == null)
                 return;
 
@@ -509,6 +518,7 @@ namespace proscryption.Enemy
             Gizmos.DrawWireSphere(transform.position, inputReadingRange);
 
         }
+
     }
 
 

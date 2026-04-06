@@ -16,7 +16,7 @@ namespace proscryption.Enemy
     {
         private readonly EnemyController _controller;
         private float _damageRecoveryTimer;
-        private const float DAMAGE_RECOVERY_TIME = 0.5f;
+        private const float DAMAGE_RECOVERY_TIME = 1f;
         private float _damageTakenThisFrame;
         private bool _poiseWasBroken;
 
@@ -28,7 +28,8 @@ namespace proscryption.Enemy
         public void Enter()
         {
             // Transição para animação de dano flinch
-            _controller.SetAnimationState("TakeDamage");
+            // _controller.SetAnimationState("TakeDamage");
+            _controller.SetAnimationBool("MinionIsStunned", true);
             _damageRecoveryTimer = 0f;
             _poiseWasBroken = false;
 
@@ -78,6 +79,8 @@ namespace proscryption.Enemy
         public void Exit()
         {
             _damageRecoveryTimer = 0f;
+
+            _controller.SetAnimationBool("MinionIsStunned", false);
         }
     }
 }

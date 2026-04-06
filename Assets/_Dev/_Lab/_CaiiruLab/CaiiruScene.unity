@@ -370,19 +370,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.71439207
       objectReference: {fileID: 0}
     - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.31210914
       objectReference: {fileID: 0}
     - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.5739024
       objectReference: {fileID: 0}
     - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.25073466
       objectReference: {fileID: 0}
     - target: {fileID: 7634181183004879957, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_Mesh
