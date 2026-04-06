@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167679525c68ee84dbc5900167a21cd1, type: 3}
+  m_Name: Nota_HitBox_639110272988742673
+  m_EditorClassIdentifier: BuzzGames.SceneDocs.Runtime::BuzzGames.SceneDocs.SceneNoteData
+  isSetup: 1
+  title: hitbox para iniciar a arena
+  content: 
+  author: caiogome125@gmail.com
+  createdDate: 05/04/2026 23:08:18
+  sprint: Sprint 1
+  noteTypeId: design
+  targetRoleId: 
+  status: 1
+  position: {x: 0, y: 1, z: 0}
+  sceneName: CaiiruScene
+  cameraPosition: {x: 25.243462, y: -9.73825, z: 13.739512}
+  cameraRotation: {x: 0.32686242, y: -0.016826916, z: 0.005682103, w: 0.9450123}
+  cameraSize: 12.5499
+  isOrthographic: 0
+  notionPageId: 
+  screenshotPaths: []
+  comments: []

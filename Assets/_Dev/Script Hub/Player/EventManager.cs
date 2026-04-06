@@ -49,6 +49,7 @@ public static class EventManager
     // ===== GAME EVENTS =====
     public static event Action OnGameLoaded;
     public static event Action OnGamePauseInput;
+    public static event Action OnArenaStart;
 
 
 
@@ -125,6 +126,39 @@ public static class EventManager
     {
         Debug.Log("Broadcasting pause input from EventManager.");
         OnGamePauseInput?.Invoke();
+    }
+
+    public static void TriggerEvent(string eventName)
+    {
+        BroadcastByName(eventName);
+    }
+    private static void BroadcastByName(string eventName)
+    {
+        switch (eventName)
+        {
+            case "OnPlayerAttackInput":
+                OnPlayerAttackInput?.Invoke();
+                break;
+            case "OnPlayerRollInput":
+                OnPlayerRollInput?.Invoke();
+                break;
+            case "OnPlayerParryInput":
+                OnPlayerParryInput?.Invoke();
+                break;
+            case "OnGameLoaded":
+                OnGameLoaded?.Invoke();
+                break;
+            case "OnGamePauseInput":
+                OnGamePauseInput?.Invoke();
+                break;
+            case "ArenaStart":
+                OnArenaStart?.Invoke();
+                break;
+            default:
+                Debug.LogWarning($"[EventManager] Event name '{eventName}' not recognized in BroadcastByName.");
+                break;
+        }
+
     }
 }
 
