@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 3831590441414815693}
   - component: {fileID: 6345327121514093605}
   - component: {fileID: 5744061998686413749}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 6784375901952338810}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.482, z: 0}
+  m_LocalPosition: {x: 0.01, y: 1.819, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,7 +325,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 0.827451, g: 0.5130196, b: 0.53001595, a: 1}
+  m_Color: {r: 0.827451, g: 0.667056, b: 0.61976075, a: 1}
   m_Intensity: 3.39
   m_Range: 19.7
   m_SpotAngle: 83.90991
@@ -549,11 +549,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 962954920169227006, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.088
       objectReference: {fileID: 0}
     - target: {fileID: 962954920169227006, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.04
+      value: -0.99
       objectReference: {fileID: 0}
     - target: {fileID: 962954920169227006, guid: 84e4709d8b7ebf6448b50ac8a5894ff0, type: 3}
       propertyPath: m_LocalPosition.z
