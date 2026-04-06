@@ -63,9 +63,10 @@ namespace proscryption.Enemy
             }
 
             // COMPORTAMENTO 2: Longe demais (persegue o jogador)
-            if (distanceToPlayer > preferredDistance * 1.3f)
+            if (distanceToPlayer > attackRange)
             {
                 _controller.MoveTowardsPlayer();
+                _controller.RotateTowardsPlayer();
                 _circleTransitionTimer = 0f;
 
                 return;
@@ -77,7 +78,7 @@ namespace proscryption.Enemy
             _controller.RotateTowardsPlayer();
 
             // TRANSIÇÃO PRIORIDADE 2: Pode atacar (cooldown passou)
-            if (_controller.CanAttack())
+            if (_controller.CanAttack() && distanceToPlayer <= attackRange)
             {
                 _circleTransitionTimer = 0f;
                 _controller.StateMachine.TransitionTo(_controller.AttackState);

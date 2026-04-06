@@ -1,46 +1,55 @@
 using UnityEngine;
+using proscryption.Enemy.Refactor;
+using Unity.VisualScripting;
 
 namespace proscryption.Enemy
 {
-    /// <summary>
-    /// Controlador do inimigo com state machine
-    /// Integra-se com EnemyEntity para combater sistema existente
-    /// </summary>
     [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(Rigidbody))]
     public class EnemyController : MonoBehaviour
     {
-
         public string currentStateName;
-        [Header("Stats")]
+        [Header("Detection")]
         [SerializeField] private float detectionRange = 15f;
         [SerializeField] private float attackRange = 2f;
-        [SerializeField] private float moveSpeed = 5f;
-        public float attackTime = 1.5f;
-        [SerializeField] private float attackCooldown = 2f;
+        [SerializeField] private float combatRange = 2f;
 
-        [Header("Rotation")]
+        [Header("Movement")]
+        [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float rotationSpeed = 10f;
 
-        [Header("Poise System")]
-        [SerializeField] private float maxPoise = 100f; // Quantidade total de poise antes de quebrar
-        [SerializeField] private float poiseRegenerationRate = 5f; // Poise regenerado por segundo sem dano
-        [SerializeField] private float damageToPoiseDamageMultiplier = 0.5f; // Quanto dano recebido vira dano de poise
-        private float _currentPoise;
+        [Header("Attack")]
+        public float attackTime = 1.5f;
+        [SerializeField] private float attackCooldown = 2f;
+        [SerializeField] private float[] attackChargeDelays = { 0.3f, 0.5f, 0.8f, 1.2f };
+        private float _currentAttackChargeDelay;
+        [SerializeField] private bool _isAttacking = false;
+        private float _lastAttackTime = -999f;
 
-        [Header("Attack Delays")]
-        [SerializeField] private float[] attackChargeDelays = { 0.3f, 0.5f, 0.8f, 1.2f }; // Variação de delays de carregamento
-        private float _currentAttackChargeDelay; // Delay aplicado ao ataque atual
-        private bool _isAttacking = false;
+        [Header("Poise System (Config)")]
+        [SerializeField] private float maxPoise = 100f;
+        [SerializeField] private float poiseRegenerationRate = 5f;
+        [SerializeField] private float damageToPoiseDamageMultiplier = 0.5f;
 
-        [Header("Input Reading")]
-        [SerializeField] private float inputReadingRange = 15f; // Alcance para detectar ações do jogador
-        [SerializeField] private float healingDetectionCooldown = 3f; // Cooldown entre reações a cura
-        private float _lastHealingReactionTime = -999f;
+        [Header("Input Reading (Config)")]
+        [SerializeField] private float inputReadingRange = 15f;
+        [SerializeField] private float healingDetectionCooldown = 3f;
 
         [Header("References")]
         private Transform _playerTransform;
         private Rigidbody _rigidbody;
         private Animator _animator;
+
+        // ============================================================
+        // SUBSISTEMAS REFATORADOS (Fase 1)
+        // ============================================================
+        private EnemyPoiseSystem _poiseSystem;
+        private EnemyMovement _movementSystem;
+        private EnemyInputReader _inputReaderSystem;
+
+        // Acessores públicos para subsistemas (para possível acesso de estados)
+        public EnemyPoiseSystem PoiseSystem => _poiseSystem;
+        public EnemyMovement MovementSystem => _movementSystem;
+        public EnemyInputReader InputReaderSystem => _inputReaderSystem;
 
         // State Machine
         private EnemyStateMachine _stateMachine;
@@ -58,32 +67,80 @@ namespace proscryption.Enemy
         // Referência à EnemyEntity
         private EnemyEntity _enemyEntity;
 
-        // Cooldown de ataque
-        private float _lastAttackTime = -999f;
-
         private void OnEnable()
+        {
+            CacheComponentReferences();
+            FindPlayerReference();
+            InitializeSubsystems();
+            InitializeStateMachine();
+        }
+
+        /// <summary>
+        /// Cacheia componentes do próprio inimigo
+        /// </summary>
+        private void CacheComponentReferences()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponentInChildren<Animator>();
             _enemyEntity = GetComponent<EnemyEntity>();
+        }
 
-            // Procura o jogador
+        /// <summary>
+        /// Encontra a referência do player no mundo
+        /// </summary>
+        private void FindPlayerReference()
+        {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject)
-            {
                 _playerTransform = playerObject.transform;
-            }
+        }
 
-            // Inicializa o sistema de poise
-            _currentPoise = maxPoise;
+        /// <summary>
+        /// Inicializa todos os subsistemas refatorados
+        /// </summary>
+        private void InitializeSubsystems()
+        {
+            // Inicializa EnemyPoiseSystem
+            _poiseSystem = new EnemyPoiseSystem(
+                maxPoise,
+                poiseRegenerationRate,
+                damageToPoiseDamageMultiplier
+            );
 
-            // Criaos estados
+            // Hook de eventos do Poise System
+            _poiseSystem.OnPoiseBreak += HandlePoiseBreak;
+
+            // Inicializa EnemyMovement
+            _movementSystem = this.AddComponent<EnemyMovement>();
+            _movementSystem.Setup(
+                _rigidbody,
+                moveSpeed,
+                rotationSpeed
+            );
+
+            // Inicializa EnemyInputReader
+            _inputReaderSystem = new EnemyInputReader(
+                _playerTransform,
+                inputReadingRange,
+                healingDetectionCooldown
+            );
+
+            // Hook de eventos do Input Reader
+            _inputReaderSystem.OnPlayerHealing += HandlePlayerHealing;
+        }
+
+        /// <summary>
+        /// Inicializa a state machine e estados
+        /// </summary>
+        private void InitializeStateMachine()
+        {
+            // Cria os estados
             IdleState = new EnemyStateIdle(this);
             ChaseState = new EnemyStateChase(this);
             CircleState = new EnemyStateCircle(this);
             AttackState = new EnemyStateAttack(this);
             DamagedState = new EnemyStateDamaged(this);
-            StaggerState = new EnemyStateStagger(this); // Inicializa novo estado
+            StaggerState = new EnemyStateStagger(this);
             DeathState = new EnemyStateDeath(this);
 
             // Inicializa a state machine
@@ -93,15 +150,46 @@ namespace proscryption.Enemy
 
         private void Update()
         {
+            // Atualiza subsistemas independentes
+            _poiseSystem?.Update();
+            _inputReaderSystem?.Update();
+            _movementSystem?.DrawDebugGizmos(transform.position, Color.red);
+
+            // Atualiza state machine
             _stateMachine.Update();
 
-            // Sistema de regeneração de poise (quando não está em combate ativo)
-            RegeneratePoise();
-
-            // Verifica constantemente por Input Reading (reações a cura do jogador)
-            CheckForPlayerHealing();
-
+            // Debug
             currentStateName = StateMachine.CurrentState.GetType().Name;
+        }
+
+        /// <summary>
+        /// Callback disparado quando poise quebra
+        /// </summary>
+        private void HandlePoiseBreak()
+        {
+            Debug.Log($"[{gameObject.name}] Poise quebrou! Entrando em Stagger...");
+
+            if (!_stateMachine.CurrentState.Equals(StaggerState))
+            {
+                _stateMachine.TransitionTo(StaggerState);
+            }
+        }
+
+        /// <summary>
+        /// Callback disparado quando player começa a se curar
+        /// </summary>
+        private void HandlePlayerHealing()
+        {
+            Debug.Log($"[{gameObject.name}] Input Reading: Player está se curando! Reagindo agressivamente...");
+
+            // Se pode atacar, força ataque se estiver em alcance
+            if (CanAttack() && IsInAttackRange())
+            {
+                if (!_stateMachine.CurrentState.Equals(AttackState))
+                {
+                    _stateMachine.TransitionTo(AttackState);
+                }
+            }
         }
 
         #region Estado Methods
@@ -138,49 +226,47 @@ namespace proscryption.Enemy
             return distanceToPlayer <= attackRange;
         }
 
+        
         public void MoveTowardsPlayer()
         {
-            if (!_playerTransform || !_rigidbody)
+            if (!_playerTransform || (_movementSystem == null))
                 return;
 
-            Vector3 direction = (_playerTransform.position - transform.position).normalized;
-            Debug.DrawLine(transform.position, transform.position + direction, Color.red);
-            _rigidbody.linearVelocity = new Vector3(direction.x * moveSpeed, _rigidbody.linearVelocity.y, direction.z * moveSpeed);
-
-            // Rotaciona na direção do movimento
-            RotateTowardsPlayer();
+            _movementSystem.MoveTowards(_playerTransform.position);
+            _movementSystem.RotateTowards(_playerTransform.position);
         }
 
+        /// <summary>
+        /// Rotaciona em direção ao player
+        /// Delegado via EnemyMovement
+        /// </summary>
         public void RotateTowardsPlayer()
         {
-            if (!_playerTransform)
+            if (!_playerTransform || (_movementSystem == null))
                 return;
 
-            Vector3 directionToPlayer = (_playerTransform.position - transform.position).normalized;
-            directionToPlayer.y = 0;
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            _movementSystem.RotateTowards(_playerTransform.position);
         }
 
+        /// <summary>
+        /// Para completamente o movimento
+        /// Delegado via EnemyMovement
+        /// </summary>
         public void StopMovement()
         {
-            if (_rigidbody)
-            {
-                _rigidbody.linearVelocity = Vector3.zero;
-            }
+            _movementSystem?.StopMovement();
         }
 
+        /// <summary>
+        /// Move para longe do player
+        /// Delegado via EnemyMovement
+        /// </summary>
         public void MoveAwayFromPlayer()
         {
-            if (!_playerTransform || !_rigidbody)
+            if (!_playerTransform || (_movementSystem == null))
                 return;
 
-            Vector3 directionAwayFromPlayer = (transform.position - _playerTransform.position).normalized;
-            _rigidbody.linearVelocity = new Vector3(
-                directionAwayFromPlayer.x * moveSpeed,
-                _rigidbody.linearVelocity.y,
-                directionAwayFromPlayer.z * moveSpeed
-            );
+            _movementSystem.MoveAwayFrom(_playerTransform.position); 
         }
 
         public void ExecuteAttack()
@@ -276,18 +362,32 @@ namespace proscryption.Enemy
 
         /// <summary>
         /// Move o inimigo em uma direção específica com velocidade definida
+        /// Delegado via EnemyMovement
         /// </summary>
         public void MoveInDirection(Vector3 direction, float speed)
         {
-            if (!_rigidbody)
+            if (_movementSystem == null)
                 return;
 
-            direction = direction.normalized;
-            _rigidbody.linearVelocity = new Vector3(
-                direction.x * speed,
-                _rigidbody.linearVelocity.y,
-                direction.z * speed
-            );
+            // Calcula multiplicador baseado na velocidade
+            float speedMultiplier = speed / moveSpeed;
+            _movementSystem.MoveInDirection(direction, speedMultiplier);
+        }
+        public void RotateTowardsDirection(Vector3 direction, float? rotationSpeed = null){
+            if (_movementSystem == null)
+                return;
+
+            _movementSystem.RotateTowards(direction, rotationSpeed);
+        }
+
+        /// <summary>
+        /// Move circularmente ao redor de um ponto
+        /// Útil para Combat Shuffle
+        /// Delegado via EnemyMovement
+        /// </summary>
+        public void MoveCircularAround(Vector3 center, float direction = 1f)
+        {
+            _movementSystem?.MoveCircularAround(center, direction);
         }
 
         /// <summary>
@@ -295,7 +395,7 @@ namespace proscryption.Enemy
         /// </summary>
         public float GetPreferredCombatDistance()
         {
-            return attackRange;
+            return combatRange;
         }
 
         /// <summary>
@@ -315,112 +415,75 @@ namespace proscryption.Enemy
 
 
 
-        #region Poise System 
+        // ============================================================
+        // DELEGAÇÃO PARA POISE SYSTEM (REFATORADO)
+        // ============================================================
 
         /// <summary>
         /// Aplica dano de poise ao inimigo
         /// Quando poise chega a 0, inimigo entra em estado de Stagger
+        /// Delegado via EnemyPoiseSystem
         /// </summary>
         public void TakePoiseDamage(float damageAmount)
         {
-            _currentPoise -= damageAmount;
-            Debug.Log($"[{gameObject.name}] Poise: {_currentPoise:F1}/{maxPoise:F1} (- {damageAmount:F1})");
-
-            // Se poise quebrou, transiciona para Stagger
-            if (_currentPoise <= 0f && !_stateMachine.CurrentState.Equals(StaggerState))
-            {
-                _stateMachine.TransitionTo(StaggerState);
-            }
+            _poiseSystem?.TakePoiseDamage(damageAmount);
         }
 
         /// <summary>
         /// Reseta a poise após stagger
+        /// Delegado via EnemyPoiseSystem
         /// </summary>
         public void ResetPoise()
         {
-            _currentPoise = maxPoise;
-            Debug.Log($"[{gameObject.name}] Poise resetada para {maxPoise}");
-        }
-
-        /// <summary>
-        /// Regenera poise gradualmente (soulslike: poise se regenera lentamente)
-        /// </summary>
-        private void RegeneratePoise()
-        {
-            if (_currentPoise < maxPoise)
-            {
-                _currentPoise += poiseRegenerationRate * Time.deltaTime;
-                _currentPoise = Mathf.Min(_currentPoise, maxPoise);
-            }
+            _poiseSystem?.ResetPoise();
         }
 
         /// <summary>
         /// Retorna o valor atual de poise (para UI/debug)
+        /// Delegado via EnemyPoiseSystem
         /// </summary>
-        public float GetCurrentPoise() => _currentPoise;
+        public float GetCurrentPoise() => _poiseSystem?.GetCurrentPoise() ?? 0f;
 
         /// <summary>
         /// Retorna a poise máxima
+        /// Delegado via EnemyPoiseSystem
         /// </summary>
-        public float GetMaxPoise() => maxPoise;
-
-        #endregion
-
-        #region Input Reading
+        public float GetMaxPoise() => _poiseSystem?.GetMaxPoise() ?? maxPoise;
 
         /// <summary>
-        /// Verifica se o jogador está tentando se curar ou usar itens
-        /// Se sim, e o inimigo está no cooldown, ele avança agressivamente
-        /// Comportamento Soulslike: punir uso de consumíveis
+        /// Converte dano recebido em dano de poise
+        /// Chamada quando inimigo recebe dano (integra com EnemyEntity)
+        /// Delegado via EnemyPoiseSystem
         /// </summary>
-        private void CheckForPlayerHealing()
+        public void ApplyPoiseDamageFromHit(float damageReceived)
         {
-            if (!_playerTransform || !CanSeePlayer())
-                return;
-
-            float distanceToPlayer = GetDistanceToPlayer();
-            if (distanceToPlayer > inputReadingRange)
-                return;
-
-            // Detecta animações de cura (verifica se player está em animação de poção/item)
-            // Nota: Adapte os parâmetros abaixo conforme suas animações do player
-            Animator playerAnimator = _playerTransform.GetComponent<Animator>();
-            if (playerAnimator)
-            {
-                AnimatorStateInfo playerStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-
-                // Verifica se player está em estado de "Healing", "Potion", "Item", etc.
-                if (playerAnimator.GetBool("isHealing"))
-                {
-                    // Se pode atacar (cooldown passou), reage agressivamente
-                    if (CanAttack() && Time.time >= _lastHealingReactionTime + healingDetectionCooldown)
-                    {
-                        Debug.Log($"[{gameObject.name}] Input Reading: Player está se curando! Atacando agora!");
-                        _lastHealingReactionTime = Time.time;
-
-                        // Se está muito longe, persegue o player agressivamente
-                        if (_stateMachine.CurrentState.Equals(ChaseState) ||
-                            _stateMachine.CurrentState.Equals(CircleState) ||
-                            _stateMachine.CurrentState.Equals(DamagedState))
-                        {
-                            // Força transição para ataque se possível
-                            if (IsInAttackRange())
-                            {
-                                _stateMachine.TransitionTo(AttackState);
-                            }
-                        }
-                    }
-                }
-            }
+            _poiseSystem?.ApplyPoiseDamageFromHit(damageReceived);
         }
 
-        #endregion
+        // ============================================================
+        // DELEGAÇÃO PARA INPUT READER (REFATORADO)
+        // ============================================================
 
-        #region Attack Delays  
+        /// <summary>
+        /// Retorna se player está se curando (para queries de outros sistemas)
+        /// Delegado via EnemyInputReader
+        /// </summary>
+        public bool IsPlayerHealing() => _inputReaderSystem?.IsPlayerHealing() ?? false;
+
+        /// <summary>
+        /// Retorna tempo desde última reação a cura
+        /// Delegado via EnemyInputReader
+        /// </summary>
+        public float GetTimeSinceLastHealingReaction() => _inputReaderSystem?.GetTimeSinceLastHealingReaction() ?? -999f;
+
+        // ============================================================
+        // ATTACK SYSTEM (Será refatorado na Fase 2)
+        // ============================================================
 
         /// <summary>
         /// Seleciona um delay de carregamento aleatório para o próximo ataque
-        /// Cria variação e punição para "panic rolls"
+        /// Cria variação e punição para \"panic rolls\"
+        /// TODO: Mover para EnemyAttackManager na Fase 2
         /// </summary>
         public void SelectRandomAttackCharge()
         {
@@ -430,25 +493,9 @@ namespace proscryption.Enemy
 
         /// <summary>
         /// Retorna o delay de carregamento do ataque atual
-        /// Usado por EnemyStateAttack para sincronizar com animação
+        /// TODO: Mover para EnemyAttackManager na Fase 2
         /// </summary>
         public float GetAttackChargeDelay() => _currentAttackChargeDelay;
-
-        #endregion
-
-        #region Poise Damage from External Sources
-
-        /// <summary>
-        /// Converte dano recebido em dano de poise
-        /// Chamada quando inimigo recebe dano (integra com EnemyEntity)
-        /// </summary>
-        public void ApplyPoiseDamageFromHit(float damageReceived)
-        {
-            float poiseDamage = damageReceived * damageToPoiseDamageMultiplier;
-            TakePoiseDamage(poiseDamage);
-        }
-
-        #endregion
         #endregion
 
         void OnDrawGizmosSelected()
@@ -458,10 +505,10 @@ namespace proscryption.Enemy
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, detectionRange);
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, inputReadingRange);   
+            Gizmos.DrawWireSphere(transform.position, inputReadingRange);
 
         }
     }
 
-    
+
 }

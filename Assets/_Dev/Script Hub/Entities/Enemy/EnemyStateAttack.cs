@@ -27,24 +27,17 @@ namespace proscryption.Enemy
         }
 
         public void Enter()
-        {
-            // Transição para animação de ataque
-            // _controller.SetAnimationState("Attack");
-            int randomAttack = Random.Range(1,2);
-            _controller.SetAnimationFloat("Attack", (float)randomAttack); // Assume que 1 é a velocidade de ataque
+        { 
             _attackStartTime = Time.time;
             _hasAttackedThisSequence = false;
             _isCharging = true;
-
-            // Seleciona um delay aleatório para este ataque
-            // Isto cria variação e punição para o jogador "panic rolling" cegamente
+ 
             _controller.SelectRandomAttackCharge();
             _chargeDelayTime = _controller.GetAttackChargeDelay();
 
             // Registra que atacou (para cooldown)
             _controller.RegisterAttack();
-            _alreadyAttack = false;
-            Debug.Log($"[{_controller.gameObject.name}] Iniciando ataque com charge delay: {_chargeDelayTime:F2}s, random animation: {randomAttack}");
+            _alreadyAttack = false; 
         }
 
         public void Update()

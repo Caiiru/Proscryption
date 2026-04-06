@@ -22,7 +22,7 @@ namespace proscryption.Enemy
         private readonly EnemyController _controller;
         private float _circleDirection = 1f; // 1 para direita, -1 para esquerda
         private float _directionChangeTimer = 0f;
-        private float _directionChangeCooldown = 2f; // Muda de lado a cada 2 segundos
+        private float _directionChangeCooldown = 15f; // Muda de lado a cada 15 segundos
         private float _nextDirectanceAdjustmentTime = 0f; // Timer para ajustar distância dinamicamente
 
         public EnemyStateCircle(EnemyController controller)
@@ -32,14 +32,14 @@ namespace proscryption.Enemy
 
         public void Enter()
         {
-            _controller.SetAnimationState("Run");
+            // _controller.SetAnimationState("Run");
             _directionChangeTimer = 0f;
             _nextDirectanceAdjustmentTime = Time.time + 0.5f;
-            
+
             // Randomiza a direção inicial (50/50 esquerda/direita)
             _circleDirection = Random.value > 0.5f ? 1f : -1f;
 
-            Debug.Log($"[{_controller.gameObject.name}] Entrando em Circle - iniciando Combat Shuffle (direção: {(_circleDirection > 0 ? "DIREITA" : "ESQUERDA")})");
+            // Debug.Log($"[{_controller.gameObject.name}] Entrando em Circle - iniciando Combat Shuffle (direção: {(_circleDirection > 0 ? "DIREITA" : "ESQUERDA")})");
         }
 
         public void Update()
@@ -53,29 +53,29 @@ namespace proscryption.Enemy
 
             float distanceToPlayer = _controller.GetDistanceToPlayer();
             float preferredDistance = _controller.GetPreferredCombatDistance();
-
+            float attackDistance = _controller.GetAttackRange();
             // TRANSIÇÃO 2: Ficou muito perto (deve recuar)
-            if (distanceToPlayer < preferredDistance * 0.6f)
+            if (distanceToPlayer < attackDistance * 0.6f)
             {
                 _controller.MoveAwayFromPlayer();
-                _controller.RotateTowardsPlayer();
-                Debug.Log($"[{_controller.gameObject.name}] Muito perto - recuando");
+                // _controller.RotateTowardsPlayer();
+                // Debug.Log($"[{_controller.gameObject.name}] Muito perto - recuando");
                 return;
             }
 
             // TRANSIÇÃO 3: Ficou muito longe (volta a perseguir)
-            if (distanceToPlayer > preferredDistance * 1.4f)
+            if (distanceToPlayer > preferredDistance)
             {
                 _controller.StateMachine.TransitionTo(_controller.ChaseState);
-                Debug.Log($"[{_controller.gameObject.name}] Muito longe - voltando ao Chase");
+                // Debug.Log($"[{_controller.gameObject.name}] Muito longe - voltando ao Chase");
                 return;
             }
 
             // TRANSIÇÃO 4: Cooldown passou - pode atacar
-            if (_controller.CanAttack())
+            if (_controller.CanAttack() && distanceToPlayer <= attackDistance)
             {
                 _controller.StateMachine.TransitionTo(_controller.AttackState);
-                Debug.Log($"[{_controller.gameObject.name}] Cooldown terminou - atacando!");
+                // Debug.Log($"[{_controller.gameObject.name}] Cooldown terminou - atacando!");
                 return;
             }
 
@@ -123,11 +123,9 @@ namespace proscryption.Enemy
             moveDirection = moveDirection.normalized;
 
             // Aplica o movimento de circundação
-            _controller.MoveInDirection(moveDirection, _controller.GetMoveSpeed());
-
-            // Sempre mantém o rosto voltado para o player (ready stance)
-            _controller.RotateTowardsPlayer();
-
+            _controller.MoveInDirection(moveDirection, _controller.GetMoveSpeed()); 
+ 
+            
             // ALTERNÂNCIA DINÂMICA: Muda de direção periodicamente
             // Cria padrão mais natural e menos previsível
             _directionChangeTimer += Time.deltaTime;
