@@ -402,10 +402,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2126682860}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
 --- !u!4 &1026583773 stripped
 Transform:
@@ -595,96 +592,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1 &2126682859 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-  m_PrefabInstance: {fileID: 948314856}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2126682860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126682859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63437acbc0bcf51438d75cd47f3ab64b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationAudioEvents
-  events:
-  - name: Block
-    fmodEvent:
-      Guid:
-        Data1: -1688781998
-        Data2: 1125597065
-        Data3: 2025842875
-        Data4: -1201239324
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Block
-  - name: Death
-    fmodEvent:
-      Guid:
-        Data1: -76325783
-        Data2: 1079362387
-        Data3: 638768018
-        Data4: -1563472065
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Death
-  - name: Defend
-    fmodEvent:
-      Guid:
-        Data1: -1998404191
-        Data2: 1176963746
-        Data3: -665745993
-        Data4: -167688351
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Defend
-  - name: Footsteps
-    fmodEvent:
-      Guid:
-        Data1: -1456764240
-        Data2: 1166458609
-        Data3: -1675063930
-        Data4: 366960878
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Footsteps
-  - name: MeleeAttack
-    fmodEvent:
-      Guid:
-        Data1: 1405055023
-        Data2: 1249696561
-        Data3: 1116784521
-        Data4: -1643405663
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_MeleeAttack_01
-  - name: Parry
-    fmodEvent:
-      Guid:
-        Data1: -1968727988
-        Data2: 1210311257
-        Data3: -503635819
-        Data4: -1547427052
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Parry
-  - name: Potion
-    fmodEvent:
-      Guid:
-        Data1: -2086040021
-        Data2: 1335933359
-        Data3: 273988764
-        Data4: -558585440
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Potion
-  - name: Roll
-    fmodEvent:
-      Guid:
-        Data1: -1299100550
-        Data2: 1209793171
-        Data3: -1078234743
-        Data4: 2022420461
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Roll
-  - name: TakeDamage
-    fmodEvent:
-      Guid:
-        Data1: -816181974
-        Data2: 1311731721
-        Data3: -214840183
-        Data4: 240387543
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_TakeDamage
 --- !u!1001 &4197062412718383175
 PrefabInstance:
   m_ObjectHideFlags: 0
