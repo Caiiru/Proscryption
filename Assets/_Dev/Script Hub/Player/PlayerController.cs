@@ -192,7 +192,7 @@ namespace proscryption
         private void HandleMovement()
         {
             // Calculate camera-relative movement direction
-            if (!_model.CanMove) return;  
+            if (!_model.CanMove) return;
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
             _currentVelocity = movement * _model.MoveSpeed;
 
@@ -231,7 +231,12 @@ namespace proscryption
             if (_rollTimer <= 0)
             {
                 _isRolling = false;
-                _model.SetState(PlayerState.Idle);
+                if (_moveInput.magnitude < 0.1f)
+                {
+                    _model.SetState(PlayerState.Idle);
+                }
+                else
+                    _model.SetState(PlayerState.Moving);
             }
         }
 
