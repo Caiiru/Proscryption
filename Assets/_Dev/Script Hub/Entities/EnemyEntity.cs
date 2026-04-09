@@ -81,9 +81,9 @@ namespace proscryption
         /// <summary>
         /// Sobrescreve o método TakeDamage da BaseEntity para integrar com state machine
         /// </summary>
-        public override void TakeDamage(int damage, GameObject source = null)
+        public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false)
         {
-            base.TakeDamage(damage, source);
+            base.TakeDamage(damage, source, isCritical);
 
             // Notifica ao estado machine que recebeu dano
             if (_enemyController && !_isDead)

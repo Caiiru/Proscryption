@@ -10,16 +10,16 @@ namespace proscryption
     {
         [SerializeField] private int minDamage = 5;
         [SerializeField] private int maxDamage = 10;
-        [SerializeField] private int critChance = 10;
+        [SerializeField]
+        [Range(0, 100)]
+        [Tooltip("Chance for a critical hit (0-100%)")]
+        private int critChance = 10;
 
-        private bool _isAttacking = false;
-        private bool _canHit = false;
-        private Collider _collider;
-        private int _currentDamage = 0;
+        public GameObject bulletPrefab;
+        public Transform _bulletSpawnPoint;
 
         void Start()
         {
-            _collider = GetComponent<Collider>();
 
             if (minDamage > maxDamage)
             {
@@ -29,64 +29,13 @@ namespace proscryption
             }
         }
 
-        /// <summary>
-        /// Activate weapon for attacking (called by CombatSystem)
-        /// </summary>
-        public void ActivateHitbox(int damage)
-        {
-            _currentDamage = damage;
-            _isAttacking = true;
-            _canHit = true;
-        }
-        public void DesactivateHitBox()
-        {
-            _canHit = false;
-        }
-
-        /// <summary>
-        /// Deprecated - use ActivateHitbox instead
-        /// </summary>
-        [System.Obsolete("Use ActivateHitbox(int damage) instead")]
         public void OnAttack()
-        {
-            _isAttacking = true;
+        { 
+            GameObject bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical());
         }
 
-        /// <summary>
-        /// Set can hit state (for animation events)
-        /// </summary>
-        public void SetCanHitState(bool newState)
-        {
-            _canHit = newState;
-        }
 
-        /// <summary>
-        /// Stop attacking (for animation events)
-        /// </summary>
-        public void StopAttacking()
-        {
-            _isAttacking = false;
-        }
-
-        void OnTriggerEnter(Collider other)
-        {
-            if (!_canHit) return;
-            if (!_isAttacking) return;
-            if (!other.CompareTag("Enemy")) return;
-
-            // Prevent multi-hit in single attack
-            _canHit = false;
-            other.TryGetComponent<EnemyEntity>(out EnemyEntity _entity);
-            _entity.TakeDamage(_currentDamage);
-            // Broadcast hit event (not direct damage call)
-            EventManager.BroadcastHitDetected(
-                transform.position,
-                _currentDamage > 0 ? _currentDamage : CalculateDamage(),
-                other.gameObject
-            );
-
-            Debug.Log($"[BaseWeapon] Hit detected on {other.name}", gameObject);
-        }
 
         /// <summary>
         /// Calculate damage with variance and crit (fallback if not using CombatSystem damage)
@@ -94,13 +43,13 @@ namespace proscryption
         int CalculateDamage()
         {
             int damage = Random.Range(minDamage, maxDamage);
-            if (Random.Range(0, 100) <= critChance)
-            {
-                damage *= 2;
-            }
 
             return damage;
         }
-    }
+        bool CalculateIsCritical()
+        {
+            return Random.value < (critChance / 100f);
+        }
 
+    }
 }

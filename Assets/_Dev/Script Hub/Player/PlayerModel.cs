@@ -157,6 +157,7 @@ public class PlayerModel : MonoBehaviour
         {
             SetState(PlayerState.Dead);
             EventManager.BroadcastEntityDied(gameObject);
+            
         }
     }
 
