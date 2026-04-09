@@ -157,7 +157,7 @@ public class PlayerModel : MonoBehaviour
         {
             SetState(PlayerState.Dead);
             EventManager.BroadcastEntityDied(gameObject);
-            
+
         }
     }
 
@@ -221,6 +221,12 @@ public class PlayerModel : MonoBehaviour
         return (_currentState == PlayerState.Idle ||
                 _currentState == PlayerState.Moving) &&
                _currentStamina >= 0 &&
+               IsAlive;
+    }
+    public bool CanRotate()
+    {
+        return _currentState != PlayerState.Rolling &&
+               _currentState != PlayerState.Attacking &&
                IsAlive;
     }
 }

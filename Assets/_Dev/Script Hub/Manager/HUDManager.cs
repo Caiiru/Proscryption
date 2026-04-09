@@ -1,25 +1,27 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace proscryption
 {
     public class HUDManager : MonoBehaviour
     {
-        List<GameObject> _hudComponents = new List<GameObject>();
+        List<GameObject> _hudScreens = new List<GameObject>();
+        public Transform screensParent; 
         [SerializeField] GameObject deathScreen;
         [SerializeField] GameObject winScreen;
-        //Pause Menu
         [SerializeField] GameObject pauseScreen;
+        [SerializeField] GameObject aimIndicator;
         PauseManager _pauseManager;
         bool _isActive = true;
 
+        //Refs
+        CharacterInput _characterInput;
 
-        void OnDisable()
-        {
-            EventManager.OnGameWin -= OnGameWin;
-            GameManager.OnGameStateChanged -= OnGameStateChanged;
-        }
+
+
+
 
         void Start()
         {
@@ -35,13 +37,14 @@ namespace proscryption
                 };
 
             }
+            _characterInput = GameObject.FindWithTag("Player").GetComponent<CharacterInput>();
         }
 
         internal void Initialize()
         {
-            foreach (Transform child in transform)
+            foreach (Transform child in screensParent)
             {
-                _hudComponents.Add(child.gameObject);
+                _hudScreens.Add(child.gameObject);
             }
             if (deathScreen == null)
             {
@@ -67,7 +70,8 @@ namespace proscryption
             // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
             GameManager.OnGameStateChanged += OnGameStateChanged;
             EventManager.OnGameWin += OnGameWin;
-
+            // _characterInput.OnLookInput += HandleLookInput;
+            EventManager.OnMouseLookInput += HandleLookInput;
 
             if (GameManager.Instance != null)
             {
@@ -75,6 +79,21 @@ namespace proscryption
             }
 
 
+        }
+        void OnDisable()
+        {
+            EventManager.OnGameWin -= OnGameWin;
+            GameManager.OnGameStateChanged -= OnGameStateChanged;
+            EventManager.OnMouseLookInput -= HandleLookInput;
+        }
+
+
+        private void HandleLookInput(Vector2 vector)
+        {
+            if (aimIndicator != null)
+            {
+                aimIndicator.transform.position = Mouse.current.position.ReadValue();
+            }
         }
 
         private void OnGameWin()
@@ -115,10 +134,10 @@ namespace proscryption
 
         private void SetHUDActive(bool isActive)
         {
-            if (_isActive == isActive && _hudComponents.TrueForAll(hud => hud.activeSelf == isActive)) return;
+            if (_isActive == isActive && _hudScreens.TrueForAll(hud => hud.activeSelf == isActive)) return;
             Debug.Log("Update HUD, isActive: " + isActive);
             _isActive = isActive;
-            foreach (GameObject hudComponent in _hudComponents)
+            foreach (GameObject hudComponent in _hudScreens)
             {
                 if (hudComponent == deathScreen ||
                     hudComponent == pauseScreen ||

@@ -1,7 +1,5 @@
-using System;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace proscryption
@@ -42,20 +40,27 @@ namespace proscryption
 
         [SerializeField] private bool _isParrying = false;
 
+        // Ref
+        [SerializeField] LayerMask _mouseLayerMask = 1 << 6; // Assuming "Ground" layer is layer 6
+        CharacterInput _characterInput;
+
         void Awake()
         {
             _model = GetComponent<PlayerModel>();
             _view = GetComponent<PlayerView>();
             _rigidbody = GetComponent<Rigidbody>();
+            _characterInput = GetComponent<CharacterInput>();
             RefreshMainCamera();
 
             if (_model == null) Debug.LogError("[PlayerController] PlayerModel not found!");
             if (_view == null) Debug.LogError("[PlayerController] PlayerView not found!");
             if (_rigidbody == null) Debug.LogError("[PlayerController] Rigidbody not found!");
+            if (_characterInput == null) Debug.LogError("[PlayerController] CharacterInput not found!");
         }
 
         void OnEnable()
         {
+            this._characterInput.OnLookInput += HandleLookInput;
             // Subscribe to movement and roll inputs via EventManager
             EventManager.OnPlayerMoveInput += HandleMoveInput;
             EventManager.OnPlayerRollInput += HandleRollInput;
@@ -69,6 +74,7 @@ namespace proscryption
 
         void OnDisable()
         {
+            this._characterInput.OnLookInput -= HandleLookInput;
             EventManager.OnPlayerMoveInput -= HandleMoveInput;
             EventManager.OnPlayerRollInput -= HandleRollInput;
             EventManager.OnPlayerParryInput -= HandleParryInput;
@@ -221,10 +227,10 @@ namespace proscryption
             _rigidbody.linearVelocity = _currentVelocity;
 
             // Rotate player toward movement direction
-            if (_moveInput.magnitude > 0.1f)
-            {
-                RotateTowardsVelocity(_currentVelocity);
-            }
+            // if (_moveInput.magnitude > 0.1f)
+            // {
+            //     RotateTowardsVelocity(_currentVelocity);
+            // }
         }
 
         private void HandleRolling()
@@ -256,6 +262,11 @@ namespace proscryption
                 else
                     _model.SetState(PlayerState.Moving);
             }
+        }
+        private void HandleLookInput(Vector2 input)
+        {
+            if (_mainCamera == null) return;
+            RotateTowardsMousePosition(input);
         }
 
         // ===== HELPER METHODS =====
@@ -315,6 +326,42 @@ namespace proscryption
                 targetRotation,
                 rotationSpeed * Time.fixedDeltaTime
             );
+        }
+
+        private void RotateTowardsDirection(Vector3 direction)
+        {
+            if (direction.magnitude < 0.1f) return;
+            if (!_model.CanRotate()) return;
+
+            // Vector3 flatDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
+            // if (flatDirection.magnitude < 0.1f) return;
+
+            transform.rotation = Quaternion.LookRotation(direction.normalized);
+            // Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+            // transform.rotation = Quaternion.Lerp(
+            //     transform.rotation,
+            //     targetRotation,
+            //     // rotationSpeed * Time.fixedDeltaTime
+            //     0.05f
+            // );
+        }
+        private void RotateTowardsMousePosition(Vector2 mousePosition)
+        {
+            if (_model.CurrentState == PlayerState.Rolling) return;
+            if (_mainCamera == null) return;
+
+            Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f, _mouseLayerMask))
+            {
+                Vector3 targetPoint = hitInfo.point;
+                targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane
+                EventManager.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
+                Vector3 direction = targetPoint - transform.position;
+                RotateTowardsDirection(direction);
+                // Debug.DrawLine(transform.position, transform.position + direction * 2f, Color.green, 0.5f);
+            }
+            // Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.5f);
+            // Debug.DrawLine(transform.position, transform.position + transform.forward * 2f, Color.blue, 0.5f);
         }
 
         private void UpdateTimers()

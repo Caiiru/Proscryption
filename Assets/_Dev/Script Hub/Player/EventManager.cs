@@ -46,11 +46,13 @@ public static class EventManager
     /// Broadcast when player stamina changes (currentStamina, maxStamina)
     public static event Action<float, float> OnPlayerStaminaChanged;
 
+    public static event Action<Vector2> OnMouseLookInput;
+
     // ===== GAME EVENTS =====
     public static event Action OnGameLoaded;
     public static event Action OnGamePauseInput;
     public static event Action OnArenaStart;
-    public static event Action OnGameWin; 
+    public static event Action OnGameWin;
 
 
 
@@ -116,18 +118,22 @@ public static class EventManager
     {
         OnPlayerStaminaChanged?.Invoke(newStamina, maxStamina);
     }
+    public static void BroadcastPauseInput()
+    {
+        Debug.Log("Broadcasting pause input from EventManager.");
+        OnGamePauseInput?.Invoke();
+    }
 
     public static void BroadcastGameLoaded()
     {
         OnGameLoaded?.Invoke();
     }
 
-
-    public static void BroadcastPauseInput()
+    public static void BroadcastMouseLookInput(Vector2 mousePosition)
     {
-        Debug.Log("Broadcasting pause input from EventManager.");
-        OnGamePauseInput?.Invoke();
+        OnMouseLookInput?.Invoke(mousePosition);
     }
+
 
     public static void TriggerEvent(string eventName)
     {
