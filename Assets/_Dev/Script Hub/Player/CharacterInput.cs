@@ -14,7 +14,7 @@ namespace proscryption
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
-        private InputAction _parryAction;
+        private InputAction _parryAction; 
         private InputAction _pauseAction;
         #endregion
 

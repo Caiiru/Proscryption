@@ -8,20 +8,20 @@ namespace proscryption
     public class HUDManager : MonoBehaviour
     {
         List<GameObject> _hudScreens = new List<GameObject>();
-        public Transform screensParent; 
+        public Transform screensParent;
         [SerializeField] GameObject deathScreen;
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject pauseScreen;
         [SerializeField] GameObject aimIndicator;
+        [SerializeField] GameObject bulletCounter;
+        private PlayerBulletCounterHUD playerBulletCounterHUD;
         PauseManager _pauseManager;
         bool _isActive = true;
 
         //Refs
+        GameObject _playerRef;
+        CombatSystem _combatSystem;
         CharacterInput _characterInput;
-
-
-
-
 
         void Start()
         {
@@ -37,7 +37,7 @@ namespace proscryption
                 };
 
             }
-            _characterInput = GameObject.FindWithTag("Player").GetComponent<CharacterInput>();
+
         }
 
         internal void Initialize()
@@ -60,6 +60,12 @@ namespace proscryption
                 Debug.LogWarning("Win Screen reference is missing in HUDManager.");
             }
             _pauseManager = pauseScreen.GetComponent<PauseManager>();
+
+            _playerRef = GameObject.FindWithTag("Player");
+            _combatSystem = _playerRef.GetComponent<CombatSystem>();
+            _characterInput = _playerRef.GetComponent<CharacterInput>();
+            playerBulletCounterHUD = bulletCounter.GetComponent<PlayerBulletCounterHUD>();
+            playerBulletCounterHUD.Initialize(_combatSystem.GetWeapon());
             SetupEvents();
             UpdateDeathScreenVisibility(false);
             SetHUDActive(false);

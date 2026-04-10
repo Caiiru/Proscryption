@@ -6,6 +6,12 @@ using UnityEngine;
 /// Controllers ask "CanI do this?" before acting
 /// Model broadcasts state changes via EventManager
 /// </summary>
+public enum PlayerStance
+{
+    Standard,
+    Blood,
+    Light
+}
 public class PlayerModel : MonoBehaviour
 {
     // ===== CONFIGURATION =====
@@ -127,6 +133,11 @@ public class PlayerModel : MonoBehaviour
         _currentState = newState;
 
         EventManager.BroadcastPlayerStateChanged(prev, newState);
+    }
+    public void ChangeStance(PlayerStance newStance)
+    {
+        // To-Do: Implement stance change logic (e.g., modify stats, trigger animations)
+        Debug.Log($"Player stance changed to {newStance}");
     }
 
     // ===== DAMAGE/HEALTH MANAGEMENT =====

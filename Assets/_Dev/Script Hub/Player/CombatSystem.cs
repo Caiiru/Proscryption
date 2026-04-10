@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -80,6 +81,9 @@ namespace proscryption
 
         }
 
-
+        public BaseWeapon GetWeapon()
+        {
+            return _currentWeapon;
+        }
     }
 }
