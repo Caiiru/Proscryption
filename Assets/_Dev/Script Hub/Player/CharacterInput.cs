@@ -14,7 +14,7 @@ namespace proscryption
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
-        private InputAction _parryAction;
+        private InputAction _aimAction;
         private InputAction _reloadAction;
         private InputAction _pauseAction;
         #endregion
@@ -44,7 +44,7 @@ namespace proscryption
         /// Valor de input: boolean 
         /// </summary>
         public bool Attackinput { get; private set; }
-        public bool ParryInput { get; private set; }
+        public bool AimInput { get; private set; }
         public bool ReloadInput { get; private set; }
         public bool PauseInput { get; private set; }
         #endregion
@@ -78,7 +78,7 @@ namespace proscryption
         /// <summary>
         /// Callback para quando o player apertar para usar a habilidade de Parry  
         /// </summary>
-        public Action<Boolean> OnParryInput;
+        public Action<Boolean> OnAimInput;
         public Action OnReloadInput;
         public Action OnPauseInput;
         #endregion
@@ -103,7 +103,7 @@ namespace proscryption
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
-            _parryAction = _playerInput.actions["Parry"];
+            _aimAction = _playerInput.actions["Parry"];
             _reloadAction = _playerInput.actions["Reload"];
             _pauseAction = _playerInput.actions["Pause"];
 
@@ -141,9 +141,9 @@ namespace proscryption
                 _attackAction.performed += HandleAttackInput;
                 _attackAction.canceled += HandleAttackInput;
             }
-            if (_parryAction != null)
+            if (_aimAction != null)
             {
-                _parryAction.performed += HandleParryInput;
+                _aimAction.performed += HandleAimInput;
 
             }
             if (_reloadAction != null)
@@ -187,9 +187,9 @@ namespace proscryption
                 _attackAction.performed -= HandleAttackInput;
                 _attackAction.canceled -= HandleAttackInput;
             }
-            if (_parryAction != null)
+            if (_aimAction != null)
             {
-                _parryAction.performed -= HandleParryInput;
+                _aimAction.performed -= HandleAimInput;
 
             }
             if (_reloadAction != null)
@@ -237,11 +237,11 @@ namespace proscryption
                 EventManager.BroadcastPlayerAttackInput();
         }
 
-        private void HandleParryInput(InputAction.CallbackContext context)
+        private void HandleAimInput(InputAction.CallbackContext context)
         {
-            ParryInput = context.ReadValueAsButton();
-            OnParryInput?.Invoke(ParryInput);
-            if (ParryInput)
+            AimInput = context.ReadValueAsButton();
+            OnAimInput?.Invoke(AimInput);
+            if (AimInput)
                 EventManager.BroadcastPlayerParryInput();
         }
         private void HandlePauseInput(InputAction.CallbackContext context)

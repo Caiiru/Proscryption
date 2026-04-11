@@ -23,6 +23,10 @@ namespace proscryption
         [SerializeField] private float rollCooldown = 1.5f;
         [SerializeField] private const int ROLL_STAMINA_COST = 20;
 
+        private float _rollCooldownTimer = 0f;
+        private float _rollTimer = 0f;
+        private bool _isRolling = false;
+
 
         // ===== REFERENCES =====
         private PlayerModel _model;
@@ -33,12 +37,8 @@ namespace proscryption
         // ===== STATE =====
         [SerializeField] private Vector2 _moveInput = Vector2.zero;
         private Vector3 _currentVelocity = Vector3.zero;
-        private float _rollCooldownTimer = 0f;
-        private float _rollTimer = 0f;
-        private bool _isRolling = false;
         private bool _canGetInput = true;
 
-        [SerializeField] private bool _isParrying = false;
 
         // Ref
         [SerializeField] LayerMask _mouseLayerMask = 1 << 6; // Assuming "Ground" layer is layer 6
@@ -64,7 +64,6 @@ namespace proscryption
             // Subscribe to movement and roll inputs via EventManager
             EventManager.OnPlayerMoveInput += HandleMoveInput;
             EventManager.OnPlayerRollInput += HandleRollInput;
-            EventManager.OnPlayerParryInput += HandleParryInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
             EventManager.OnPlayerStateChanged += HandlePlayerState;
@@ -77,7 +76,6 @@ namespace proscryption
             this._characterInput.OnLookInput -= HandleLookInput;
             EventManager.OnPlayerMoveInput -= HandleMoveInput;
             EventManager.OnPlayerRollInput -= HandleRollInput;
-            EventManager.OnPlayerParryInput -= HandleParryInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
             EventManager.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
@@ -149,29 +147,10 @@ namespace proscryption
             _isRolling = true;
         }
 
-        private void HandleParryInput()
-        {
-            if (!_canGetInput) return;
 
-            if (!_model.TryConsumeStamina(15))
-            {
-                Debug.Log("[PlayerController] Not enough stamina to parry", gameObject);
-                return;
-            }
-            _model.SetState(PlayerState.Parrying);
-        }
 
-        public void EnableParryImunity()
-        {
-            _isParrying = true;
-            _model.SetInvulnerable(true, 0.25f);
 
-        }
-        public void DisableParryImunity()
-        {
-            _isParrying = false;
-            _model.SetState(PlayerState.Idle);
-        }
+
 
         // ===== PHYSICS LOOP =====
 
