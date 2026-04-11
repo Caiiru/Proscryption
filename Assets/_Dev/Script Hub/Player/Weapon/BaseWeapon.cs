@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace proscryption
@@ -8,7 +9,6 @@ namespace proscryption
     /// </summary>
     public class BaseWeapon : MonoBehaviour
     {
-        public const int MAX_BULLETS = 6;
         [SerializeField] private int minDamage = 5;
         [SerializeField] private int maxDamage = 10;
         [SerializeField]
@@ -20,25 +20,30 @@ namespace proscryption
         public Transform _bulletSpawnPoint;
 
         //Bullets Mechacnics
+        public const int MAX_BULLETS = 6;
         [SerializeField] private int _currentBullets = MAX_BULLETS;
         [SerializeField] private float reloadTime = 2f;
         private int _currentBulletIndex;
+        public int bulletIndex => _currentBulletIndex;
         [SerializeField] private bool _isReloading = false;
         private float _reloadTimer = 0f;
         [SerializeField] private int[] _bullets = new int[MAX_BULLETS];
 
-
+        public Action OnShoot;
 
 
         void Start()
         {
-            Reload();
             if (minDamage > maxDamage)
             {
                 int temp = minDamage;
                 minDamage = maxDamage;
                 maxDamage = temp;
             }
+            _currentBullets = MAX_BULLETS;
+            _isReloading = false;
+            _reloadTimer = 0f;
+            _currentBulletIndex = 0;
         }
         public void Update()
         {
@@ -49,6 +54,8 @@ namespace proscryption
                 {
                     _isReloading = false;
                     _currentBullets = MAX_BULLETS;
+                    PlayerEvents.BroadcastPlayerReloadEnded();
+
                 }
             }
         }
@@ -56,8 +63,18 @@ namespace proscryption
 
         public void OnAttack()
         {
+            if (_isReloading) return;
+            if (!ConsumeBullet()) return;
+
             GameObject bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical());
+            OnShoot?.Invoke();
+            _currentBullets--;
+            _currentBulletIndex++;
+            if (_currentBulletIndex >= MAX_BULLETS)
+            {
+                _currentBulletIndex = 0;
+            }
         }
 
         public void Reload()
@@ -70,36 +87,21 @@ namespace proscryption
         }
 
         /// <summary>
-        /// Calculate damage with variance and crit (fallback if not using CombatSystem damage)
+        /// Calculate damage with variance and crit 
         /// </summary>
         int CalculateDamage()
         {
-            int damage = Random.Range(minDamage, maxDamage);
+            int damage = UnityEngine.Random.Range(minDamage, maxDamage);
 
             return damage;
         }
         bool CalculateIsCritical()
         {
-            return Random.value < (critChance / 100f);
+            return UnityEngine.Random.value < (critChance / 100f);
         }
         bool ConsumeBullet()
         {
-            _currentBulletIndex++;
-            if (_currentBulletIndex >= MAX_BULLETS)
-            {
-                _currentBulletIndex = 0;
-            }
-
-            if (_currentBullets > 0)
-            {
-                _currentBullets--;
-                return true;
-            }
-            else
-            {
-                Reload();
-                return false;
-            }
+            return _currentBullets > 0;
         }
 
     }

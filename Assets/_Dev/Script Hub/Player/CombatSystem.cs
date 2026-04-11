@@ -1,5 +1,4 @@
-using System;
-using Unity.VisualScripting;
+using proscryption;
 using UnityEngine;
 
 namespace proscryption
@@ -40,12 +39,14 @@ namespace proscryption
         {
             // Subscribe to attack input
             EventManager.OnPlayerAttackInput += HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput += HandleReloadInput;
             // EventManager.OnPlayerParryInput += HandleParryInput;
         }
 
         void OnDisable()
         {
             EventManager.OnPlayerAttackInput -= HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput -= HandleReloadInput;
             // EventManager.OnPlayerParryInput -= HandleParryInput;
         }
 
@@ -79,6 +80,18 @@ namespace proscryption
             _lastAttackTime = Time.time;
             _currentWeapon.OnAttack();
 
+            EventManager.BroadcastPlayerAttack();
+
+        }
+        private void HandleReloadInput()
+        {
+            if (!CanReload()) return;
+
+            _currentWeapon.Reload();
+        }
+        private bool CanReload()
+        {
+            return _model.CanReload();
         }
 
         public BaseWeapon GetWeapon()

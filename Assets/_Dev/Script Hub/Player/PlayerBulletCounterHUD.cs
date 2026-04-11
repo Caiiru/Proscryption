@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
@@ -17,7 +18,6 @@ namespace proscryption
         float angleOffset = 30f;
 
         GameObject[] bulletIcons;
-        int _currentIndex = 0;
 
 
 
@@ -32,11 +32,39 @@ namespace proscryption
 
                 // move icons in circle based on maxbullets based on center of bulletbackground     
                 float angle = i * (360f / BaseWeapon.MAX_BULLETS) + (angleOffset * 3);
-                Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * radius;
+                Vector3 offset = new Vector3(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * radius;
                 icon.GetComponent<RectTransform>().anchoredPosition = offset;
 
                 icon.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
             }
+
+            SetupEvents();
+        }
+        private void SetupEvents()
+        {
+            // EventManager.OnPlayerAttack += HandleAttackPlayed;
+            if (_weapon)
+            {
+                _weapon.OnShoot += HandleAttackPlayed;
+            }
+            PlayerEvents.OnPlayerReloadEnded += Reload;
+        }
+
+
+        void OnDisable()
+        {
+            // EventManager.OnPlayerAttack -= HandleAttackPlayed;
+            if (_weapon)
+                _weapon.OnShoot -= HandleAttackPlayed;
+            PlayerEvents.OnPlayerReloadEnded -= Reload;
+
+        }
+
+        private void HandleAttackPlayed()
+        {
+            ShootBullet(_weapon.bulletIndex).Forget();
+
+
         }
         public UniTask ShootBullet(int b_index)
         {
@@ -49,6 +77,14 @@ namespace proscryption
             _updateIcons = false;
             return UniTask.CompletedTask;
         }
+        private void Reload()
+        {
+            for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
+            {
+                bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = Color.white; // Reset color
+            }
+
+        }
 
         void Update()
         {
@@ -57,12 +93,8 @@ namespace proscryption
             if (Keyboard.current.tKey.wasPressedThisFrame)
             {
                 _updateIcons = true;
-                ShootBullet(_currentIndex);
-                _currentIndex--;
-                if (_currentIndex < 0)
-                {
-                    _currentIndex = BaseWeapon.MAX_BULLETS - 1;
-                }
+                HandleAttackPlayed();
+
             }
         }
     }

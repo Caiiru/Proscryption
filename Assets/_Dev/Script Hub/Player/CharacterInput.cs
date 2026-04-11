@@ -14,7 +14,8 @@ namespace proscryption
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
-        private InputAction _parryAction; 
+        private InputAction _parryAction;
+        private InputAction _reloadAction;
         private InputAction _pauseAction;
         #endregion
 
@@ -44,6 +45,7 @@ namespace proscryption
         /// </summary>
         public bool Attackinput { get; private set; }
         public bool ParryInput { get; private set; }
+        public bool ReloadInput { get; private set; }
         public bool PauseInput { get; private set; }
         #endregion
 
@@ -77,6 +79,7 @@ namespace proscryption
         /// Callback para quando o player apertar para usar a habilidade de Parry  
         /// </summary>
         public Action<Boolean> OnParryInput;
+        public Action OnReloadInput;
         public Action OnPauseInput;
         #endregion
 
@@ -101,6 +104,7 @@ namespace proscryption
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
             _parryAction = _playerInput.actions["Parry"];
+            _reloadAction = _playerInput.actions["Reload"];
             _pauseAction = _playerInput.actions["Pause"];
 
             // Registrar callbacks
@@ -141,6 +145,10 @@ namespace proscryption
             {
                 _parryAction.performed += HandleParryInput;
 
+            }
+            if (_reloadAction != null)
+            {
+                _reloadAction.performed += HandleReloadInput;
             }
             if (_pauseAction != null)
             {
@@ -184,18 +192,23 @@ namespace proscryption
                 _parryAction.performed -= HandleParryInput;
 
             }
+            if (_reloadAction != null)
+            {
+                _reloadAction.performed -= HandleReloadInput;
+            }
+
         }
 
         #region Input Handlers
         private void HandleMoveInput(InputAction.CallbackContext context)
-        { 
+        {
             MoveInput = context.ReadValue<Vector2>();
             OnMoveInput?.Invoke(MoveInput);
             EventManager.BroadcastPlayerMoveInput(MoveInput);
         }
 
         private void HandleRollInput(InputAction.CallbackContext context)
-        { 
+        {
             RollInput = context.ReadValueAsButton();
             OnRollInput?.Invoke(RollInput);
             // NEW: Broadcast to EventManager when roll is performed
@@ -204,19 +217,19 @@ namespace proscryption
         }
 
         private void HandleInteractInput(InputAction.CallbackContext context)
-        { 
+        {
             InteractInput = context.ReadValueAsButton();
             OnInteractInput?.Invoke(InteractInput);
         }
 
         private void HandleLookInput(InputAction.CallbackContext context)
-        { 
+        {
             LookInput = context.ReadValue<Vector2>();
             OnLookInput?.Invoke(LookInput);
         }
 
         private void HandleAttackInput(InputAction.CallbackContext context)
-        { 
+        {
             Attackinput = context.ReadValueAsButton();
             OnAttackInput?.Invoke(Attackinput);
             // NEW: Broadcast to EventManager when attack is performed
@@ -225,7 +238,7 @@ namespace proscryption
         }
 
         private void HandleParryInput(InputAction.CallbackContext context)
-        { 
+        {
             ParryInput = context.ReadValueAsButton();
             OnParryInput?.Invoke(ParryInput);
             if (ParryInput)
@@ -234,12 +247,21 @@ namespace proscryption
         private void HandlePauseInput(InputAction.CallbackContext context)
         {
             PauseInput = context.ReadValueAsButton();
-            Debug.Log("Pause input");
             if (PauseInput)
             {
                 OnPauseInput?.Invoke();
 
                 EventManager.BroadcastPauseInput();
+            }
+        }
+
+        private void HandleReloadInput(InputAction.CallbackContext context)
+        {
+            ReloadInput = context.ReadValueAsButton();
+            if (ReloadInput)
+            {
+                OnReloadInput?.Invoke();
+                PlayerEvents.BroadcastPlayerReloadInput();
             }
         }
 
