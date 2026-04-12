@@ -87,7 +87,7 @@ namespace proscryption
         {
             if (!CanReload()) return;
 
-            _currentWeapon.Reload();
+            _currentWeapon.ReloadInput();
         }
         private bool CanReload()
         {

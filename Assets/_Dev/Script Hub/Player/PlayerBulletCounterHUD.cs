@@ -17,7 +17,15 @@ namespace proscryption
         float radius = 80f; // Adjust as needed
         float angleOffset = 30f;
 
+        PlayerStance _currentStance = PlayerStance.Standard;
         GameObject[] bulletIcons;
+
+        [Header("Colors")]
+        public Color StandardColor = Color.gray;
+        public Color BloodColor = Color.darkRed;
+        public Color LightColor = Color.yellow;
+        public Color EmptyColor = Color.black;
+        private Color _currentStanceColor = Color.gray;
 
 
 
@@ -48,6 +56,7 @@ namespace proscryption
                 _weapon.OnShoot += HandleAttackPlayed;
             }
             PlayerEvents.OnPlayerReloadEnded += Reload;
+            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
         }
 
 
@@ -70,7 +79,7 @@ namespace proscryption
         {
             if (b_index >= 0 && b_index < bulletIcons.Length)
             {
-                bulletIcons[b_index].GetComponent<UnityEngine.UI.Image>().color = Color.red; // Change color to indicate shot
+                bulletIcons[b_index].GetComponent<UnityEngine.UI.Image>().color = EmptyColor;
             }
             UniTask.Delay(2000).Forget();
             bulletBackground.Rotate(Vector3.forward, angleOffset * 2); // Rotate the entire counter
@@ -81,7 +90,7 @@ namespace proscryption
         {
             for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
             {
-                bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = Color.white; // Reset color
+                bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = _currentStanceColor; // Reset color
             }
 
         }
@@ -96,6 +105,35 @@ namespace proscryption
                 HandleAttackPlayed();
 
             }
+        }
+        private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
+        {
+            Debug.Log($"Stance changed from {oldStance} to {newStance}");
+            _currentStance = newStance;
+            Color bulletsColor = Color.black;
+            switch (newStance)
+            {
+                case PlayerStance.Standard:
+                    // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = ColorUtility.TryParseHtmlString("#3C3C3C", out Color standardColor) ? standardColor : Color.gray;
+                    bulletsColor = StandardColor;
+                    break;
+                case PlayerStance.Blood:
+                    // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    bulletsColor = BloodColor;
+                    break;
+                case PlayerStance.Light:
+                    // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
+                    bulletsColor = LightColor;
+                    break;
+            }
+
+            for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
+            {
+                if (_weapon.bullets[i] == 0) continue;
+
+                bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = bulletsColor;
+            }
+            _currentStanceColor = bulletsColor;
         }
     }
 }

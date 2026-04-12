@@ -22,12 +22,17 @@ namespace proscryption
         //Bullets Mechacnics
         public const int MAX_BULLETS = 6;
         [SerializeField] private int _currentBullets = MAX_BULLETS;
-        [SerializeField] private float reloadTime = 2f;
         private int _currentBulletIndex;
         public int bulletIndex => _currentBulletIndex;
+
+        [Tooltip("0 = empty, 1 = standard, 2 = blood, 3=light")]
+        public int[] bullets = new int[MAX_BULLETS];
+        
+        
+        //Reload
+        [SerializeField] private float reloadTime = 2f;
         [SerializeField] private bool _isReloading = false;
         private float _reloadTimer = 0f;
-        [SerializeField] private int[] _bullets = new int[MAX_BULLETS];
 
         public Action OnShoot;
 
@@ -44,20 +49,17 @@ namespace proscryption
             _isReloading = false;
             _reloadTimer = 0f;
             _currentBulletIndex = 0;
+
+            for (int i = 0; i < MAX_BULLETS; i++)
+            {
+
+                bullets[i] = 1;
+
+            }
         }
         public void Update()
         {
-            if (_isReloading)
-            {
-                _reloadTimer -= Time.deltaTime;
-                if (_reloadTimer <= 0f)
-                {
-                    _isReloading = false;
-                    _currentBullets = MAX_BULLETS;
-                    PlayerEvents.BroadcastPlayerReloadEnded();
-
-                }
-            }
+            HandleReload();
         }
 
 
@@ -69,6 +71,10 @@ namespace proscryption
             GameObject bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical());
             OnShoot?.Invoke();
+
+            // 0 = empty, 1 = standard, 2 = blood, 3=light
+            bullets[_currentBulletIndex] = 0;
+
             _currentBullets--;
             _currentBulletIndex++;
             if (_currentBulletIndex >= MAX_BULLETS)
@@ -77,13 +83,35 @@ namespace proscryption
             }
         }
 
-        public void Reload()
+        public void ReloadInput()
         {
             if (_isReloading) return;
             _isReloading = true;
             _reloadTimer = reloadTime;
 
 
+        }
+        private void HandleReload()
+        {
+            if (!_isReloading) return;
+
+            _reloadTimer -= Time.deltaTime;
+
+            if (_reloadTimer > 0f)
+                return;
+
+            _isReloading = false;
+            _currentBullets = MAX_BULLETS;
+            for (int i = 0; i < MAX_BULLETS; i++)
+            {
+                if (bullets[i] == 0)
+                {
+                    bullets[i] = 1; // Reset to standard bullets on reload
+                }
+            }
+
+
+            PlayerEvents.BroadcastPlayerReloadEnded();
         }
 
         /// <summary>

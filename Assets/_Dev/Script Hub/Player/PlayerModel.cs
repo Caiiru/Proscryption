@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace proscryption
@@ -26,6 +27,7 @@ namespace proscryption
         private int _currentHealth;
         private float _currentStamina;
         [SerializeField] private PlayerState _currentState = PlayerState.Idle;
+        [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
         private bool _canReload = true;
@@ -141,7 +143,23 @@ namespace proscryption
         public void ChangeStance(PlayerStance newStance)
         {
             // To-Do: Implement stance change logic (e.g., modify stats, trigger animations)
-            Debug.Log($"Player stance changed to {newStance}");
+            PlayerStance _prevStance = _currentStance;
+
+            if (_currentStance == newStance)
+            {
+                if (_currentStance == PlayerStance.Standard) return;
+
+
+                _currentStance = PlayerStance.Standard;
+                // Debug.Log($"Same Stance{_currentStance}");
+            }
+
+            else
+            {
+                this._currentStance = newStance;
+            }
+            Debug.Log($"Player stance changed to {_currentStance}");
+            PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
         }
 
         // ===== DAMAGE/HEALTH MANAGEMENT =====
@@ -251,6 +269,7 @@ namespace proscryption
                    _canReload &&
                    IsAlive;
         }
+
     }
 
 }

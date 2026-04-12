@@ -67,6 +67,10 @@ namespace proscryption
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
             EventManager.OnPlayerStateChanged += HandlePlayerState;
+
+            _characterInput.OnDefaultStanceInput += () => _model.ChangeStance(PlayerStance.Standard);
+            _characterInput.OnBloodStanceInput += () => _model.ChangeStance(PlayerStance.Blood);
+            _characterInput.OnLightStanceInput += () => _model.ChangeStance(PlayerStance.Light);
             RefreshMainCamera();
         }
 
@@ -79,6 +83,11 @@ namespace proscryption
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
             EventManager.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
+
+            
+            _characterInput.OnDefaultStanceInput -= () => _model.ChangeStance(PlayerStance.Standard);
+            _characterInput.OnBloodStanceInput -= () => _model.ChangeStance(PlayerStance.Blood);
+            _characterInput.OnLightStanceInput -= () => _model.ChangeStance(PlayerStance.Light);
         }
         void Start()
         {

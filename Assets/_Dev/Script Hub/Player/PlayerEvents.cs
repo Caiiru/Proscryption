@@ -22,6 +22,8 @@ namespace proscryption
         //Changes
         public static event Action<PlayerState, PlayerState> OnPlayerStateChanged;
 
+        public static event Action<PlayerStance, PlayerStance> OnPlayerStanceChanged;
+
         public static event Action<int, int> OnPlayerHealthChanged;
 
         public static event Action<float, float> OnPlayerStaminaChanged;
@@ -87,6 +89,10 @@ namespace proscryption
         public static void BroadcastPlayerStaminaChanged(float newStamina, float maxStamina)
         {
             OnPlayerStaminaChanged?.Invoke(newStamina, maxStamina);
+        }
+        public static void BroadcastPlayerStanceChanged(PlayerStance prev, PlayerStance next)
+        {
+            OnPlayerStanceChanged?.Invoke(prev, next); 
         }
         #endregion
     }
