@@ -177,6 +177,7 @@ MonoBehaviour:
   staminaRegenPerSec: 5
   moveSpeed: 3
   _currentState: 0
+  _currentStance: 0
   _isInvulnerable: 0
   killPlayer: 0
 --- !u!114 &948268413005835966
@@ -781,12 +782,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e79b99001fd274a8e469628b112d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.BaseWeapon
-  minDamage: 5
-  maxDamage: 10
+  minDamage: 15
+  maxDamage: 25
   critChance: 10
   bulletPrefab: {fileID: 245508191954373797, guid: 30252ae9863675e478929cd7535199aa, type: 3}
   _bulletSpawnPoint: {fileID: 8300302177910463714}
   _currentBullets: 6
+  bullets: 000000000000000000000000000000000000000000000000
   reloadTime: 2
   _isReloading: 0
 --- !u!4 &2047586580015803503 stripped
