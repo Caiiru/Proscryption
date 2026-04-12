@@ -27,14 +27,22 @@ namespace proscryption
 
         [Tooltip("0 = empty, 1 = standard, 2 = blood, 3=light")]
         public int[] bullets = new int[MAX_BULLETS];
-        
-        
+
+
         //Reload
         [SerializeField] private float reloadTime = 2f;
         [SerializeField] private bool _isReloading = false;
         private float _reloadTimer = 0f;
 
         public Action OnShoot;
+
+        [Header("Data")]
+
+        public BulletData standardBulletData;
+        public BulletData bloodBulletData;
+        public BulletData lightBulletData;
+
+        private BulletData currentData;
 
 
         void Start()
@@ -56,7 +64,30 @@ namespace proscryption
                 bullets[i] = 1;
 
             }
+            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
+            currentData = standardBulletData;
         }
+        private void OnDisable()
+        {
+            PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
+        }
+
+        private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
+        {
+            switch (newStance)
+            {
+                case PlayerStance.Standard:
+                    currentData = standardBulletData;
+                    break;
+                case PlayerStance.Blood:
+                    currentData = bloodBulletData;
+                    break;
+                case PlayerStance.Light:
+                    currentData = lightBulletData;
+                    break;
+            }
+        }
+
         public void Update()
         {
             HandleReload();
@@ -68,9 +99,11 @@ namespace proscryption
             if (_isReloading) return;
             if (!ConsumeBullet()) return;
 
-            GameObject bullet = Instantiate(bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical());
+            GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed);
             OnShoot?.Invoke();
+
+            Destroy(bullet, currentData.duration);
 
             // 0 = empty, 1 = standard, 2 = blood, 3=light
             bullets[_currentBulletIndex] = 0;
@@ -119,13 +152,13 @@ namespace proscryption
         /// </summary>
         int CalculateDamage()
         {
-            int damage = UnityEngine.Random.Range(minDamage, maxDamage);
+            int damage = UnityEngine.Random.Range(currentData.minDamage, currentData.maxDamage);
 
             return damage;
         }
         bool CalculateIsCritical()
         {
-            return UnityEngine.Random.value < (critChance / 100f);
+            return UnityEngine.Random.value < (currentData.critChance / 100f);
         }
         bool ConsumeBullet()
         {

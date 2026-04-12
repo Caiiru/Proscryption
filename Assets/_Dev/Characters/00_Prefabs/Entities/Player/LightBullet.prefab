@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6187422684375840715}
   - component: {fileID: 6515101949752697092}
   m_Layer: 0
-  m_Name: BloodBullet
+  m_Name: LightBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,7 +164,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: df7cd29f508f89b478249f23847236b4, type: 2}
+  - {fileID: 2100000, guid: f63237fcedcfb4e419e6e9fbbf6d9ea6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

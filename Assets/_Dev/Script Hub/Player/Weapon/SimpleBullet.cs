@@ -8,11 +8,9 @@ namespace proscryption
         public float speed = 20f;
         private int _damage = 10;
         private bool _isCritical = false;
-
-        public float lifetime = 0f;
         private Rigidbody _rigidbody;
 
-        public void Initialize(int damage, bool isCritical = false)
+        public void Initialize(int damage, bool isCritical = false, float speed = 20f)
         {
             this._damage = damage;
             this._isCritical = isCritical;
@@ -20,8 +18,6 @@ namespace proscryption
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.linearVelocity = transform.forward * speed;
 
-            if (lifetime > 0)
-                Destroy(gameObject, lifetime);
         }
         void OnTriggerEnter(Collider other)
         {

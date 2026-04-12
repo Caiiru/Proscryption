@@ -66,6 +66,7 @@ namespace proscryption
             if (_weapon)
                 _weapon.OnShoot -= HandleAttackPlayed;
             PlayerEvents.OnPlayerReloadEnded -= Reload;
+            PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
 
         }
 
