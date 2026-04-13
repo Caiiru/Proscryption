@@ -181,23 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 2010157593}
     - target: {fileID: 5464837570990808297, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_VersionIndex
-      value: 746
-      objectReference: {fileID: 0}
-    - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9988381
-      objectReference: {fileID: 0}
-    - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.04798109
-      objectReference: {fileID: 0}
-    - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.004494802
-      objectReference: {fileID: 0}
-    - target: {fileID: 7549482391261869586, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.00021591634
+      value: 752
       objectReference: {fileID: 0}
     - target: {fileID: 7634181183004879957, guid: f53ff8b561855114b892736d0a15a1b1, type: 3}
       propertyPath: m_Mesh
@@ -1511,10 +1495,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1666804144347985621, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_Name
-      value: PlayerWeaponPrefab
-      objectReference: {fileID: 0}
     - target: {fileID: 2996229423250799355, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1555,18 +1535,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3131390038710608476, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: bloodBulletData
-      value: 
-      objectReference: {fileID: 11400000, guid: 32716861b07e54e469c38a6b2abcf20e, type: 2}
-    - target: {fileID: 3131390038710608476, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: lightBulletData
-      value: 
-      objectReference: {fileID: 11400000, guid: dadf316426f583e4bb18ba24661d780b, type: 2}
-    - target: {fileID: 3131390038710608476, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: standardBulletData
-      value: 
-      objectReference: {fileID: 11400000, guid: ed7d7a9384e155e48b78083bba5e1594, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

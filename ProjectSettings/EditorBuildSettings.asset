@@ -16,7 +16,7 @@ EditorBuildSettings:
     guid: 0647365da84b38647955f84f3ec03a8b
   - enabled: 1
     path: Assets/Scenes/GameScreen.unity
-    guid: 44963e54866b2424ca622c2cf4c5b4f7
+    guid: 476f7f367d55550429a82274d3ba4aa4
   - enabled: 1
     path: Assets/Scenes/CutsceneScreen.unity
     guid: 273b48ea648f85b47a64726777aeec05

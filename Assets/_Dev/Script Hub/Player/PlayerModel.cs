@@ -32,6 +32,20 @@ namespace proscryption
         private bool _canMove = true;
         private bool _canReload = true;
 
+        //Roll
+        [Header("Roll Settings")]
+        [SerializeField] public float rollForce = 20f;
+        [SerializeField] public float rollDuration = 0.5f;
+        [SerializeField] public float rollCooldown = 1.5f;
+        [SerializeField] public int ROLL_STAMINA_COST = 20;
+
+        [Header("PlayerStances Data")]
+        [SerializeField] private PlayerData standardData;
+        [SerializeField] private PlayerData bloodData;
+        [SerializeField] private PlayerData lightData;
+
+        private PlayerData _currentData;
+
         // ===== REFERENCES =====
         private Rigidbody _rigidbody;
 
@@ -53,7 +67,9 @@ namespace proscryption
         {
             // Listen to combat events that affect model
             EventManager.OnHitDetected += HandleHitDetected;
+            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
         }
+
 
         void OnDisable()
         {
@@ -74,8 +90,11 @@ namespace proscryption
 
         void Start()
         {
-            SetupHealth();
-            SetupStamina();
+            _currentData = standardData; // Start with standard stance data
+            SetupCurrentStance();
+            // SetupHealth();
+            // SetupStamina();
+
         }
         void Update()
         {
@@ -84,6 +103,32 @@ namespace proscryption
                 killPlayer = false;
                 HandleHitDetected(transform.position, maxHealth, gameObject);
             }
+        }
+        // ===== Stance Management ===== 
+        private void SetupCurrentStance()
+        {
+            maxHealth = _currentData.maxHealth;
+            moveSpeed = _currentData.moveSpeed;
+            maxStamina = _currentData.maxStamina;
+            rollForce = _currentData.rollForce;
+            ROLL_STAMINA_COST = _currentData.rollStaminaCost;
+            rollCooldown = _currentData.rollCooldown;
+            // staminaRegenPerSec = _currentData.staminaRegenPerSec;
+            SetupHealth();
+            SetupStamina();
+
+        }
+        private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
+        {
+            _currentData = newStance switch
+            {
+                PlayerStance.Standard => standardData,
+                PlayerStance.Blood => bloodData,
+                PlayerStance.Light => lightData,
+                _ => standardData
+            };
+
+            SetupCurrentStance();
         }
 
 
@@ -170,7 +215,7 @@ namespace proscryption
 
         void SetupHealth()
         {
-            this._currentHealth = maxHealth;
+            _currentHealth = maxHealth;
             EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
         }
         private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)

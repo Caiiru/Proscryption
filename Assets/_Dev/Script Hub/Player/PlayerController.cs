@@ -17,15 +17,11 @@ namespace proscryption
         [Header("Movement Settings")]
         [SerializeField] private float rotationSpeed = 10f;
 
-        [Header("Roll Settings")]
-        [SerializeField] private float rollForce = 20f;
-        [SerializeField] private float rollDuration = 0.5f;
-        [SerializeField] private float rollCooldown = 1.5f;
-        [SerializeField] private const int ROLL_STAMINA_COST = 20;
 
         private float _rollCooldownTimer = 0f;
         private float _rollTimer = 0f;
         private bool _isRolling = false;
+        //Data SO
 
 
         // ===== REFERENCES =====
@@ -84,7 +80,7 @@ namespace proscryption
             EventManager.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
 
-            
+
             _characterInput.OnDefaultStanceInput -= () => _model.ChangeStance(PlayerStance.Standard);
             _characterInput.OnBloodStanceInput -= () => _model.ChangeStance(PlayerStance.Blood);
             _characterInput.OnLightStanceInput -= () => _model.ChangeStance(PlayerStance.Light);
@@ -142,7 +138,7 @@ namespace proscryption
             }
 
             // Consume stamina
-            if (!_model.TryConsumeStamina(ROLL_STAMINA_COST))
+            if (!_model.TryConsumeStamina(_model.ROLL_STAMINA_COST))
             {
                 Debug.Log("[PlayerController] Not enough stamina to roll", gameObject);
                 return;
@@ -150,9 +146,9 @@ namespace proscryption
 
             // Start roll
             _model.SetState(PlayerState.Rolling);
-            _model.SetInvulnerable(true, rollDuration);
-            _rollTimer = rollDuration;
-            _rollCooldownTimer = rollCooldown;
+            _model.SetInvulnerable(true, _model.rollDuration);
+            _rollTimer = _model.rollDuration;
+            _rollCooldownTimer = _model.rollCooldown;
             _isRolling = true;
         }
 
@@ -232,7 +228,7 @@ namespace proscryption
             }
 
             // Apply roll velocity
-            Vector3 rollVelocity = rollDirection * rollForce;
+            Vector3 rollVelocity = rollDirection * _model.rollForce;
             rollVelocity.y = _rigidbody.linearVelocity.y; // Preserve gravity
 
             _rigidbody.linearVelocity = rollVelocity;
