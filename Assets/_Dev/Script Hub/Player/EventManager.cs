@@ -55,7 +55,8 @@ namespace proscryption
         public static event Action OnArenaStart;
         public static event Action OnGameWin;
 
-
+        // ===== ARENA EVENTS =====
+        public static event Action OnWaveStart;
 
 
         // ===== BROADCAST METHODS (Controllers call these) =====
@@ -179,6 +180,12 @@ namespace proscryption
                     break;
             }
 
+        }
+        // Arena Broadcast =========
+
+        public static void BroadcastWaveStart()
+        {
+            OnWaveStart?.Invoke();
         }
     }
 

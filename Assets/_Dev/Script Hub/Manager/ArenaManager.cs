@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 namespace proscryption
@@ -9,12 +9,16 @@ namespace proscryption
         [Header("Arena Settings")]
         public float spawnInterval = 8;
         private float _currentInterval = 0;
-        private bool _wasStarted;
+        private bool _canSpawn = false;
 
-        [SerializeField] private int howMuchKilled = 0;
-        public int maxKill = 4;
-        private int howMuchSpawned = 0;
-        [Header("Spawn Point")]
+        [Header("Wave Settings")]
+        public WaveData[] wavesData;
+        private int _currentWaveIndex = 0;
+
+        //Spawn Settings
+        public int enemiesToSpawn = 2;
+        public int enemiesAlive = 0;
+
         public GameObject[] spawnPoint;
 
         void OnEnable()
@@ -35,35 +39,24 @@ namespace proscryption
         {
             Debug.Log("[Arena Manager] Arena started!");
             _enemyManager = EnemyManager.Instance;
-            _wasStarted = true;
-            _currentInterval = spawnInterval - 1;
-            howMuchKilled = 0;
-            howMuchSpawned = 0;
+            StartNextWave();
         }
 
         void Update()
         {
-            if (!_wasStarted) return;
-            if (howMuchSpawned >= maxKill) return;
-
-            _currentInterval += Time.deltaTime;
-            if (_currentInterval < spawnInterval)
-            {
-
-            }
-
-            else
-            {
-                SpawnEnemy();
-                _currentInterval = 0;
-            }
+            HandleSpawn();
         }
 
         private void SpawnEnemy()
         {
+            if (enemiesToSpawn <= 0)
+            {
+                _canSpawn = false;
+                return;
+            }
             var enemy = _enemyManager.enemyPool.Get();
             enemy.transform.position = EnemyGetRandomSpawnPoint();
-
+            enemiesToSpawn--;
 
         }
         private void GetEnemySpawnPoints()
@@ -72,7 +65,7 @@ namespace proscryption
         }
         private Vector3 EnemyGetRandomSpawnPoint()
         {
-            int r = Random.Range(0, spawnPoint.Length);
+            int r = UnityEngine.Random.Range(0, spawnPoint.Length);
 
             return spawnPoint[r].transform.position;
         }
@@ -80,15 +73,43 @@ namespace proscryption
         {
             if (entity.CompareTag("Enemy"))
             {
-                howMuchKilled++;
+                enemiesAlive--;
+                if (enemiesAlive <= 0)
+                {
+                    Debug.Log("Wave cleared!");
+                }
             }
+        }
 
-            if (howMuchKilled >= maxKill)
+        private void StartNextWave()
+        {
+            _currentWaveIndex++;
+            if (_currentWaveIndex >= wavesData.Length)
             {
-                EventManager.BroadcastGameWin();
-                _wasStarted = false;
-
+                Debug.Log("All waves completed!");
+                return;
             }
+            enemiesToSpawn = wavesData[_currentWaveIndex].enemyCount;
+            spawnInterval = wavesData[_currentWaveIndex].spawnInterval;
+            _currentInterval = spawnInterval - 1;
+
+
+            EventManager.BroadcastWaveStart();
+
+            _canSpawn = true;
+            enemiesAlive = 0;
+        }
+
+        private void HandleSpawn()
+        {
+            if (!_canSpawn) return;
+
+            _currentInterval += Time.deltaTime;
+            if (_currentInterval < spawnInterval) return;
+
+            SpawnEnemy();
+            _currentInterval = 0;
+
         }
 
 
@@ -108,4 +129,11 @@ namespace proscryption
         }
         #endregion
     }
+}
+[Serializable]
+public struct WaveData
+{
+    public int enemyCount;
+    public float spawnInterval;
+    public GameObject enemyPrefab;
 }
