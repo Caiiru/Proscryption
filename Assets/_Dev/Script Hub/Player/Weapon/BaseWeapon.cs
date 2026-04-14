@@ -1,5 +1,7 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace proscryption
 {
@@ -43,6 +45,9 @@ namespace proscryption
         public BulletData lightBulletData;
 
         private BulletData currentData;
+
+        [Header("Effects")]
+        public VisualEffect MuzzleFlashEffect;
 
 
         void Start()
@@ -94,14 +99,19 @@ namespace proscryption
         }
 
 
-        public void OnAttack()
+        public async void OnAttack()
         {
-            if (_isReloading) return;
-            if (!ConsumeBullet()) return;
+            if (_isReloading) await UniTask.CompletedTask;
+            if (!ConsumeBullet()) await UniTask.CompletedTask;
 
             GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed);
             OnShoot?.Invoke();
+            if (MuzzleFlashEffect != null)
+            {
+                MuzzleFlashEffect.gameObject.SetActive(true);
+                MuzzleFlashEffect.Play();
+            }
 
             Destroy(bullet, currentData.duration);
 
@@ -114,6 +124,11 @@ namespace proscryption
             {
                 _currentBulletIndex = 0;
             }
+
+            await UniTask.Delay(500);
+            MuzzleFlashEffect.gameObject.SetActive(false);
+            await UniTask.CompletedTask;
+
         }
 
         public void ReloadInput()
