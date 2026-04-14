@@ -14,8 +14,13 @@ namespace proscryption
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
-        private InputAction _parryAction;
+        private InputAction _aimAction;
+        private InputAction _reloadAction;
         private InputAction _pauseAction;
+
+        private InputAction _defaultStanceAction;
+        private InputAction _bloodStanceAction;
+        private InputAction _lightStanceAction;
         #endregion
 
         #region Public Input Properties
@@ -43,8 +48,13 @@ namespace proscryption
         /// Valor de input: boolean 
         /// </summary>
         public bool Attackinput { get; private set; }
-        public bool ParryInput { get; private set; }
+        public bool AimInput { get; private set; }
+        public bool ReloadInput { get; private set; }
         public bool PauseInput { get; private set; }
+
+        public bool DefaultStanceInput { get; private set; }
+        public bool BloodStanceInput { get; private set; }
+        public bool LightStanceInput { get; private set; }
         #endregion
 
         #region Public Callbacks
@@ -76,8 +86,13 @@ namespace proscryption
         /// <summary>
         /// Callback para quando o player apertar para usar a habilidade de Parry  
         /// </summary>
-        public Action<Boolean> OnParryInput;
+        public Action<Boolean> OnAimInput;
+        public Action OnReloadInput;
         public Action OnPauseInput;
+
+        public Action OnDefaultStanceInput;
+        public Action OnBloodStanceInput;
+        public Action OnLightStanceInput;
         #endregion
 
         private void Awake()
@@ -100,8 +115,14 @@ namespace proscryption
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
-            _parryAction = _playerInput.actions["Parry"];
+            _aimAction = _playerInput.actions["Parry"];
+            _reloadAction = _playerInput.actions["Reload"];
             _pauseAction = _playerInput.actions["Pause"];
+
+            //Stances
+            _defaultStanceAction = _playerInput.actions["ChangeStance_Default"];
+            _bloodStanceAction = _playerInput.actions["ChangeStance_Blood"];
+            _lightStanceAction = _playerInput.actions["ChangeStance_Light"];
 
             // Registrar callbacks
             RegisterCallbacks();
@@ -137,14 +158,30 @@ namespace proscryption
                 _attackAction.performed += HandleAttackInput;
                 _attackAction.canceled += HandleAttackInput;
             }
-            if (_parryAction != null)
+            if (_aimAction != null)
             {
-                _parryAction.performed += HandleParryInput;
+                _aimAction.performed += HandleAimInput;
 
+            }
+            if (_reloadAction != null)
+            {
+                _reloadAction.performed += HandleReloadInput;
             }
             if (_pauseAction != null)
             {
                 _pauseAction.performed += HandlePauseInput;
+            }
+            if (_defaultStanceAction != null)
+            {
+                _defaultStanceAction.performed += (context) => HandleStanceInput(context, OnDefaultStanceInput);
+            }
+            if (_bloodStanceAction != null)
+            {
+                _bloodStanceAction.performed += (context) => HandleStanceInput(context, OnBloodStanceInput);
+            }
+            if (_lightStanceAction != null)
+            {
+                _lightStanceAction.performed += (context) => HandleStanceInput(context, OnLightStanceInput);
             }
         }
 
@@ -179,23 +216,41 @@ namespace proscryption
                 _attackAction.performed -= HandleAttackInput;
                 _attackAction.canceled -= HandleAttackInput;
             }
-            if (_parryAction != null)
+            if (_aimAction != null)
             {
-                _parryAction.performed -= HandleParryInput;
+                _aimAction.performed -= HandleAimInput;
 
             }
+            if (_reloadAction != null)
+            {
+                _reloadAction.performed -= HandleReloadInput;
+            }
+
+            if (_defaultStanceAction != null)
+            {
+                _defaultStanceAction.performed -= (context) => HandleStanceInput(context, OnDefaultStanceInput);
+            }
+            if (_bloodStanceAction != null)
+            {
+                _bloodStanceAction.performed -= (context) => HandleStanceInput(context, OnBloodStanceInput);
+            }
+            if (_lightStanceAction != null)
+            {
+                _lightStanceAction.performed -= (context) => HandleStanceInput(context, OnLightStanceInput);
+            }
+
         }
 
         #region Input Handlers
         private void HandleMoveInput(InputAction.CallbackContext context)
-        { 
+        {
             MoveInput = context.ReadValue<Vector2>();
             OnMoveInput?.Invoke(MoveInput);
             EventManager.BroadcastPlayerMoveInput(MoveInput);
         }
 
         private void HandleRollInput(InputAction.CallbackContext context)
-        { 
+        {
             RollInput = context.ReadValueAsButton();
             OnRollInput?.Invoke(RollInput);
             // NEW: Broadcast to EventManager when roll is performed
@@ -204,19 +259,19 @@ namespace proscryption
         }
 
         private void HandleInteractInput(InputAction.CallbackContext context)
-        { 
+        {
             InteractInput = context.ReadValueAsButton();
             OnInteractInput?.Invoke(InteractInput);
         }
 
         private void HandleLookInput(InputAction.CallbackContext context)
-        { 
+        {
             LookInput = context.ReadValue<Vector2>();
             OnLookInput?.Invoke(LookInput);
         }
 
         private void HandleAttackInput(InputAction.CallbackContext context)
-        { 
+        {
             Attackinput = context.ReadValueAsButton();
             OnAttackInput?.Invoke(Attackinput);
             // NEW: Broadcast to EventManager when attack is performed
@@ -224,22 +279,39 @@ namespace proscryption
                 EventManager.BroadcastPlayerAttackInput();
         }
 
-        private void HandleParryInput(InputAction.CallbackContext context)
-        { 
-            ParryInput = context.ReadValueAsButton();
-            OnParryInput?.Invoke(ParryInput);
-            if (ParryInput)
+        private void HandleAimInput(InputAction.CallbackContext context)
+        {
+            AimInput = context.ReadValueAsButton();
+            OnAimInput?.Invoke(AimInput);
+            if (AimInput)
                 EventManager.BroadcastPlayerParryInput();
         }
         private void HandlePauseInput(InputAction.CallbackContext context)
         {
             PauseInput = context.ReadValueAsButton();
-            Debug.Log("Pause input");
             if (PauseInput)
             {
                 OnPauseInput?.Invoke();
 
                 EventManager.BroadcastPauseInput();
+            }
+        }
+
+        private void HandleReloadInput(InputAction.CallbackContext context)
+        {
+            ReloadInput = context.ReadValueAsButton();
+            if (ReloadInput)
+            {
+                OnReloadInput?.Invoke();
+                PlayerEvents.BroadcastPlayerReloadInput();
+            }
+        }
+        private void HandleStanceInput(InputAction.CallbackContext context, Action stanceInputCallback)
+        {
+            bool inputValue = context.ReadValueAsButton();
+            if (inputValue)
+            {
+                stanceInputCallback?.Invoke();
             }
         }
 

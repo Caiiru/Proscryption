@@ -55,14 +55,14 @@ namespace proscryption
                     // Load main menu scene or show main menu UI
                     break;
                 case AppState.Cutscene:
+                    SetCursorVisibility(false);
                     SceneManager.LoadScene("CutsceneScreen");
-                    
+
                     break;
                 case AppState.Playing:
                     SceneManager.LoadScene("LoadingScreen");
                     await LoadSceneAsync("GameScreen");
                     SetCursor(CursorLockMode.Locked);
-                    SetCursorVisibility(false);
                     break;
                 case AppState.Paused:
                     SetCursor(CursorLockMode.None);
@@ -144,7 +144,7 @@ namespace proscryption
 
         private void SetCursor(CursorLockMode mode)
         {
-            Cursor.lockState = mode;
+            // Cursor.lockState = mode;
         }
         private void SetCursorVisibility(bool visible)
         {

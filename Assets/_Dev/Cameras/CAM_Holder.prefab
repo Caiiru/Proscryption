@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1356375637261624668}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4618104, y: -0.00000001796458, z: 0.000000009353358, w: 0.8869787}
-  m_LocalPosition: {x: -113.77364, y: 4.269778, z: -106.27216}
+  m_LocalPosition: {x: -112.72706, y: 2.326816, z: -108.187386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68,7 +68,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 55
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1319,7 +1319,7 @@ Transform:
   m_GameObject: {fileID: 8626968717723312802}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7114, y: 1.85964, z: 1.79619}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1401,21 +1401,7 @@ MonoBehaviour:
     Camera: {fileID: 0}
     ActivateAfter: 10
     MinDuration: 0
-  HashOfParent:
-  - Hash: 1432961145
-    HashOfParent: 756556552
-  - Hash: -123739329
-    HashOfParent: 756556552
-  - Hash: 1876241581
-    HashOfParent: 756556552
-  - Hash: -1716903120
-    HashOfParent: 756556552
-  - Hash: 652133569
-    HashOfParent: 756556552
-  - Hash: -1654444511
-    HashOfParent: 756556552
-  - Hash: -507633752
-    HashOfParent: -1654444511
+  HashOfParent: []
   m_LegacyLookAt: {fileID: 0}
   m_LegacyFollow: {fileID: 0}
 --- !u!114 &6839323511980328158

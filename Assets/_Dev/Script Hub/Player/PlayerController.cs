@@ -1,7 +1,5 @@
-using System;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace proscryption
@@ -19,11 +17,11 @@ namespace proscryption
         [Header("Movement Settings")]
         [SerializeField] private float rotationSpeed = 10f;
 
-        [Header("Roll Settings")]
-        [SerializeField] private float rollForce = 20f;
-        [SerializeField] private float rollDuration = 0.5f;
-        [SerializeField] private float rollCooldown = 1.5f;
-        [SerializeField] private const int ROLL_STAMINA_COST = 20;
+
+        private float _rollCooldownTimer = 0f;
+        private float _rollTimer = 0f;
+        private bool _isRolling = false;
+        //Data SO
 
 
         // ===== REFERENCES =====
@@ -35,46 +33,57 @@ namespace proscryption
         // ===== STATE =====
         [SerializeField] private Vector2 _moveInput = Vector2.zero;
         private Vector3 _currentVelocity = Vector3.zero;
-        private float _rollCooldownTimer = 0f;
-        private float _rollTimer = 0f;
-        private bool _isRolling = false;
         private bool _canGetInput = true;
 
-        [SerializeField] private bool _isParrying = false;
+
+        // Ref
+        [SerializeField] LayerMask _mouseLayerMask = 1 << 6; // Assuming "Ground" layer is layer 6
+        CharacterInput _characterInput;
 
         void Awake()
         {
             _model = GetComponent<PlayerModel>();
             _view = GetComponent<PlayerView>();
             _rigidbody = GetComponent<Rigidbody>();
+            _characterInput = GetComponent<CharacterInput>();
             RefreshMainCamera();
 
             if (_model == null) Debug.LogError("[PlayerController] PlayerModel not found!");
             if (_view == null) Debug.LogError("[PlayerController] PlayerView not found!");
             if (_rigidbody == null) Debug.LogError("[PlayerController] Rigidbody not found!");
+            if (_characterInput == null) Debug.LogError("[PlayerController] CharacterInput not found!");
         }
 
         void OnEnable()
         {
+            this._characterInput.OnLookInput += HandleLookInput;
             // Subscribe to movement and roll inputs via EventManager
             EventManager.OnPlayerMoveInput += HandleMoveInput;
             EventManager.OnPlayerRollInput += HandleRollInput;
-            EventManager.OnPlayerParryInput += HandleParryInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
             EventManager.OnPlayerStateChanged += HandlePlayerState;
+
+            _characterInput.OnDefaultStanceInput += () => _model.ChangeStance(PlayerStance.Standard);
+            _characterInput.OnBloodStanceInput += () => _model.ChangeStance(PlayerStance.Blood);
+            _characterInput.OnLightStanceInput += () => _model.ChangeStance(PlayerStance.Light);
             RefreshMainCamera();
         }
 
 
         void OnDisable()
         {
+            this._characterInput.OnLookInput -= HandleLookInput;
             EventManager.OnPlayerMoveInput -= HandleMoveInput;
             EventManager.OnPlayerRollInput -= HandleRollInput;
-            EventManager.OnPlayerParryInput -= HandleParryInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
             EventManager.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
+
+
+            _characterInput.OnDefaultStanceInput -= () => _model.ChangeStance(PlayerStance.Standard);
+            _characterInput.OnBloodStanceInput -= () => _model.ChangeStance(PlayerStance.Blood);
+            _characterInput.OnLightStanceInput -= () => _model.ChangeStance(PlayerStance.Light);
         }
         void Start()
         {
@@ -129,7 +138,7 @@ namespace proscryption
             }
 
             // Consume stamina
-            if (!_model.TryConsumeStamina(ROLL_STAMINA_COST))
+            if (!_model.TryConsumeStamina(_model.ROLL_STAMINA_COST))
             {
                 Debug.Log("[PlayerController] Not enough stamina to roll", gameObject);
                 return;
@@ -137,35 +146,16 @@ namespace proscryption
 
             // Start roll
             _model.SetState(PlayerState.Rolling);
-            _model.SetInvulnerable(true, rollDuration);
-            _rollTimer = rollDuration;
-            _rollCooldownTimer = rollCooldown;
+            _model.SetInvulnerable(true, _model.rollDuration);
+            _rollTimer = _model.rollDuration;
+            _rollCooldownTimer = _model.rollCooldown;
             _isRolling = true;
         }
 
-        private void HandleParryInput()
-        {
-            if (!_canGetInput) return;
 
-            if (!_model.TryConsumeStamina(15))
-            {
-                Debug.Log("[PlayerController] Not enough stamina to parry", gameObject);
-                return;
-            }
-            _model.SetState(PlayerState.Parrying);
-        }
 
-        public void EnableParryImunity()
-        {
-            _isParrying = true;
-            _model.SetInvulnerable(true, 0.25f);
 
-        }
-        public void DisableParryImunity()
-        {
-            _isParrying = false;
-            _model.SetState(PlayerState.Idle);
-        }
+
 
         // ===== PHYSICS LOOP =====
 
@@ -221,10 +211,10 @@ namespace proscryption
             _rigidbody.linearVelocity = _currentVelocity;
 
             // Rotate player toward movement direction
-            if (_moveInput.magnitude > 0.1f)
-            {
-                RotateTowardsVelocity(_currentVelocity);
-            }
+            // if (_moveInput.magnitude > 0.1f)
+            // {
+            //     RotateTowardsVelocity(_currentVelocity);
+            // }
         }
 
         private void HandleRolling()
@@ -238,7 +228,7 @@ namespace proscryption
             }
 
             // Apply roll velocity
-            Vector3 rollVelocity = rollDirection * rollForce;
+            Vector3 rollVelocity = rollDirection * _model.rollForce;
             rollVelocity.y = _rigidbody.linearVelocity.y; // Preserve gravity
 
             _rigidbody.linearVelocity = rollVelocity;
@@ -256,6 +246,11 @@ namespace proscryption
                 else
                     _model.SetState(PlayerState.Moving);
             }
+        }
+        private void HandleLookInput(Vector2 input)
+        {
+            if (_mainCamera == null) return;
+            RotateTowardsMousePosition(input);
         }
 
         // ===== HELPER METHODS =====
@@ -315,6 +310,42 @@ namespace proscryption
                 targetRotation,
                 rotationSpeed * Time.fixedDeltaTime
             );
+        }
+
+        private void RotateTowardsDirection(Vector3 direction)
+        {
+            if (direction.magnitude < 0.1f) return;
+            if (!_model.CanRotate()) return;
+
+            // Vector3 flatDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
+            // if (flatDirection.magnitude < 0.1f) return;
+
+            transform.rotation = Quaternion.LookRotation(direction.normalized);
+            // Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+            // transform.rotation = Quaternion.Lerp(
+            //     transform.rotation,
+            //     targetRotation,
+            //     // rotationSpeed * Time.fixedDeltaTime
+            //     0.05f
+            // );
+        }
+        private void RotateTowardsMousePosition(Vector2 mousePosition)
+        {
+            if (_model.CurrentState == PlayerState.Rolling) return;
+            if (_mainCamera == null) return;
+
+            Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f, _mouseLayerMask))
+            {
+                Vector3 targetPoint = hitInfo.point;
+                targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane
+                EventManager.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
+                Vector3 direction = targetPoint - transform.position;
+                RotateTowardsDirection(direction);
+                // Debug.DrawLine(transform.position, transform.position + direction * 2f, Color.green, 0.5f);
+            }
+            // Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.5f);
+            // Debug.DrawLine(transform.position, transform.position + transform.forward * 2f, Color.blue, 0.5f);
         }
 
         private void UpdateTimers()

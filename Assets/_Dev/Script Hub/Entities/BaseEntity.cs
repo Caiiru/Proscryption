@@ -25,12 +25,16 @@ namespace proscryption
         /// <summary>
         /// Take damage. Called via EventManager for decoupled damage handling.
         /// </summary>
-        public virtual void TakeDamage(int damage, GameObject source = null)
+        public virtual void TakeDamage(
+            int damage,
+            GameObject source = null,
+            bool isCritical = false)
         {
             if (!canTakeDamage) return;
             if (_isDead) return;
 
-            health -= damage;
+
+            health -= isCritical ? damage * 2 : damage;
 
             // Broadcast damage event
             EventManager.BroadcastEntityDamaged(damage, source != null ? source : gameObject);
@@ -55,7 +59,7 @@ namespace proscryption
         public virtual void OnDeath()
         {
             EventManager.BroadcastEntityDied(gameObject);
-            
+
             if (_animator)
             {
                 _animator.SetTrigger("die");

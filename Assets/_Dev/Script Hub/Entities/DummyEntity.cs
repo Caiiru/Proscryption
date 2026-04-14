@@ -20,9 +20,10 @@ namespace proscryption
             if (bloodVFX)
                 bloodVFX.Stop();
         }
-        public override void TakeDamage(int damage, GameObject source = null)
+        public override void TakeDamage(int damage,
+                                        GameObject source = null, bool isCritical = false)
         {
-            base.TakeDamage(damage, source);
+            base.TakeDamage(damage, source, isCritical);
             Debug.Log($"{this.transform.name} is taking {damage} damage");
 
 

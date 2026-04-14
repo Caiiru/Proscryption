@@ -109,10 +109,10 @@ public class PlayerView : MonoBehaviour
     /// <summary>
     /// React to player attack event
     /// </summary>
-    private void HandleAttackPlayed(int damage)
+    private void HandleAttackPlayed()
     {
         // VFX, SFX, and animations handled via state change above
-        Debug.Log($"[PlayerView] Attack played - {damage} damage", gameObject);
+        // Debug.Log($"[PlayerView] Attack played - {damage} damage", gameObject);
     }
 
     /// <summary>

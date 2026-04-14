@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using proscryption;
 using UnityEngine;
 
 namespace proscryption
@@ -10,10 +10,6 @@ namespace proscryption
     /// </summary>
     public class CombatSystem : MonoBehaviour
     {
-        [SerializeField] private int baseAttackDamage = 10;
-        [SerializeField] private int critDamage = 20;
-        [SerializeField] private float critChance = 0.1f; // 10%
-        [SerializeField] private float attackCooldown = 0.5f;
         [SerializeField] private const int ATTACK_STAMINA_COST = 10;
 
 
@@ -34,7 +30,7 @@ namespace proscryption
 
             if (_currentWeapon == null)
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
-            
+
 
 
         }
@@ -43,12 +39,14 @@ namespace proscryption
         {
             // Subscribe to attack input
             EventManager.OnPlayerAttackInput += HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput += HandleReloadInput;
             // EventManager.OnPlayerParryInput += HandleParryInput;
         }
 
         void OnDisable()
         {
             EventManager.OnPlayerAttackInput -= HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput -= HandleReloadInput;
             // EventManager.OnPlayerParryInput -= HandleParryInput;
         }
 
@@ -63,14 +61,6 @@ namespace proscryption
                 Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} ");
                 return;
             }
-
-            // // Validate: Is cooldown finished?
-            // if (Time.time - _lastAttackTime < attackCooldown)
-            // {
-            //     Debug.Log("[CombatSystem] Attack on cooldown", gameObject);
-            //     return;
-            // }
-
             // Validate: Do we have stamina?
             if (!_model.TryConsumeStamina(ATTACK_STAMINA_COST))
             {
@@ -78,88 +68,35 @@ namespace proscryption
                 return;
             }
 
+            _model.SetState(PlayerState.Attacking);
             // Execute attack
-            ExecuteAttack();
+            // ExecuteAttack();
         }
-
+        /// <summary>
+        /// Triggered by animation event, ensures damage is applied at the correct time in the animation
+        /// </summary>
         private void ExecuteAttack()
         {
             _lastAttackTime = Time.time;
+            _currentWeapon.OnAttack();
 
-            // Update model state
-            _model.SetState(PlayerState.Attacking);
+            EventManager.BroadcastPlayerAttack();
 
-            // Calculate damage
-            int damage = CalculateDamage();
-
-            // Activate weapon hitbox
-            // if (_currentWeapon != null)
-            // {
-            //     _currentWeapon.ActivateHitbox(damage);
-            // }
-
-            // Broadcast to all listeners
-            EventManager.BroadcastPlayerAttack(damage);
-
-            // Debug.Log($"[CombatSystem] Attack executed! Damage: {damage}", gameObject);
         }
-        public void ActivateWeaponHitbox()
+        private void HandleReloadInput()
         {
-            if (_currentWeapon != null)
-            {
-                _currentWeapon.ActivateHitbox(CalculateDamage());
-            }
+            if (!CanReload()) return;
+
+            _currentWeapon.ReloadInput();
         }
-        public void DesactivateWeaponHitbox()
+        private bool CanReload()
         {
-            if (_currentWeapon != null)
-            {
-                _currentWeapon.DesactivateHitBox();
-            }
+            return _model.CanReload();
         }
 
-        // // ===== PARRY =====
-
-        // private void HandleParryInput()
-        // {
-        //     if (!_model.CanAttack())
-        //     {
-        //         return;
-        //     }
-        //     _model.SetState(PlayerState.Parrying);
-        // }
-        // ===== DAMAGE CALCULATION =====
-
-        private int CalculateDamage()
+        public BaseWeapon GetWeapon()
         {
-            // Check for crit
-            bool isCrit = Random.value < critChance;
-
-            if (isCrit)
-            {
-                return critDamage;
-            }
-
-            // Add some variance
-            int variance = Random.Range(-2, 3);
-            return Mathf.Max(1, baseAttackDamage + variance);
-        }
-
-        // ===== PUBLIC DEBUG METHODS =====
-
-        public void PrintCombatState()
-        {
-            float timeSinceLastAttack = Time.time - _lastAttackTime;
-            bool canAttackNow = timeSinceLastAttack >= attackCooldown;
-
-            Debug.Log(
-                $"[CombatSystem] " +
-                $"Damage: {baseAttackDamage} | " +
-                $"Cooldown: {attackCooldown}s | " +
-                $"Time Since Attack: {timeSinceLastAttack:F2}s | " +
-                $"Can Attack: {canAttackNow}",
-                gameObject
-            );
+            return _currentWeapon;
         }
     }
 }
