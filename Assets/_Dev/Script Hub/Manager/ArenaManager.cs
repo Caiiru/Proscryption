@@ -38,7 +38,8 @@ namespace proscryption
         public void StartArena()
         {
             Debug.Log("[Arena Manager] Arena started!");
-            _enemyManager = EnemyManager.Instance;
+            if (_enemyManager == null)
+                _enemyManager = EnemyManager.Instance;
             StartNextWave();
         }
 

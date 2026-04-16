@@ -17,6 +17,7 @@ namespace proscryption
         public static event Action OnPlayerReloadInput;
         public static event Action OnPlayerReloadEnded;
         public static event Action OnPlayerAimInput;
+        public static event Action OnPlayerCastInteract;
         public static event Action<Vector2> OnMouseLookInput;
 
         //Changes
@@ -27,6 +28,8 @@ namespace proscryption
         public static event Action<int, int> OnPlayerHealthChanged;
 
         public static event Action<float, float> OnPlayerStaminaChanged;
+
+        public static event Action<string> OnPlayerEnterInteractRange;
 
 
         //============================ BROADCAST METHODS ============================
@@ -63,6 +66,10 @@ namespace proscryption
         {
             OnPlayerReloadEnded?.Invoke();
         }
+        public static void BroadcastPlayerCastInteract()
+        {
+            OnPlayerCastInteract?.Invoke();
+        }
         public static void BroadcastMouseLookInput(Vector2 mousePosition)
         {
             OnMouseLookInput?.Invoke(mousePosition);
@@ -92,7 +99,11 @@ namespace proscryption
         }
         public static void BroadcastPlayerStanceChanged(PlayerStance prev, PlayerStance next)
         {
-            OnPlayerStanceChanged?.Invoke(prev, next); 
+            OnPlayerStanceChanged?.Invoke(prev, next);
+        }
+        public static void BroadcastPlayerEnterInteractRange(string interactableName)
+        {
+            OnPlayerEnterInteractRange?.Invoke(interactableName);
         }
         #endregion
     }

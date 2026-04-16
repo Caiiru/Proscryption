@@ -8,6 +8,7 @@ TagManager:
   - PlayerSpawnPoint
   - EnemySpawnPoint
   - mousePlane
+  - Interactable
   layers:
   - Default
   - TransparentFX

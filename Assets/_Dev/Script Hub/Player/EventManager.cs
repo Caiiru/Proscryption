@@ -187,6 +187,10 @@ namespace proscryption
         {
             OnWaveStart?.Invoke();
         }
+        public static void BroadcastArenaStart()
+        {
+            OnArenaStart?.Invoke();
+        }
     }
 
 

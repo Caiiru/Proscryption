@@ -67,6 +67,8 @@ namespace proscryption
             _characterInput.OnDefaultStanceInput += () => _model.ChangeStance(PlayerStance.Standard);
             _characterInput.OnBloodStanceInput += () => _model.ChangeStance(PlayerStance.Blood);
             _characterInput.OnLightStanceInput += () => _model.ChangeStance(PlayerStance.Light);
+
+            _characterInput.OnInteractInput += HandleInteractInput;
             RefreshMainCamera();
         }
 
@@ -84,6 +86,8 @@ namespace proscryption
             _characterInput.OnDefaultStanceInput -= () => _model.ChangeStance(PlayerStance.Standard);
             _characterInput.OnBloodStanceInput -= () => _model.ChangeStance(PlayerStance.Blood);
             _characterInput.OnLightStanceInput -= () => _model.ChangeStance(PlayerStance.Light);
+
+            _characterInput.OnInteractInput -= HandleInteractInput;
         }
         void Start()
         {
@@ -122,6 +126,13 @@ namespace proscryption
                 if (_model.CurrentState == PlayerState.Moving)
                     _model.SetState(PlayerState.Idle);
             }
+        }
+
+        private void HandleInteractInput(bool isPressed)
+        {
+            Debug.Log($"Interact input: {(isPressed ? "Pressed" : "Released")}");
+            PlayerEvents.BroadcastPlayerCastInteract();
+
         }
 
         /// <summary>

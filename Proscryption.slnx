@@ -82,6 +82,7 @@
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
   <Project Path="BuzzGames.SceneDocs.Editor.csproj" />
+  <Project Path="Unity.InputSystem.RebindingUI.csproj" />
   <Project Path="vkg.virgoc.Editor.csproj" />
   <Project Path="FMODUnityResonance.csproj" />
   <Project Path="DOTweenPro.EditorScripts.csproj" />

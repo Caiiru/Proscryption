@@ -6,6 +6,8 @@ namespace proscryption
 {
     public class CharacterInput : MonoBehaviour
     {
+        public static CharacterInput Instance;
+
         private PlayerInput _playerInput;
 
         #region Input Actions
@@ -98,6 +100,17 @@ namespace proscryption
         private void Awake()
         {
             InitializeInput();
+            MakeSingleton();
+        }
+
+        private void MakeSingleton()
+        {
+            if (CharacterInput.Instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            CharacterInput.Instance = this;
         }
 
         private void InitializeInput()
@@ -115,7 +128,6 @@ namespace proscryption
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
-            _aimAction = _playerInput.actions["Parry"];
             _reloadAction = _playerInput.actions["Reload"];
             _pauseAction = _playerInput.actions["Pause"];
 
@@ -145,7 +157,6 @@ namespace proscryption
             if (_interactAction != null)
             {
                 _interactAction.performed += HandleInteractInput;
-                _interactAction.canceled += HandleInteractInput;
             }
 
             if (_lookAction != null)
@@ -203,7 +214,6 @@ namespace proscryption
             if (_interactAction != null)
             {
                 _interactAction.performed -= HandleInteractInput;
-                _interactAction.canceled -= HandleInteractInput;
             }
 
             if (_lookAction != null)
@@ -327,5 +337,7 @@ namespace proscryption
         {
             UnregisterCallbacks();
         }
+
+         
     }
 }

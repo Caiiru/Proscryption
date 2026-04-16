@@ -13,7 +13,7 @@ namespace proscryption
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject pauseScreen;
         [SerializeField] GameObject aimIndicator;
-        [SerializeField] GameObject bulletCounter;
+        [SerializeField] GameObject bulletCounter; 
         private PlayerBulletCounterHUD playerBulletCounterHUD;
         PauseManager _pauseManager;
         bool _isActive = true;
