@@ -13,13 +13,14 @@ namespace proscryption
 
         [Header("Wave Settings")]
         public WaveData[] wavesData;
-        private int _currentWaveIndex = 0;
+        private int _currentWaveIndex = -1;
 
         //Spawn Settings
-        public int enemiesToSpawn = 2;
+        [Tooltip("Number of enemies to spawn in the current wave")]
+        [SerializeField] int enemiesToSpawn = 2;
         public int enemiesAlive = 0;
 
-        public GameObject[] spawnPoint;
+        GameObject[] _spawnPoint;
 
         void OnEnable()
         {
@@ -58,17 +59,18 @@ namespace proscryption
             var enemy = _enemyManager.enemyPool.Get();
             enemy.transform.position = EnemyGetRandomSpawnPoint();
             enemiesToSpawn--;
+            enemiesAlive++;
 
         }
         private void GetEnemySpawnPoints()
         {
-            spawnPoint = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
+            _spawnPoint = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
         }
         private Vector3 EnemyGetRandomSpawnPoint()
         {
-            int r = UnityEngine.Random.Range(0, spawnPoint.Length);
+            int r = UnityEngine.Random.Range(0, _spawnPoint.Length);
 
-            return spawnPoint[r].transform.position;
+            return _spawnPoint[r].transform.position;
         }
         private void HandleEntityDied(GameObject entity)
         {

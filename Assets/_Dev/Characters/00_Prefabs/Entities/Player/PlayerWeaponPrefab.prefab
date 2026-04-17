@@ -112,11 +112,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0296
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -207,7 +207,7 @@ MonoBehaviour:
   bullets: 000000000000000000000000000000000000000000000000
   reloadTime: 2
   _isReloading: 0
-  standardBulletData: {fileID: 0}
-  bloodBulletData: {fileID: 0}
-  lightBulletData: {fileID: 0}
+  standardBulletData: {fileID: 11400000, guid: ed7d7a9384e155e48b78083bba5e1594, type: 2}
+  bloodBulletData: {fileID: 11400000, guid: 32716861b07e54e469c38a6b2abcf20e, type: 2}
+  lightBulletData: {fileID: 11400000, guid: dadf316426f583e4bb18ba24661d780b, type: 2}
   MuzzleFlashEffect: {fileID: 1232313068294886139}

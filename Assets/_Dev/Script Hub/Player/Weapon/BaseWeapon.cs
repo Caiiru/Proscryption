@@ -104,7 +104,9 @@ namespace proscryption
             if (_isReloading) await UniTask.CompletedTask;
             if (!ConsumeBullet()) await UniTask.CompletedTask;
 
-            GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            Quaternion bulletRotation = _bulletSpawnPoint.rotation;
+            bulletRotation.x = 0;
+            GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)

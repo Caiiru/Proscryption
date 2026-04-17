@@ -32,16 +32,25 @@ namespace proscryption
         void OnTriggerEnter(Collider other)
         {
             if (_currentInteractable) return;
-            if (other.CompareTag(INTERACTABLE_TAG))
+            if (!other.CompareTag(INTERACTABLE_TAG))
             {
-                _currentInteractable = other.gameObject;
-                Debug.Log("Player entered interactable radius of " + other.name);
+                return;
             }
+            other.TryGetComponent<IInteractable>(out var interactable);
+            if (interactable == null || !interactable.CanInteract())
+            {
+                return;
+            }
+
+            PlayerEvents.BroadcastPlayerEnterInteractRange(other.name);
+            _currentInteractable = other.gameObject;
+            Debug.Log("Player entered interactable radius of " + other.name);
         }
         void OnTriggerExit(Collider other)
         {
             if (other.CompareTag(INTERACTABLE_TAG) && other.gameObject == _currentInteractable)
             {
+                PlayerEvents.BroadcastPlayerExitInteractRange();
                 Debug.Log("Player exited interactable radius of " + other.name);
                 _currentInteractable = null;
             }

@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.SimpleBullet
   speed: 20
+  showDebug: 1
 --- !u!1 &5344937097453364569
 GameObject:
   m_ObjectHideFlags: 0

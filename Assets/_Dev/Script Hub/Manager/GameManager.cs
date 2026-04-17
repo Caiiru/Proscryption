@@ -85,7 +85,7 @@ namespace proscryption
         public void ChangeGameState(GameState newState)
         {
             if (CurrentState == newState) return;
-            Debug.Log("Game State: " + CurrentState + " → " + newState);
+            // Debug.Log("Game State: " + CurrentState + " → " + newState);
             CurrentState = newState;
             OnGameStateChanged?.Invoke(newState);
         }

@@ -30,6 +30,7 @@ namespace proscryption
         public static event Action<float, float> OnPlayerStaminaChanged;
 
         public static event Action<string> OnPlayerEnterInteractRange;
+        public static event Action OnPlayerLeaveInteractRange;
 
 
         //============================ BROADCAST METHODS ============================
@@ -104,6 +105,11 @@ namespace proscryption
         public static void BroadcastPlayerEnterInteractRange(string interactableName)
         {
             OnPlayerEnterInteractRange?.Invoke(interactableName);
+        }
+        public static void BroadcastPlayerExitInteractRange()
+        {
+            // You can add an event for exiting interact range if needed
+            OnPlayerLeaveInteractRange?.Invoke();
         }
         #endregion
     }

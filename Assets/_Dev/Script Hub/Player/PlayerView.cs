@@ -126,7 +126,7 @@ public class PlayerView : MonoBehaviour
 
 
 
-        Debug.Log($"[PlayerView] Hit animation played", gameObject);
+        // Debug.Log($"[PlayerView] Hit animation played", gameObject);
     }
     private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)
     {
