@@ -16,6 +16,21 @@ namespace proscryption
             this.transform.name = InteractableName;
             _collider = this.GetComponent<SphereCollider>();
             _baseRadius = _collider.radius;
+
+            SetupEvents();
+        }
+        void SetupEvents()
+        {
+            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+        }
+        void OnDestroy()
+        {
+            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
+        }
+        void HandleWaveEnded()
+        {
+            canInteract = true;
+            _collider.radius = _baseRadius;
         }
         public string GetInteractName()
         {
@@ -29,7 +44,7 @@ namespace proscryption
                 return;
             }
 
-            EventManager.BroadcastArenaStart();
+            ArenaEvents.BroadcastArenaStart();
             canInteract = false;
             _collider.radius = 0;
         }

@@ -24,7 +24,7 @@ namespace proscryption
 
         void OnEnable()
         {
-            EventManager.OnArenaStart += StartArena;
+            ArenaEvents.OnArenaStart += StartArena;
             EventManager.OnEntityDied += HandleEntityDied;
             GetEnemySpawnPoints();
         }
@@ -33,7 +33,7 @@ namespace proscryption
 
         void OnDisable()
         {
-            EventManager.OnArenaStart -= StartArena;
+            ArenaEvents.OnArenaStart -= StartArena;
         }
 
         public void StartArena()
@@ -49,19 +49,7 @@ namespace proscryption
             HandleSpawn();
         }
 
-        private void SpawnEnemy()
-        {
-            if (enemiesToSpawn <= 0)
-            {
-                _canSpawn = false;
-                return;
-            }
-            var enemy = _enemyManager.enemyPool.Get();
-            enemy.transform.position = EnemyGetRandomSpawnPoint();
-            enemiesToSpawn--;
-            enemiesAlive++;
 
-        }
         private void GetEnemySpawnPoints()
         {
             _spawnPoint = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
@@ -79,8 +67,9 @@ namespace proscryption
                 enemiesAlive--;
                 if (enemiesAlive <= 0)
                 {
-                    Debug.Log("Wave cleared!");
+                    ArenaEvents.BroadcastArenaWaveEnded();
                 }
+                return;
             }
         }
 
@@ -97,10 +86,10 @@ namespace proscryption
             _currentInterval = spawnInterval - 1;
 
 
-            EventManager.BroadcastWaveStart();
+            ArenaEvents.BroadcastWaveStart();
 
             _canSpawn = true;
-            enemiesAlive = 0;
+            enemiesAlive = enemiesToSpawn;
         }
 
         private void HandleSpawn()
@@ -114,7 +103,18 @@ namespace proscryption
             _currentInterval = 0;
 
         }
+        private void SpawnEnemy()
+        {
+            if (enemiesToSpawn <= 0)
+            {
+                _canSpawn = false;
+                return;
+            }
+            var enemy = _enemyManager.enemyPool.Get();
+            enemy.transform.position = EnemyGetRandomSpawnPoint();
+            enemiesToSpawn--;
 
+        }
 
 
         #region Singleton

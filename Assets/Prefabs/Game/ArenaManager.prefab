@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.ArenaManager
   spawnInterval: 8
-  howMuchKilled: 0
-  maxKill: 4
-  spawnPoint: []
+  wavesData:
+  - enemyCount: 2
+    spawnInterval: 6
+    enemyPrefab: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+  - enemyCount: 2
+    spawnInterval: 6
+    enemyPrefab: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+  enemiesToSpawn: 2
+  enemiesAlive: 0

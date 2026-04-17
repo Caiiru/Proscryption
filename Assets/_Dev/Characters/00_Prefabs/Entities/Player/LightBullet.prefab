@@ -83,7 +83,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6515101949752697092
 MonoBehaviour:
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.SimpleBullet
   speed: 40
+  showDebug: 0
 --- !u!1 &2184547277417846011
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7259930723735715317, guid: b5f638c1d9211f94eb56c7ba7e09831e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08825
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7259930723735715317, guid: b5f638c1d9211f94eb56c7ba7e09831e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -421,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7259930723735715317, guid: b5f638c1d9211f94eb56c7ba7e09831e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.633
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7259930723735715317, guid: b5f638c1d9211f94eb56c7ba7e09831e, type: 3}
       propertyPath: m_LocalRotation.w

@@ -519,6 +519,12 @@ namespace proscryption.Enemy
 
         }
 
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, GetComponent<CapsuleCollider>().radius);
+        }
+
     }
 
 

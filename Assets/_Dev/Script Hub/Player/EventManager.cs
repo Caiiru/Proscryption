@@ -51,12 +51,10 @@ namespace proscryption
 
         // ===== GAME EVENTS =====
         public static event Action OnGameLoaded;
-        public static event Action OnGamePauseInput;
-        public static event Action OnArenaStart;
+        public static event Action OnGamePauseInput; 
         public static event Action OnGameWin;
 
         // ===== ARENA EVENTS =====
-        public static event Action OnWaveStart;
 
 
         // ===== BROADCAST METHODS (Controllers call these) =====
@@ -172,9 +170,7 @@ namespace proscryption
                 case "OnGamePauseInput":
                     OnGamePauseInput?.Invoke();
                     break;
-                case "ArenaStart":
-                    OnArenaStart?.Invoke();
-                    break;
+
                 default:
                     Debug.LogWarning($"[EventManager] Event name '{eventName}' not recognized in BroadcastByName.");
                     break;
@@ -183,14 +179,6 @@ namespace proscryption
         }
         // Arena Broadcast =========
 
-        public static void BroadcastWaveStart()
-        {
-            OnWaveStart?.Invoke();
-        }
-        public static void BroadcastArenaStart()
-        {
-            OnArenaStart?.Invoke();
-        }
     }
 
 
