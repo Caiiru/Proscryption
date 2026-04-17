@@ -58,13 +58,13 @@ namespace proscryption
             if (!_model.CanAttack())
             {
 
-                Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} ");
+                // Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} ");
                 return;
             }
             // Validate: Do we have stamina?
             if (!_model.TryConsumeStamina(ATTACK_STAMINA_COST))
             {
-                Debug.Log("[CombatSystem] Not enough stamina", gameObject);
+                // Debug.Log("[CombatSystem] Not enough stamina", gameObject);
                 return;
             }
 

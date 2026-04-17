@@ -92,19 +92,19 @@ namespace proscryption
         public static void BroadcastHitDetected(Vector3 hitPos, int damage, GameObject target)
         {
             OnHitDetected?.Invoke(hitPos, damage, target);
-            Debug.Log($"[Event] Hit detected on {target.name} for {damage} damage at {hitPos}", target);
+            // Debug.Log($"[Event] Hit detected on {target.name} for {damage} damage at {hitPos}", target);
         }
 
         public static void BroadcastEntityDamaged(int damage, GameObject damageSource)
         {
             OnEntityDamaged?.Invoke(damage, damageSource);
-            Debug.Log($"[Event] Entity took {damage} damage from {damageSource.name}", damageSource);
+            // Debug.Log($"[Event] Entity took {damage} damage from {damageSource.name}", damageSource);
         }
 
         public static void BroadcastEntityDied(GameObject deadEntity)
         {
             OnEntityDied?.Invoke(deadEntity);
-            Debug.Log($"[Event] {deadEntity.name} died", deadEntity);
+            // Debug.Log($"[Event] {deadEntity.name} died", deadEntity);
         }
 
         [Obsolete("Use PlayerEvents instead of EventManager ")]

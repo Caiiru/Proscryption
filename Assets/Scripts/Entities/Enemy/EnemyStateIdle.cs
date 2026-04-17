@@ -30,7 +30,7 @@ namespace proscryption.Enemy
             _controller.SetAnimationState("Idle");
             _idleTimer = 0f;
             _alertnessLevel = 0f;
-            Debug.Log($"[{_controller.gameObject.name}] Estado Idle - aguardando jogador");
+            // Debug.Log($"[{_controller.gameObject.name}] Estado Idle - aguardando jogador");
         }
 
         public void Update()
@@ -41,7 +41,7 @@ namespace proscryption.Enemy
             // Tempo de reação rápido - inimigos soulslike são sempre vigilantes
             if (_controller.CanSeePlayer())
             {
-                Debug.Log($"[{_controller.gameObject.name}] Deu! Detectou jogador - transitando para Chase!");
+                // Debug.Log($"[{_controller.gameObject.name}] Deu! Detectou jogador - transitando para Chase!");
                 _controller.StateMachine.TransitionTo(_controller.ChaseState);
                 return;
             }

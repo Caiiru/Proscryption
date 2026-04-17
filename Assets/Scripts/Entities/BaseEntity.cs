@@ -58,6 +58,7 @@ namespace proscryption
         /// </summary>
         public virtual void OnDeath()
         {
+            _isDead = true;
             EventManager.BroadcastEntityDied(gameObject);
 
             if (_animator)

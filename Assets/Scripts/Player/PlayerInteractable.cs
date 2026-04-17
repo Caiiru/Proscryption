@@ -44,14 +44,14 @@ namespace proscryption
 
             PlayerEvents.BroadcastPlayerEnterInteractRange(other.name);
             _currentInteractable = other.gameObject;
-            Debug.Log("Player entered interactable radius of " + other.name);
+            // Debug.Log("Player entered interactable radius of " + other.name);
         }
         void OnTriggerExit(Collider other)
         {
             if (other.CompareTag(INTERACTABLE_TAG) && other.gameObject == _currentInteractable)
             {
                 PlayerEvents.BroadcastPlayerExitInteractRange();
-                Debug.Log("Player exited interactable radius of " + other.name);
+                // Debug.Log("Player exited interactable radius of " + other.name);
                 _currentInteractable = null;
             }
         }

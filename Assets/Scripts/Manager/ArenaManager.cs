@@ -67,6 +67,7 @@ namespace proscryption
                 enemiesAlive--;
                 if (enemiesAlive <= 0)
                 {
+                    Debug.Log("Wave Ended");
                     ArenaEvents.BroadcastArenaWaveEnded();
                 }
                 return;

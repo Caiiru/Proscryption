@@ -17,10 +17,12 @@ namespace proscryption
 
         void Start()
         {
-            if(Initializer.Instance == null)
+            if (Initializer.Instance == null)
             {
                 this.isPlaying = true;
             }
+
+            this.gameObject.SetActive(false);
         }
         void HandleStaminaChanged(float currentStamina, float maxStamina)
         {

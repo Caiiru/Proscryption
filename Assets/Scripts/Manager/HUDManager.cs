@@ -13,15 +13,34 @@ namespace proscryption
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject pauseScreen;
         [SerializeField] GameObject aimIndicator;
-        [SerializeField] GameObject bulletCounter; 
+        [SerializeField] GameObject bulletCounter;
+        [SerializeField] GameObject rewardScreen;
         private PlayerBulletCounterHUD playerBulletCounterHUD;
         PauseManager _pauseManager;
         bool _isActive = true;
+
+        //Data
+        [Header("Data")]
+        public RewardsListIcon rewardListIconData;
 
         //Refs
         GameObject _playerRef;
         CombatSystem _combatSystem;
         CharacterInput _characterInput;
+
+        #region Singleton
+        public static HUDManager Instance { get; private set; }
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+
+        }
+        #endregion
 
         void Start()
         {
@@ -35,6 +54,7 @@ namespace proscryption
                         UpdateDeathScreenVisibility(true);
                     }
                 };
+
 
             }
 
@@ -59,6 +79,15 @@ namespace proscryption
             {
                 Debug.LogWarning("Win Screen reference is missing in HUDManager.");
             }
+            if (rewardScreen == null)
+            {
+                Debug.LogWarning("Reward Screen reference is missing in HUDManager.");
+            }
+            if (rewardListIconData == null)
+            {
+                Debug.LogWarning("Reward List Icon Data reference is missing in HUDManager.");
+            }
+
             _pauseManager = pauseScreen.GetComponent<PauseManager>();
 
             _playerRef = GameObject.FindWithTag("Player");
@@ -68,7 +97,6 @@ namespace proscryption
             playerBulletCounterHUD.Initialize(_combatSystem.GetWeapon());
             SetupEvents();
             UpdateDeathScreenVisibility(false);
-            SetHUDActive(false);
         }
         private void SetupEvents()
         {
@@ -113,7 +141,6 @@ namespace proscryption
             }
 
             _isActive = false;
-            SetHUDActive(_isActive);
         }
 
         private void OnGameStateChanged(GameState newState)
@@ -138,21 +165,6 @@ namespace proscryption
             // SetHUDActive(_isActive);
         }
 
-        private void SetHUDActive(bool isActive)
-        {
-            if (_isActive == isActive && _hudScreens.TrueForAll(hud => hud.activeSelf == isActive)) return;
-            Debug.Log("Update HUD, isActive: " + isActive);
-            _isActive = isActive;
-            foreach (GameObject hudComponent in _hudScreens)
-            {
-                if (hudComponent == deathScreen ||
-                    hudComponent == pauseScreen ||
-                    hudComponent == winScreen) continue;
-                hudComponent.SetActive(isActive);
-            }
-
-
-        }
 
         private void UpdateDeathScreenVisibility(bool newVisibility)
         {
@@ -166,7 +178,16 @@ namespace proscryption
             }
 
             _isActive = false;
-            SetHUDActive(_isActive);
+        }
+
+        public RewardsListIcon GetRewardsListIcon()
+        {
+            if (rewardListIconData == null)
+                Debug.LogError("Reward List Icon Data reference is missing in HUDManager.");
+
+
+
+            return rewardListIconData;
         }
 
 
