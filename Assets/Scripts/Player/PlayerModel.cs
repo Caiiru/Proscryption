@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace proscryption
@@ -46,6 +47,21 @@ namespace proscryption
 
         private PlayerData _currentData;
 
+        // My Rewards
+        private List<RewardData> collectedRewards;
+
+        // ===== PUBLIC GETTERS (Read-only access to state) =====
+
+        public float CurrentHealth => _currentHealth;
+        public float MaxHealth => maxHealth;
+        public float CurrentStamina => _currentStamina;
+        public float MaxStamina => maxStamina;
+        public PlayerState CurrentState => _currentState;
+        public bool IsInvulnerable => _isInvulnerable;
+        public bool IsAlive => _currentHealth > 0;
+        public float MoveSpeed => moveSpeed;
+        public bool CanMove => _canMove;
+
         // ===== REFERENCES =====
         private Rigidbody _rigidbody;
 
@@ -68,30 +84,23 @@ namespace proscryption
             // Listen to combat events that affect model
             EventManager.OnHitDetected += HandleHitDetected;
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
+            PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
         }
 
 
         void OnDisable()
         {
             EventManager.OnHitDetected -= HandleHitDetected;
+            PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
+            PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
         }
 
-        // ===== PUBLIC GETTERS (Read-only access to state) =====
-
-        public float CurrentHealth => _currentHealth;
-        public float MaxHealth => maxHealth;
-        public float CurrentStamina => _currentStamina;
-        public float MaxStamina => maxStamina;
-        public PlayerState CurrentState => _currentState;
-        public bool IsInvulnerable => _isInvulnerable;
-        public bool IsAlive => _currentHealth > 0;
-        public float MoveSpeed => moveSpeed;
-        public bool CanMove => _canMove;
 
         void Start()
         {
             _currentData = standardData; // Start with standard stance data
             SetupCurrentStance();
+
             // SetupHealth();
             // SetupStamina();
 
@@ -136,7 +145,7 @@ namespace proscryption
         private void SetupStamina()
         {
             _currentStamina = maxStamina;
-            EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
+            PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
 
         }
         /// <summary>
@@ -147,7 +156,7 @@ namespace proscryption
             if (_currentStamina >= amount)
             {
                 _currentStamina -= amount;
-                EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
+                PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
                 return true;
             }
             return false;
@@ -168,7 +177,7 @@ namespace proscryption
 
             // Only broadcast if actually changed
             if (regenAmount > 0)
-                EventManager.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
+                PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
         }
 
         // ===== STATE MANAGEMENT =====
@@ -183,7 +192,7 @@ namespace proscryption
             PlayerState prev = _currentState;
             _currentState = newState;
 
-            EventManager.BroadcastPlayerStateChanged(prev, newState);
+            PlayerEvents.BroadcastPlayerStateChanged(prev, newState);
         }
         public void ChangeStance(PlayerStance newStance)
         {
@@ -207,6 +216,48 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
         }
 
+        // ===== REWARD MANAGMENT =====
+        public void HandleGetNewReward(RewardData reward)
+        {
+            collectedRewards.Add(reward);
+
+            foreach (var minireward in reward.rewards)
+            {
+                AddSimpleReward(minireward.type, minireward.value);
+
+            }
+        }
+
+        private void AddSimpleReward(SimpleRewardType type, float _value)
+        {
+            switch (type)
+            {
+                case SimpleRewardType.Health:
+                    maxHealth += (int)_value;
+                    PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+                    Heal((int)_value);
+                    break;
+                case SimpleRewardType.Stamina:
+                    maxStamina += (int)_value;
+                    SetupStamina();
+                    break;
+                case SimpleRewardType.MoveSpeed:
+                    moveSpeed += _value;
+                    break;
+                case SimpleRewardType.RollForce:
+                    rollForce += _value;
+                    break;
+                case SimpleRewardType.RollCooldown:
+                    rollCooldown += _value;
+                    break;
+                case SimpleRewardType.RollStaminaCost:
+                    ROLL_STAMINA_COST += (int)_value;
+                    break;
+            }
+        }
+
+
+
         // ===== DAMAGE/HEALTH MANAGEMENT =====
 
         /// <summary>
@@ -216,7 +267,7 @@ namespace proscryption
         void SetupHealth()
         {
             _currentHealth = maxHealth;
-            EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
         }
         private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)
         {
@@ -224,12 +275,11 @@ namespace proscryption
             if (!IsAlive) return;
             if (_isInvulnerable)
             {
-                //to-do: ADD PARRY JUICE
                 return;
             }
 
             _currentHealth -= damage;
-            EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
 
             if (_currentHealth <= 0)
             {
@@ -247,7 +297,7 @@ namespace proscryption
             if (!IsAlive) return;
 
             _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
-            EventManager.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
         }
 
         // ===== INVULNERABILITY =====
@@ -314,6 +364,12 @@ namespace proscryption
                    _canReload &&
                    IsAlive;
         }
+
+        public PlayerData GetCurrentData()
+        {
+            return _currentData;
+        }
+
 
     }
 

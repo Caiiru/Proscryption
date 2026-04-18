@@ -11,5 +11,6 @@ namespace proscryption
         public float rollForce = 3f;
         public float rollCooldown = 2f;
         public int rollStaminaCost = 20;
+        public int attackStaminaCost = 10;
     }
 }

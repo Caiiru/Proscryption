@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,7 +34,7 @@ namespace proscryption
         // ===== STATE =====
         [SerializeField] private Vector2 _moveInput = Vector2.zero;
         private Vector3 _currentVelocity = Vector3.zero;
-        private bool _canGetInput = true;
+        [SerializeField] private bool _canGetInput = true;
 
 
         // Ref
@@ -56,32 +57,46 @@ namespace proscryption
 
         void OnEnable()
         {
-            this._characterInput.OnLookInput += HandleLookInput;
             // Subscribe to movement and roll inputs via EventManager
-            EventManager.OnPlayerMoveInput += HandleMoveInput;
-            EventManager.OnPlayerRollInput += HandleRollInput;
+            SetupEvents();
+            RefreshMainCamera();
+        }
+        void SetupEvents()
+        {
+
+            this._characterInput.OnLookInput += HandleLookInput;
+
+            PlayerEvents.OnPlayerMoveInput += HandleMoveInput;
+            PlayerEvents.OnPlayerRollInput += HandleRollInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
-            EventManager.OnPlayerStateChanged += HandlePlayerState;
+            PlayerEvents.OnPlayerStateChanged += HandlePlayerState;
+            PlayerEvents.OnPlayerAttackInput += HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput += HandleReloadInput;
 
             _characterInput.OnDefaultStanceInput += () => _model.ChangeStance(PlayerStance.Standard);
             _characterInput.OnBloodStanceInput += () => _model.ChangeStance(PlayerStance.Blood);
             _characterInput.OnLightStanceInput += () => _model.ChangeStance(PlayerStance.Light);
 
             _characterInput.OnInteractInput += HandleInteractInput;
-            RefreshMainCamera();
+            PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
+            ArenaEvents.OnArenaWaveEnded += HandleOpenRewardScreen;
         }
 
 
         void OnDisable()
         {
+            PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
+            ArenaEvents.OnArenaWaveEnded -= HandleOpenRewardScreen;
             this._characterInput.OnLookInput -= HandleLookInput;
-            EventManager.OnPlayerMoveInput -= HandleMoveInput;
-            EventManager.OnPlayerRollInput -= HandleRollInput;
+            PlayerEvents.OnPlayerMoveInput -= HandleMoveInput;
+            PlayerEvents.OnPlayerRollInput -= HandleRollInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
-            EventManager.OnPlayerStateChanged -= HandlePlayerState;
+            PlayerEvents.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
 
+            PlayerEvents.OnPlayerAttackInput -= HandleAttackInput;
+            PlayerEvents.OnPlayerReloadInput -= HandleReloadInput;
 
             _characterInput.OnDefaultStanceInput -= () => _model.ChangeStance(PlayerStance.Standard);
             _characterInput.OnBloodStanceInput -= () => _model.ChangeStance(PlayerStance.Blood);
@@ -130,7 +145,9 @@ namespace proscryption
 
         private void HandleInteractInput(bool isPressed)
         {
-            Debug.Log($"Interact input: {(isPressed ? "Pressed" : "Released")}");
+
+            if (!_canGetInput) return;
+            // Debug.Log($"Interact input: {(isPressed ? "Pressed" : "Released")}");
             PlayerEvents.BroadcastPlayerCastInteract();
 
         }
@@ -165,6 +182,26 @@ namespace proscryption
 
 
 
+        private void HandleReloadInput()
+        {
+            if (!_canGetInput) return;
+            if (!_model.CanReload()) return;
+            if (!_model.TryConsumeStamina(_model.GetCurrentData().rollStaminaCost)) return;
+
+            _model.SetState(PlayerState.Reloading);
+        }
+
+        private void HandleAttackInput()
+        {
+            if (!_canGetInput) return;
+
+            if (!_model.CanAttack()) return;
+
+            if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return;
+
+            // Start Attack animation that calls "ExecuteAttack" on CombatSystem
+            _model.SetState(PlayerState.Attacking);
+        }
 
 
 
@@ -350,7 +387,7 @@ namespace proscryption
             {
                 Vector3 targetPoint = hitInfo.point;
                 targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane
-                EventManager.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
+                PlayerEvents.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
                 Vector3 direction = targetPoint - transform.position;
                 RotateTowardsDirection(direction);
                 // Debug.DrawLine(transform.position, transform.position + direction * 2f, Color.green, 0.5f);
@@ -373,6 +410,15 @@ namespace proscryption
             {
                 _model.SetCantMove();
             }
+        }
+
+        private void HandleOpenRewardScreen()
+        {
+            _canGetInput = false;
+        }
+        private void HandleCloseRewardScreen()
+        {
+            _canGetInput = true;
         }
 
         // ===== PUBLIC DEBUG METHODS =====

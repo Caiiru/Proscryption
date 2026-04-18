@@ -256,7 +256,7 @@ namespace proscryption
         {
             MoveInput = context.ReadValue<Vector2>();
             OnMoveInput?.Invoke(MoveInput);
-            EventManager.BroadcastPlayerMoveInput(MoveInput);
+            PlayerEvents.BroadcastPlayerMoveInput(MoveInput);
         }
 
         private void HandleRollInput(InputAction.CallbackContext context)
@@ -265,7 +265,7 @@ namespace proscryption
             OnRollInput?.Invoke(RollInput);
             // NEW: Broadcast to EventManager when roll is performed
             if (RollInput)
-                EventManager.BroadcastPlayerRollInput();
+                PlayerEvents.BroadcastPlayerRollInput();
         }
 
         private void HandleInteractInput(InputAction.CallbackContext context)
@@ -286,15 +286,15 @@ namespace proscryption
             OnAttackInput?.Invoke(Attackinput);
             // NEW: Broadcast to EventManager when attack is performed
             if (Attackinput)
-                EventManager.BroadcastPlayerAttackInput();
+                PlayerEvents.BroadcastPlayerAttackInput();
         }
 
         private void HandleAimInput(InputAction.CallbackContext context)
         {
             AimInput = context.ReadValueAsButton();
             OnAimInput?.Invoke(AimInput);
-            if (AimInput)
-                EventManager.BroadcastPlayerParryInput();
+            // if (AimInput)
+                // EventManager.BroadcastPlayerParryInput();
         }
         private void HandlePauseInput(InputAction.CallbackContext context)
         {

@@ -10,7 +10,7 @@ namespace proscryption
         void Awake()
         {
             _slider = GetComponent<Slider>();
-            EventManager.OnPlayerHealthChanged += HandleHealthChanged;
+            PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
         }
         void HandleHealthChanged(int newHealth, int maxHealth)
         {
@@ -37,7 +37,7 @@ namespace proscryption
         }
         void OnDestroy()
         {
-            EventManager.OnPlayerHealthChanged -= HandleHealthChanged;
+            PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
         }
 
     }

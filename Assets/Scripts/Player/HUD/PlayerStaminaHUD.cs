@@ -11,7 +11,7 @@ namespace proscryption
         void Awake()
         {
             _slider = GetComponent<Slider>();
-            EventManager.OnPlayerStaminaChanged += HandleStaminaChanged;
+            PlayerEvents.OnPlayerStaminaChanged += HandleStaminaChanged;
             EventManager.OnGameLoaded += () => this.isPlaying = true;
         }
 
@@ -50,7 +50,7 @@ namespace proscryption
         }
         void OnDestroy()
         {
-            EventManager.OnPlayerStaminaChanged -= HandleStaminaChanged;
+            PlayerEvents.OnPlayerStaminaChanged -= HandleStaminaChanged;
         }
 
     }

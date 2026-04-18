@@ -29,11 +29,13 @@ namespace proscryption
         private void SetupEvents()
         {
             ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+            PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
 
         }
         private void OnDestroy()
         {
             ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
+            PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
         }
 
         private UniTask ShowRewardScreen()
@@ -54,6 +56,17 @@ namespace proscryption
             RewardData rewardData = RewardManager.Instance.GetRandomReward();
             ShowReward(rewardData);
         }
+        private void HandleCloseRewardScreen()
+        {
+            _container.gameObject.SetActive(false);
+            
+            
+            for (int i = 0; i < rewardCardParent.childCount; i++)
+            {
+                Destroy(rewardCardParent.GetChild(i).gameObject);
+            }
+        }
+
 
         public void ShowReward(RewardData rewardData)
         {

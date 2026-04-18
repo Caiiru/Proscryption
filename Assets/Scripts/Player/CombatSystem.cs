@@ -10,10 +10,12 @@ namespace proscryption
     /// </summary>
     public class CombatSystem : MonoBehaviour
     {
+
         [SerializeField] private const int ATTACK_STAMINA_COST = 10;
 
 
         // ===== REFERENCES =====
+        private PlayerController _controller;
         private PlayerModel _model;
         [SerializeField] private BaseWeapon _currentWeapon;
 
@@ -22,6 +24,7 @@ namespace proscryption
 
         void Awake()
         {
+            _controller = GetComponent<PlayerController>();
             _model = GetComponent<PlayerModel>();
             _currentWeapon = GetComponentInChildren<BaseWeapon>();
 
@@ -35,43 +38,7 @@ namespace proscryption
 
         }
 
-        void OnEnable()
-        {
-            // Subscribe to attack input
-            EventManager.OnPlayerAttackInput += HandleAttackInput;
-            PlayerEvents.OnPlayerReloadInput += HandleReloadInput;
-            // EventManager.OnPlayerParryInput += HandleParryInput;
-        }
 
-        void OnDisable()
-        {
-            EventManager.OnPlayerAttackInput -= HandleAttackInput;
-            PlayerEvents.OnPlayerReloadInput -= HandleReloadInput;
-            // EventManager.OnPlayerParryInput -= HandleParryInput;
-        }
-
-        // ===== ATTACK HANDLER =====
-
-        private void HandleAttackInput()
-        {
-            // Validate: Can we attack?
-            if (!_model.CanAttack())
-            {
-
-                // Debug.Log($"[CombatSystem] Cannot attack - invalid state - {_model.CurrentState}, ${gameObject} ");
-                return;
-            }
-            // Validate: Do we have stamina?
-            if (!_model.TryConsumeStamina(ATTACK_STAMINA_COST))
-            {
-                // Debug.Log("[CombatSystem] Not enough stamina", gameObject);
-                return;
-            }
-
-            _model.SetState(PlayerState.Attacking);
-            // Execute attack
-            // ExecuteAttack();
-        }
         /// <summary>
         /// Triggered by animation event, ensures damage is applied at the correct time in the animation
         /// </summary>
@@ -80,18 +47,15 @@ namespace proscryption
             _lastAttackTime = Time.time;
             _currentWeapon.OnAttack();
 
-            EventManager.BroadcastPlayerAttack();
+            PlayerEvents.BroadcastPlayerAttack();
 
         }
-        private void HandleReloadInput()
+        /// <summary>
+        /// Triggered by animation event 
+        /// </summary>
+        private void ExecuteReload()
         {
-            if (!CanReload()) return;
-
             _currentWeapon.ReloadInput();
-        }
-        private bool CanReload()
-        {
-            return _model.CanReload();
         }
 
         public BaseWeapon GetWeapon()

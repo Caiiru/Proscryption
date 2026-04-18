@@ -12,7 +12,9 @@ namespace proscryption
         public TextMeshProUGUI titleText;
         public TextMeshProUGUI descriptionText;
         public Transform effectTransform;
-        [SerializeField] private RewardData _currentRewardData;
+
+        public Button selectButton;
+        private RewardData _currentRewardData;
 
         [Space]
         public GameObject miniRewardPrefab;
@@ -35,15 +37,20 @@ namespace proscryption
             for (int i = 0; i < _currentRewardData.rewards.Length; i++)
             {
                 var miniRewardGO = Instantiate(miniRewardPrefab, effectTransform);
-                
+
                 Sprite _image = RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(), _currentRewardData.rewards[i].type);
 
                 miniRewardGO.GetComponent<EffectCardHUD>().Setup(_image, _currentRewardData.rewards[i].value.ToString());
             }
 
-
+            selectButton.onClick.AddListener(OnChoose);
         }
-
+        private void OnChoose()
+        {
+            Debug.Log("Choose");
+            PlayerEvents.BroadcastPlayerGetReward(_currentRewardData);
+            PlayerEvents.BroadcastPlayerCloseRewardScreen();
+        }
 
 
     }

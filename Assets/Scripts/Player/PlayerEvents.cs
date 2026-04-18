@@ -32,6 +32,9 @@ namespace proscryption
         public static event Action<string> OnPlayerEnterInteractRange;
         public static event Action OnPlayerLeaveInteractRange;
 
+        //Reward
+        public static event Action OnPlayerCloseRewardScreen;
+        public static event Action<RewardData> OnPlayerGetReward;
 
         //============================ BROADCAST METHODS ============================
         #region Inputs Broadcasts
@@ -110,6 +113,16 @@ namespace proscryption
         {
             // You can add an event for exiting interact range if needed
             OnPlayerLeaveInteractRange?.Invoke();
+        }
+        #endregion
+        #region Reward
+        public static void BroadcastPlayerCloseRewardScreen()
+        {
+            OnPlayerCloseRewardScreen?.Invoke();
+        }
+        public static void BroadcastPlayerGetReward(RewardData reward)
+        {
+            OnPlayerGetReward?.Invoke(reward);
         }
         #endregion
     }

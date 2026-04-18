@@ -59,7 +59,7 @@ namespace proscryption
         }
         private void SetupEvents()
         {
-            EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
+            PlayerEvents.OnPlayerStateChanged += OnPlayerStateChanged;
             EventManager.OnHitDetected += HandleHitDetected;
             EventManager.OnGamePauseInput += HandleGamePauseToggle;
         }
@@ -70,7 +70,7 @@ namespace proscryption
         {
             // Clean up event subscriptions
             EventManager.OnHitDetected -= HandleHitDetected;
-            EventManager.OnPlayerStateChanged -= OnPlayerStateChanged;
+            PlayerEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
             EventManager.OnGamePauseInput -= HandleGamePauseToggle;
 
 

@@ -20,7 +20,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "TakeDamage";
-    private const string PARAM_IS_PARRYING = "isParrying";
+    private const string PARAM_IS_RELOADING = "isReloading";
     private const string PARAM_DIE = "die";
 
     [Header("VFX")]
@@ -35,10 +35,10 @@ public class PlayerView : MonoBehaviour
     void OnEnable()
     {
         // Listen to state and event changes
-        EventManager.OnPlayerStateChanged += HandleStateChanged;
-        EventManager.OnPlayerAttack += HandleAttackPlayed;
+        PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
+        PlayerEvents.OnPlayerAttack += HandleAttackPlayed;
         EventManager.OnEntityDamaged += HandleDamageTaken;
-        EventManager.OnPlayerHealthChanged += HandleHealthChanged;
+        PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
         EventManager.OnHitDetected += HandleHitDetected;
     }
 
@@ -46,10 +46,10 @@ public class PlayerView : MonoBehaviour
     void OnDisable()
     {
         EventManager.OnHitDetected -= HandleHitDetected;
-        EventManager.OnPlayerStateChanged -= HandleStateChanged;
-        EventManager.OnPlayerAttack -= HandleAttackPlayed;
+        PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
+        PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
-        EventManager.OnPlayerHealthChanged -= HandleHealthChanged;
+        PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
     }
     void Start()
     {
@@ -69,7 +69,7 @@ public class PlayerView : MonoBehaviour
         _animator.SetBool(PARAM_IS_MOVING, false);
         _animator.SetBool(PARAM_IS_ATTACKING, false);
         _animator.SetBool(PARAM_IS_ROLLING, false);
-        _animator.SetBool(PARAM_IS_PARRYING, false);
+        _animator.SetBool(PARAM_IS_RELOADING, false);
 
         // Set new animation state
         switch (next)
@@ -100,8 +100,8 @@ public class PlayerView : MonoBehaviour
                 // Could add stun animation here
                 break;
 
-            case PlayerState.Parrying:
-                _animator.SetBool(PARAM_IS_PARRYING, true);
+            case PlayerState.Reloading:
+                _animator.SetBool(PARAM_IS_RELOADING, true);
                 break;
         }
     }

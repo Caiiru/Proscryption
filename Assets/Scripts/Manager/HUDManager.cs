@@ -7,8 +7,9 @@ namespace proscryption
 {
     public class HUDManager : MonoBehaviour
     {
-        List<GameObject> _hudScreens = new List<GameObject>();
-        public Transform screensParent;
+
+        [SerializeField] GameObject healthBar;
+        [SerializeField] GameObject staminaBar;
         [SerializeField] GameObject deathScreen;
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject pauseScreen;
@@ -46,26 +47,54 @@ namespace proscryption
         {
             if (Initializer.Instance == null)
             {
+                SetupEvents();
                 Initialize();
-                EventManager.OnEntityDied += (entity) =>
-                {
-                    if (entity.CompareTag("Player"))
-                    {
-                        UpdateDeathScreenVisibility(true);
-                    }
-                };
-
-
             }
 
+        }
+        private void SetupEvents()
+        {
+            //event subscribe
+            // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
+            GameManager.OnGameStateChanged += OnGameStateChanged;
+            EventManager.OnGameWin += OnGameWin;
+            // _characterInput.OnLookInput += HandleLookInput;
+            PlayerEvents.OnMouseLookInput += HandleLookInput;
+            EventManager.OnEntityDied += HandleEntityDied;
+            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+            PlayerEvents.OnPlayerCloseRewardScreen += HandleRewardScreenBeenClosed;
+
+
+
+            if (GameManager.Instance != null)
+            {
+                OnGameStateChanged(GameManager.Instance.CurrentState);
+            }
+        }
+
+
+        void OnDisable()
+        {
+            EventManager.OnGameWin -= OnGameWin;
+            GameManager.OnGameStateChanged -= OnGameStateChanged;
+            PlayerEvents.OnMouseLookInput -= HandleLookInput;
+            EventManager.OnEntityDied -= HandleEntityDied;
+            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
+            PlayerEvents.OnPlayerCloseRewardScreen -= HandleRewardScreenBeenClosed;
         }
 
         internal void Initialize()
         {
-            foreach (Transform child in screensParent)
+            #region Check GO
+            if (healthBar == null)
             {
-                _hudScreens.Add(child.gameObject);
+                Debug.LogWarning("Health Bar reference is missing in HUDManager.");
             }
+            if (staminaBar == null)
+            {
+                Debug.LogWarning("Stamina Bar reference is missing in HUDManager.");
+            }
+
             if (deathScreen == null)
             {
                 Debug.LogWarning("Death Screen reference is missing in HUDManager.");
@@ -87,6 +116,7 @@ namespace proscryption
             {
                 Debug.LogWarning("Reward List Icon Data reference is missing in HUDManager.");
             }
+            #endregion
 
             _pauseManager = pauseScreen.GetComponent<PauseManager>();
 
@@ -98,28 +128,7 @@ namespace proscryption
             SetupEvents();
             UpdateDeathScreenVisibility(false);
         }
-        private void SetupEvents()
-        {
-            //event subscribe
-            // EventManager.OnPlayerStateChanged += OnPlayerStateChanged;
-            GameManager.OnGameStateChanged += OnGameStateChanged;
-            EventManager.OnGameWin += OnGameWin;
-            // _characterInput.OnLookInput += HandleLookInput;
-            EventManager.OnMouseLookInput += HandleLookInput;
 
-            if (GameManager.Instance != null)
-            {
-                OnGameStateChanged(GameManager.Instance.CurrentState);
-            }
-
-
-        }
-        void OnDisable()
-        {
-            EventManager.OnGameWin -= OnGameWin;
-            GameManager.OnGameStateChanged -= OnGameStateChanged;
-            EventManager.OnMouseLookInput -= HandleLookInput;
-        }
 
 
         private void HandleLookInput(Vector2 vector)
@@ -166,6 +175,16 @@ namespace proscryption
         }
 
 
+        private void HandleEntityDied(GameObject entity)
+        {
+
+            if (entity.CompareTag("Player"))
+            {
+                UpdateDeathScreenVisibility(true);
+            }
+
+
+        }
         private void UpdateDeathScreenVisibility(bool newVisibility)
         {
             if (deathScreen != null)
@@ -178,6 +197,23 @@ namespace proscryption
             }
 
             _isActive = false;
+        }
+
+        private void HandleWaveEnded()
+        {
+            healthBar.SetActive(false);
+            staminaBar.SetActive(false);
+            bulletCounter.SetActive(false);
+            aimIndicator.SetActive(false);
+
+        }
+
+        private void HandleRewardScreenBeenClosed()
+        {
+            healthBar.SetActive(true);
+            staminaBar.SetActive(true);
+            bulletCounter.SetActive(true);
+            aimIndicator.SetActive(true);
         }
 
         public RewardsListIcon GetRewardsListIcon()

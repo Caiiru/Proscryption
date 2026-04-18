@@ -44,8 +44,7 @@ namespace proscryption
         {
             Debug.Log($"Event '{eventName}' triggered!");
             // Here you can add logic to handle the event, such as invoking a delegate or sending a message to another script.
-
-            EventManager.TriggerEvent(eventName);
+            
         }
 
     }
