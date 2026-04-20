@@ -196,9 +196,6 @@
             "m_Id": "ab29ba9d64bf499295f933a474d42ef8"
         },
         {
-            "m_Id": "3edae6b2fb7f44e3bbea407d9cab00f0"
-        },
-        {
             "m_Id": "79abd91788c54e9eb9341637408ab58a"
         },
         {
@@ -529,20 +526,6 @@
                     "m_Id": "6604b400169b46819dc064f1e32614db"
                 },
                 "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "3edae6b2fb7f44e3bbea407d9cab00f0"
-                },
-                "m_SlotId": 3
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "79abd91788c54e9eb9341637408ab58a"
-                },
-                "m_SlotId": 1
             }
         },
         {
@@ -904,9 +887,9 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "3edae6b2fb7f44e3bbea407d9cab00f0"
+                    "m_Id": "79abd91788c54e9eb9341637408ab58a"
                 },
-                "m_SlotId": 0
+                "m_SlotId": 1
             }
         },
         {
@@ -1958,8 +1941,8 @@
     "m_ObjectId": "1746f69566844f0783b4bb192dbfc033",
     "m_Title": "Blood Tattoo ",
     "m_Position": {
-        "x": -2566.99951171875,
-        "y": 1116.9998779296875
+        "x": -2567.00048828125,
+        "y": 1117.0001220703125
     }
 }
 
@@ -2138,8 +2121,8 @@
     "m_ObjectId": "1b24251d6546404d8d2aedc80392b497",
     "m_Title": "Voronoti Scroll",
     "m_Position": {
-        "x": -2289.0,
-        "y": 2819.0
+        "x": -2289.00048828125,
+        "y": 2819.00048828125
     }
 }
 
@@ -2467,8 +2450,8 @@
     "m_ObjectId": "2509580f15a04fcfa2b8bec69b1f55c8",
     "m_Title": "PBR MAPS",
     "m_Position": {
-        "x": -1468.0,
-        "y": -518.0000610351563
+        "x": -1468.00048828125,
+        "y": -518.0
     }
 }
 
@@ -2514,8 +2497,8 @@
     "m_ObjectId": "2675abf2958b45a5a386c1cd56d6d5cd",
     "m_Title": "Blood Texture Tint",
     "m_Position": {
-        "x": -1672.9998779296875,
-        "y": 1751.9998779296875
+        "x": -1673.00048828125,
+        "y": 1752.000244140625
     }
 }
 
@@ -2773,20 +2756,6 @@
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": true
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
-    "m_ObjectId": "2e67b2d81e2944d7b6e4c18aa629c760",
-    "m_Id": 0,
-    "m_DisplayName": "Predicate",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Predicate",
-    "m_StageCapability": 3,
-    "m_Value": false,
-    "m_DefaultValue": false
 }
 
 {
@@ -3090,31 +3059,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
-    "m_ObjectId": "39382f7144e04e47b2460eb735f7f7db",
-    "m_Id": 2,
-    "m_DisplayName": "False",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "False",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.SamplerStateMaterialSlot",
     "m_ObjectId": "39cc5ea694ee48d392981f988d63c3d0",
     "m_Id": 3,
@@ -3161,9 +3105,9 @@
     },
     "m_Color": {
         "color": {
-            "r": 0.28301888704299929,
-            "g": 0.28301888704299929,
-            "b": 0.28301888704299929,
+            "r": 0.22641509771347047,
+            "g": 0.22641509771347047,
+            "b": 0.22641509771347047,
             "a": 1.0
         },
         "mode": 0
@@ -3310,52 +3254,6 @@
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BranchNode",
-    "m_ObjectId": "3edae6b2fb7f44e3bbea407d9cab00f0",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "Branch",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -2593.999755859375,
-            "y": 2026.9998779296875,
-            "width": 208.000244140625,
-            "height": 325.9998779296875
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "2e67b2d81e2944d7b6e4c18aa629c760"
-        },
-        {
-            "m_Id": "b2eafb33381f4cd8b18458b647d4a7b2"
-        },
-        {
-            "m_Id": "39382f7144e04e47b2460eb735f7f7db"
-        },
-        {
-            "m_Id": "f78044f1d12a493fa81b7ab64c3f1536"
-        }
-    ],
-    "synonyms": [
-        "switch",
-        "if",
-        "else"
-    ],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    }
 }
 
 {
@@ -4292,7 +4190,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"a6a94cda64d8e0648a38a787d771f9f9\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"4b7912e463c489549bd5bece42c5299d\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -5195,9 +5093,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2318.999755859375,
-            "y": 1752.9998779296875,
-            "width": 208.000244140625,
+            "x": -2179.0,
+            "y": 1816.9998779296875,
+            "width": 207.9998779296875,
             "height": 302.0001220703125
         }
     },
@@ -5440,8 +5338,8 @@
     "m_ObjectId": "8236a6c738864f548a1d65e0d60ca316",
     "m_Title": "Blood Texture Tint",
     "m_Position": {
-        "x": -1363.999755859375,
-        "y": 992.0
+        "x": -1364.00048828125,
+        "y": 992.0001220703125
     }
 }
 
@@ -5893,8 +5791,8 @@
     "m_ObjectId": "8e3c9132e7e04f01b09551393233d2a6",
     "m_Title": "Tattoo Base Color",
     "m_Position": {
-        "x": -956.0001831054688,
-        "y": -1208.0001220703125
+        "x": -956.0,
+        "y": -1208.000244140625
     }
 }
 
@@ -6243,8 +6141,8 @@
     "m_ObjectId": "9a41315f4f874fbc98c6bdebfe30b47e",
     "m_Title": "UV Distortion",
     "m_Position": {
-        "x": -5103.0,
-        "y": 444.9999694824219
+        "x": -5103.00048828125,
+        "y": 445.00006103515627
     }
 }
 
@@ -7040,31 +6938,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
-    "m_ObjectId": "b2eafb33381f4cd8b18458b647d4a7b2",
-    "m_Id": 1,
-    "m_DisplayName": "True",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "True",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0,
-        "w": 1.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.MultiplyNode",
     "m_ObjectId": "b349c554bf8645cdbdcf8173908f9dab",
     "m_Group": {
@@ -7412,7 +7285,7 @@
     "m_Title": "Prodecural circle",
     "m_Position": {
         "x": -5064.00048828125,
-        "y": 4772.0
+        "y": 4772.00048828125
     }
 }
 
@@ -7593,8 +7466,8 @@
     "m_ObjectId": "c7fb71ea09f1404eb76ee5a4c1f1238f",
     "m_Title": "Faith Tattoo",
     "m_Position": {
-        "x": -2942.99951171875,
-        "y": 1452.0
+        "x": -2943.00048828125,
+        "y": 1452.0001220703125
     }
 }
 
@@ -7789,8 +7662,8 @@
     "m_ObjectId": "d5aed9429b5e4207913ed4d6ea4d790f",
     "m_Title": "Tattoo Animation",
     "m_Position": {
-        "x": -1026.000244140625,
-        "y": 1871.0
+        "x": -1025.9998779296875,
+        "y": 1871.000244140625
     }
 }
 
@@ -7915,7 +7788,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"6d6f2c32fa8ff8b4ea41a09ee255b36f\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"42b85bdde4233964abd1abf4217323be\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -8811,31 +8684,6 @@
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "f74310ae2d0e4a839037eaeac4de36b6",
-    "m_Id": 3,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_LiteralMode": true
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
-    "m_ObjectId": "f78044f1d12a493fa81b7ab64c3f1536",
     "m_Id": 3,
     "m_DisplayName": "Out",
     "m_SlotType": 1,
