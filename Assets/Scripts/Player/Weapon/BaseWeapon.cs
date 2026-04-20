@@ -34,7 +34,7 @@ namespace proscryption
         //Reload
         [SerializeField] private float reloadTime = 2f;
         [SerializeField] private bool _isReloading = false;
-        private float _reloadTimer = 0f;
+        [SerializeField] private float _reloadTimer = 0f;
 
         public Action OnShoot;
 
@@ -138,6 +138,7 @@ namespace proscryption
             if (_isReloading) return;
             _isReloading = true;
             _reloadTimer = reloadTime;
+            Debug.Log("Reload Started");
 
 
         }
@@ -160,7 +161,7 @@ namespace proscryption
                 }
             }
 
-
+            Debug.Log("ended reload");
             PlayerEvents.BroadcastPlayerReloadEnded();
         }
 

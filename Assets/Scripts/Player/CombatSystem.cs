@@ -34,7 +34,12 @@ namespace proscryption
             if (_currentWeapon == null)
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
 
+            PlayerEvents.OnPlayerReloadInput += ExecuteReload;
 
+        }
+        void OnDisable()
+        {
+            PlayerEvents.OnPlayerReloadInput -= ExecuteReload;
 
         }
 

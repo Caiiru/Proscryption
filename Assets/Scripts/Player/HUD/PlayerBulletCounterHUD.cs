@@ -1,5 +1,5 @@
 
-using Cysharp.Threading.Tasks; 
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -92,6 +92,7 @@ namespace proscryption
             {
                 bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = _currentStanceColor; // Reset color
             }
+            Debug.Log("Reload");
 
         }
 
