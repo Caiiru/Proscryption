@@ -201,8 +201,8 @@ namespace proscryption
 
         private void HandleWaveEnded()
         {
-            healthBar.SetActive(false);
-            staminaBar.SetActive(false);
+            // healthBar.SetActive(false);
+            // staminaBar.SetActive(false);
             bulletCounter.SetActive(false);
             aimIndicator.SetActive(false);
 
@@ -210,8 +210,8 @@ namespace proscryption
 
         private void HandleRewardScreenBeenClosed()
         {
-            healthBar.SetActive(true);
-            staminaBar.SetActive(true);
+            // healthBar.SetActive(true);
+            // staminaBar.SetActive(true);
             bulletCounter.SetActive(true);
             aimIndicator.SetActive(true);
         }

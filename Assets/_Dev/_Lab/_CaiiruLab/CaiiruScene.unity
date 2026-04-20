@@ -138,7 +138,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.RewardManager
   rewardDatabase:
     rewards:
+    - {fileID: 11400000, guid: 5bb492f2ac6750242b0c436db1a79c5e, type: 2}
+    - {fileID: 11400000, guid: 05687b4c8f20adb4f8df428587861332, type: 2}
+    - {fileID: 11400000, guid: 504692fac5fa1714eb76a325e0b0bad8, type: 2}
+    - {fileID: 11400000, guid: dbba31ab99939af49a7c061df939400e, type: 2}
+    - {fileID: 11400000, guid: 625a62dd60e964b4c92069646c13fb8a, type: 2}
     - {fileID: 11400000, guid: 794f4ecff1e6c1846be1e70025d6131b, type: 2}
+    - {fileID: 11400000, guid: 629afe3037d1b6c4b9e86e0b947ab9c8, type: 2}
+    - {fileID: 11400000, guid: da07ca6003bd55a40a1336119695c3a2, type: 2}
+    - {fileID: 11400000, guid: c29fc71d53b0beb458271ece87d37e96, type: 2}
+    - {fileID: 11400000, guid: f11019527b7bf8d4fb9fe7ca3e27eafd, type: 2}
 --- !u!1001 &434714640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -739,7 +748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1275226794
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1774,15 +1783,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 886608732594921586, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3111895977280094127, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4081269917265857502, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4629540050326802237, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_Value
@@ -1794,11 +1803,15 @@ PrefabInstance:
       objectReference: {fileID: -876546973899608171, guid: 488b1ee7e41eff343bd0b0bc4103c7a0, type: 3}
     - target: {fileID: 6161369340705658563, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.724
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6161369340705658563, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864804172962707083, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7213100019924683914, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1818,7 +1831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8553536007965383311, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

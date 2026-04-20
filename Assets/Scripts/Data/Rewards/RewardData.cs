@@ -22,8 +22,13 @@ namespace proscryption
         Health,
         Stamina,
         MoveSpeed,
-        RollForce,
-        RollCooldown,
-        RollStaminaCost
+        ReloadTime,
+        BloodDuration,
+        LightDuration,
+        Cure,
+        StandardDamage,
+        BloodDamage,
+        LightDamage,
+    
     }
 }

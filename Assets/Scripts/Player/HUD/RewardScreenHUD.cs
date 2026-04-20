@@ -11,6 +11,8 @@ namespace proscryption
         public Transform rewardCardParent;
         private Transform _container;
 
+        private const int CARDS_COUNT = 3;
+
         public void Start()
         {
             _container = transform.GetChild(0);
@@ -53,14 +55,18 @@ namespace proscryption
         {
             Debug.Log("Showing Reward Screen");
             await ShowRewardScreen();
-            RewardData rewardData = RewardManager.Instance.GetRandomReward();
-            ShowReward(rewardData);
+
+            for (int i = 0; i < CARDS_COUNT; i++)
+            {
+                RewardData rewardData = RewardManager.Instance.GetRandomReward();
+                ShowReward(rewardData);
+            }
         }
         private void HandleCloseRewardScreen()
         {
             _container.gameObject.SetActive(false);
-            
-            
+
+
             for (int i = 0; i < rewardCardParent.childCount; i++)
             {
                 Destroy(rewardCardParent.GetChild(i).gameObject);

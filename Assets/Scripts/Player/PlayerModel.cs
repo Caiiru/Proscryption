@@ -48,7 +48,7 @@ namespace proscryption
         private PlayerData _currentData;
 
         // My Rewards
-        private List<RewardData> collectedRewards;
+        [SerializeField] private List<RewardData> collectedRewards;
 
         // ===== PUBLIC GETTERS (Read-only access to state) =====
 
@@ -230,30 +230,22 @@ namespace proscryption
 
         private void AddSimpleReward(SimpleRewardType type, float _value)
         {
-            switch (type)
-            {
-                case SimpleRewardType.Health:
-                    maxHealth += (int)_value;
-                    PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
-                    Heal((int)_value);
-                    break;
-                case SimpleRewardType.Stamina:
-                    maxStamina += (int)_value;
-                    SetupStamina();
-                    break;
-                case SimpleRewardType.MoveSpeed:
-                    moveSpeed += _value;
-                    break;
-                case SimpleRewardType.RollForce:
-                    rollForce += _value;
-                    break;
-                case SimpleRewardType.RollCooldown:
-                    rollCooldown += _value;
-                    break;
-                case SimpleRewardType.RollStaminaCost:
-                    ROLL_STAMINA_COST += (int)_value;
-                    break;
-            }
+            // switch (type)
+            // {
+            //     case SimpleRewardType.Health:
+            //         maxHealth += (int)_value;
+            //         PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            //         Heal((int)_value);
+            //         break;
+            //     case SimpleRewardType.Stamina:
+            //         maxStamina += (int)_value;
+            //         SetupStamina();
+            //         break;
+            //     case SimpleRewardType.MoveSpeed:
+            //         moveSpeed += _value;
+            //         break;
+               
+            // }
         }
 
 
