@@ -7,8 +7,6 @@ namespace proscryption
 {
     public class PlayerHealthHUD : MonoBehaviour
     {
-        bool isFull = false;
-
         public RectTransform healthFrame;
         public RectTransform fillBarRect;
         public RectMask2D _mask;
@@ -21,21 +19,15 @@ namespace proscryption
 
         private int _currentHealth = 0;
         private int _maxHealth = 0;
- 
+
         private float _frameStartWidth = 1920;
         private float _frameStepValue = 2;
         [SerializeField] private float _initialMaskWidth;
         [SerializeField] private float lifeUpgrades = 0; //1 hp -> +4 size
 
-        PlayerModel _playerModel;
-        void Start()
-        {
-
-        }
         void OnEnable()
         {
 
-            _playerModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerModel>();
 
             _initialMaskWidth = _maskRect.rect.width;
             _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
@@ -66,7 +58,7 @@ namespace proscryption
 
             _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
             _maskRect.
-            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue/3.15f));
+            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
 
             float targetWidth = _currentHealth * _maxRightMask / _maxHealth;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
