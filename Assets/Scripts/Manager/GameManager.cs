@@ -16,7 +16,7 @@ namespace proscryption
 
 
         //Ref
-        GameObject _playerObject;
+        [SerializeField] GameObject _playerObject;
 
         [Header("Level Settings")]
         public Transform playerSpawnPoint;
@@ -36,7 +36,7 @@ namespace proscryption
             if (Initializer.Instance == null)
             {
                 InitializeGameSession();
-            }
+            } 
         }
 
         public void Initialize(GameObject playerObject)

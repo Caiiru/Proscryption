@@ -35,6 +35,7 @@ namespace proscryption
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
 
             PlayerEvents.OnPlayerReloadInput += ExecuteReload;
+            _currentWeapon.GetComponent<BaseWeapon>().Setup(this);
 
         }
         void OnDisable()
@@ -67,5 +68,10 @@ namespace proscryption
         {
             return _currentWeapon;
         }
+        public PlayerModel GetModel()
+        {
+            return _model;
+        }
+
     }
 }

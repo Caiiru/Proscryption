@@ -3,7 +3,7 @@ using UnityEngine;
 namespace proscryption
 {
     [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData", order = 1)]
-    public class PlayerData : ScriptableObject
+    public class PlayerStanceData : ScriptableObject
     {
         public int maxHealth = 100;
         public int maxStamina = 100;

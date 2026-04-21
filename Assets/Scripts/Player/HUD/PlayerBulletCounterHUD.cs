@@ -24,7 +24,7 @@ namespace proscryption
         public Color BloodColor = Color.darkRed;
         public Color LightColor = Color.yellow;
         public Color EmptyColor = Color.black;
-        private Color _currentStanceColor = Color.gray;
+        [SerializeField] private Color _currentStanceColor = Color.gray;
 
 
 

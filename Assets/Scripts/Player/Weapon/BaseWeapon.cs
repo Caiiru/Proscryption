@@ -31,8 +31,7 @@ namespace proscryption
         public int[] bullets = new int[MAX_BULLETS];
 
 
-        //Reload
-        [SerializeField] private float reloadTime = 2f;
+        //Reload 
         [SerializeField] private bool _isReloading = false;
         [SerializeField] private float _reloadTimer = 0f;
 
@@ -46,11 +45,14 @@ namespace proscryption
 
         private BulletData currentData;
 
+        private CombatSystem _combatSystem;
+        private PlayerModel _playerModel;
+
         [Header("Effects")]
         public VisualEffect MuzzleFlashEffect;
 
 
-        void Start()
+        public void Setup(CombatSystem combatSystem)
         {
             if (minDamage > maxDamage)
             {
@@ -71,6 +73,9 @@ namespace proscryption
             }
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
             currentData = standardBulletData;
+
+            _combatSystem = combatSystem;
+            _playerModel = _combatSystem.GetModel();
         }
         private void OnDisable()
         {
@@ -137,7 +142,7 @@ namespace proscryption
         {
             if (_isReloading) return;
             _isReloading = true;
-            _reloadTimer = reloadTime;
+            _reloadTimer = _playerModel.reloadCooldown;
             Debug.Log("Reload Started");
 
 

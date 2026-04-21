@@ -31,8 +31,10 @@ namespace proscryption
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
-        private bool _canReload = true;
 
+        //Reload
+        private bool _canReload = true;
+        public float reloadCooldown;
         //Roll
         [Header("Roll Settings")]
         [SerializeField] public float rollForce = 20f;
@@ -41,11 +43,25 @@ namespace proscryption
         [SerializeField] public int ROLL_STAMINA_COST = 20;
 
         [Header("PlayerStances Data")]
-        [SerializeField] private PlayerData standardData;
-        [SerializeField] private PlayerData bloodData;
-        [SerializeField] private PlayerData lightData;
+        [SerializeField] private PlayerStanceData BaseStandardData;
+        [SerializeField] private PlayerStanceData BaseBloodData;
+        [SerializeField] private PlayerStanceData BaseLightData;
 
-        private PlayerData _currentData;
+
+
+        public float LightDuration;
+        public float BloodDuration;
+        private float _lightDurationTimer = 0;
+        private float _bloodDurationTimer = 0;
+        public float LightCooldown;
+        public float BloodCooldown;
+        private float _lightCooldownTimer = 0;
+        private float _bloodCooldownTimer = 0;
+
+
+
+
+        private PlayerStanceData _currentData;
 
         // My Rewards
         [SerializeField] private List<RewardData> collectedRewards;
@@ -98,7 +114,7 @@ namespace proscryption
 
         void Start()
         {
-            _currentData = standardData; // Start with standard stance data
+            _currentData = BaseStandardData; // Start with standard stance data
             SetupCurrentStance();
 
             // SetupHealth();
@@ -112,6 +128,26 @@ namespace proscryption
                 killPlayer = false;
                 HandleHitDetected(transform.position, maxHealth, gameObject);
             }
+        }
+        void HandleTimers()
+        {
+            if (_lightDurationTimer > 0)
+            {
+                _lightDurationTimer -= Time.fixedDeltaTime;
+            }
+            if (_bloodDurationTimer > 0)
+            {
+                _bloodDurationTimer -= Time.fixedDeltaTime;
+            }
+            if (_bloodCooldownTimer > 0)
+            {
+                _bloodCooldownTimer -= Time.fixedDeltaTime;
+            }
+            if (_lightCooldownTimer > 0)
+            {
+                _lightCooldownTimer -= Time.fixedDeltaTime;
+            }
+
         }
         // ===== Stance Management ===== 
         private void SetupCurrentStance()
@@ -131,10 +167,10 @@ namespace proscryption
         {
             _currentData = newStance switch
             {
-                PlayerStance.Standard => standardData,
-                PlayerStance.Blood => bloodData,
-                PlayerStance.Light => lightData,
-                _ => standardData
+                PlayerStance.Standard => BaseStandardData,
+                PlayerStance.Blood => BaseBloodData,
+                PlayerStance.Light => BaseLightData,
+                _ => BaseStandardData
             };
 
             SetupCurrentStance();
@@ -230,22 +266,26 @@ namespace proscryption
 
         private void AddSimpleReward(SimpleRewardType type, float _value)
         {
-            // switch (type)
-            // {
-            //     case SimpleRewardType.Health:
-            //         maxHealth += (int)_value;
-            //         PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
-            //         Heal((int)_value);
-            //         break;
-            //     case SimpleRewardType.Stamina:
-            //         maxStamina += (int)_value;
-            //         SetupStamina();
-            //         break;
-            //     case SimpleRewardType.MoveSpeed:
-            //         moveSpeed += _value;
-            //         break;
-               
-            // }
+            switch (type)
+            {
+                case SimpleRewardType.Health:
+                    maxHealth += (int)_value;
+                    PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+                    Heal((int)_value);
+                    break;
+                case SimpleRewardType.Stamina:
+                    maxStamina += (int)_value;
+                    SetupStamina();
+                    break;
+                case SimpleRewardType.MoveSpeed:
+                    moveSpeed += _value;
+                    break;
+                case SimpleRewardType.ReloadTime:
+                    reloadCooldown += _value;
+                    break;
+
+
+            }
         }
 
 
@@ -357,7 +397,7 @@ namespace proscryption
                    IsAlive;
         }
 
-        public PlayerData GetCurrentData()
+        public PlayerStanceData GetCurrentData()
         {
             return _currentData;
         }
