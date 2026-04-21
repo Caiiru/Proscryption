@@ -8,6 +8,7 @@ namespace proscryption
     {
         public RectTransform staminaFrame;
         public RectTransform fillBarRect;
+        public RectTransform maskFormatRect;
         public RectMask2D mask;
         public RectTransform maskRect;
 
@@ -55,6 +56,7 @@ namespace proscryption
             _maxRightMask = fillBarRect.rect.width - mask.padding.x - mask.padding.z;
             maskRect.
             SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (staminaUpgrades * _frameStepValue / 3.15f));
+            maskFormatRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (staminaUpgrades * _frameStepValue ));
 
             float targetWidth = _currentStamina * _maxRightMask / _maxStamina;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
@@ -67,7 +69,7 @@ namespace proscryption
         {
             foreach (var rewards in data.rewards)
             {
-                if (rewards.type == SimpleRewardType.Health)
+                if (rewards.type == SimpleRewardType.Stamina)
                 {
                     staminaUpgrades += rewards.value;
                 }
