@@ -233,11 +233,11 @@ PrefabInstance:
     - target: {fileID: -7085952561978213331, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 58ebc87d1fd329548b666e0a05149650, type: 2}
+      objectReference: {fileID: 2100000, guid: fcd9b4a1211cae348b853e3bd1afbd43, type: 2}
     - target: {fileID: -5880709852680899640, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 58ebc87d1fd329548b666e0a05149650, type: 2}
+      objectReference: {fileID: 2100000, guid: fcd9b4a1211cae348b853e3bd1afbd43, type: 2}
     - target: {fileID: 919132149155446097, guid: beb81213cabbe0a4fbe698040d0cfb9e, type: 3}
       propertyPath: m_Name
       value: MDL_Revolver
