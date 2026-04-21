@@ -12,28 +12,34 @@ namespace proscryption
         public RectTransform healthFrame;
         public RectTransform fillBarRect;
         public RectMask2D _mask;
+        public RectTransform _maskRect;
+
 
         //Mask
         private float _maxRightMask;
         private float _initialRightMask;
 
-
-        private float _startWidth = 200;
+        private int _currentHealth = 0;
+        private int _maxHealth = 0;
+ 
         private float _frameStartWidth = 1920;
         private float _frameStepValue = 2;
-        private float _healthStepValue = 100;
-        private float lifeUpgrades = 0; //1 hp -> +4 size
+        [SerializeField] private float _initialMaskWidth;
+        [SerializeField] private float lifeUpgrades = 0; //1 hp -> +4 size
 
         PlayerModel _playerModel;
         void Start()
         {
-            _playerModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerModel>();
 
-            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
-            _initialRightMask = _mask.padding.z;
         }
         void OnEnable()
         {
+
+            _playerModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerModel>();
+
+            _initialMaskWidth = _maskRect.rect.width;
+            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
+            _initialRightMask = _mask.padding.z;
             PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
 
@@ -45,12 +51,24 @@ namespace proscryption
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
             PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
         }
- 
+
         void HandleHealthChanged(int newHealth, int maxHealth)
         {
+            this._currentHealth = newHealth;
+            this._maxHealth = maxHealth;
+
             this.gameObject.SetActive(true);
-            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1920+(lifeUpgrades*_frameStepValue));
-            float targetWidth = newHealth * _maxRightMask / maxHealth;
+            // UpdateHealthVisual();
+        }
+        void UpdateHealthVisual()
+        {
+            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
+
+            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
+            _maskRect.
+            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue/3.15f));
+
+            float targetWidth = _currentHealth * _maxRightMask / _maxHealth;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
             var padding = _mask.padding;
             padding.z = newRightMask;
@@ -64,9 +82,11 @@ namespace proscryption
             {
                 if (rewards.type == SimpleRewardType.Health)
                 {
-                    lifeUpgrades = rewards.value;
+                    lifeUpgrades += rewards.value;
                 }
             }
+            UpdateHealthVisual();
+
         }
 
 
