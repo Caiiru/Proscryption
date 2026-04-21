@@ -1,4 +1,6 @@
 using System;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using proscryption;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -23,8 +25,32 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_RELOADING = "isReloading";
     private const string PARAM_DIE = "die";
 
+
+
     [Header("VFX")]
     public VisualEffect takeDamageVFX;
+
+    [Header("Material")]
+    public SkinnedMeshRenderer meshRenderer;
+    public float tattooAnimationDuration = 0.5f;
+    public int stancesDelayMilliseconds = 200;
+
+    [SerializeField] private Material _bodyMaterial;
+    [SerializeField] private Material _detailsMaterial;
+    // parameter material
+    private const string PARAM_TATTO_ID = "_Tattoo_ID";
+    private const string PARAM_ANIMATION_FACTOR = "_Animation_Factor";
+    private const string PARAM_EYE_ID = "_Eye_ID";
+
+    //Color
+    [SerializeField] private Color standardColor;
+    [ColorUsage(true, true)]
+    [SerializeField] private Color bloodColor;
+
+    [ColorUsage(true, true)]
+    [SerializeField] private Color lightColor;
+
+
 
     void Awake()
     {
@@ -37,9 +63,10 @@ public class PlayerView : MonoBehaviour
         // Listen to state and event changes
         PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
         PlayerEvents.OnPlayerAttack += HandleAttackPlayed;
-        EventManager.OnEntityDamaged += HandleDamageTaken;
-        PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
+        EventManager.OnEntityDamaged += HandleDamageTaken; 
         EventManager.OnHitDetected += HandleHitDetected;
+
+        PlayerEvents.OnPlayerStanceChanged += (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
     }
 
 
@@ -48,8 +75,8 @@ public class PlayerView : MonoBehaviour
         EventManager.OnHitDetected -= HandleHitDetected;
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
-        EventManager.OnEntityDamaged -= HandleDamageTaken;
-        PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
+        EventManager.OnEntityDamaged -= HandleDamageTaken; 
+        PlayerEvents.OnPlayerStanceChanged -= (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
     }
     void Start()
     {
@@ -57,6 +84,46 @@ public class PlayerView : MonoBehaviour
         {
             takeDamageVFX.Stop();
         }
+        SetupStart();
+
+
+    }
+    void OnValidate()
+    {
+        SetupColor();
+    }
+    void SetupColor()
+    {
+
+        if (meshRenderer == null)
+        {
+            meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        }
+        _bodyMaterial = meshRenderer.sharedMaterials[0];
+        _detailsMaterial = meshRenderer.sharedMaterials[1];
+
+
+        if (ColorManager.Instance == null) return;
+
+        Debug.Log("Colors");
+        standardColor = ColorManager.Instance.colorDatabase.StandardColor;
+        bloodColor = ColorManager.Instance.colorDatabase.BloodColor;
+        lightColor = ColorManager.Instance.colorDatabase.LightColor;
+
+        _detailsMaterial.SetColor("_Blood_Emissive_Color", bloodColor);
+        _detailsMaterial.SetColor("_Light_Emissive_Color", lightColor);
+
+        _bodyMaterial.SetColor("_Blood_Emissive_Color", bloodColor);
+        _bodyMaterial.SetColor("_Light_Emissive_Color", lightColor);
+    }
+
+    private void SetupStart()
+    {
+
+        _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
+        _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 0);
+        _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+        SetupColor();
     }
     // ===== STATE CHANGE HANDLERS =====
 
@@ -95,10 +162,7 @@ public class PlayerView : MonoBehaviour
                 _animator.SetTrigger(PARAM_DIE);
                 this.gameObject.SetActive(false);
                 break;
-
-            case PlayerState.Stunned:
-                // Could add stun animation here
-                break;
+ 
 
             case PlayerState.Reloading:
                 _animator.SetBool(PARAM_IS_RELOADING, true);
@@ -145,17 +209,7 @@ public class PlayerView : MonoBehaviour
         }
 
 
-    }
-    /// <summary>
-    /// 
-    /// React to health changes (could change UI color, visual indicator)
-    /// </summary>
-    private void HandleHealthChanged(int newHealth, int maxHealth)
-    {
-        float healthPercent = (float)newHealth / maxHealth;
-        // Debug.Log($"[PlayerView] Health changed: {newHealth}/{maxHealth} ({healthPercent:P0})", gameObject);
-    }
-
+    } 
     public void UpdateInputAnimation(Vector2 moveInput)
     {
         // Debug.Log(moveInput);
@@ -169,25 +223,45 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    // ===== PUBLIC METHODS (Controllers can call these) =====
+    public async UniTask HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
+    {
+        SetupColor();
+        if (newStance == PlayerStance.Standard)
+        {
+            //DisableTattoo
+            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
+            _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
+            _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+            return;
+        }
 
-    /// <summary>
-    /// Update movement animation based on velocity
-    /// Called from PlayerController with world velocity
-    /// </summary>
-    // public void UpdateMovementAnimation(Vector3 worldVelocity)
-    // {
-    //     if (_animator == null) return;
 
-    //     // Convert world velocity to local coordinates for animation blending
-    //     Vector3 localVelocity = transform.parent != null ? 
-    //         transform.parent.TransformDirection(worldVelocity) : worldVelocity;
+        if (oldStance == PlayerStance.Standard)
+        {
+            // _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 1);
+            //Enable Tattoo
+            _bodyMaterial.DOFloat(1, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
+        }
+        else
+        {
+            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
+            _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+        }
+        await UniTask.Delay(stancesDelayMilliseconds);
 
-    //     // Project onto local axes
-    //     float velocityX = Vector3.Dot(localVelocity, transform.right);
-    //     float velocityY = Vector3.Dot(localVelocity, transform.forward);
+        _bodyMaterial.DOFloat(1, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
 
-    //     _animator.SetFloat(PARAM_VELOCITY_X, velocityX);
-    //     _animator.SetFloat(PARAM_VELOCITY_Y, velocityY);
-    // }
+        if (newStance == PlayerStance.Blood)
+        {
+            _bodyMaterial.SetFloat(PARAM_TATTO_ID, 2);
+            _detailsMaterial.SetFloat(PARAM_EYE_ID, 2);
+        }
+        else
+        {
+            _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
+            _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
+
+        }
+    }
+ 
 }

@@ -1737,7 +1737,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "132b688476074202ae41e891ac27639c",
     "m_Id": 0,
-    "m_DisplayName": "Faith Emissive Color",
+    "m_DisplayName": "Light Emissive Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1941,8 +1941,8 @@
     "m_ObjectId": "1746f69566844f0783b4bb192dbfc033",
     "m_Title": "Blood Tattoo ",
     "m_Position": {
-        "x": -2567.00048828125,
-        "y": 1117.0001220703125
+        "x": -2567.0,
+        "y": 1117.0
     }
 }
 
@@ -2121,8 +2121,8 @@
     "m_ObjectId": "1b24251d6546404d8d2aedc80392b497",
     "m_Title": "Voronoti Scroll",
     "m_Position": {
-        "x": -2289.00048828125,
-        "y": 2819.00048828125
+        "x": -2289.0,
+        "y": 2819.0
     }
 }
 
@@ -2450,7 +2450,7 @@
     "m_ObjectId": "2509580f15a04fcfa2b8bec69b1f55c8",
     "m_Title": "PBR MAPS",
     "m_Position": {
-        "x": -1468.00048828125,
+        "x": -1468.0,
         "y": -518.0
     }
 }
@@ -2497,8 +2497,8 @@
     "m_ObjectId": "2675abf2958b45a5a386c1cd56d6d5cd",
     "m_Title": "Blood Texture Tint",
     "m_Position": {
-        "x": -1673.00048828125,
-        "y": 1752.000244140625
+        "x": -1673.0,
+        "y": 1752.0
     }
 }
 
@@ -5338,8 +5338,8 @@
     "m_ObjectId": "8236a6c738864f548a1d65e0d60ca316",
     "m_Title": "Blood Texture Tint",
     "m_Position": {
-        "x": -1364.00048828125,
-        "y": 992.0001220703125
+        "x": -1364.0,
+        "y": 992.0
     }
 }
 
@@ -5760,10 +5760,10 @@
     "promotedFromAssetID": "",
     "promotedFromCategoryName": "",
     "promotedOrdering": -1,
-    "m_Name": "Faith Emissive Color",
+    "m_Name": "Light Emissive Color",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Faith Emissive Color",
-    "m_DefaultReferenceName": "_Faith_Emissive_Color",
+    "m_RefNameGeneratedByDisplayName": "Light Emissive Color",
+    "m_DefaultReferenceName": "_Light_Emissive_Color",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -5792,7 +5792,7 @@
     "m_Title": "Tattoo Base Color",
     "m_Position": {
         "x": -956.0,
-        "y": -1208.000244140625
+        "y": -1208.0
     }
 }
 
@@ -6141,8 +6141,8 @@
     "m_ObjectId": "9a41315f4f874fbc98c6bdebfe30b47e",
     "m_Title": "UV Distortion",
     "m_Position": {
-        "x": -5103.00048828125,
-        "y": 445.00006103515627
+        "x": -5103.0,
+        "y": 445.0
     }
 }
 
@@ -7284,8 +7284,8 @@
     "m_ObjectId": "bf31a15e5b6744c09bb6e823ce397a71",
     "m_Title": "Prodecural circle",
     "m_Position": {
-        "x": -5064.00048828125,
-        "y": 4772.00048828125
+        "x": -5064.0,
+        "y": 4772.0
     }
 }
 
@@ -7466,8 +7466,8 @@
     "m_ObjectId": "c7fb71ea09f1404eb76ee5a4c1f1238f",
     "m_Title": "Faith Tattoo",
     "m_Position": {
-        "x": -2943.00048828125,
-        "y": 1452.0001220703125
+        "x": -2943.0,
+        "y": 1452.0
     }
 }
 
@@ -7662,8 +7662,8 @@
     "m_ObjectId": "d5aed9429b5e4207913ed4d6ea4d790f",
     "m_Title": "Tattoo Animation",
     "m_Position": {
-        "x": -1025.9998779296875,
-        "y": 1871.000244140625
+        "x": -1026.0,
+        "y": 1871.0
     }
 }
 
