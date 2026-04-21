@@ -59,7 +59,7 @@ namespace proscryption
         }
 
 
-        void OnDisable()
+        void OnDestroy()
         {
             // EventManager.OnPlayerAttack -= HandleAttackPlayed;
             if (_weapon)
