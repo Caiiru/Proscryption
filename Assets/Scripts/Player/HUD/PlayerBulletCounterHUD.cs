@@ -9,6 +9,9 @@ namespace proscryption
     public class PlayerBulletCounterHUD : MonoBehaviour
     {
         public Transform bulletBackground;
+        public Transform bulletBackground_Blood;
+        public Transform bulletBackground_Light;
+
         public GameObject bulletForeground;
         private BaseWeapon _weapon;
 
@@ -42,7 +45,7 @@ namespace proscryption
                 Vector3 offset = new Vector3(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * radius;
                 icon.GetComponent<RectTransform>().anchoredPosition = offset;
 
-                icon.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
+                // icon.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
             }
 
             SetupEvents();
@@ -112,18 +115,24 @@ namespace proscryption
             // Debug.Log($"Stance changed from {oldStance} to {newStance}");
             _currentStance = newStance;
             Color bulletsColor = Color.black;
+            bulletBackground_Light.gameObject.SetActive(false);
+            bulletBackground_Blood.gameObject.SetActive(false);
+            bulletBackground.gameObject.SetActive(false);
             switch (newStance)
             {
                 case PlayerStance.Standard:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = ColorUtility.TryParseHtmlString("#3C3C3C", out Color standardColor) ? standardColor : Color.gray;
+                    bulletBackground.gameObject.SetActive(true);
                     bulletsColor = StandardColor;
                     break;
                 case PlayerStance.Blood:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    bulletBackground_Blood.gameObject.SetActive(true);
                     bulletsColor = BloodColor;
                     break;
                 case PlayerStance.Light:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
+                    bulletBackground_Light.gameObject.SetActive(true);
                     bulletsColor = LightColor;
                     break;
             }
