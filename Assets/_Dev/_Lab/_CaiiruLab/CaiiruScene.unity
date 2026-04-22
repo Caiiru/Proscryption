@@ -3745,42 +3745,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1238283276}
     - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: bloodColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: bloodColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: bloodColor.g
-      value: 3.1103806
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: bloodColor.r
-      value: 0.81301415
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: lightColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: lightColor.b
-      value: 19.720325
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: lightColor.g
-      value: 22.827131
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: lightColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: meshRenderer
-      value: 
-      objectReference: {fileID: 5757133134912884006}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: _bodyMaterial
       value: 
       objectReference: {fileID: 929288092}
@@ -3788,41 +3752,9 @@ PrefabInstance:
       propertyPath: _detailsMaterial
       value: 
       objectReference: {fileID: 1238283276}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: stancesDelayMilliseconds
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_ResetSeedOnPlay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
-      value: Particle Count
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 982268895649852357, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Overridden
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1241252885224143048, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2996229423250799355, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3869,11 +3801,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
---- !u!137 &5757133134912884006 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 435722084706151540, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-  m_PrefabInstance: {fileID: 5757133134912884005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8929117030300922548
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,4 +21,4 @@ MonoBehaviour:
   attackStaminaCost: 10
   staminaRegenPerSec: 10
   stanceDuration: 5
-  stanceCooldown: 5
+  stanceCooldown: 8

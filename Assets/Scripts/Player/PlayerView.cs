@@ -194,9 +194,11 @@ public class PlayerView : MonoBehaviour
         if (newStance == PlayerStance.Standard)
         {
             //DisableTattoo
-            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
-            _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
-            _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration).onComplete = () =>
+            {
+                _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
+                _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+            };
             return;
         }
 
@@ -209,10 +211,10 @@ public class PlayerView : MonoBehaviour
         }
         else
         {
-            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
+            _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration / 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
         }
-        await UniTask.Delay(stancesDelayMilliseconds);
+        await UniTask.Delay(stancesDelayMilliseconds / 2);
 
         _bodyMaterial.DOFloat(1, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
 

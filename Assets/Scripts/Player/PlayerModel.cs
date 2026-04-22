@@ -148,13 +148,13 @@ namespace proscryption
             HandleCurrentStanceTimer();
             if (_bloodCooldownTimer > 0)
             {
+                _bloodCooldownTimer -= Time.deltaTime;
                 PlayerEvents.BroadcastPlayerBloodCooldownUpdated(_bloodCooldownTimer, BloodCooldown);
-                _bloodCooldownTimer -= Time.fixedDeltaTime;
             }
             if (_lightCooldownTimer > 0)
             {
-                PlayerEvents.BroadcastPlayerBloodCooldownUpdated(_lightCooldownTimer, LightCooldown);
-                _lightCooldownTimer -= Time.fixedDeltaTime;
+                _lightCooldownTimer -= Time.deltaTime;
+                PlayerEvents.BroadcastPlayerLightCooldownUpdated(_lightCooldownTimer, LightCooldown);
             }
 
         }
@@ -163,7 +163,7 @@ namespace proscryption
             if (_currentStanceTimer > 0)
             {
                 PlayerEvents.BroadcastCurrentStanceDurationUpdated(_currentStanceTimer, _currentData.stanceDuration);
-                _currentStanceTimer -= Time.fixedDeltaTime;
+                _currentStanceTimer -= Time.deltaTime;
                 return;
             }
             // switch (_currentStance)

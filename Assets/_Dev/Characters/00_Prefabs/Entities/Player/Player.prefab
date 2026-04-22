@@ -154,10 +154,9 @@ MonoBehaviour:
   BaseStandardData: {fileID: 11400000, guid: 8cdc7898020aa19459c4cb2ee8a83d87, type: 2}
   BaseBloodData: {fileID: 11400000, guid: c651a3554ef4d5b4aa4d0c647a96b083, type: 2}
   BaseLightData: {fileID: 11400000, guid: 4025c911eb50fec479fa3a1d0a6e949f, type: 2}
-  LightDuration: 0
-  BloodDuration: 0
-  LightCooldown: 0
-  BloodCooldown: 0
+  _currentStanceTimer: 0
+  _lightCooldownTimer: 0
+  _bloodCooldownTimer: 0
   collectedRewards: []
   killPlayer: 0
 --- !u!114 &948268413005835966
@@ -173,6 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerView
   takeDamageVFX: {fileID: 982268895649852357}
+  meshRenderer: {fileID: 435722084706151540}
+  tattooAnimationDuration: 0.5
+  stancesDelayMilliseconds: 200
+  _bodyMaterial: {fileID: 0}
+  _detailsMaterial: {fileID: 0}
 --- !u!114 &7373672771933974766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +692,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2996229423250799355}
     m_Modifications:
+    - target: {fileID: 99701685603363225, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1217781141501917306, guid: bb01283b486994a44866dace12e44bd6, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -699,6 +707,22 @@ PrefabInstance:
     - target: {fileID: 1217781141501917306, guid: bb01283b486994a44866dace12e44bd6, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Name
+      value: Particle Count
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 6373085653314645213, guid: bb01283b486994a44866dace12e44bd6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -873,11 +897,11 @@ PrefabInstance:
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: m_Name
       value: MDL_PlayerFinal
@@ -902,6 +926,11 @@ PrefabInstance:
       addedObject: {fileID: 1444574349042008167}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
+--- !u!137 &435722084706151540 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
+  m_PrefabInstance: {fileID: 5398366278823475307}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5575562966046416768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
