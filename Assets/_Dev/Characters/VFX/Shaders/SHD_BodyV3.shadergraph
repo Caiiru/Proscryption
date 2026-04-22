@@ -7301,10 +7301,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2917.999755859375,
-            "y": 1511.0,
-            "width": 208.000244140625,
-            "height": 432.9998779296875
+            "x": -2914.0,
+            "y": 1509.0,
+            "width": 208.0,
+            "height": 433.0
         }
     },
     "m_Slots": [
@@ -7466,8 +7466,8 @@
     "m_ObjectId": "c7fb71ea09f1404eb76ee5a4c1f1238f",
     "m_Title": "Faith Tattoo",
     "m_Position": {
-        "x": -2943.0,
-        "y": 1452.0
+        "x": -2939.0,
+        "y": 1450.0
     }
 }
 
