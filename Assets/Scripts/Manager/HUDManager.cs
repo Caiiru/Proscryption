@@ -10,6 +10,7 @@ namespace proscryption
 
         [SerializeField] GameObject healthBar;
         [SerializeField] GameObject staminaBar;
+        [SerializeField] GameObject playerFrame;
         [SerializeField] GameObject deathScreen;
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject pauseScreen;
@@ -203,6 +204,7 @@ namespace proscryption
         {
             // healthBar.SetActive(false);
             // staminaBar.SetActive(false);
+            playerFrame.SetActive(false);
             bulletCounter.SetActive(false);
             aimIndicator.SetActive(false);
 
@@ -212,6 +214,7 @@ namespace proscryption
         {
             // healthBar.SetActive(true);
             // staminaBar.SetActive(true);
+            playerFrame.SetActive(true);
             bulletCounter.SetActive(true);
             aimIndicator.SetActive(true);
         }

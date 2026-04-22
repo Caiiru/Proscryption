@@ -1,4 +1,5 @@
 
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,23 +8,43 @@ namespace proscryption
 {
     public class RewardCardHUD : MonoBehaviour
     {
+        public Transform closedTransform;
+        public Transform openTransform;
 
-        public Image icon;
+        [Header("Icons")]
+        public Image openIcon;
+        public Image closedIcon;
+
+        [Header("Opened")]
         public TextMeshProUGUI titleText;
         public TextMeshProUGUI descriptionText;
         public Transform effectTransform;
 
         public Button selectButton;
+        public Button openButton;
+        public Button backButton;
+
+        private Animator _animator;
         private RewardData _currentRewardData;
+
+        [Header("State")]
+        public bool isOpened;
 
         [Space]
         public GameObject miniRewardPrefab;
 
-        public void Setup(RewardData rewardData)
-        {
-            _currentRewardData = rewardData;
+        RewardScreenHUD _rewardScreen;
 
-            icon.sprite = _currentRewardData.rewardIcon;
+        public void Setup(RewardData rewardData, RewardScreenHUD rewardScreen)
+        {
+            _rewardScreen = rewardScreen;
+            _animator = GetComponent<Animator>();
+            isOpened = false;
+
+            _currentRewardData = rewardData;
+            closedIcon.sprite = _currentRewardData.rewardIcon;
+
+            openIcon.sprite = _currentRewardData.rewardIcon;
             titleText.text = _currentRewardData.rewardName;
             descriptionText.text = _currentRewardData.rewardDescription;
 
@@ -42,14 +63,46 @@ namespace proscryption
 
                 miniRewardGO.GetComponent<EffectCardHUD>().Setup(_image, _currentRewardData.rewards[i].value.ToString());
             }
-
-            selectButton.onClick.AddListener(OnChoose);
+            closedTransform.gameObject.SetActive(true);
+            openTransform.gameObject.SetActive(false);
+            SetupEvents();
         }
-        private void OnChoose()
+        private void SetupEvents()
         {
-            Debug.Log("Choose");
+            openButton.onClick.AddListener(OnOpenClick);
+            selectButton.onClick.AddListener(OnChooseClick);
+            backButton.onClick.AddListener(OnCloseClick);
+        }
+        private void OnChooseClick()
+        {
             PlayerEvents.BroadcastPlayerGetReward(_currentRewardData);
             PlayerEvents.BroadcastPlayerCloseRewardScreen();
+        }
+        private void OnOpenClick()
+        {
+            _rewardScreen.SelectCard(this);
+        }
+
+        public async UniTask SelectAnimation()
+        {
+            if (isOpened)
+            {
+                return;
+            }
+
+            _animator.SetTrigger("Open");
+            isOpened = true;
+        }
+        private void OnCloseClick()
+        {
+            CloseAnimation().Forget();
+        }
+        private async UniTask CloseAnimation()
+        {
+            _animator.SetTrigger("Back");
+            isOpened = false;
+            await UniTask.Delay(500);
+            _rewardScreen.CloseSelectedCard();
         }
 
 

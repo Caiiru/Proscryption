@@ -109,7 +109,7 @@ namespace proscryption
         }
         private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
-            Debug.Log($"Stance changed from {oldStance} to {newStance}");
+            // Debug.Log($"Stance changed from {oldStance} to {newStance}");
             _currentStance = newStance;
             Color bulletsColor = Color.black;
             switch (newStance)
