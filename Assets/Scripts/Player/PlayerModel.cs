@@ -128,6 +128,7 @@ namespace proscryption
                 killPlayer = false;
                 HandleHitDetected(transform.position, maxHealth, gameObject);
             }
+            HandleTimers();
         }
         void HandleTimers()
         {

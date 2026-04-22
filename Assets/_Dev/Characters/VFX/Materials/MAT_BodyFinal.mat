@@ -79,14 +79,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Animation_Factor: 1
+    - _Animation_Factor: 0
     - _Power_ID: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Tattoo_ID: 1
+    - _Tattoo_ID: 0
     m_Colors:
-    - _Blood_Emissive_Color: {r: 7.999999, g: 0.0000011523564, b: 0, a: 1}
+    - _Blood_Emissive_Color: {r: 4.152602, g: 1.9158078, b: 0, a: 1}
     - _Emissive_Color: {r: 4, g: 0.03654843, b: 0, a: 1}
     - _Faith_Emissive_Color: {r: 8, g: 3.9696085, b: 1.018868, a: 1}
+    - _Light_Emissive_Color: {r: 3.962742, g: 96.82452, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

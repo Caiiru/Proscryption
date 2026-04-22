@@ -67,13 +67,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Eye_ID: 1
+    - _Eye_ID: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Blood_Emissive_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Blood_Emissive_Color: {r: 4.152602, g: 1.9158078, b: 0, a: 1}
     - _Color: {r: 8, g: 0, b: 0.14343262, a: 1}
     - _Color_1: {r: 9.874542, g: 4.366729, b: 1.0712948, a: 1}
-    - _Light_Emissive_Color: {r: 1, g: 0.7162384, b: 0, a: 1}
+    - _Light_Emissive_Color: {r: 3.962742, g: 96.82452, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

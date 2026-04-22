@@ -43,12 +43,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_EYE_ID = "_Eye_ID";
 
     //Color
-    [SerializeField] private Color standardColor;
-    [ColorUsage(true, true)]
-    [SerializeField] private Color bloodColor;
 
-    [ColorUsage(true, true)]
-    [SerializeField] private Color lightColor;
 
 
 
@@ -63,7 +58,7 @@ public class PlayerView : MonoBehaviour
         // Listen to state and event changes
         PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
         PlayerEvents.OnPlayerAttack += HandleAttackPlayed;
-        EventManager.OnEntityDamaged += HandleDamageTaken; 
+        EventManager.OnEntityDamaged += HandleDamageTaken;
         EventManager.OnHitDetected += HandleHitDetected;
 
         PlayerEvents.OnPlayerStanceChanged += (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
@@ -75,7 +70,7 @@ public class PlayerView : MonoBehaviour
         EventManager.OnHitDetected -= HandleHitDetected;
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
-        EventManager.OnEntityDamaged -= HandleDamageTaken; 
+        EventManager.OnEntityDamaged -= HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged -= (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
     }
     void Start()
@@ -88,34 +83,6 @@ public class PlayerView : MonoBehaviour
 
 
     }
-    void OnValidate()
-    {
-        SetupColor();
-    }
-    void SetupColor()
-    {
-
-        if (meshRenderer == null)
-        {
-            meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        }
-        _bodyMaterial = meshRenderer.sharedMaterials[0];
-        _detailsMaterial = meshRenderer.sharedMaterials[1];
-
-
-        if (ColorManager.Instance == null) return;
-
-        Debug.Log("Colors");
-        standardColor = ColorManager.Instance.colorDatabase.StandardColor;
-        bloodColor = ColorManager.Instance.colorDatabase.BloodColor;
-        lightColor = ColorManager.Instance.colorDatabase.LightColor;
-
-        _detailsMaterial.SetColor("_Blood_Emissive_Color", bloodColor);
-        _detailsMaterial.SetColor("_Light_Emissive_Color", lightColor);
-
-        _bodyMaterial.SetColor("_Blood_Emissive_Color", bloodColor);
-        _bodyMaterial.SetColor("_Light_Emissive_Color", lightColor);
-    }
 
     private void SetupStart()
     {
@@ -123,7 +90,6 @@ public class PlayerView : MonoBehaviour
         _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
         _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 0);
         _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
-        SetupColor();
     }
     // ===== STATE CHANGE HANDLERS =====
 
@@ -162,7 +128,7 @@ public class PlayerView : MonoBehaviour
                 _animator.SetTrigger(PARAM_DIE);
                 this.gameObject.SetActive(false);
                 break;
- 
+
 
             case PlayerState.Reloading:
                 _animator.SetBool(PARAM_IS_RELOADING, true);
@@ -209,7 +175,7 @@ public class PlayerView : MonoBehaviour
         }
 
 
-    } 
+    }
     public void UpdateInputAnimation(Vector2 moveInput)
     {
         // Debug.Log(moveInput);
@@ -225,7 +191,6 @@ public class PlayerView : MonoBehaviour
 
     public async UniTask HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
     {
-        SetupColor();
         if (newStance == PlayerStance.Standard)
         {
             //DisableTattoo
@@ -263,5 +228,5 @@ public class PlayerView : MonoBehaviour
 
         }
     }
- 
+
 }

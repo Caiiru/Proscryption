@@ -15,5 +15,11 @@ namespace proscryption
         public Color BloodColor;
         [ColorUsage(true, true)]
         public Color LightColor;
+
+        void OnValidate()
+        {
+            if (ColorManager.Instance != null)
+                ColorManager.Instance.SetupValidate();
+        }
     }
 }
