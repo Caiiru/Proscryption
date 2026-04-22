@@ -16,8 +16,15 @@ namespace proscryption
         [ColorUsage(true, true)]
         public Color LightColor;
 
+        [Header("UI")]
+        public Color UI_StandardColor;
+        public Color UI_BloodColor;
+        public Color UI_LightColor;
+
+
         void OnValidate()
         {
+
             if (ColorManager.Instance != null)
                 ColorManager.Instance.SetupValidate();
         }

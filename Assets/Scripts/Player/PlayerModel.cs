@@ -47,16 +47,16 @@ namespace proscryption
         [SerializeField] private PlayerStanceData BaseBloodData;
         [SerializeField] private PlayerStanceData BaseLightData;
 
+        //Timers
+        float LightDuration;
+        float BloodDuration;
+        [SerializeField] private float _currentStanceTimer = 0;
 
-
-        public float LightDuration;
-        public float BloodDuration;
-        private float _lightDurationTimer = 0;
-        private float _bloodDurationTimer = 0;
-        public float LightCooldown;
-        public float BloodCooldown;
-        private float _lightCooldownTimer = 0;
-        private float _bloodCooldownTimer = 0;
+        //Cooldown
+        float LightCooldown;
+        float BloodCooldown;
+        [SerializeField] private float _lightCooldownTimer = 0;
+        [SerializeField] private float _bloodCooldownTimer = 0;
 
 
 
@@ -90,6 +90,11 @@ namespace proscryption
         {
             _rigidbody = GetComponent<Rigidbody>();
 
+            // Clone Copy 
+            BaseStandardData = Instantiate(BaseStandardData);
+            BaseBloodData = Instantiate(BaseBloodData);
+            BaseLightData = Instantiate(BaseLightData);
+
             // Initialize state
             _currentHealth = maxHealth;
             _currentStamina = maxStamina;
@@ -99,7 +104,6 @@ namespace proscryption
         {
             // Listen to combat events that affect model
             EventManager.OnHitDetected += HandleHitDetected;
-            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
         }
 
@@ -108,13 +112,13 @@ namespace proscryption
         {
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
-            PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
         }
 
 
         void Start()
         {
             _currentData = BaseStandardData; // Start with standard stance data
+            SetupTimers();
             SetupCurrentStance();
 
             // SetupHealth();
@@ -130,27 +134,88 @@ namespace proscryption
             }
             HandleTimers();
         }
+        void SetupTimers()
+        {
+            LightDuration = BaseLightData.stanceDuration;
+            BloodDuration = BaseBloodData.stanceDuration;
+            LightCooldown = BaseLightData.stanceCooldown;
+            BloodCooldown = BaseBloodData.stanceCooldown;
+
+
+        }
         void HandleTimers()
         {
-            if (_lightDurationTimer > 0)
-            {
-                _lightDurationTimer -= Time.fixedDeltaTime;
-            }
-            if (_bloodDurationTimer > 0)
-            {
-                _bloodDurationTimer -= Time.fixedDeltaTime;
-            }
+            HandleCurrentStanceTimer();
             if (_bloodCooldownTimer > 0)
             {
+                PlayerEvents.BroadcastPlayerBloodCooldownUpdated(_bloodCooldownTimer, BloodCooldown);
                 _bloodCooldownTimer -= Time.fixedDeltaTime;
             }
             if (_lightCooldownTimer > 0)
             {
+                PlayerEvents.BroadcastPlayerBloodCooldownUpdated(_lightCooldownTimer, LightCooldown);
                 _lightCooldownTimer -= Time.fixedDeltaTime;
             }
 
         }
+        private void HandleCurrentStanceTimer()
+        {
+            if (_currentStanceTimer > 0)
+            {
+                PlayerEvents.BroadcastCurrentStanceDurationUpdated(_currentStanceTimer, _currentData.stanceDuration);
+                _currentStanceTimer -= Time.fixedDeltaTime;
+                return;
+            }
+            // switch (_currentStance)
+            // {
+            //     case PlayerStance.Blood:
+            //         _bloodCooldownTimer = BloodCooldown;
+
+            //         break;
+            //     case PlayerStance.Light:
+            //         _lightCooldownTimer = LightCooldown;
+            //         break;
+
+            // }
+            if (_currentStance != PlayerStance.Standard)
+            {
+                ChangeStance(PlayerStance.Standard);
+            }
+
+        }
         // ===== Stance Management ===== 
+
+        public void ChangeStance(PlayerStance newStance)
+        {
+            //Only swap if cooldown has ended
+            switch (newStance)
+            {
+                case PlayerStance.Blood:
+                    if (_bloodCooldownTimer > 0) return;
+                    break;
+                case PlayerStance.Light:
+                    if (_lightCooldownTimer > 0) return;
+                    break;
+            }
+
+            PlayerStance _prevStance = _currentStance;
+
+            if (_currentStance == newStance)
+            {
+                if (_currentStance == PlayerStance.Standard) return;
+
+
+                _currentStance = PlayerStance.Standard;
+                // Debug.Log($"Same Stance{_currentStance}");
+            }
+
+            else
+            {
+                this._currentStance = newStance;
+            }
+            PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
+            HandleStanceChanged(_prevStance, _currentStance);
+        }
         private void SetupCurrentStance()
         {
             maxHealth = _currentData.maxHealth;
@@ -159,6 +224,11 @@ namespace proscryption
             rollForce = _currentData.rollForce;
             ROLL_STAMINA_COST = _currentData.rollStaminaCost;
             rollCooldown = _currentData.rollCooldown;
+
+            if (_currentStance != PlayerStance.Standard)
+                _currentStanceTimer = _currentData.stanceDuration;
+
+
             // staminaRegenPerSec = _currentData.staminaRegenPerSec;
             SetupHealth();
             SetupStamina();
@@ -166,13 +236,34 @@ namespace proscryption
         }
         private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
-            _currentData = newStance switch
+            switch (oldStance)
             {
-                PlayerStance.Standard => BaseStandardData,
-                PlayerStance.Blood => BaseBloodData,
-                PlayerStance.Light => BaseLightData,
-                _ => BaseStandardData
-            };
+                case PlayerStance.Light:
+                    _lightCooldownTimer = LightCooldown;
+
+                    break;
+                case PlayerStance.Blood:
+                    _bloodCooldownTimer = BloodCooldown;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (newStance)
+            {
+                case PlayerStance.Light:
+                    _currentData = BaseLightData;
+
+                    break;
+                case PlayerStance.Blood:
+                    _currentData = BaseBloodData;
+                    break;
+                default:
+                    _currentData = BaseStandardData;
+
+                    break;
+            }
+
 
             SetupCurrentStance();
         }
@@ -231,27 +322,7 @@ namespace proscryption
 
             PlayerEvents.BroadcastPlayerStateChanged(prev, newState);
         }
-        public void ChangeStance(PlayerStance newStance)
-        {
-            // To-Do: Implement stance change logic (e.g., modify stats, trigger animations)
-            PlayerStance _prevStance = _currentStance;
 
-            if (_currentStance == newStance)
-            {
-                if (_currentStance == PlayerStance.Standard) return;
-
-
-                _currentStance = PlayerStance.Standard;
-                // Debug.Log($"Same Stance{_currentStance}");
-            }
-
-            else
-            {
-                this._currentStance = newStance;
-            }
-            Debug.Log($"Player stance changed to {_currentStance}");
-            PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
-        }
 
         // ===== REWARD MANAGMENT =====
         public void HandleGetNewReward(RewardData reward)

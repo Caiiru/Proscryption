@@ -32,6 +32,11 @@ namespace proscryption
         public static event Action<string> OnPlayerEnterInteractRange;
         public static event Action OnPlayerLeaveInteractRange;
 
+        //timers
+        public static event Action<float, float> OnPlayerLightCooldownUpdated;
+        public static event Action<float, float> OnPlayerBloodCooldownUpdated;
+        public static event Action<float, float> OnCurrentStanceDurationUpdated;
+
         //Reward
         public static event Action OnPlayerCloseRewardScreen;
         public static event Action<RewardData> OnPlayerGetReward;
@@ -114,6 +119,21 @@ namespace proscryption
             // You can add an event for exiting interact range if needed
             OnPlayerLeaveInteractRange?.Invoke();
         }
+        #endregion
+        #region Timers
+        public static void BroadcastPlayerLightCooldownUpdated(float newCooldown, float maxCooldown)
+        {
+            OnPlayerLightCooldownUpdated?.Invoke(newCooldown, maxCooldown);
+        }
+        public static void BroadcastPlayerBloodCooldownUpdated(float newCooldown, float maxCooldown)
+        {
+            OnPlayerBloodCooldownUpdated?.Invoke(newCooldown, maxCooldown);
+        }
+        public static void BroadcastCurrentStanceDurationUpdated(float newDuration, float maxDuration)
+        {
+            OnCurrentStanceDurationUpdated?.Invoke(newDuration, maxDuration);
+        }
+
         #endregion
         #region Reward
         public static void BroadcastPlayerCloseRewardScreen()
