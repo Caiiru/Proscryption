@@ -213,6 +213,34 @@ Transform:
   - {fileID: 1408267750}
   m_Father: {fileID: 646576753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &80358829 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+  m_PrefabInstance: {fileID: 1970247142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &80358835
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80358829}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &131683567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2848,13 +2876,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1466111869932648661, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
       propertyPath: m_Name
       value: MinionEnemy (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4657855042612550368, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2899,7 +2927,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 80358835}
   m_SourcePrefab: {fileID: 100100000, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
 --- !u!1 &1971511244
 GameObject:
@@ -3052,6 +3083,7 @@ MonoBehaviour:
   damageToPoiseDamageMultiplier: 0.5
   inputReadingRange: 15
   healingDetectionCooldown: 3
+  ragdollRigidbody: {fileID: 0}
 --- !u!54 &1999708149
 Rigidbody:
   m_ObjectHideFlags: 0

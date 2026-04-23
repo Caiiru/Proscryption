@@ -1,10 +1,11 @@
 using UnityEngine;
 using proscryption.Enemy.Refactor;
 using Unity.VisualScripting;
+using Cysharp.Threading.Tasks.Triggers;
 
 namespace proscryption.Enemy
 {
-    [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(CharacterController))]
     public class EnemyController : MonoBehaviour
     {
         public string currentStateName;
@@ -34,21 +35,22 @@ namespace proscryption.Enemy
         [SerializeField] private float inputReadingRange = 15f;
         [SerializeField] private float healingDetectionCooldown = 3f;
 
+        [Header("Ragdoll (Config)")]
+        [SerializeField] private Transform ragdollRoot;
+        [SerializeField] private float ragdollForce = 10f;
+
         [Header("References")]
         private Transform _playerTransform;
-        private Rigidbody _rigidbody;
+        private CharacterController _characterController;
         private Animator _animator;
 
-        // ============================================================
-        // SUBSISTEMAS REFATORADOS (Fase 1)
-        // ============================================================
         private EnemyPoiseSystem _poiseSystem;
-        private EnemyMovement _movementSystem;
+        private EnemyMovementCC _movementSystem;
         private EnemyInputReader _inputReaderSystem;
 
         // Acessores públicos para subsistemas (para possível acesso de estados)
         public EnemyPoiseSystem PoiseSystem => _poiseSystem;
-        public EnemyMovement MovementSystem => _movementSystem;
+        public EnemyMovementCC MovementSystem => _movementSystem;
         public EnemyInputReader InputReaderSystem => _inputReaderSystem;
 
         // State Machine
@@ -80,9 +82,35 @@ namespace proscryption.Enemy
         /// </summary>
         private void CacheComponentReferences()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
             _enemyEntity = GetComponent<EnemyEntity>();
+            
+            if (!ragdollRoot)
+                ragdollRoot = transform;
+
+            InitializeRagdoll();
+        }
+
+        /// <summary>
+        /// Inicializa o ragdoll (desabilita Rigidbodies e colisores)
+        /// </summary>
+        private void InitializeRagdoll()
+        {
+            if (!ragdollRoot)
+                return;
+
+            var ragdollRigidbodies = ragdollRoot.GetComponentsInChildren<Rigidbody>();
+            foreach (var rb in ragdollRigidbodies)
+            {
+                rb.isKinematic = true;
+            }
+
+            var ragdollColliders = ragdollRoot.GetComponentsInChildren<Collider>();
+            foreach (var coll in ragdollColliders)
+            {
+                coll.enabled = false;
+            }
         }
 
         /// <summary>
@@ -110,10 +138,10 @@ namespace proscryption.Enemy
             // Hook de eventos do Poise System
             _poiseSystem.OnPoiseBreak += HandlePoiseBreak;
 
-            // Inicializa EnemyMovement
-            _movementSystem = this.AddComponent<EnemyMovement>();
+            // Inicializa EnemyMovementCC (CharacterController)
+            _movementSystem = this.AddComponent<EnemyMovementCC>();
             _movementSystem.Setup(
-                _rigidbody,
+                _characterController,
                 moveSpeed,
                 rotationSpeed
             );
@@ -288,11 +316,63 @@ namespace proscryption.Enemy
 
         public void DisableCollision()
         {
-            var collider = GetComponent<Collider>();
-            if (collider)
+            _characterController.enabled = false;
+        }
+
+        public void EnableRagdoll(Vector3 impulseDirection = default)
+        {
+            if (!ragdollRoot)
+                return;
+
+            // Desabilita CharacterController
+            _characterController.enabled = false;
+
+            // Ativa Rigidbodies e colisores do ragdoll
+            var ragdollRigidbodies = ragdollRoot.GetComponentsInChildren<Rigidbody>();
+            foreach (var rb in ragdollRigidbodies)
             {
-                collider.enabled = false;
+                rb.isKinematic = false;
+                
+                // Aplica impulso inicial
+                if (impulseDirection != Vector3.zero)
+                {
+                    rb.AddForce(impulseDirection * ragdollForce, ForceMode.Impulse);
+                }
             }
+
+            var ragdollColliders = ragdollRoot.GetComponentsInChildren<Collider>();
+            foreach (var coll in ragdollColliders)
+            {
+                coll.enabled = true;
+            }
+
+            Debug.Log($"[{gameObject.name}] Ragdoll ativado!");
+        }
+
+        public void DisableRagdoll()
+        {
+            if (!ragdollRoot)
+                return;
+
+            // Desativa Rigidbodies e colisores do ragdoll
+            var ragdollRigidbodies = ragdollRoot.GetComponentsInChildren<Rigidbody>();
+            foreach (var rb in ragdollRigidbodies)
+            {
+                rb.isKinematic = true;
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            var ragdollColliders = ragdollRoot.GetComponentsInChildren<Collider>();
+            foreach (var coll in ragdollColliders)
+            {
+                coll.enabled = false;
+            }
+
+            // Reabilita CharacterController
+            _characterController.enabled = true;
+
+            Debug.Log($"[{gameObject.name}] Ragdoll desativado!");
         }
 
         public void OnDamageTaken()
@@ -522,7 +602,11 @@ namespace proscryption.Enemy
         void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, GetComponent<CapsuleCollider>().radius);
+            var cc = GetComponent<CharacterController>();
+            if (cc)
+            {
+                Gizmos.DrawWireSphere(transform.position, cc.radius);
+            }
         }
 
     }
