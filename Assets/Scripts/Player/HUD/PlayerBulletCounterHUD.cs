@@ -1,5 +1,6 @@
 
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,8 +10,9 @@ namespace proscryption
     public class PlayerBulletCounterHUD : MonoBehaviour
     {
         public Transform bulletBackground;
-        public Transform bulletBackground_Blood;
-        public Transform bulletBackground_Light;
+        public Transform StandardStanceTransform;
+        public Transform BloodStanceTransform;
+        public Transform LightStanceTransform;
 
         public GameObject bulletForeground;
         private BaseWeapon _weapon;
@@ -47,6 +49,10 @@ namespace proscryption
 
                 // icon.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
             }
+
+            StandardStanceTransform.gameObject.SetActive(true);
+            BloodStanceTransform.gameObject.SetActive(false);
+            LightStanceTransform.gameObject.SetActive(false);
 
             SetupEvents();
         }
@@ -85,7 +91,7 @@ namespace proscryption
                 bulletIcons[b_index].GetComponent<UnityEngine.UI.Image>().color = EmptyColor;
             }
             UniTask.Delay(2000).Forget();
-            bulletBackground.Rotate(Vector3.forward, angleOffset * 2); // Rotate the entire counter
+            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (b_index + 1) * 2), 0.5f, RotateMode.Fast); // Rotate the entire counter
             _updateIcons = false;
             return UniTask.CompletedTask;
         }
@@ -115,24 +121,26 @@ namespace proscryption
             // Debug.Log($"Stance changed from {oldStance} to {newStance}");
             _currentStance = newStance;
             Color bulletsColor = Color.black;
-            bulletBackground_Light.gameObject.SetActive(false);
-            bulletBackground_Blood.gameObject.SetActive(false);
-            bulletBackground.gameObject.SetActive(false);
+            StandardStanceTransform.gameObject.SetActive(false);
+            BloodStanceTransform.gameObject.SetActive(false);
+            LightStanceTransform.gameObject.SetActive(false);
+            // bulletBackground.gam eObject.SetActive(false);
             switch (newStance)
             {
                 case PlayerStance.Standard:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = ColorUtility.TryParseHtmlString("#3C3C3C", out Color standardColor) ? standardColor : Color.gray;
                     bulletBackground.gameObject.SetActive(true);
+                    StandardStanceTransform.gameObject.SetActive(true);
                     bulletsColor = StandardColor;
                     break;
                 case PlayerStance.Blood:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-                    bulletBackground_Blood.gameObject.SetActive(true);
+                    BloodStanceTransform.gameObject.SetActive(true);
                     bulletsColor = BloodColor;
                     break;
                 case PlayerStance.Light:
                     // bulletBackground.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
-                    bulletBackground_Light.gameObject.SetActive(true);
+                    LightStanceTransform.gameObject.SetActive(true);
                     bulletsColor = LightColor;
                     break;
             }
