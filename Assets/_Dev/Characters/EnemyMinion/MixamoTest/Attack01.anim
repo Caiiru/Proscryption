@@ -83359,14 +83359,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.4166666
-    functionName: MakeCanHit
+    functionName: ActivateClawsHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.875
-    functionName: MakeCantHit
+    functionName: DesactivateClawsHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -1,5 +1,4 @@
 using UnityEngine;
-using proscryption.Enemy;
 using UnityEngine.VFX;
 
 namespace proscryption
@@ -13,11 +12,8 @@ namespace proscryption
         private float currentAttackTime;
         public int minDamage = 3;
         public int maxDamage = 8;
-        public EnemyBaseWeapon[] weapons;
         private bool canHit;
 
-        // State Machine
-        private EnemyController _enemyController;
 
         [Header("VFX")]
         public VisualEffect takeDamageVFX;
@@ -27,14 +23,7 @@ namespace proscryption
         {
             base.Start();
 
-            // Obtém o EnemyController (que contém a state machine)
-            _enemyController = GetComponent<EnemyController>();
 
-            foreach (EnemyBaseWeapon weapon in weapons)
-            {
-                weapon.SetOwner(this);
-
-            }
 
             SetupVFX();
         }
@@ -86,10 +75,7 @@ namespace proscryption
             base.TakeDamage(damage, source, isCritical);
 
             // Notifica ao estado machine que recebeu dano
-            if (_enemyController && !_isDead)
-            {
-                _enemyController.OnDamageTaken();
-            }
+
             if (takeDamageVFX)
             {
                 takeDamageVFX.Play();
@@ -103,10 +89,6 @@ namespace proscryption
         {
             base.OnDeath();
 
-            if (_enemyController)
-            {
-                _enemyController.OnDeath();
-            }
             if (deathVFX)
             {
                 deathVFX.Play();
@@ -120,7 +102,7 @@ namespace proscryption
 
         public bool GetCanHit()
         {
-            return _enemyController.GetIsAttacking() && canHit;
+            return true;
         }
 
         public void MakeCanHit()
