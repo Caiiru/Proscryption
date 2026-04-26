@@ -112,7 +112,7 @@ namespace proscryption
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
             GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed, currentData.bulletForce);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)
             {

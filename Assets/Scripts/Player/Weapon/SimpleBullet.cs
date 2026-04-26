@@ -7,6 +7,7 @@ namespace proscryption
     {
         public float speed = 20f;
         private int _damage = 10;
+        private float _bulletForce;
         private bool _isCritical = false;
         private Rigidbody _rigidbody;
         private SphereCollider _collider;
@@ -14,11 +15,14 @@ namespace proscryption
         public bool showDebug = false;
 
         private Vector3 moveDirection;
-
-        public void Initialize(int damage, bool isCritical = false, float speed = 20f)
+        public void Initialize(int damage,
+                                     bool isCritical = false,
+                                     float speed = 20f, float bulletForce = 0)
         {
+
             this._damage = damage;
             this._isCritical = isCritical;
+            this._bulletForce = bulletForce;
 
             _rigidbody = GetComponent<Rigidbody>();
             moveDirection = transform.forward;
@@ -26,8 +30,12 @@ namespace proscryption
             _rigidbody.linearVelocity = moveDirection * speed;
 
             _collider = GetComponent<SphereCollider>();
-
         }
+        public void Initialize(int damage, bool isCritical = false, float speed = 20f)
+        {
+            Initialize(damage, isCritical, speed, 0);
+        }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player")) return;
@@ -35,7 +43,9 @@ namespace proscryption
             if (entity != null)
             {
                 EventManager.BroadcastHitDetected(other.transform.position, _damage, other.gameObject);
-                entity.TakeDamage(_damage, null, _isCritical);
+                Vector3 damageForce = transform.position - other.transform.position;
+                entity.TakeDamage(_damage, null, _isCritical, damageForce.normalized * _bulletForce, ForceMode.Impulse);
+
 
             }
 

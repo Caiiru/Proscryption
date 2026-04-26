@@ -17,5 +17,6 @@ MonoBehaviour:
   critChance: 15
   speed: 14
   duration: 4
+  bulletForce: 2
   bulletPrefab: {fileID: 245508191954373797, guid: 30252ae9863675e478929cd7535199aa, type: 3}
   impactEffect: {fileID: 0}

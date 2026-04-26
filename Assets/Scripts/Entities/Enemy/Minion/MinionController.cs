@@ -13,7 +13,6 @@ namespace proscryption
         #region Vision
         [Space]
         [Header("Vision")]
-        [SerializeField] private float _lineOfSight = 48f;
         [SerializeField] private LayerMask _playerMask = 1 << 3;
 
         #endregion
@@ -28,8 +27,6 @@ namespace proscryption
         [Header("Attack")]
         [SerializeField] bool _isAttacking;
         [SerializeField] float _attackRange = 2f;
-        [SerializeField] int _minAttackDamage = 3;
-        [SerializeField] int _maxAttackDamage = 6;
         [Range(0, 100)]
         [SerializeField] float _critChance = 10;
 
@@ -38,9 +35,12 @@ namespace proscryption
         [SerializeField] BoxCollider[] _clawsHitBox;
 
 
-        #endregion
 
         //References 
+        #endregion
+        CapsuleCollider _takeDamageCollider;
+        [SerializeField] Collider[] _ragdollColliders;
+        [SerializeField] Rigidbody[] _ragdollRigidbodies;
 
         Rigidbody _rigidbody;
         Transform _transform;
@@ -69,9 +69,13 @@ namespace proscryption
             _transform = this.transform;
 
         }
+        void OnEnable()
+        {
+        }
         void Start()
         {
             Setup();
+
         }
         private void Setup()
         {
@@ -83,6 +87,14 @@ namespace proscryption
             }
             _navMeshAgent.speed = _moveSpeed;
             _navMeshAgent.angularSpeed = _turnRate;
+
+            _ragdollColliders = _transform.GetComponentsInChildren<Collider>();
+            _ragdollRigidbodies = _transform.GetComponentsInChildren<Rigidbody>();
+            DisableRagdoll();
+            _takeDamageCollider = _transform.GetComponent<CapsuleCollider>();
+
+            _takeDamageCollider.enabled = true;
+
         }
         void Update()
         {
@@ -165,9 +177,6 @@ namespace proscryption
                 _isAttacking = false;
             }
 
-        }
-        private void Dead()
-        {
         }
 
         #endregion
@@ -260,17 +269,46 @@ namespace proscryption
 
         #endregion
 
-        #region Death
+        #region Death & Ragdoll
         private async UniTask HandleDeath()
         {
-            _animator.SetTrigger(ANIM_DEATH);
+            // _animator.SetTrigger(ANIM_DEATH);
             _navMeshAgent.isStopped = true;
-            await UniTask.Delay(1000);
-            float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
-            await UniTask.Delay(Mathf.FloorToInt(_duration * 2000));
+            _animator.enabled = false;
+            EnableRagdoll();
+            _takeDamageCollider.enabled = false;
+            
+            // float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+            await UniTask.Delay(Mathf.FloorToInt(50000));
 
             Destroy(this.gameObject);
 
+        }
+
+        private void DisableRagdoll()
+        {
+            foreach (Collider collider in _ragdollColliders)
+            {
+                collider.enabled = false;
+            }
+            foreach (Rigidbody rigidbody in _ragdollRigidbodies)
+            {
+                rigidbody.isKinematic = true;
+            }
+        }
+        private void EnableRagdoll()
+        {
+            foreach (Collider collider in _ragdollColliders)
+            {
+                collider.enabled = true;
+            }
+
+            foreach (Rigidbody rigidbody in _ragdollRigidbodies)
+            {
+                rigidbody.isKinematic = false;
+            }
+            DesactivateClawsHitBox();
+            _takeDamageCollider.enabled = false;
         }
 
         #endregion

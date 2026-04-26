@@ -12,6 +12,7 @@ namespace proscryption
 
         public float speed;
         public float duration;
+        public float bulletForce = 0;
 
         public GameObject bulletPrefab;
 
