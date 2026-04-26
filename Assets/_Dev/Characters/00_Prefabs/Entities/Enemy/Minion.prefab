@@ -1605,7 +1605,7 @@ MonoBehaviour:
   _moveSpeed: 1
   _turnRate: 15
   _isAttacking: 0
-  _attackRange: 1.5
+  _attackRange: 2
   _critChance: 10
   _playerTransform: {fileID: 0}
   _clawsHitBox:
