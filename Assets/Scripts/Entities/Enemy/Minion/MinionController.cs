@@ -1,5 +1,6 @@
 
 using Cysharp.Threading.Tasks;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace proscryption
@@ -24,8 +25,14 @@ namespace proscryption
         [Header("Attack")]
         [SerializeField] bool _isAttacking;
         [SerializeField] float _attackRange = 2f;
+        [SerializeField] int _minAttackDamage = 3;
+        [SerializeField] int _maxAttackDamage = 6;
+        [MinMaxRangeSlider(0, 100)]
+        [SerializeField] float _critChance = 10;
+
 
         [SerializeField] Transform _playerTransform;
+        [SerializeField] BoxCollider[] _clawsHitBox;
 
 
         #endregion
@@ -62,6 +69,11 @@ namespace proscryption
         private void Setup()
         {
             GetReferences();
+            foreach (BoxCollider claw in _clawsHitBox)
+            {
+                claw.enabled = false;
+                claw.GetComponent<MinionClaw>().Setup(this);
+            }
         }
         void Update()
         {
@@ -149,14 +161,7 @@ namespace proscryption
 
 
         }
-        private bool CanAttack()
-        {
-            if (_isAttacking) return false;
 
-            Vector3 _distance = _playerTransform.position - _transform.position;
-            float distance = _distance.sqrMagnitude;
-            return distance <= _attackRange * _attackRange;
-        }
         private void WalkTowardsPlayer()
         {
             if (_isAttacking) return;
@@ -182,6 +187,46 @@ namespace proscryption
             Gizmos.DrawRay(_gizmosOrigin, transform.forward * _lineOfSight);
 
         }
+        #region Attack State
+        private bool CanAttack()
+        {
+            if (_isAttacking) return false;
+
+            Vector3 _distance = _playerTransform.position - _transform.position;
+            float distance = _distance.sqrMagnitude;
+            return distance <= _attackRange * _attackRange;
+        }
+
+        public void ActivateClawsHitBox()
+        {
+            if (_clawsHitBox.Length == 0) return;
+
+            foreach (BoxCollider claw in _clawsHitBox)
+            {
+                claw.enabled = true;
+            }
+        }
+        public int GetAttackDamage()
+        {
+            return Random.Range(_minAttackDamage, _maxAttackDamage);
+        }
+        public bool IsAttackCritical()
+        {
+            return Random.value < _critChance / 100;
+        }
+
+
+        public void DesactivateClawsHitBox()
+        {
+            if (_clawsHitBox.Length == 0) return;
+
+            foreach (BoxCollider claw in _clawsHitBox)
+            {
+                claw.enabled = false;
+            }
+        }
+
+        #endregion
     }
 
 

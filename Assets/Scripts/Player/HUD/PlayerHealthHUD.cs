@@ -50,7 +50,7 @@ namespace proscryption
             this._maxHealth = maxHealth;
 
             this.gameObject.SetActive(true);
-            // UpdateHealthVisual();
+            UpdateHealthVisual();
         }
         void UpdateHealthVisual()
         {
