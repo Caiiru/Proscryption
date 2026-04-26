@@ -18,3 +18,7 @@ MonoBehaviour:
   rollForce: 5
   rollCooldown: 1
   rollStaminaCost: 20
+  attackStaminaCost: 10
+  staminaRegenPerSec: 10
+  stanceDuration: 4
+  stanceCooldown: 12

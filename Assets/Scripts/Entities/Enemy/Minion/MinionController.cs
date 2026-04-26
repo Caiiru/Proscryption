@@ -2,22 +2,25 @@
 using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace proscryption
 {
     public class MinionController : MonoBehaviour
     {
         public EnemyState currentState;
+        private EnemyEntity _enemyEntity;
         #region Vision
         [Space]
         [Header("Vision")]
-        [SerializeField] private float _lineOfSight = 4f;
+        [SerializeField] private float _lineOfSight = 48f;
         [SerializeField] private LayerMask _playerMask = 1 << 3;
 
         #endregion
         #region Movement
         [SerializeField] private float _moveSpeed = 2;
         [SerializeField] private float _turnRate = 2;
+        private NavMeshAgent _navMeshAgent;
 
         #endregion
         #region Attack State
@@ -27,7 +30,7 @@ namespace proscryption
         [SerializeField] float _attackRange = 2f;
         [SerializeField] int _minAttackDamage = 3;
         [SerializeField] int _maxAttackDamage = 6;
-        [MinMaxRangeSlider(0, 100)]
+        [Range(0, 100)]
         [SerializeField] float _critChance = 10;
 
 
@@ -36,33 +39,37 @@ namespace proscryption
 
 
         #endregion
-        #region Animation
-        Animator _animator;
-        private const string ANIM_SPEED = "Speed"; // float
-        private const string ANIM_ATTACK = "Attack"; // trigger
-        private const string ANIM_DIE = "MinionDied"; //trigger 
 
-
-        #endregion
-        //References
-        public CharacterController _characterController;
+        //References 
 
         Rigidbody _rigidbody;
         Transform _transform;
 
+        #region Animation
+        Animator _animator;
+        private const string ANIM_SPEED = "Speed"; // float
+        private const string ANIM_ATTACK = "Attack"; // trigger 
+        private const string ANIM_DEATH = "Die"; // trigger 
+
+
+        #endregion
+
         private void GetReferences()
         {
-            _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
             _rigidbody = GetComponent<Rigidbody>();
             _transform = this.transform;
+            _enemyEntity = GetComponent<EnemyEntity>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+
+            _playerTransform = GameManager.Instance.GetPlayerObject().transform;
         }
         void OnValidate()
         {
             _transform = this.transform;
 
         }
-        void OnEnable()
+        void Start()
         {
             Setup();
         }
@@ -74,16 +81,32 @@ namespace proscryption
                 claw.enabled = false;
                 claw.GetComponent<MinionClaw>().Setup(this);
             }
+            _navMeshAgent.speed = _moveSpeed;
+            _navMeshAgent.angularSpeed = _turnRate;
         }
         void Update()
         {
+            if (_enemyEntity.IsDead && currentState != EnemyState.Dead)
+            {
+                ChangeState(EnemyState.Dead);
+                return;
+            }
             HandleCurrentState();
         }
 
 
         private UniTask EnterCurrentState()
         {
-
+            switch (currentState)
+            {
+                case EnemyState.Roaming:
+                    return UniTask.CompletedTask;
+                case EnemyState.Attacking:
+                    return UniTask.CompletedTask;
+                case EnemyState.Dead:
+                    HandleDeath().Forget();
+                    return UniTask.CompletedTask;
+            }
             return UniTask.CompletedTask;
         }
         private UniTask LeaveCurrentState()
@@ -100,10 +123,7 @@ namespace proscryption
                     Roam();
                     break;
                 case EnemyState.Attacking:
-                    Attack();
-                    break;
-                case EnemyState.Dead:
-                    Dead();
+                    Attack().Forget();
                     break;
             }
         }
@@ -118,6 +138,7 @@ namespace proscryption
 
         private void Roam()
         {
+
             if (SeePlayer())
             {
                 ChangeState(EnemyState.Attacking);
@@ -126,20 +147,23 @@ namespace proscryption
             }
             // _characterController.SimpleMove(Vector3.forward);
         }
-        private UniTask Attack()
+        private async UniTask Attack()
         {
-            RotateTowardsPlayer();
-            WalkTowardsPlayer();
-            if (CanAttack())
+            if (_isAttacking) await UniTask.CompletedTask;
+            if (!CanAttack())
             {
+                RotateTowardsPlayer();
+            }
+            else
+            {
+
                 _isAttacking = true;
                 _animator.SetTrigger(ANIM_ATTACK);
+                await UniTask.Delay(1000);
+                float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+                await UniTask.Delay(Mathf.FloorToInt(_duration * 2000));
+                _isAttacking = false;
             }
-            UniTask.Delay(100);
-            float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
-            UniTask.Delay(Mathf.FloorToInt(_duration * 1000));
-            _isAttacking = false;
-            return UniTask.CompletedTask;
 
         }
         private void Dead()
@@ -152,20 +176,35 @@ namespace proscryption
         {
             Vector3 centerPosition = _transform.position;
             centerPosition.y = 1;
-            if (Physics.Raycast(centerPosition, transform.forward, out RaycastHit hitInfo, _lineOfSight, _playerMask))
+            if (Physics.Linecast(centerPosition, _playerTransform.position, _playerMask))
             {
-                _playerTransform = hitInfo.transform;
                 return true;
             }
+
             return false;
 
 
         }
+        void FixedUpdate()
+        {
+            if (SeePlayer())
+            {
 
+                WalkTowardsPlayer();
+            }
+        }
         private void WalkTowardsPlayer()
         {
-            if (_isAttacking) return;
-            _rigidbody.linearVelocity = transform.forward * _moveSpeed * Time.deltaTime;
+            if (_isAttacking)
+            {
+                _navMeshAgent.SetDestination(transform.position);
+                return;
+            }
+            ;
+            _navMeshAgent.SetDestination(_playerTransform.position);
+            // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
+            _animator.SetFloat(ANIM_SPEED, 0.5f);
+            // Debug.Log("Walking forward");
         }
         private void RotateTowardsPlayer()
         {
@@ -179,14 +218,7 @@ namespace proscryption
             // _transform.Rotate(rotation.eulerAngles);
         }
 
-        void OnDrawGizmosSelected()
-        {
-            Gizmos.color = SeePlayer() ? Color.green : Color.red;
-            Vector3 _gizmosOrigin = _transform.position;
-            _gizmosOrigin.y = 0.5f;
-            Gizmos.DrawRay(_gizmosOrigin, transform.forward * _lineOfSight);
 
-        }
         #region Attack State
         private bool CanAttack()
         {
@@ -208,11 +240,11 @@ namespace proscryption
         }
         public int GetAttackDamage()
         {
-            return Random.Range(_minAttackDamage, _maxAttackDamage);
+            return _enemyEntity.GetAttackDamage();
         }
         public bool IsAttackCritical()
         {
-            return Random.value < _critChance / 100;
+            return _enemyEntity.IsCritical();
         }
 
 
@@ -227,6 +259,45 @@ namespace proscryption
         }
 
         #endregion
+
+        #region Death
+        private async UniTask HandleDeath()
+        {
+            _animator.SetTrigger(ANIM_DEATH);
+            _navMeshAgent.isStopped = true;
+            await UniTask.Delay(1000);
+            float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+            await UniTask.Delay(Mathf.FloorToInt(_duration * 2000));
+
+            Destroy(this.gameObject);
+
+        }
+
+        #endregion
+
+        void OnDrawGizmosSelected()
+        {
+
+            if (_playerTransform == null) return;
+            if (!_navMeshAgent) return;
+
+
+            Vector3 _centerPosition = _transform.position;
+            _centerPosition.y = 0.5f;
+            if (Vector3.Distance(_transform.position, _playerTransform.position) > _attackRange)
+            {
+                Gizmos.color = Color.red;
+            }
+            else
+            {
+                Gizmos.color = Color.green;
+
+            }
+            Gizmos.DrawLine(_centerPosition, _centerPosition + _transform.forward * _attackRange);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_centerPosition, _navMeshAgent.stoppingDistance);
+        }
     }
 
 

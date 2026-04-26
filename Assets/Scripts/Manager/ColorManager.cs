@@ -20,16 +20,25 @@ namespace proscryption
             Instance = this;
 
         }
-        void OValidate()
+        void OnValidate()
         {
+
+            SetupValidate();
             if (Instance != null && Instance != this)
             {
-                Destroy(gameObject);
                 return;
             }
             Instance = this;
+
         }
         #endregion
+
+        public void SetupValidate()
+        {
+            // Debug.Log("Validate Colors");
+            Shader.SetGlobalColor("_Blood_Emissive_Color", colorDatabase.BloodColor);
+            Shader.SetGlobalColor("_Light_Emissive_Color", colorDatabase.LightColor);
+        }
     }
 
     [CustomEditor(typeof(ColorManager))]
