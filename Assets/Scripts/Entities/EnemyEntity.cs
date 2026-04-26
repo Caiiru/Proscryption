@@ -9,10 +9,10 @@ namespace proscryption
 
         public bool canAttack = false;
         public int attackTime = 6;
-        private float currentAttackTime;
         public int minDamage = 3;
         public int maxDamage = 8;
-        private bool canHit;
+        [Range(0, 100)]
+        public int criticalChange;
 
 
         [Header("VFX")]
@@ -40,36 +40,6 @@ namespace proscryption
 
         }
 
-        // public void Update()
-        // {
-        // HandleAttackTimer();
-        // }
-
-        // private void HandleAttackTimer()
-        // {
-        //     if (!canAttack) return;
-        //     if (currentAttackTime < attackTime)
-        //     {
-        //         currentAttackTime += Time.deltaTime;
-        //     }
-        //     else
-        //     {
-        //         currentAttackTime = 0;
-        //         Attack();
-        //     }
-        // }
-
-        // private void Attack()
-        // {
-        //     if (_animator)
-        //     {
-        //         _animator.SetTrigger("Attack");
-        //     }
-        // }
-
-        /// <summary>
-        /// Sobrescreve o método TakeDamage da BaseEntity para integrar com state machine
-        /// </summary>
         public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false)
         {
             base.TakeDamage(damage, source, isCritical);
@@ -94,25 +64,13 @@ namespace proscryption
                 deathVFX.Play();
             }
         }
-
-        public int GetDamage()
+        public int GetAttackDamage()
         {
             return Random.Range(minDamage, maxDamage);
         }
-
-        public bool GetCanHit()
+        public bool IsCritical()
         {
-            return true;
-        }
-
-        public void MakeCanHit()
-        {
-            canHit = true;
-        }
-
-        public void MakeCantHit()
-        {
-            canHit = false;
+            return Random.value < criticalChange / 100;
         }
     }
 }
