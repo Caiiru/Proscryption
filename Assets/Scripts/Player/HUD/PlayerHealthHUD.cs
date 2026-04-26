@@ -54,11 +54,7 @@ namespace proscryption
         }
         void UpdateHealthVisual()
         {
-            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
 
-            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
-            _maskRect.
-            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
 
             float targetWidth = _currentHealth * _maxRightMask / _maxHealth;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
@@ -66,6 +62,16 @@ namespace proscryption
             padding.z = newRightMask;
             _mask.padding = padding;
 
+        }
+        void UpgradeHealth()
+        {
+            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
+
+            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
+            _maskRect.
+            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
+
+            UpdateHealthVisual();
         }
 
         private void HandleGetNewReward(RewardData data)
@@ -77,7 +83,7 @@ namespace proscryption
                     lifeUpgrades += rewards.value;
                 }
             }
-            UpdateHealthVisual();
+            UpgradeHealth();
 
         }
 
