@@ -61,13 +61,6 @@ namespace proscryption
             _isDead = true;
             EventManager.BroadcastEntityDied(gameObject);
 
-            if (_animator)
-            {
-                _animator.SetTrigger("die");
-            }
-
-            // Destroy after a delay (let death animation play)
-            Destroy(gameObject, 1f);
         }
 
         // ===== GETTERS =====

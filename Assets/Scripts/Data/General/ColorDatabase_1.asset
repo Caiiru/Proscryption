@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: ColorDatabase_1
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.ColorDatabase
   StandardColor: {r: 0, g: 0, b: 0, a: 0}
-  BloodColor: {r: 2.329736, g: 0, b: 0.045624852, a: 1}
-  LightColor: {r: 17.097971, g: 9.361836, b: 2.6614769, a: 1}
+  BloodColor: {r: 7.999999, g: 0.0000011523564, b: 0, a: 1}
+  LightColor: {r: 17.217424, g: 10.097033, b: 4.7916417, a: 1}
+  UI_StandardColor: {r: 0.5784977, g: 0.8762374, b: 0.9811321, a: 1}
+  UI_BloodColor: {r: 1, g: 0, b: 0, a: 1}
+  UI_LightColor: {r: 0.7490196, g: 0.37254903, b: 0.09803922, a: 1}

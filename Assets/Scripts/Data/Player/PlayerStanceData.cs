@@ -12,5 +12,13 @@ namespace proscryption
         public float rollCooldown = 2f;
         public int rollStaminaCost = 20;
         public int attackStaminaCost = 10;
+        public float staminaRegenPerSec = 10f;
+
+        [Space]
+        [Header("Stance Data")]
+        [Tooltip("-1 to infinite")]
+        public float stanceDuration = -1;
+        [Tooltip("-1 to nothing - cooldown to get stance back")]
+        public float stanceCooldown = -1;
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using proscryption.Enemy;
 using UnityEngine.VFX;
 
 namespace proscryption
@@ -10,14 +9,11 @@ namespace proscryption
 
         public bool canAttack = false;
         public int attackTime = 6;
-        private float currentAttackTime;
         public int minDamage = 3;
         public int maxDamage = 8;
-        public EnemyBaseWeapon[] weapons;
-        private bool canHit;
+        [Range(0, 100)]
+        public int criticalChange;
 
-        // State Machine
-        private EnemyController _enemyController;
 
         [Header("VFX")]
         public VisualEffect takeDamageVFX;
@@ -27,14 +23,7 @@ namespace proscryption
         {
             base.Start();
 
-            // Obtém o EnemyController (que contém a state machine)
-            _enemyController = GetComponent<EnemyController>();
 
-            foreach (EnemyBaseWeapon weapon in weapons)
-            {
-                weapon.SetOwner(this);
-
-            }
 
             SetupVFX();
         }
@@ -51,45 +40,12 @@ namespace proscryption
 
         }
 
-        // public void Update()
-        // {
-        // HandleAttackTimer();
-        // }
-
-        // private void HandleAttackTimer()
-        // {
-        //     if (!canAttack) return;
-        //     if (currentAttackTime < attackTime)
-        //     {
-        //         currentAttackTime += Time.deltaTime;
-        //     }
-        //     else
-        //     {
-        //         currentAttackTime = 0;
-        //         Attack();
-        //     }
-        // }
-
-        // private void Attack()
-        // {
-        //     if (_animator)
-        //     {
-        //         _animator.SetTrigger("Attack");
-        //     }
-        // }
-
-        /// <summary>
-        /// Sobrescreve o método TakeDamage da BaseEntity para integrar com state machine
-        /// </summary>
         public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false)
         {
             base.TakeDamage(damage, source, isCritical);
 
             // Notifica ao estado machine que recebeu dano
-            if (_enemyController && !_isDead)
-            {
-                _enemyController.OnDamageTaken();
-            }
+
             if (takeDamageVFX)
             {
                 takeDamageVFX.Play();
@@ -103,34 +59,18 @@ namespace proscryption
         {
             base.OnDeath();
 
-            if (_enemyController)
-            {
-                _enemyController.OnDeath();
-            }
             if (deathVFX)
             {
                 deathVFX.Play();
             }
         }
-
-        public int GetDamage()
+        public int GetAttackDamage()
         {
             return Random.Range(minDamage, maxDamage);
         }
-
-        public bool GetCanHit()
+        public bool IsCritical()
         {
-            return _enemyController.GetIsAttacking() && canHit;
-        }
-
-        public void MakeCanHit()
-        {
-            canHit = true;
-        }
-
-        public void MakeCantHit()
-        {
-            canHit = false;
+            return Random.value < criticalChange / 100;
         }
     }
 }
