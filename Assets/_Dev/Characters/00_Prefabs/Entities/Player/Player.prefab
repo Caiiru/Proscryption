@@ -245,75 +245,75 @@ MonoBehaviour:
   - name: Block
     fmodEvent:
       Guid:
-        Data1: -1688781998
-        Data2: 1125597065
-        Data3: 2025842875
-        Data4: -1201239324
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Block
+        Data1: 1976447609
+        Data2: 1320358503
+        Data3: 714483872
+        Data4: -1458719527
+      Path: event:/SFX/SFX_PLAYER/COMBAT/DEFENSE/SFX_PLAYER_Block
   - name: Death
     fmodEvent:
       Guid:
-        Data1: -76325783
-        Data2: 1079362387
-        Data3: 638768018
-        Data4: -1563472065
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Death
+        Data1: 1228504446
+        Data2: 1238592783
+        Data3: 1781516432
+        Data4: -442069716
+      Path: event:/SFX/SFX_PLAYER/COMBAT/SFX_PLAYER_Death
   - name: Defend
     fmodEvent:
       Guid:
-        Data1: -1998404191
-        Data2: 1176963746
-        Data3: -665745993
-        Data4: -167688351
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Defend
+        Data1: -1118011987
+        Data2: 1120683864
+        Data3: -150058861
+        Data4: -1636796439
+      Path: event:/SFX/SFX_PLAYER/COMBAT/DEFENSE/SFX_PLAYER_Defend
   - name: Footsteps
     fmodEvent:
       Guid:
-        Data1: -1456764240
-        Data2: 1166458609
-        Data3: -1675063930
-        Data4: 366960878
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Footsteps
+        Data1: -1754045049
+        Data2: 1191292820
+        Data3: -313627720
+        Data4: 2084215738
+      Path: event:/SFX/SFX_PLAYER/MOVEMENT/SFX_PLAYER_Footsteps
   - name: MeleeAttack
     fmodEvent:
       Guid:
-        Data1: 1405055023
-        Data2: 1249696561
-        Data3: 1116784521
-        Data4: -1643405663
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_MeleeAttack_01
+        Data1: -1709498004
+        Data2: 1084257683
+        Data3: -398847308
+        Data4: 1895577062
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/SFX_PLAYER_MeleeAttack
   - name: Parry
     fmodEvent:
       Guid:
-        Data1: -1968727988
-        Data2: 1210311257
-        Data3: -503635819
-        Data4: -1547427052
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Parry
-  - name: Potion
+        Data1: -854816286
+        Data2: 1299647458
+        Data3: -1544369733
+        Data4: 1851235969
+      Path: event:/SFX/SFX_PLAYER/COMBAT/DEFENSE/SFX_PLAYER_Parry
+  - name: Heal
     fmodEvent:
       Guid:
-        Data1: -2086040021
-        Data2: 1335933359
-        Data3: 273988764
-        Data4: -558585440
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Potion
+        Data1: -39966803
+        Data2: 1316184943
+        Data3: 1148014523
+        Data4: -270557535
+      Path: event:/SFX/SFX_PLAYER/POSTURES/LIGHT/SFX_PLAYER_LIGHT_Heal
   - name: Roll
     fmodEvent:
       Guid:
-        Data1: -1299100550
-        Data2: 1209793171
-        Data3: -1078234743
-        Data4: 2022420461
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_Roll
+        Data1: -895112238
+        Data2: 1291178173
+        Data3: -1592334146
+        Data4: -210814236
+      Path: event:/SFX/SFX_PLAYER/MOVEMENT/SFX_PLAYER_Roll
   - name: TakeDamage
     fmodEvent:
       Guid:
-        Data1: -816181974
-        Data2: 1311731721
-        Data3: -214840183
-        Data4: 240387543
-      Path: event:/SFX/SFX_PLAYER/SFX_PLAYER_TakeDamage
+        Data1: -913685560
+        Data2: 1177041901
+        Data3: 2061749922
+        Data4: -355334847
+      Path: event:/SFX/SFX_PLAYER/COMBAT/SFX_PLAYER_TakeDamage
 --- !u!114 &5778651959162310787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,11 +897,11 @@ PrefabInstance:
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: m_Name
       value: MDL_PlayerFinal
