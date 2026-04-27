@@ -314,6 +314,38 @@ MonoBehaviour:
         Data3: 2061749922
         Data4: -355334847
       Path: event:/SFX/SFX_PLAYER/COMBAT/SFX_PLAYER_TakeDamage
+  - name: Shot
+    fmodEvent:
+      Guid:
+        Data1: 699442405
+        Data2: 1088565521
+        Data3: 244587906
+        Data4: -931613888
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/WEAPONS/REVOLVER/SFX_PLAYER_REVOLVER_Shot
+  - name: ReloadDropShell
+    fmodEvent:
+      Guid:
+        Data1: -719227060
+        Data2: 1101248744
+        Data3: -1927106641
+        Data4: 853566840
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/WEAPONS/REVOLVER/RELOAD/SFX_PLAYER_RELOAD_DropShell
+  - name: ReloadPlaceBullet
+    fmodEvent:
+      Guid:
+        Data1: 1540372794
+        Data2: 1319811123
+        Data3: 1518506139
+        Data4: -2029280217
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/WEAPONS/REVOLVER/RELOAD/SFX_PLAYER_RELOAD_PlaceBullet
+  - name: ReloadRollBarrell
+    fmodEvent:
+      Guid:
+        Data1: -1889347397
+        Data2: 1131257035
+        Data3: -251229767
+        Data4: 1836682330
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/WEAPONS/REVOLVER/RELOAD/SFX_PLAYER_RELOAD_RollBarrell
 --- !u!114 &5778651959162310787
 MonoBehaviour:
   m_ObjectHideFlags: 0
