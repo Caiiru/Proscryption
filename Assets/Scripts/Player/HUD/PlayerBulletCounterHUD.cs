@@ -90,7 +90,8 @@ namespace proscryption
         {
             for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
             {
-                bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = _currentStanceColor; // Reset color
+                bulletIcons[i].transform.gameObject.SetActive(true);
+
             }
             Debug.Log("Reload");
 

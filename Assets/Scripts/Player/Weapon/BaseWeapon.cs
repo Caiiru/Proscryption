@@ -107,7 +107,7 @@ namespace proscryption
         public async void OnAttack()
         {
             if (_isReloading) await UniTask.CompletedTask;
-            if (!ConsumeBullet()) await UniTask.CompletedTask;
+            if (!ConsumeBullet()) return;
 
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
@@ -166,7 +166,6 @@ namespace proscryption
                 }
             }
 
-            Debug.Log("ended reload");
             PlayerEvents.BroadcastPlayerReloadEnded();
         }
 
