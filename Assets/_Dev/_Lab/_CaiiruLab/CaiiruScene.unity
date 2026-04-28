@@ -3549,14 +3549,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: reloadCooldown
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7078153267613068935, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
