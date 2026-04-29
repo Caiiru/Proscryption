@@ -4067,6 +4067,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: selectMoveOffset
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: selectAnimationDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_Color.a
+      value: 0.95686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_Color.b
+      value: 0.084905684
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_Color.g
+      value: 0.084905684
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_Color.r
+      value: 0.084905684
+      objectReference: {fileID: 0}
     - target: {fileID: 8553536007965383311, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: m_IsActive
       value: 1

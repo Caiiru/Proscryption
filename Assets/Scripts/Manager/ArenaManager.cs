@@ -67,6 +67,7 @@ namespace proscryption
             if (entity.CompareTag("Enemy"))
             {
                 enemiesAlive--;
+                Debug.Log(enemiesAlive);
                 if (enemiesAlive <= 0)
                 {
                     Debug.Log("Wave Ended");
@@ -141,5 +142,5 @@ namespace proscryption
 public struct WaveData
 {
     public int enemyCount;
-    public float spawnInterval; 
+    public float spawnInterval;
 }
