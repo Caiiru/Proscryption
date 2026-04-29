@@ -40,16 +40,23 @@ namespace proscryption
         {
             if (other.CompareTag("Player")) return;
             other.TryGetComponent<BaseEntity>(out BaseEntity entity);
-            if (entity != null)
+            if (entity == null)
             {
-                EventManager.BroadcastHitDetected(other.transform.position, _damage, other.gameObject);
-                Vector3 damageForce = transform.position - other.transform.position;
-                entity.TakeDamage(_damage, null, _isCritical, damageForce.normalized * _bulletForce, ForceMode.Impulse);
-
-
+                Destroy(this.gameObject);
+                return;
             }
+            EventManager.BroadcastHitDetected(other.transform.position, _damage, other.gameObject);
+            Vector3 damageDirection = other.transform.position - transform.position;
+            damageDirection.y = 0;
+            Debug.DrawRay(transform.position, damageDirection, Color.red, 2f);
+            Debug.Log(_bulletForce);
 
-            Destroy(this.gameObject);
+            entity.TakeDamage(_damage, null, _isCritical, damageDirection.normalized * _bulletForce, ForceMode.Impulse);
+
+
+
+
+            Destroy(this.gameObject, .01f);
         }
         void OnDrawGizmos()
         {

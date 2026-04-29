@@ -54,12 +54,12 @@ namespace proscryption
             // Broadcast damage event
             EventManager.BroadcastEntityDamaged(damage, source != null ? source : gameObject);
 
-            _rigidbody.AddForce(_dmgForce, _forceMode);
-            // Play hit animation
-            if (_animator)
-            {
-                _animator.SetTrigger("TakeDamage");
-            }
+            // _rigidbody.AddForce(_dmgForce, _forceMode);
+            // // Play hit animation
+            // if (_animator)
+            // {
+            //     _animator.SetTrigger("TakeDamage");
+            // }
 
             // Check death
             if (health <= 0)

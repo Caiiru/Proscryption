@@ -141,6 +141,5 @@ namespace proscryption
 public struct WaveData
 {
     public int enemyCount;
-    public float spawnInterval;
-    public GameObject enemyPrefab;
+    public float spawnInterval; 
 }

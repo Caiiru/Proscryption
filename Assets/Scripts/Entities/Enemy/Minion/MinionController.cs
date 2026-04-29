@@ -1,5 +1,7 @@
 
+using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -30,6 +32,8 @@ namespace proscryption
         [Range(0, 100)]
         [SerializeField] float _critChance = 10;
 
+        [Tooltip("Delay para ele se recuperar e voltar a se mexer")]
+        public float _takeDamageDelay = 0.1f;
 
         [SerializeField] Transform _playerTransform;
         [SerializeField] BoxCollider[] _clawsHitBox;
@@ -42,6 +46,11 @@ namespace proscryption
         [SerializeField] Collider[] _ragdollColliders;
         [SerializeField] Rigidbody[] _ragdollRigidbodies;
 
+        [SerializeField] SkinnedMeshRenderer _bodyRenderer;
+        [SerializeField] SkinnedMeshRenderer _eyesRenderer;
+
+        public Material DissolveMaterial;
+
         Rigidbody _rigidbody;
         Transform _transform;
 
@@ -50,6 +59,7 @@ namespace proscryption
         private const string ANIM_SPEED = "Speed"; // float
         private const string ANIM_ATTACK = "Attack"; // trigger 
         private const string ANIM_DEATH = "Die"; // trigger 
+        private const string ANIM_TAKE_DAMAGE = "TakeDamage"; // trigger 
 
 
         #endregion
@@ -95,6 +105,19 @@ namespace proscryption
 
             _takeDamageCollider.enabled = true;
 
+            SubscribeEvents();
+
+        }
+        private void SubscribeEvents()
+        {
+            _enemyEntity.OnTakeDamage += HandleTakeDamage;
+        }
+
+
+        void OnDestroy()
+        {
+            _enemyEntity.OnTakeDamage -= HandleTakeDamage;
+
         }
         void Update()
         {
@@ -111,9 +134,8 @@ namespace proscryption
         {
             switch (currentState)
             {
-                case EnemyState.Roaming:
-                    return UniTask.CompletedTask;
-                case EnemyState.Attacking:
+                case EnemyState.TakingDamage:
+                    HandleTakeDamageState().Forget();
                     return UniTask.CompletedTask;
                 case EnemyState.Dead:
                     HandleDeath().Forget();
@@ -178,6 +200,14 @@ namespace proscryption
             }
 
         }
+        private async UniTask HandleTakeDamageState()
+        {
+            _animator.SetTrigger(ANIM_TAKE_DAMAGE);
+
+            await UniTask.Delay(1000);
+
+            ChangeState(EnemyState.Attacking);
+        }
 
         #endregion
 
@@ -196,9 +226,8 @@ namespace proscryption
         }
         void FixedUpdate()
         {
-            if (SeePlayer())
+            if (SeePlayer() && currentState == EnemyState.Attacking)
             {
-
                 WalkTowardsPlayer();
             }
         }
@@ -266,6 +295,28 @@ namespace proscryption
                 claw.enabled = false;
             }
         }
+        private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
+        {
+            if (directionForce == null) return;
+
+            if (forceMode == null) return;
+
+
+            _navMeshAgent.enabled = false;
+            ChangeState(EnemyState.TakingDamage);
+            _rigidbody.isKinematic = false;
+            _rigidbody.AddForce((Vector3)directionForce, (ForceMode)forceMode);
+            // _animator.SetFloat(ANIM_SPEED, 0);
+            // Debug.Log($"before delay {directionForce}");
+            // Debug.DrawRay(_transform.position, _transform.position + (Vector3)directionForce, Color.red, 2f);
+            await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
+            // Debug.Log("after delay");
+
+            _rigidbody.isKinematic = true;
+            _navMeshAgent.enabled = enabled;
+            _animator.SetFloat(ANIM_SPEED, 0.5f);
+        }
+
 
         #endregion
 
@@ -273,14 +324,18 @@ namespace proscryption
         private async UniTask HandleDeath()
         {
             // _animator.SetTrigger(ANIM_DEATH);
-            _navMeshAgent.isStopped = true;
+            // _navMeshAgent.isStopped = true;
+            _navMeshAgent.enabled = false;
             _animator.enabled = false;
             EnableRagdoll();
             _takeDamageCollider.enabled = false;
-            
-            // float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
-            await UniTask.Delay(Mathf.FloorToInt(50000));
 
+            // float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+            await UniTask.Delay(Mathf.FloorToInt(5000));
+            _eyesRenderer.enabled = false;
+            _bodyRenderer.material = DissolveMaterial;
+            _bodyRenderer.material.DOFloat(1, "_DissolveAmount", 3);
+            await UniTask.Delay(Mathf.FloorToInt(1000));
             Destroy(this.gameObject);
 
         }
@@ -342,6 +397,7 @@ namespace proscryption
     public enum EnemyState
     {
         Roaming,
+        TakingDamage,
         Attacking,
         Dead,
     }

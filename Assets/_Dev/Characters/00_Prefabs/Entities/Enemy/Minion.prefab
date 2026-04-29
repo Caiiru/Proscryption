@@ -146,15 +146,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.04
+      value: 34.45
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.000017039394
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.54
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1607,12 +1607,16 @@ MonoBehaviour:
   _isAttacking: 0
   _attackRange: 2
   _critChance: 10
+  _takeDamageDelay: 0.1
   _playerTransform: {fileID: 0}
   _clawsHitBox:
   - {fileID: 7741384766452477623}
   - {fileID: 9163000800802184706}
   _ragdollColliders: []
   _ragdollRigidbodies: []
+  _bodyRenderer: {fileID: 7121654444373763212}
+  _eyesRenderer: {fileID: 4054687034638939804}
+  DissolveMaterial: {fileID: 2100000, guid: a7be975586485a140ad85ac8488129b3, type: 2}
 --- !u!114 &3485899924577345434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1625,8 +1629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d481578254eea4a9a7e287d8f6cacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.EnemyEntity
-  health: 10
-  maxHealth: 10
+  health: 100
+  maxHealth: 100
   canTakeDamage: 1
   canAttack: 0
   attackTime: 6
@@ -1857,6 +1861,11 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!137 &4054687034638939804 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7166631974265513845, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+  m_PrefabInstance: {fileID: 2652099358005898775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4980950355556429976 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7048632207563316879, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
@@ -2059,6 +2068,11 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!137 &7121654444373763212 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4171717898059822437, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+  m_PrefabInstance: {fileID: 2652099358005898775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7872090510584448827 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5328161660733991212, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}

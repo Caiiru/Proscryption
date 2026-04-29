@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -14,6 +15,8 @@ namespace proscryption
         [Range(0, 100)]
         public int criticalChange;
 
+
+        public Action<Vector3?, ForceMode?> OnTakeDamage;
 
         [Header("VFX")]
         public VisualEffect takeDamageVFX;
@@ -40,17 +43,17 @@ namespace proscryption
 
         }
 
-        public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false)
+        public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false, Vector3? dmgForce = null, ForceMode? forceMode = null)
         {
-            base.TakeDamage(damage, source, isCritical);
+            base.TakeDamage(damage, source, isCritical, dmgForce, forceMode);
 
-            // Notifica ao estado machine que recebeu dano
-
+            OnTakeDamage?.Invoke(dmgForce, forceMode);
             if (takeDamageVFX)
             {
                 takeDamageVFX.Play();
             }
         }
+
 
         /// <summary>
         /// Sobrescreve OnDeath para notificar state machine
@@ -66,11 +69,11 @@ namespace proscryption
         }
         public int GetAttackDamage()
         {
-            return Random.Range(minDamage, maxDamage);
+            return UnityEngine.Random.Range(minDamage, maxDamage);
         }
         public bool IsCritical()
         {
-            return Random.value < criticalChange / 100;
+            return UnityEngine.Random.value < criticalChange / 100;
         }
     }
 }
