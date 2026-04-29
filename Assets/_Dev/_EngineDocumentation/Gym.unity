@@ -9859,6 +9859,63 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 7078153267613068935, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
   m_PrefabInstance: {fileID: 681105425}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1751788866
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.907192
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.35000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.7254694
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000035762784
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541331109397318140, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2886613303431697222, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: m_Name
+      value: Minion
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
 --- !u!1 &1806366511
 GameObject:
   m_ObjectHideFlags: 0
@@ -11568,3 +11625,4 @@ SceneRoots:
   - {fileID: 7187680749256708664}
   - {fileID: 1061043711}
   - {fileID: 726606102}
+  - {fileID: 1751788866}
