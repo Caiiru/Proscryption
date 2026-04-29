@@ -6,6 +6,7 @@ namespace proscryption
     public class ArenaManager : MonoBehaviour
     {
         private EnemyManager _enemyManager;
+        public bool isActivate;
         [Header("Arena Settings")]
         public float spawnInterval = 8;
         private float _currentInterval = 0;
@@ -62,13 +63,16 @@ namespace proscryption
         }
         private void HandleEntityDied(GameObject entity)
         {
+            if (!isActivate) return;
             if (entity.CompareTag("Enemy"))
             {
                 enemiesAlive--;
+                Debug.Log(enemiesAlive);
                 if (enemiesAlive <= 0)
                 {
                     Debug.Log("Wave Ended");
                     ArenaEvents.BroadcastArenaWaveEnded();
+                    isActivate = false;
                 }
                 return;
             }
@@ -88,7 +92,7 @@ namespace proscryption
 
 
             ArenaEvents.BroadcastWaveStart();
-
+            isActivate = true;
             _canSpawn = true;
             enemiesAlive = enemiesToSpawn;
         }
@@ -139,5 +143,4 @@ public struct WaveData
 {
     public int enemyCount;
     public float spawnInterval;
-    public GameObject enemyPrefab;
 }

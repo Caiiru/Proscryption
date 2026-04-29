@@ -105,11 +105,13 @@ namespace proscryption
             // Listen to combat events that affect model
             EventManager.OnHitDetected += HandleHitDetected;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
+            PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
         }
 
 
         void OnDisable()
         {
+            PlayerEvents.OnPlayerReloadEnded -= HandleReloadEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
         }
@@ -324,6 +326,10 @@ namespace proscryption
         }
 
 
+        private void HandleReloadEnded()
+        {
+            this.SetState(PlayerState.Idle);
+        }
         // ===== REWARD MANAGMENT =====
         public void HandleGetNewReward(RewardData reward)
         {

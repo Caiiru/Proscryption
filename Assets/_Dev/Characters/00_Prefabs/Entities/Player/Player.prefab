@@ -146,7 +146,7 @@ MonoBehaviour:
   _currentState: 0
   _currentStance: 0
   _isInvulnerable: 0
-  reloadCooldown: 0
+  reloadCooldown: 3
   rollForce: 20
   rollDuration: 0.5
   rollCooldown: 1.5
@@ -227,7 +227,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &3074830330284880856
 MonoBehaviour:
@@ -929,11 +929,11 @@ PrefabInstance:
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: m_Name
       value: MDL_PlayerFinal

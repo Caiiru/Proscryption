@@ -1,4 +1,3 @@
-
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -11,12 +10,10 @@ namespace proscryption
         public Transform closedTransform;
         public Transform openTransform;
 
-        [Header("Icons")]
-        public Image openIcon;
+        [Header("Icons")] public Image openIcon;
         public Image closedIcon;
 
-        [Header("Opened")]
-        public TextMeshProUGUI titleText;
+        [Header("Opened")] public TextMeshProUGUI titleText;
         public TextMeshProUGUI descriptionText;
         public Transform effectTransform;
 
@@ -27,11 +24,11 @@ namespace proscryption
         private Animator _animator;
         private RewardData _currentRewardData;
 
-        [Header("State")]
-        public bool isOpened;
+        [SerializeField] private Vector3 startPosition;
 
-        [Space]
-        public GameObject miniRewardPrefab;
+        [Header("State")] public bool isOpened;
+
+        [Space] public GameObject miniRewardPrefab;
 
         RewardScreenHUD _rewardScreen;
 
@@ -59,25 +56,35 @@ namespace proscryption
             {
                 var miniRewardGO = Instantiate(miniRewardPrefab, effectTransform);
 
-                Sprite _image = RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(), _currentRewardData.rewards[i].type);
+                Sprite _image =
+                    RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(),
+                        _currentRewardData.rewards[i].type);
 
-                miniRewardGO.GetComponent<EffectCardHUD>().Setup(_image, _currentRewardData.rewards[i].value.ToString());
+                miniRewardGO.GetComponent<EffectCardHUD>()
+                    .Setup(_image, _currentRewardData.rewards[i].value.ToString());
             }
+
             closedTransform.gameObject.SetActive(true);
             openTransform.gameObject.SetActive(false);
+
+            startPosition = Vector3.zero;
+
             SetupEvents();
         }
+
         private void SetupEvents()
         {
             openButton.onClick.AddListener(OnOpenClick);
             selectButton.onClick.AddListener(OnChooseClick);
             backButton.onClick.AddListener(OnCloseClick);
         }
+
         private void OnChooseClick()
         {
             PlayerEvents.BroadcastPlayerGetReward(_currentRewardData);
             PlayerEvents.BroadcastPlayerCloseRewardScreen();
         }
+
         private void OnOpenClick()
         {
             _rewardScreen.SelectCard(this);
@@ -91,13 +98,18 @@ namespace proscryption
             }
 
             _animator.SetTrigger("Open");
+            await UniTask.Yield();
             isOpened = true;
+            float animDuration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+            await UniTask.Delay(Mathf.FloorToInt(animDuration * 1000));
         }
+
         private void OnCloseClick()
         {
             CloseAnimation().Forget();
         }
-        private async UniTask CloseAnimation()
+
+        public async UniTask CloseAnimation()
         {
             _animator.SetTrigger("Back");
             isOpened = false;
@@ -105,6 +117,15 @@ namespace proscryption
             _rewardScreen.CloseSelectedCard();
         }
 
+        public Vector3 GetStartPosition()
+        {
+            return startPosition;
+        }
 
+        public void SetStartPosition(Vector3 newStartPosition)
+        {
+            if (this.startPosition == Vector3.zero)
+                this.startPosition = newStartPosition;
+        }
     }
 }

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerData
   maxHealth: 15
   maxStamina: 100
+  staminaRegenPerSec: 10
   moveSpeed: 6
   rollForce: 5
   rollCooldown: 1
   rollStaminaCost: 20
   attackStaminaCost: 10
-  staminaRegenPerSec: 10
   stanceDuration: 4
   stanceCooldown: 12

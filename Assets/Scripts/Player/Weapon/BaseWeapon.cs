@@ -107,12 +107,12 @@ namespace proscryption
         public async void OnAttack()
         {
             if (_isReloading) await UniTask.CompletedTask;
-            if (!ConsumeBullet()) await UniTask.CompletedTask;
+            if (!ConsumeBullet()) return;
 
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
             GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed, currentData.bulletForce);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)
             {
@@ -166,7 +166,6 @@ namespace proscryption
                 }
             }
 
-            Debug.Log("ended reload");
             PlayerEvents.BroadcastPlayerReloadEnded();
         }
 

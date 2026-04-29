@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace proscryption
@@ -9,7 +10,13 @@ namespace proscryption
 
         SphereCollider _collider;
 
+        public int currentWave;
+
         float _baseRadius = 0f;
+        [Header("Ritual Transforms")]
+        public Transform RitualBaseTransform;
+        public Transform RitualInteriorTransform;
+        public Transform RitualOutsideTransform;
 
         void Start()
         {
@@ -43,10 +50,33 @@ namespace proscryption
             {
                 return;
             }
+            HandleNewWave();
+        }
+        private void HandleNewWave()
+        {
 
             ArenaEvents.BroadcastArenaStart();
             canInteract = false;
             _collider.radius = 0;
+            currentWave++;
+
+            switch (currentWave)
+            {
+                case 1:
+                    RitualBaseTransform.DOScale(.5f, 1.2f).SetEase(Ease.OutSine);
+                    break;
+                case 2:
+                    RitualInteriorTransform.GetComponent<MeshRenderer>().enabled = true;
+
+                    break;
+                case 3:
+                    RitualOutsideTransform.GetComponent<MeshRenderer>().enabled = true;
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public bool CanInteract()

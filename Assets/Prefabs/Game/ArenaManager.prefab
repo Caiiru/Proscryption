@@ -44,13 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a65e60ba5bda8c4f8f0965047a2acff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.ArenaManager
+  isActivate: 0
   spawnInterval: 8
   wavesData:
   - enemyCount: 2
     spawnInterval: 6
-    enemyPrefab: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
   - enemyCount: 2
     spawnInterval: 6
-    enemyPrefab: {fileID: 2386808810268817135, guid: c26b59cc0e2becc4ba178b84e6f5d9ae, type: 3}
+  - enemyCount: 2
+    spawnInterval: 6
   enemiesToSpawn: 2
   enemiesAlive: 0

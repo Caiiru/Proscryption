@@ -24,6 +24,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _EnemyTexture:
+        m_Texture: {fileID: 2800000, guid: 7993a180a3e0e7e459c48904eded8a02, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_463b65d5ba154acea7c74eeddff8b259_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: bf8b84eedb94b4d448cc7c4de1565f31, type: 3}
         m_Scale: {x: 1, y: 1}
