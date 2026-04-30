@@ -1,10 +1,10 @@
-
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.VirtualTexturing;
 
 namespace proscryption
 {
@@ -12,36 +12,47 @@ namespace proscryption
     {
         public EnemyState currentState;
         private EnemyEntity _enemyEntity;
-        #region Vision
-        [Space]
-        [Header("Vision")]
-        [SerializeField] private LayerMask _playerMask = 1 << 3;
+
+        #region Vision Settings
+
+        [Space] [Header("Vision")] [SerializeField]
+        private LayerMask _playerMask = 1 << 3;
 
         #endregion
-        #region Movement
+
+        #region Movement Settings
+
         [SerializeField] private float _moveSpeed = 2;
         [SerializeField] private float _turnRate = 2;
         private NavMeshAgent _navMeshAgent;
 
         #endregion
-        #region Attack State
-        [Space]
-        [Header("Attack")]
-        [SerializeField] bool _isAttacking;
+
+        #region Combat State
+
+        [Space] [Header("Attack")] [SerializeField]
+        bool _isAttacking;
+
         [SerializeField] float _attackRange = 2f;
-        [Range(0, 100)]
-        [SerializeField] float _critChance = 10;
+        [Range(0, 100)] [SerializeField] float _critChance = 10;
 
         [Tooltip("Delay para ele se recuperar e voltar a se mexer")]
         public float _takeDamageDelay = 0.1f;
+
+        private bool _canBeStunned = true;
+        public float stunDelay = 1f;
+
 
         [SerializeField] Transform _playerTransform;
         [SerializeField] BoxCollider[] _clawsHitBox;
 
 
-
         //References 
+
         #endregion
+
+        #region Visual and Ragdoll
+
         CapsuleCollider _takeDamageCollider;
         [SerializeField] Collider[] _ragdollColliders;
         [SerializeField] Rigidbody[] _ragdollRigidbodies;
@@ -54,13 +65,16 @@ namespace proscryption
         Rigidbody _rigidbody;
         Transform _transform;
 
+        #endregion
+
         #region Animation
+
         Animator _animator;
         private const string ANIM_SPEED = "Speed"; // float
         private const string ANIM_ATTACK = "Attack"; // trigger 
         private const string ANIM_DEATH = "Die"; // trigger 
         private const string ANIM_TAKE_DAMAGE = "TakeDamage"; // trigger 
-
+        private const string ANIM_IS_STUNNED = "MinionIsStunned"; // boolean 
 
         #endregion
 
@@ -74,19 +88,17 @@ namespace proscryption
 
             _playerTransform = GameManager.Instance.GetPlayerObject().transform;
         }
+
         void OnValidate()
         {
             _transform = this.transform;
+        }
 
-        }
-        void OnEnable()
-        {
-        }
         void Start()
         {
             Setup();
-
         }
+
         private void Setup()
         {
             GetReferences();
@@ -95,7 +107,9 @@ namespace proscryption
                 claw.enabled = false;
                 claw.GetComponent<MinionClaw>().Setup(this);
             }
+
             _navMeshAgent.speed = _moveSpeed;
+            _navMeshAgent.acceleration = 1f;
             _navMeshAgent.angularSpeed = _turnRate;
 
             _ragdollColliders = _transform.GetComponentsInChildren<Collider>();
@@ -105,27 +119,25 @@ namespace proscryption
 
             _takeDamageCollider.enabled = true;
 
-            SubscribeEvents();
 
+            SubscribeEvents();
         }
+
         private void SubscribeEvents()
         {
             _enemyEntity.OnTakeDamage += HandleTakeDamage;
+            _enemyEntity.OnDeath += (force, mode) => { HandleDeath(force, mode).Forget(); };
         }
 
 
         void OnDestroy()
         {
+            _enemyEntity.OnDeath -= (force, mode) => { HandleDeath(force, mode).Forget(); };
             _enemyEntity.OnTakeDamage -= HandleTakeDamage;
-
         }
+
         void Update()
         {
-            if (_enemyEntity.IsDead && currentState != EnemyState.Dead)
-            {
-                ChangeState(EnemyState.Dead);
-                return;
-            }
             HandleCurrentState();
         }
 
@@ -137,18 +149,17 @@ namespace proscryption
                 case EnemyState.TakingDamage:
                     HandleTakeDamageState().Forget();
                     return UniTask.CompletedTask;
-                case EnemyState.Dead:
-                    HandleDeath().Forget();
-                    return UniTask.CompletedTask;
+                    break;
             }
+
             return UniTask.CompletedTask;
         }
+
         private UniTask LeaveCurrentState()
         {
-
-
             return UniTask.CompletedTask;
         }
+
         private void HandleCurrentState()
         {
             switch (currentState)
@@ -161,8 +172,10 @@ namespace proscryption
                     break;
             }
         }
+
         private async void ChangeState(EnemyState newState)
         {
+            if (newState == currentState) return;
             await LeaveCurrentState();
             currentState = newState;
             await EnterCurrentState();
@@ -172,15 +185,14 @@ namespace proscryption
 
         private void Roam()
         {
-
             if (SeePlayer())
             {
                 ChangeState(EnemyState.Attacking);
                 return;
-
             }
             // _characterController.SimpleMove(Vector3.forward);
         }
+
         private async UniTask Attack()
         {
             if (_isAttacking) await UniTask.CompletedTask;
@@ -190,7 +202,6 @@ namespace proscryption
             }
             else
             {
-
                 _isAttacking = true;
                 _animator.SetTrigger(ANIM_ATTACK);
                 await UniTask.Delay(1000);
@@ -198,18 +209,32 @@ namespace proscryption
                 await UniTask.Delay(Mathf.FloorToInt(_duration * 2000));
                 _isAttacking = false;
             }
-
         }
+
         private async UniTask HandleTakeDamageState()
         {
-            _animator.SetTrigger(ANIM_TAKE_DAMAGE);
+            //Stun Enemy
+            if (!_canBeStunned) return;
+            _canBeStunned = false;
+            _animator.SetBool(ANIM_IS_STUNNED, true);
+            _animator.SetFloat(ANIM_SPEED, 0);
+            _navMeshAgent.speed = 0;
 
-            await UniTask.Delay(1000);
+            await UniTask.WaitForEndOfFrame();
+            await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
+            await UniTask.Delay((int)(_takeDamageDelay * 500));
 
+            _animator.SetBool(ANIM_IS_STUNNED, false);
+            HandleStunDelay().Forget();
+            await UniTask.Delay((int)(_takeDamageDelay * 1000));
             ChangeState(EnemyState.Attacking);
+
+            _navMeshAgent.speed = _moveSpeed;
         }
 
         #endregion
+
+        #region Movement
 
         private bool SeePlayer()
         {
@@ -221,9 +246,8 @@ namespace proscryption
             }
 
             return false;
-
-
         }
+
         void FixedUpdate()
         {
             if (SeePlayer() && currentState == EnemyState.Attacking)
@@ -231,6 +255,7 @@ namespace proscryption
                 WalkTowardsPlayer();
             }
         }
+
         private void WalkTowardsPlayer()
         {
             if (_isAttacking)
@@ -238,12 +263,13 @@ namespace proscryption
                 _navMeshAgent.SetDestination(transform.position);
                 return;
             }
-            ;
+
             _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
             _animator.SetFloat(ANIM_SPEED, 0.5f);
             // Debug.Log("Walking forward");
         }
+
         private void RotateTowardsPlayer()
         {
             // Vector3 _distance = _playerTransform.position - _transform.position;
@@ -256,8 +282,10 @@ namespace proscryption
             // _transform.Rotate(rotation.eulerAngles);
         }
 
+        #endregion
 
-        #region Attack State
+        #region Combat
+
         private bool CanAttack()
         {
             if (_isAttacking) return false;
@@ -267,7 +295,7 @@ namespace proscryption
             return distance <= _attackRange * _attackRange;
         }
 
-        public void ActivateClawsHitBox()
+        public void EnableClawsHitBox()
         {
             if (_clawsHitBox.Length == 0) return;
 
@@ -276,17 +304,8 @@ namespace proscryption
                 claw.enabled = true;
             }
         }
-        public int GetAttackDamage()
-        {
-            return _enemyEntity.GetAttackDamage();
-        }
-        public bool IsAttackCritical()
-        {
-            return _enemyEntity.IsCritical();
-        }
 
-
-        public void DesactivateClawsHitBox()
+        public void DisableClawsHitbox()
         {
             if (_clawsHitBox.Length == 0) return;
 
@@ -295,74 +314,119 @@ namespace proscryption
                 claw.enabled = false;
             }
         }
+
+        public int GetAttackDamage()
+        {
+            return _enemyEntity.GetAttackDamage();
+        }
+
+        public bool IsAttackCritical()
+        {
+            return _enemyEntity.IsCritical();
+        }
+
+
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
-            if (directionForce == null) return;
-
-            if (forceMode == null) return;
-
+            // Debug.Log("MinionController Take Damage");
 
             _navMeshAgent.enabled = false;
             ChangeState(EnemyState.TakingDamage);
-            _rigidbody.isKinematic = false;
-            _rigidbody.AddForce((Vector3)directionForce, (ForceMode)forceMode);
-            // _animator.SetFloat(ANIM_SPEED, 0);
-            // Debug.Log($"before delay {directionForce}");
-            // Debug.DrawRay(_transform.position, _transform.position + (Vector3)directionForce, Color.red, 2f);
+            await UniTask.WaitForEndOfFrame();
+
+            AddKnockback(directionForce, forceMode);
+
             await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
-            // Debug.Log("after delay");
 
             _rigidbody.isKinematic = true;
             _navMeshAgent.enabled = enabled;
-            _animator.SetFloat(ANIM_SPEED, 0.5f);
         }
 
+        private void AddKnockback(Vector3? directionForce, ForceMode? forceMode)
+        {
+            if (directionForce == null) return;
+            if (forceMode == null) return;
+
+            _rigidbody.isKinematic = false;
+            _rigidbody.AddForce((Vector3)directionForce, (ForceMode)forceMode);
+        }
+
+        private void AddKnockbackOnRagdoll(Vector3? directionForce, ForceMode? forceMode)
+        {
+            if (directionForce == null) return;
+            if (forceMode == null) return;
+
+            foreach (Rigidbody r in _ragdollRigidbodies)
+            {
+                r.isKinematic = false;
+                r.AddForce((Vector3)directionForce, (ForceMode)forceMode);
+            }
+        }
+
+        private async UniTask HandleStunDelay()
+        {
+            await UniTask.WaitForSeconds(stunDelay);
+            Debug.Log($"[MinionController.HandleStunDelay - Can Be Stunned ]");
+            _canBeStunned = true;
+        }
 
         #endregion
 
         #region Death & Ragdoll
-        private async UniTask HandleDeath()
+
+        private async UniTask HandleDeath(Vector3? directionForce, ForceMode? forceMode)
         {
-            // _animator.SetTrigger(ANIM_DEATH);
-            // _navMeshAgent.isStopped = true;
             _navMeshAgent.enabled = false;
             _animator.enabled = false;
             EnableRagdoll();
             _takeDamageCollider.enabled = false;
 
-            // float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+            //Apply Force
+            await UniTask.WaitForEndOfFrame();
+
+            AddKnockbackOnRagdoll(directionForce, forceMode);
+
+
             await UniTask.Delay(Mathf.FloorToInt(5000));
+            //Dissolve Minion
             _eyesRenderer.enabled = false;
             _bodyRenderer.material = DissolveMaterial;
-            _bodyRenderer.material.DOFloat(1, "_DissolveAmount", 3);
-            await UniTask.Delay(Mathf.FloorToInt(1000));
+            float dissolveDuration = 3;
+            _bodyRenderer.material.DOFloat(1, "_DissolveAmount", dissolveDuration);
+            await UniTask.Delay(Mathf.FloorToInt(Mathf.FloorToInt(dissolveDuration) * 1000));
             Destroy(this.gameObject);
+        }
 
+        private void ToggleColliders(bool isActivate)
+        {
+            foreach (Collider c in _ragdollColliders)
+            {
+                c.enabled = isActivate;
+            }
+        }
+
+        private void ToggleRigidbodies(bool isRagdollActivate)
+        {
+            foreach (Rigidbody r in _ragdollRigidbodies)
+            {
+                r.isKinematic = !isRagdollActivate;
+            }
         }
 
         private void DisableRagdoll()
         {
-            foreach (Collider collider in _ragdollColliders)
-            {
-                collider.enabled = false;
-            }
-            foreach (Rigidbody rigidbody in _ragdollRigidbodies)
-            {
-                rigidbody.isKinematic = true;
-            }
+            ToggleColliders(false);
+            ToggleRigidbodies(false);
         }
+
         private void EnableRagdoll()
         {
-            foreach (Collider collider in _ragdollColliders)
-            {
-                collider.enabled = true;
-            }
+            ToggleColliders(true);
+            ToggleRigidbodies(true);
 
-            foreach (Rigidbody rigidbody in _ragdollRigidbodies)
-            {
-                rigidbody.isKinematic = false;
-            }
-            DesactivateClawsHitBox();
+            DisableClawsHitbox();
+            //My Rigidbody
+            _rigidbody.isKinematic = true;
             _takeDamageCollider.enabled = false;
         }
 
@@ -370,7 +434,6 @@ namespace proscryption
 
         void OnDrawGizmosSelected()
         {
-
             if (_playerTransform == null) return;
             if (!_navMeshAgent) return;
 
@@ -384,8 +447,8 @@ namespace proscryption
             else
             {
                 Gizmos.color = Color.green;
-
             }
+
             Gizmos.DrawLine(_centerPosition, _centerPosition + _transform.forward * _attackRange);
 
             Gizmos.color = Color.yellow;

@@ -1,15 +1,19 @@
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace proscryption
 {
     public class ColorManager : MonoBehaviour
     {
+        private static readonly int BloodEmissiveColor = Shader.PropertyToID("_Blood_Emissive_Color");
+        private static readonly int LightEmissiveColor = Shader.PropertyToID("_Light_Emissive_Color");
 
         public ColorDatabase colorDatabase;
 
         #region Singleton
+
         public static ColorManager Instance { get; private set; }
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -17,34 +21,36 @@ namespace proscryption
                 Destroy(gameObject);
                 return;
             }
-            Instance = this;
 
+            Instance = this;
         }
+
         void OnValidate()
         {
-
             SetupValidate();
             if (Instance != null && Instance != this)
             {
                 return;
             }
-            Instance = this;
 
+            Instance = this;
         }
+
         #endregion
 
         public void SetupValidate()
         {
             // Debug.Log("Validate Colors");
-            Shader.SetGlobalColor("_Blood_Emissive_Color", colorDatabase.BloodColor);
-            Shader.SetGlobalColor("_Light_Emissive_Color", colorDatabase.LightColor);
+            Shader.SetGlobalColor(BloodEmissiveColor, colorDatabase.BloodColor);
+            Shader.SetGlobalColor(LightEmissiveColor, colorDatabase.LightColor);
         }
     }
-
+#if UNITY_EDITOR
     [CustomEditor(typeof(ColorManager))]
     public class ColorManagerEditor : Editor
     {
-        Editor cachedEditor;
+        Editor _cachedEditor;
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
@@ -52,12 +58,12 @@ namespace proscryption
             if (manager.colorDatabase != null)
             {
                 EditorGUILayout.Space();
-                if (cachedEditor == null || cachedEditor.target != manager.colorDatabase)
+                if (_cachedEditor == null || _cachedEditor.target != manager.colorDatabase)
                 {
-                    cachedEditor = Editor.CreateEditor(manager.colorDatabase);
-
+                    _cachedEditor = Editor.CreateEditor(manager.colorDatabase);
                 }
-                cachedEditor.OnInspectorGUI();
+
+                _cachedEditor.OnInspectorGUI();
             }
             else
             {
@@ -65,4 +71,5 @@ namespace proscryption
             }
         }
     }
+#endif
 }

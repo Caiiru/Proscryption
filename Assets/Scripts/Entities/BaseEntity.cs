@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace proscryption
@@ -8,10 +9,10 @@ namespace proscryption
     /// </summary>
     public abstract class BaseEntity : MonoBehaviour
     {
-        [Header("Status")]
-        [SerializeField] protected int health = 10;
+        [Header("Status")] [SerializeField] protected int health = 10;
         [SerializeField] protected int maxHealth = 10;
         [SerializeField] protected bool canTakeDamage = true;
+        [SerializeField] protected float takeDamageDelay = 0.25f;
 
         protected Animator _animator;
         protected Rigidbody _rigidbody;
@@ -34,6 +35,7 @@ namespace proscryption
         {
             TakeDamage(damage, source, isCritical, Vector3.zero, null);
         }
+
         public virtual void TakeDamage(
             int damage,
             GameObject source = null,
@@ -45,38 +47,43 @@ namespace proscryption
             if (!canTakeDamage) return;
             if (_isDead) return;
 
+            canTakeDamage = false;
+            StartTakeDamageCooldown().Forget();
 
-            Vector3 _dmgForce = (Vector3)(dmgForce == null ? Vector3.zero : dmgForce);
-            ForceMode _forceMode = (ForceMode)(forceMode == null ? ForceMode.Impulse : forceMode);
- 
             health -= isCritical ? damage * 2 : damage;
 
-            // Broadcast damage event
             EventManager.BroadcastEntityDamaged(damage, source != null ? source : gameObject);
 
-            // _rigidbody.AddForce(_dmgForce, _forceMode);
-            // // Play hit animation
-            // if (_animator)
-            // {
-            //     _animator.SetTrigger("TakeDamage");
-            // }
 
-            // Check death
-            if (health <= 0)
-            {
-                _isDead = true;
-                OnDeath();
-            }
+            if (health > 0) return;
+
+            _isDead = true;
+            Death(dmgForce, forceMode);
         }
 
         /// <summary>
         /// Called when entity dies
         /// </summary>
-        public virtual void OnDeath()
+        public virtual void Death()
+        {
+            Death(Vector3.zero, null);
+        }
+
+        /// <summary>
+        /// Handle Death when is pushed - uses Rigidbody
+        /// </summary>
+        /// <param name="force">ForceDirection + Intensity</param>
+        /// <param name="mode">Rigidbody ForceMode</param>
+        public virtual void Death(Vector3? force, ForceMode? mode)
         {
             _isDead = true;
             EventManager.BroadcastEntityDied(gameObject);
+        }
 
+        protected async UniTask StartTakeDamageCooldown()
+        {
+            await UniTask.Delay((int)(1000 * takeDamageDelay));
+            canTakeDamage = true;
         }
 
         // ===== GETTERS =====
