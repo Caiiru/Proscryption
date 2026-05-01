@@ -227,6 +227,9 @@ namespace proscryption
             _animator.SetBool(ANIM_IS_STUNNED, false);
             HandleStunDelay().Forget();
             await UniTask.Delay((int)(_takeDamageDelay * 1000));
+
+            if (_enemyEntity.IsDead) return;
+
             ChangeState(EnemyState.Attacking);
 
             _navMeshAgent.speed = _moveSpeed;
@@ -266,7 +269,7 @@ namespace proscryption
 
             _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
-            _animator.SetFloat(ANIM_SPEED, 0.5f); 
+            _animator.SetFloat(ANIM_SPEED, 0.5f);
         }
 
         private void RotateTowardsPlayer()
@@ -326,8 +329,7 @@ namespace proscryption
 
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
-        { 
-
+        {
             _navMeshAgent.enabled = false;
             ChangeState(EnemyState.TakingDamage);
             await UniTask.WaitForEndOfFrame();
@@ -363,7 +365,7 @@ namespace proscryption
 
         private async UniTask HandleStunDelay()
         {
-            await UniTask.WaitForSeconds(stunDelay); 
+            await UniTask.WaitForSeconds(stunDelay);
             _canBeStunned = true;
         }
 
