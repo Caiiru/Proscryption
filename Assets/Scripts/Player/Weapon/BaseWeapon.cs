@@ -11,11 +11,11 @@ namespace proscryption
     /// </summary>
     public class BaseWeapon : MonoBehaviour
     {
+        private PlayerStance _currentStance;
         [SerializeField] private int minDamage = 5;
         [SerializeField] private int maxDamage = 10;
-        [SerializeField]
-        [Range(0, 100)]
-        [Tooltip("Chance for a critical hit (0-100%)")]
+
+        [SerializeField] [Range(0, 100)] [Tooltip("Chance for a critical hit (0-100%)")]
         private int critChance = 10;
 
         public GameObject bulletPrefab;
@@ -37,9 +37,7 @@ namespace proscryption
 
         public Action OnShoot;
 
-        [Header("Data")]
-
-        public BulletData standardBulletData;
+        [Header("Data")] public BulletData standardBulletData;
         public BulletData bloodBulletData;
         public BulletData lightBulletData;
 
@@ -48,8 +46,7 @@ namespace proscryption
         private CombatSystem _combatSystem;
         private PlayerModel _playerModel;
 
-        [Header("Effects")]
-        public VisualEffect MuzzleFlashEffect;
+        [Header("Effects")] public VisualEffect MuzzleFlashEffect;
 
 
         public void Setup(CombatSystem combatSystem)
@@ -60,6 +57,7 @@ namespace proscryption
                 minDamage = maxDamage;
                 maxDamage = temp;
             }
+
             _currentBullets = MAX_BULLETS;
             _isReloading = false;
             _reloadTimer = 0f;
@@ -67,16 +65,16 @@ namespace proscryption
 
             for (int i = 0; i < MAX_BULLETS; i++)
             {
-
                 bullets[i] = 1;
-
             }
+
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
             currentData = standardBulletData;
 
             _combatSystem = combatSystem;
             _playerModel = _combatSystem.GetModel();
         }
+
         private void OnDisable()
         {
             PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
@@ -84,6 +82,7 @@ namespace proscryption
 
         private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
+            _currentStance = newStance;
             switch (newStance)
             {
                 case PlayerStance.Standard:
@@ -106,13 +105,23 @@ namespace proscryption
 
         public async void OnAttack()
         {
-            if (_isReloading) await UniTask.CompletedTask;
-            if (!ConsumeBullet()) return;
+            if (!CanAttack()) return;
+
+            switch (_currentStance)
+            {
+                case PlayerStance.Standard:
+                    break;
+                case PlayerStance.Blood: 
+                    break;
+                case PlayerStance.Light: 
+                    break;
+            }
 
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
             GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed, currentData.bulletForce);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed,
+                currentData.bulletForce);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)
             {
@@ -135,18 +144,17 @@ namespace proscryption
             await UniTask.Delay(500);
             MuzzleFlashEffect.gameObject.SetActive(false);
             await UniTask.CompletedTask;
-
         }
+
+       
 
         public void ReloadInput()
         {
             if (_isReloading) return;
             _isReloading = true;
             _reloadTimer = _playerModel.reloadCooldown;
-            Debug.Log("Reload Started");
-
-
         }
+
         private void HandleReload()
         {
             if (!_isReloading) return;
@@ -178,14 +186,30 @@ namespace proscryption
 
             return damage;
         }
+
         bool CalculateIsCritical()
         {
             return UnityEngine.Random.value < (currentData.critChance / 100f);
         }
+
+        bool CanAttack()
+        {
+            if (_currentStance == PlayerStance.Blood)
+            {
+                PlayerBloodStanceData data = (PlayerBloodStanceData)_playerModel.GetCurrentData();
+
+                if (_playerModel.CurrentHealth - data.bloodDamage <= 0)
+                    return false;
+                
+                _playerModel.TakeDamage(data.bloodDamage);
+            }
+
+            return ConsumeBullet() && !_isReloading;
+        }
+
         bool ConsumeBullet()
         {
             return _currentBullets > 0;
         }
-
     }
 }

@@ -102,7 +102,7 @@ namespace proscryption
                     break;
             }
         }
-        private void HandleHitDetected(Vector3 vector, int arg2, GameObject @object)
+        private void HandleHitDetected(Vector3 vector, float arg2, GameObject @object)
         {
             ChangeGameState(GameState.Combat);
 

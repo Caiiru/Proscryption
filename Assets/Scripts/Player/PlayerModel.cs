@@ -4,28 +4,16 @@ using UnityEngine;
 
 namespace proscryption
 {
-    /// <summary>
-    /// PlayerModel - MVC Model Layer
-    /// Centralizes all player state data (health, stamina, position, state)
-    /// Controllers ask "CanI do this?" before acting
-    /// Model broadcasts state changes via EventManager
-    /// </summary>
-    public enum PlayerStance
-    {
-        Standard,
-        Blood,
-        Light
-    }
     public class PlayerModel : MonoBehaviour
     {
         // ===== CONFIGURATION =====
-        [SerializeField] private int maxHealth = 100;
+        [SerializeField] private float maxHealth = 100;
         [SerializeField] private float maxStamina = 100;
         [SerializeField] private float staminaRegenPerSec = 10f;
         [SerializeField] private float moveSpeed = 6f;
 
         // ===== STATE DATA =====
-        private int _currentHealth;
+        private float _currentHealth;
         private float _currentStamina;
         [SerializeField] private PlayerState _currentState = PlayerState.Idle;
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
@@ -34,18 +22,23 @@ namespace proscryption
 
         //Reload
         private bool _canReload = true;
+
         public float reloadCooldown;
+
         //Roll
-        [Header("Roll Settings")]
-        [SerializeField] public float rollForce = 20f;
+        [Header("Roll Settings")] [SerializeField]
+        public float rollForce = 20f;
+
         [SerializeField] public float rollDuration = 0.5f;
         [SerializeField] public float rollCooldown = 1.5f;
         [SerializeField] public int ROLL_STAMINA_COST = 20;
 
-        [Header("PlayerStances Data")]
-        [SerializeField] private PlayerStanceData BaseStandardData;
-        [SerializeField] private PlayerStanceData BaseBloodData;
-        [SerializeField] private PlayerStanceData BaseLightData;
+        [Header("PlayerStances Data")] [SerializeField]
+        private PlayerStanceData BaseStandardData;
+
+        [SerializeField] private PlayerBloodStanceData BaseBloodData;
+
+        private PlayerFaithStanceData _playerFaithStanceData;
 
         //Timers
         float LightDuration;
@@ -58,7 +51,8 @@ namespace proscryption
         [SerializeField] private float _lightCooldownTimer = 0;
         [SerializeField] private float _bloodCooldownTimer = 0;
 
-
+        //Upgardes
+        private int _healthUpgrade = 0;
 
 
         private PlayerStanceData _currentData;
@@ -82,9 +76,7 @@ namespace proscryption
         private Rigidbody _rigidbody;
 
         // ===== Debug =====
-        [Space]
-        [Header("DEBUG")]
-        public bool killPlayer = false;
+        [Space] [Header("DEBUG")] public bool killPlayer = false;
 
         void Awake()
         {
@@ -106,6 +98,7 @@ namespace proscryption
             EventManager.OnHitDetected += HandleHitDetected;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
             PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
+            PlayerEvents.OnPlayerHitLightShot += HandleLightShot;
         }
 
 
@@ -114,19 +107,17 @@ namespace proscryption
             PlayerEvents.OnPlayerReloadEnded -= HandleReloadEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
+            PlayerEvents.OnPlayerHitLightShot -= HandleLightShot;
         }
 
 
         void Start()
         {
-            _currentData = BaseStandardData; // Start with standard stance data
+            _currentData = BaseStandardData; // Start with standard stance data 
             SetupTimers();
             SetupCurrentStance();
-
-            // SetupHealth();
-            // SetupStamina();
-
         }
+
         void Update()
         {
             if (killPlayer)
@@ -134,17 +125,18 @@ namespace proscryption
                 killPlayer = false;
                 HandleHitDetected(transform.position, maxHealth, gameObject);
             }
+
             HandleTimers();
         }
+
         void SetupTimers()
         {
             LightDuration = BaseLightData.stanceDuration;
             BloodDuration = BaseBloodData.stanceDuration;
             LightCooldown = BaseLightData.stanceCooldown;
             BloodCooldown = BaseBloodData.stanceCooldown;
-
-
         }
+
         void HandleTimers()
         {
             HandleCurrentStanceTimer();
@@ -153,13 +145,14 @@ namespace proscryption
                 _bloodCooldownTimer -= Time.deltaTime;
                 PlayerEvents.BroadcastPlayerBloodCooldownUpdated(_bloodCooldownTimer, BloodCooldown);
             }
+
             if (_lightCooldownTimer > 0)
             {
                 _lightCooldownTimer -= Time.deltaTime;
                 PlayerEvents.BroadcastPlayerLightCooldownUpdated(_lightCooldownTimer, LightCooldown);
             }
-
         }
+
         private void HandleCurrentStanceTimer()
         {
             if (_currentStanceTimer > 0)
@@ -183,7 +176,6 @@ namespace proscryption
             {
                 ChangeStance(PlayerStance.Standard);
             }
-
         }
         // ===== Stance Management ===== 
 
@@ -208,34 +200,40 @@ namespace proscryption
 
 
                 _currentStance = PlayerStance.Standard;
-                // Debug.Log($"Same Stance{_currentStance}");
             }
 
             else
             {
                 this._currentStance = newStance;
             }
+
             PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
             HandleStanceChanged(_prevStance, _currentStance);
         }
+
         private void SetupCurrentStance()
         {
-            maxHealth = _currentData.maxHealth;
-            moveSpeed = _currentData.moveSpeed;
-            maxStamina = _currentData.maxStamina;
-            rollForce = _currentData.rollForce;
-            ROLL_STAMINA_COST = _currentData.rollStaminaCost;
-            rollCooldown = _currentData.rollCooldown;
+            float healthPercentage = CurrentHealth / MaxHealth;
+            float staminaPercentage = _currentStamina / maxStamina;
+
+
+            PlayerStanceData data = (PlayerStanceData)_currentData;
+            maxHealth = data.maxHealth;
+            moveSpeed = data.moveSpeed;
+            maxStamina = data.maxStamina;
+            rollForce = data.rollForce;
+            ROLL_STAMINA_COST = data.rollStaminaCost;
+            rollCooldown = data.rollCooldown;
 
             if (_currentStance != PlayerStance.Standard)
-                _currentStanceTimer = _currentData.stanceDuration;
+                _currentStanceTimer = data.stanceDuration;
 
 
             // staminaRegenPerSec = _currentData.staminaRegenPerSec;
-            SetupHealth();
-            SetupStamina();
-
+            SetupHealth(healthPercentage);
+            SetupStamina(staminaPercentage);
         }
+
         private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
             switch (oldStance)
@@ -258,7 +256,7 @@ namespace proscryption
 
                     break;
                 case PlayerStance.Blood:
-                    _currentData = BaseBloodData;
+                    _currentData = (PlayerStanceData)BaseBloodData;
                     break;
                 default:
                     _currentData = BaseStandardData;
@@ -272,12 +270,12 @@ namespace proscryption
 
 
         // ===== STAMINA MANAGEMENT =====
-        private void SetupStamina()
+        private void SetupStamina(float staminaPercentage)
         {
-            _currentStamina = maxStamina;
+            _currentStamina = maxStamina * staminaPercentage;
             PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
-
         }
+
         /// <summary>
         /// Try to consume stamina for an action. Returns true if successful.
         /// </summary>
@@ -289,6 +287,7 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
                 return true;
             }
+
             return false;
         }
 
@@ -330,6 +329,7 @@ namespace proscryption
         {
             this.SetState(PlayerState.Idle);
         }
+
         // ===== REWARD MANAGMENT =====
         public void HandleGetNewReward(RewardData reward)
         {
@@ -338,7 +338,6 @@ namespace proscryption
             foreach (var minireward in reward.rewards)
             {
                 AddSimpleReward(minireward.type, minireward.value);
-
             }
         }
 
@@ -353,7 +352,6 @@ namespace proscryption
                     break;
                 case SimpleRewardType.Stamina:
                     maxStamina += (int)_value;
-                    SetupStamina();
                     break;
                 case SimpleRewardType.MoveSpeed:
                     moveSpeed += _value;
@@ -361,11 +359,8 @@ namespace proscryption
                 case SimpleRewardType.ReloadTime:
                     reloadCooldown += _value;
                     break;
-
-
             }
         }
-
 
 
         // ===== DAMAGE/HEALTH MANAGEMENT =====
@@ -373,13 +368,13 @@ namespace proscryption
         /// <summary>
         /// Handle incoming damage. Called via EventManager when hit is detected.
         /// </summary>
-
-        void SetupHealth()
+        void SetupHealth(float percentage)
         {
-            _currentHealth = maxHealth;
+            _currentHealth = (MaxHealth * percentage);
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
         }
-        private void HandleHitDetected(Vector3 hitPos, int damage, GameObject target)
+
+        private void HandleHitDetected(Vector3 hitPos, float damage, GameObject target)
         {
             if (target != gameObject) return;
             if (!IsAlive) return;
@@ -388,6 +383,11 @@ namespace proscryption
                 return;
             }
 
+            TakeDamage(damage);
+        }
+
+        public void TakeDamage(float damage)
+        {
             _currentHealth -= damage;
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
 
@@ -395,8 +395,12 @@ namespace proscryption
             {
                 SetState(PlayerState.Dead);
                 EventManager.BroadcastEntityDied(gameObject);
-
             }
+        }
+
+        private void HandleLightShot()
+        {
+            Heal(this.BaseLightData.heal);
         }
 
         /// <summary>
@@ -434,6 +438,7 @@ namespace proscryption
         {
             this._canMove = false;
         }
+
         public void SetCanMove()
         {
             this._canMove = true;
@@ -461,12 +466,14 @@ namespace proscryption
                    _currentStamina >= 0 &&
                    IsAlive;
         }
+
         public bool CanRotate()
         {
             return _currentState != PlayerState.Rolling &&
                    _currentState != PlayerState.Attacking &&
                    IsAlive;
         }
+
         public bool CanReload()
         {
             return (_currentState == PlayerState.Idle ||
@@ -479,8 +486,18 @@ namespace proscryption
         {
             return _currentData;
         }
-
-
     }
 
+    /// <summary>
+    /// PlayerModel - MVC Model Layer
+    /// Centralizes all player state data (health, stamina, position, state)
+    /// Controllers ask "CanI do this?" before acting
+    /// Model broadcasts state changes via EventManager
+    /// </summary>
+    public enum PlayerStance
+    {
+        Standard,
+        Blood,
+        Light
+    }
 }

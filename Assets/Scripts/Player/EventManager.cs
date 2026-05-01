@@ -7,7 +7,7 @@ namespace proscryption
     public static class EventManager
     {
         /// Broadcast when hit detection occurs (hitPosition, damage, target)
-        public static event Action<Vector3, int, GameObject> OnHitDetected;
+        public static event Action<Vector3, float, GameObject> OnHitDetected;
 
 
         /// Broadcast when any entity takes damage (damage, damageSource)

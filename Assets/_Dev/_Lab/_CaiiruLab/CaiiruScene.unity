@@ -4934,6 +4934,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
+      propertyPath: BaseBloodData
+      value: 
+      objectReference: {fileID: 11400000, guid: 478b186648cc11f47838b58d197ff476, type: 2}
+    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
+      propertyPath: BaseLightData
+      value: 
+      objectReference: {fileID: 11400000, guid: 77fbf221ec24193439d3786e663f9e15, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
