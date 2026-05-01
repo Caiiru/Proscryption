@@ -143,6 +143,7 @@ MonoBehaviour:
   maxStamina: 25
   staminaRegenPerSec: 5
   moveSpeed: 3
+  _currentHealth: 0
   _currentState: 0
   _currentStance: 0
   _isInvulnerable: 0
@@ -152,8 +153,8 @@ MonoBehaviour:
   rollCooldown: 1.5
   ROLL_STAMINA_COST: 20
   BaseStandardData: {fileID: 11400000, guid: 8cdc7898020aa19459c4cb2ee8a83d87, type: 2}
-  BaseBloodData: {fileID: 11400000, guid: c651a3554ef4d5b4aa4d0c647a96b083, type: 2}
-  BaseLightData: {fileID: 11400000, guid: 4025c911eb50fec479fa3a1d0a6e949f, type: 2}
+  BaseBloodData: {fileID: 11400000, guid: e780771e2689a0743b8985e6a73a9fab, type: 2}
+  BaseLightData: {fileID: 11400000, guid: 172c427f462c7de41b45b73d5df67747, type: 2}
   _currentStanceTimer: 0
   _lightCooldownTimer: 0
   _bloodCooldownTimer: 0

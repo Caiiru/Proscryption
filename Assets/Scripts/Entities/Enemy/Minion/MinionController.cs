@@ -266,8 +266,7 @@ namespace proscryption
 
             _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
-            _animator.SetFloat(ANIM_SPEED, 0.5f);
-            // Debug.Log("Walking forward");
+            _animator.SetFloat(ANIM_SPEED, 0.5f); 
         }
 
         private void RotateTowardsPlayer()
@@ -327,8 +326,7 @@ namespace proscryption
 
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
-        {
-            // Debug.Log("MinionController Take Damage");
+        { 
 
             _navMeshAgent.enabled = false;
             ChangeState(EnemyState.TakingDamage);
@@ -365,8 +363,7 @@ namespace proscryption
 
         private async UniTask HandleStunDelay()
         {
-            await UniTask.WaitForSeconds(stunDelay);
-            Debug.Log($"[MinionController.HandleStunDelay - Can Be Stunned ]");
+            await UniTask.WaitForSeconds(stunDelay); 
             _canBeStunned = true;
         }
 

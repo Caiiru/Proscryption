@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b47a30376319514783bc17985f702c9, type: 3}
-  m_Name: SO_PlayerLight
-  m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerData
-  maxHealth: 80
+  m_Script: {fileID: 11500000, guid: 98c0665d8626c894aa4f52974195d6f9, type: 3}
+  m_Name: SO_PlayerBloodData
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.PlayerBloodStanceData
+  maxHealth: 30
   maxStamina: 100
-  moveSpeed: 2
-  rollForce: 1
-  rollCooldown: 4
+  staminaRegenPerSec: 1
+  moveSpeed: 5
+  rollForce: 3
+  rollCooldown: 2
   rollStaminaCost: 20
   attackStaminaCost: 10
-  staminaRegenPerSec: 10
   stanceDuration: 5
-  stanceCooldown: 8
+  stanceCooldown: 6
+  bloodDamage: 5

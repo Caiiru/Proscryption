@@ -14,10 +14,12 @@ namespace proscryption
 
         private Vector3 moveDirection;
 
+        private PlayerStance _bulletStance;
+
         public void Initialize(int damage,
             bool isCritical = false,
             // ReSharper disable once MethodOverloadWithOptionalParameter
-            float speed = 20f, float bulletForce = 1)
+            float speed = 20f, float bulletForce = 1, PlayerStance bulletStance = PlayerStance.Standard)
         {
             this._damage = damage;
             this._isCritical = isCritical;
@@ -30,11 +32,8 @@ namespace proscryption
             _rigidbody.linearVelocity = moveDirection * speed;
 
             _collider = GetComponent<SphereCollider>();
-        }
 
-        public void Initialize(int damage, bool isCritical = false, float speed = 20f)
-        {
-            Initialize(damage, isCritical, speed, 0);
+            this._bulletStance = bulletStance;
         }
 
         void OnTriggerEnter(Collider other)
@@ -52,6 +51,11 @@ namespace proscryption
             damageDirection.y = 0;
             entity.TakeDamage(_damage, null, _isCritical, damageDirection.normalized * m_bulletForce,
                 ForceMode.Impulse);
+
+            if (_bulletStance == PlayerStance.Light)
+            {
+                PlayerEvents.BroadcastPlayerHitLightShot();
+            }
 
             this._collider.enabled = false;
             Destroy(this.gameObject);

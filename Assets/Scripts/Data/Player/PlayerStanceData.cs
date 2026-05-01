@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace proscryption
 {
-    [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData", order = 1)]
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData/StanceData", order = 1)]
     public class PlayerStanceData : ScriptableObject
     {
         [Header("Health & Stamina")]
@@ -23,5 +23,8 @@ namespace proscryption
         public float stanceDuration = -1;
         [Tooltip("-1 to nothing - cooldown to get stance back")]
         public float stanceCooldown = -1;
+ 
     }
+ 
+  
 }

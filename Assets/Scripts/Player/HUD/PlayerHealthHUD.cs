@@ -17,8 +17,8 @@ namespace proscryption
         private float _maxRightMask;
         private float _initialRightMask;
 
-        private int _currentHealth = 0;
-        private int _maxHealth = 0;
+        private float _currentHealth = 0;
+        private float _maxHealth = 0;
 
         private float _frameStartWidth = 1920;
         private float _frameStepValue = 2;
@@ -44,7 +44,7 @@ namespace proscryption
             PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
         }
 
-        void HandleHealthChanged(int newHealth, int maxHealth)
+        void HandleHealthChanged(float newHealth,float maxHealth)
         {
             this._currentHealth = newHealth;
             this._maxHealth = maxHealth;

@@ -10,6 +10,8 @@ namespace proscryption
 
         public static event Action OnPlayerAttack;
 
+        public static event Action OnPlayerHitLightShot;
+
         //Inputs
 
         public static event Action OnPlayerAttackInput;
@@ -25,7 +27,7 @@ namespace proscryption
 
         public static event Action<PlayerStance, PlayerStance> OnPlayerStanceChanged;
 
-        public static event Action<int, int> OnPlayerHealthChanged;
+        public static event Action<float, float> OnPlayerHealthChanged;
 
         public static event Action<float, float> OnPlayerStaminaChanged;
 
@@ -42,6 +44,7 @@ namespace proscryption
         public static event Action<RewardData> OnPlayerGetReward;
 
         //============================ BROADCAST METHODS ============================
+
         #region Inputs Broadcasts
 
         /// <summary>
@@ -67,18 +70,22 @@ namespace proscryption
         {
             OnPlayerRollInput?.Invoke();
         }
+
         public static void BroadcastPlayerReloadInput()
         {
             OnPlayerReloadInput?.Invoke();
         }
+
         public static void BroadcastPlayerReloadEnded()
         {
             OnPlayerReloadEnded?.Invoke();
         }
+
         public static void BroadcastPlayerCastInteract()
         {
             OnPlayerCastInteract?.Invoke();
         }
+
         public static void BroadcastMouseLookInput(Vector2 mousePosition)
         {
             OnMouseLookInput?.Invoke(mousePosition);
@@ -90,14 +97,16 @@ namespace proscryption
         {
             OnPlayerAttack?.Invoke();
         }
+
         #region State Changes Broadcasts
+
         public static void BroadcastPlayerStateChanged(PlayerState prev, PlayerState next)
         {
             OnPlayerStateChanged?.Invoke(prev, next);
             // Debug.Log($"[Event] Player state: {prev} → {next}", null);
         }
 
-        public static void BroadcastPlayerHealthChanged(int newHealth, int maxHealth)
+        public static void BroadcastPlayerHealthChanged(float newHealth, float maxHealth)
         {
             OnPlayerHealthChanged?.Invoke(newHealth, maxHealth);
         }
@@ -106,44 +115,61 @@ namespace proscryption
         {
             OnPlayerStaminaChanged?.Invoke(newStamina, maxStamina);
         }
+
         public static void BroadcastPlayerStanceChanged(PlayerStance prev, PlayerStance next)
         {
             OnPlayerStanceChanged?.Invoke(prev, next);
         }
+
         public static void BroadcastPlayerEnterInteractRange(string interactableName)
         {
             OnPlayerEnterInteractRange?.Invoke(interactableName);
         }
+
         public static void BroadcastPlayerExitInteractRange()
         {
             // You can add an event for exiting interact range if needed
             OnPlayerLeaveInteractRange?.Invoke();
         }
+
+        public static void BroadcastPlayerHitLightShot()
+        {
+            OnPlayerHitLightShot?.Invoke();
+        }
+
         #endregion
+
         #region Timers
+
         public static void BroadcastPlayerLightCooldownUpdated(float newCooldown, float maxCooldown)
         {
             OnPlayerLightCooldownUpdated?.Invoke(newCooldown, maxCooldown);
         }
+
         public static void BroadcastPlayerBloodCooldownUpdated(float newCooldown, float maxCooldown)
         {
             OnPlayerBloodCooldownUpdated?.Invoke(newCooldown, maxCooldown);
         }
+
         public static void BroadcastCurrentStanceDurationUpdated(float newDuration, float maxDuration)
         {
             OnCurrentStanceDurationUpdated?.Invoke(newDuration, maxDuration);
         }
 
         #endregion
+
         #region Reward
+
         public static void BroadcastPlayerCloseRewardScreen()
         {
             OnPlayerCloseRewardScreen?.Invoke();
         }
+
         public static void BroadcastPlayerGetReward(RewardData reward)
         {
             OnPlayerGetReward?.Invoke(reward);
         }
+
         #endregion
     }
 }
