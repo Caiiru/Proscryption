@@ -13,7 +13,7 @@ namespace proscryption
         [SerializeField] private float moveSpeed = 6f;
 
         // ===== STATE DATA =====
-        private float _currentHealth;
+        [SerializeField] private float _currentHealth;
         private float _currentStamina;
         [SerializeField] private PlayerState _currentState = PlayerState.Idle;
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
@@ -37,8 +37,7 @@ namespace proscryption
         private PlayerStanceData BaseStandardData;
 
         [SerializeField] private PlayerBloodStanceData BaseBloodData;
-
-        private PlayerFaithStanceData _playerFaithStanceData;
+        [SerializeField] PlayerFaithStanceData BaseLightData;
 
         //Timers
         float LightDuration;
@@ -131,7 +130,7 @@ namespace proscryption
 
         void SetupTimers()
         {
-            LightDuration = BaseLightData.stanceDuration;
+            LightDuration = BaseLightData.stanceCooldown;
             BloodDuration = BaseBloodData.stanceDuration;
             LightCooldown = BaseLightData.stanceCooldown;
             BloodCooldown = BaseBloodData.stanceCooldown;
@@ -400,13 +399,13 @@ namespace proscryption
 
         private void HandleLightShot()
         {
-            Heal(this.BaseLightData.heal);
+            Heal(BaseLightData.healAmount);
         }
 
         /// <summary>
         /// Heal the player
         /// </summary>
-        public void Heal(int amount)
+        public void Heal(float amount)
         {
             if (!IsAlive) return;
 

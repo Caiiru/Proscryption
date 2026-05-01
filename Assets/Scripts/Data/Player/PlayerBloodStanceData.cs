@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace proscryption
 {
-    [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData/BloodStanceData", order = 1)]
+    [CreateAssetMenu(fileName = "BloodData", menuName = "ScriptableObjects/PlayerData/BloodStanceData", order = 1)]
     public class PlayerBloodStanceData : PlayerStanceData
     {
         [Space]
