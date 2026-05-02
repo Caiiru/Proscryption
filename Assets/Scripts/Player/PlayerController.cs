@@ -1,6 +1,6 @@
-
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace proscryption
@@ -15,8 +15,8 @@ namespace proscryption
     /// </summary>
     public class PlayerController : MonoBehaviour
     {
-        [Header("Movement Settings")]
-        [SerializeField] private float rotationSpeed = 10f;
+        [Header("Movement Settings")] [SerializeField]
+        private float rotationSpeed = 10f;
 
 
         private float _rollCooldownTimer = 0f;
@@ -61,9 +61,9 @@ namespace proscryption
             SetupEvents();
             RefreshMainCamera();
         }
+
         void SetupEvents()
         {
-
             this._characterInput.OnLookInput += HandleLookInput;
 
             PlayerEvents.OnPlayerMoveInput += HandleMoveInput;
@@ -80,14 +80,14 @@ namespace proscryption
 
             _characterInput.OnInteractInput += HandleInteractInput;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
-            ArenaEvents.OnArenaWaveEnded += HandleOpenRewardScreen;
+            PlayerEvents.OnPlayerOpenRewardScreen += HandleOpenRewardScreen;
         }
 
 
         void OnDisable()
         {
             PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
-            ArenaEvents.OnArenaWaveEnded -= HandleOpenRewardScreen;
+            PlayerEvents.OnPlayerOpenRewardScreen -= HandleOpenRewardScreen;
             this._characterInput.OnLookInput -= HandleLookInput;
             PlayerEvents.OnPlayerMoveInput -= HandleMoveInput;
             PlayerEvents.OnPlayerRollInput -= HandleRollInput;
@@ -104,12 +104,14 @@ namespace proscryption
 
             _characterInput.OnInteractInput -= HandleInteractInput;
         }
+
         void Start()
         {
             if (GameManager.Instance != null)
             {
                 transform.position = GameManager.Instance.GetPlayerSpawnPointPosition(0);
             }
+
             _canGetInput = true;
         }
 
@@ -145,11 +147,9 @@ namespace proscryption
 
         private void HandleInteractInput(bool isPressed)
         {
-
             if (!_canGetInput) return;
             // Debug.Log($"Interact input: {(isPressed ? "Pressed" : "Released")}");
             PlayerEvents.BroadcastPlayerCastInteract();
-
         }
 
         /// <summary>
@@ -181,7 +181,6 @@ namespace proscryption
         }
 
 
-
         private void HandleReloadInput()
         {
             if (!_canGetInput) return;
@@ -203,13 +202,15 @@ namespace proscryption
             _model.SetState(PlayerState.Attacking);
         }
 
-
+        void Update()
+        {
+            RotateTowardsMousePosition(Mouse.current.position.ReadValue());
+        }
 
         // ===== PHYSICS LOOP =====
 
         void FixedUpdate()
         {
-
             if (!_canGetInput) return;
             // Always regenerate stamina
             _model.RegenerateStamina(Time.fixedDeltaTime);
@@ -230,7 +231,6 @@ namespace proscryption
                 // Handle normal movement
                 HandleMovement();
             }
-
         }
 
         void LateUpdate()
@@ -295,10 +295,10 @@ namespace proscryption
                     _model.SetState(PlayerState.Moving);
             }
         }
+
         private void HandleLookInput(Vector2 input)
         {
             if (_mainCamera == null) return;
-            RotateTowardsMousePosition(input);
         }
 
         // ===== HELPER METHODS =====
@@ -377,13 +377,14 @@ namespace proscryption
             //     0.05f
             // );
         }
+
         private void RotateTowardsMousePosition(Vector2 mousePosition)
         {
             if (_model.CurrentState == PlayerState.Rolling) return;
             if (_mainCamera == null) return;
 
             Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f, _mouseLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, _mouseLayerMask))
             {
                 Vector3 targetPoint = hitInfo.point;
                 targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane
@@ -415,17 +416,22 @@ namespace proscryption
         private void HandleOpenRewardScreen()
         {
             _canGetInput = false;
+            _model.SetState(PlayerState.Menu);
         }
+
         private void HandleCloseRewardScreen()
         {
             _canGetInput = true;
+            _model.SetState(PlayerState.Idle);
         }
 
         // ===== PUBLIC DEBUG METHODS =====
 
         public void PrintState()
         {
-            Debug.Log($"[PlayerController] State: {_model.CurrentState} | Health: {_model.CurrentHealth}/{_model.MaxHealth} | Stamina: {_model.CurrentStamina}/{_model.MaxStamina}", gameObject);
+            Debug.Log(
+                $"[PlayerController] State: {_model.CurrentState} | Health: {_model.CurrentHealth}/{_model.MaxHealth} | Stamina: {_model.CurrentStamina}/{_model.MaxStamina}",
+                gameObject);
         }
 
         public void OnGameWin()

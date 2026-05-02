@@ -3160,7 +3160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2886613303431697222, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3107776444682814408, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3904,15 +3904,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -112.72706
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.326816
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -108.187386
+      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4696,11 +4696,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: bloodBookPrefab
+      value: 
+      objectReference: {fileID: 2951774839896175847, guid: ae220800f707e9944aee5f10393a719f, type: 3}
+    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: lightBookPrefab
+      value: 
+      objectReference: {fileID: 2951774839896175847, guid: ae220800f707e9944aee5f10393a719f, type: 3}
+    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: selectMoveOffset
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: standardBookPrefab
+      value: 
+      objectReference: {fileID: 5384104197653239417, guid: 3c2bec8560339424a9c1a7287e85ed9a, type: 3}
+    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
       propertyPath: selectAnimationDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2062931201139246308, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
@@ -4942,6 +4958,10 @@ PrefabInstance:
       propertyPath: BaseLightData
       value: 
       objectReference: {fileID: 11400000, guid: 172c427f462c7de41b45b73d5df67747, type: 2}
+    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
+      propertyPath: _currentState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

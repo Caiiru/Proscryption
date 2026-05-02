@@ -34,10 +34,13 @@ namespace proscryption
             _collider = GetComponent<SphereCollider>();
 
             this._bulletStance = bulletStance;
+
+            Debug.Log($"[SimpleBullet.Initialize - BULLET {transform.position} ]");
         }
 
         void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
             if (other.CompareTag("Player")) return;
             other.TryGetComponent<BaseEntity>(out BaseEntity entity);
             if (entity == null)

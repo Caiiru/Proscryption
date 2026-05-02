@@ -146,10 +146,11 @@ namespace proscryption
         {
             // Cursor.lockState = mode;
         }
-        private void SetCursorVisibility(bool visible)
+        public void SetCursorVisibility(bool visible)
         {
             Cursor.visible = visible;
 
         }
+ 
     }
 }

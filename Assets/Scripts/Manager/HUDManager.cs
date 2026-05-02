@@ -7,7 +7,6 @@ namespace proscryption
 {
     public class HUDManager : MonoBehaviour
     {
-
         [SerializeField] GameObject healthBar;
         [SerializeField] GameObject staminaBar;
         [SerializeField] GameObject playerFrame;
@@ -22,8 +21,7 @@ namespace proscryption
         bool _isActive = true;
 
         //Data
-        [Header("Data")]
-        public RewardsListIcon rewardListIconData;
+        [Header("Data")] public RewardsListIcon rewardListIconData;
 
         //Refs
         GameObject _playerRef;
@@ -31,7 +29,9 @@ namespace proscryption
         CharacterInput _characterInput;
 
         #region Singleton
+
         public static HUDManager Instance { get; private set; }
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -39,9 +39,10 @@ namespace proscryption
                 Destroy(gameObject);
                 return;
             }
-            Instance = this;
 
+            Instance = this;
         }
+
         #endregion
 
         void Start()
@@ -51,8 +52,8 @@ namespace proscryption
                 SetupEvents();
                 Initialize();
             }
-
         }
+
         private void SetupEvents()
         {
             //event subscribe
@@ -64,7 +65,6 @@ namespace proscryption
             EventManager.OnEntityDied += HandleEntityDied;
             ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleRewardScreenBeenClosed;
-
 
 
             if (GameManager.Instance != null)
@@ -87,10 +87,12 @@ namespace proscryption
         internal void Initialize()
         {
             #region Check GO
+
             if (healthBar == null)
             {
                 Debug.LogWarning("Health Bar reference is missing in HUDManager.");
             }
+
             if (staminaBar == null)
             {
                 Debug.LogWarning("Stamina Bar reference is missing in HUDManager.");
@@ -99,24 +101,28 @@ namespace proscryption
             if (deathScreen == null)
             {
                 Debug.LogWarning("Death Screen reference is missing in HUDManager.");
-
             }
+
             if (pauseScreen == null)
             {
                 Debug.LogWarning("Pause Screen reference is missing in HUDManager.");
             }
+
             if (winScreen == null)
             {
                 Debug.LogWarning("Win Screen reference is missing in HUDManager.");
             }
+
             if (rewardScreen == null)
             {
                 Debug.LogWarning("Reward Screen reference is missing in HUDManager.");
             }
+
             if (rewardListIconData == null)
             {
                 Debug.LogWarning("Reward List Icon Data reference is missing in HUDManager.");
             }
+
             #endregion
 
             _pauseManager = pauseScreen.GetComponent<PauseManager>();
@@ -129,7 +135,6 @@ namespace proscryption
             SetupEvents();
             UpdateDeathScreenVisibility(false);
         }
-
 
 
         private void HandleLookInput(Vector2 vector)
@@ -147,7 +152,6 @@ namespace proscryption
                 winScreen.SetActive(true);
 
                 winScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
-
             }
 
             _isActive = false;
@@ -170,7 +174,7 @@ namespace proscryption
                 case GameState.Paused:
                     return;
 
-                    // Handle other states as needed
+                // Handle other states as needed
             }
             // SetHUDActive(_isActive);
         }
@@ -178,14 +182,12 @@ namespace proscryption
 
         private void HandleEntityDied(GameObject entity)
         {
-
             if (entity.CompareTag("Player"))
             {
                 UpdateDeathScreenVisibility(true);
             }
-
-
         }
+
         private void UpdateDeathScreenVisibility(bool newVisibility)
         {
             if (deathScreen != null)
@@ -204,10 +206,10 @@ namespace proscryption
         {
             // healthBar.SetActive(false);
             // staminaBar.SetActive(false);
-            playerFrame.SetActive(false);
+            if (playerFrame != null)
+                playerFrame.SetActive(false);
             bulletCounter.SetActive(false);
             aimIndicator.SetActive(false);
-
         }
 
         private void HandleRewardScreenBeenClosed()
@@ -225,10 +227,7 @@ namespace proscryption
                 Debug.LogError("Reward List Icon Data reference is missing in HUDManager.");
 
 
-
             return rewardListIconData;
         }
-
-
     }
 }
