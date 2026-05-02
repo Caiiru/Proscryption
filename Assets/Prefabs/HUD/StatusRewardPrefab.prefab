@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 3231502250720767413}
   - component: {fileID: 5343596955373498167}
   m_Layer: 5
-  m_Name: MiniReward
+  m_Name: StatusRewardPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

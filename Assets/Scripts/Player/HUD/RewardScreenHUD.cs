@@ -8,7 +8,9 @@ namespace proscryption
 {
     public class RewardScreenHUD : MonoBehaviour
     {
-        public GameObject rewardCardPrefab;
+        public GameObject standardBookPrefab;
+        public GameObject bloodBookPrefab;
+        public GameObject lightBookPrefab;
         public Transform rewardCardParent;
         private Transform _container;
         private HorizontalLayoutGroup _layout;
@@ -89,7 +91,21 @@ namespace proscryption
 
         public void ShowReward(RewardData rewardData, int index)
         {
-            var rewardCard = Instantiate(rewardCardPrefab, rewardCardParent);
+            GameObject bookStance = null;
+            switch (rewardData.rewardStance)
+            {
+                case PlayerStance.Blood:
+                    bookStance = bloodBookPrefab;
+                    break;
+                case PlayerStance.Light:
+                    bookStance = lightBookPrefab;
+                    break;
+                case PlayerStance.Standard:
+                    bookStance = standardBookPrefab;
+                    break;
+            }
+
+            var rewardCard = Instantiate(bookStance, rewardCardParent);
             rewardCard.GetComponent<RewardCardHUD>().Setup(rewardData, this);
             _currentCards[index] = rewardCard.transform;
         }

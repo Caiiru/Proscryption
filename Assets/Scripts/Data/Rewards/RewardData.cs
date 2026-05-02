@@ -9,6 +9,7 @@ namespace proscryption
         [SpritePreview]
         public Sprite rewardIcon;
         public string rewardDescription;
+        public PlayerStance rewardStance; 
         public SimpleReward[] rewards;
     }
     [System.Serializable]
