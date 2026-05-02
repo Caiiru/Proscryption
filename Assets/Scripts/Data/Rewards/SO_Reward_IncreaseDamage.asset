@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.RewardData
   rewardName: Increase Base Damage
   rewardIcon: {fileID: 21300000, guid: 22b97dfa5af0d1947a62312c31e633e5, type: 3}
-  rewardDescription: LOREM IPSUM DOLOR
+  rewardDescription: Experientia praestantior arte.
   rewardStance: 0
   rewards:
   - type: 7

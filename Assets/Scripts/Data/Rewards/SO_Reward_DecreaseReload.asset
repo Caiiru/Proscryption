@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.RewardData
   rewardName: Decrease Reload Time
   rewardIcon: {fileID: 21300000, guid: f920addac480add4c99e64df920b61a3, type: 3}
-  rewardDescription: LOREM IPSUM DOLOR
+  rewardDescription: Ars est celare artem.
+  rewardStance: 0
   rewards:
   - type: 3
     value: -0.5

@@ -80,14 +80,14 @@ namespace proscryption
 
             _characterInput.OnInteractInput += HandleInteractInput;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
-            ArenaEvents.OnArenaWaveEnded += HandleOpenRewardScreen;
+            PlayerEvents.OnPlayerOpenRewardScreen += HandleOpenRewardScreen;
         }
 
 
         void OnDisable()
         {
             PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
-            ArenaEvents.OnArenaWaveEnded -= HandleOpenRewardScreen;
+            PlayerEvents.OnPlayerOpenRewardScreen -= HandleOpenRewardScreen;
             this._characterInput.OnLookInput -= HandleLookInput;
             PlayerEvents.OnPlayerMoveInput -= HandleMoveInput;
             PlayerEvents.OnPlayerRollInput -= HandleRollInput;
@@ -416,11 +416,13 @@ namespace proscryption
         private void HandleOpenRewardScreen()
         {
             _canGetInput = false;
+            _model.SetState(PlayerState.Menu);
         }
 
         private void HandleCloseRewardScreen()
         {
             _canGetInput = true;
+            _model.SetState(PlayerState.Idle);
         }
 
         // ===== PUBLIC DEBUG METHODS =====

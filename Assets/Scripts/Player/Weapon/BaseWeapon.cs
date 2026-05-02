@@ -37,9 +37,7 @@ namespace proscryption
 
         public Action OnShoot;
 
-        [Header("Data")] 
-
-        private PlayerStanceData currentStanceData;
+        [Header("Data")] [SerializeField] private PlayerStanceData currentStanceData;
 
         private CombatSystem _combatSystem;
         private PlayerModel _playerModel;
@@ -66,11 +64,10 @@ namespace proscryption
                 bullets[i] = 1;
             }
 
-            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged; 
+            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
 
             _combatSystem = combatSystem;
             _playerModel = _combatSystem.GetModel();
-            currentStanceData = _playerModel.GetCurrentData();
         }
 
         private void OnDisable()
@@ -95,20 +92,17 @@ namespace proscryption
         {
             if (!CanAttack()) return;
 
-            switch (_currentStance)
-            {
-                case PlayerStance.Standard:
-                    break;
-                case PlayerStance.Blood:
-                    break;
-                case PlayerStance.Light:
-                    break;
-            }
-
+            if (currentStanceData == null)
+                currentStanceData = _playerModel.GetCurrentData();
+            
+            
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
+
+
             GameObject bullet = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentStanceData.bulletSpeed,
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(),
+                currentStanceData.bulletSpeed,
                 currentStanceData.bulletForce, _currentStance);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)

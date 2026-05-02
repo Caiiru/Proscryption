@@ -87,7 +87,7 @@ namespace proscryption
 
         private void OnOpenClick()
         {
-            _rewardScreen.SelectCard(this);
+            _rewardScreen.SelectBook(this);
         }
 
         public async UniTask SelectAnimation()

@@ -25,8 +25,8 @@ MonoBehaviour:
   minDamage: 5
   maxDamage: 8
   critChance: 20
-  speed: 6
-  duration: 12
+  bulletSpeed: 3
+  bulletDuration: 6
   bulletForce: 5
   bulletPrefab: {fileID: 245508191954373797, guid: b63c39707695b6a43b52d55a935bcbbe, type: 3}
   impactEffect: {fileID: 0}

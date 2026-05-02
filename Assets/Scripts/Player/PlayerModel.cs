@@ -316,6 +316,15 @@ namespace proscryption
             _currentState = newState;
 
             PlayerEvents.BroadcastPlayerStateChanged(prev, newState);
+
+            if (newState == PlayerState.Menu)
+            {
+                AppManager.Instance.SetCursorVisibility(true);
+            }
+            else
+            {
+                AppManager.Instance.SetCursorVisibility(false);
+            }
         }
 
 
@@ -486,6 +495,7 @@ namespace proscryption
         {
             return _currentState != PlayerState.Rolling &&
                    _currentState != PlayerState.Attacking &&
+                   _currentState != PlayerState.Menu &&
                    IsAlive;
         }
 

@@ -4958,6 +4958,10 @@ PrefabInstance:
       propertyPath: BaseLightData
       value: 
       objectReference: {fileID: 11400000, guid: 172c427f462c7de41b45b73d5df67747, type: 2}
+    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
+      propertyPath: _currentState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

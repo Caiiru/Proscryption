@@ -66,6 +66,7 @@ namespace proscryption
 
         private async void HandleWaveEnded()
         {
+            PlayerEvents.BroadcastPlayerOpenRewardScreen();
             // Debug.Log("Showing Reward Screen");
             _currentCards = new Transform[CARDS_COUNT];
             await ShowRewardScreen();
@@ -110,7 +111,7 @@ namespace proscryption
             _currentCards[index] = rewardCard.transform;
         }
 
-        public async UniTask SelectCard(RewardCardHUD rewardCardHUD)
+        public async UniTask SelectBook(RewardCardHUD rewardCardHUD)
         {
             if (!_canSelect) return;
 
@@ -145,7 +146,7 @@ namespace proscryption
             cardTransform.DOScale(1.05f, selectAnimationDuration).SetEase(Ease.OutSine);
             await rewardCardHUD.SelectAnimation();
 
-            await UniTask.Delay(100);
+            await UniTask.Delay(1000);
             _canSelect = true;
         }
 
