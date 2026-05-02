@@ -22,4 +22,12 @@ MonoBehaviour:
   attackStaminaCost: 10
   stanceDuration: 5
   stanceCooldown: 6
+  minDamage: 20
+  maxDamage: 25
+  critChance: 25
+  speed: 8
+  duration: 3
+  bulletForce: 25
+  bulletPrefab: {fileID: 245508191954373797, guid: 3ecf384d0ea63e8408d96ee87e57b0f8, type: 3}
+  impactEffect: {fileID: 0}
   bloodDamage: 5

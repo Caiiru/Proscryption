@@ -37,11 +37,9 @@ namespace proscryption
 
         public Action OnShoot;
 
-        [Header("Data")] public BulletData standardBulletData;
-        public BulletData bloodBulletData;
-        public BulletData lightBulletData;
+        [Header("Data")] 
 
-        private BulletData currentData;
+        private PlayerStanceData currentStanceData;
 
         private CombatSystem _combatSystem;
         private PlayerModel _playerModel;
@@ -68,11 +66,11 @@ namespace proscryption
                 bullets[i] = 1;
             }
 
-            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
-            currentData = standardBulletData;
+            PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged; 
 
             _combatSystem = combatSystem;
             _playerModel = _combatSystem.GetModel();
+            currentStanceData = _playerModel.GetCurrentData();
         }
 
         private void OnDisable()
@@ -80,21 +78,11 @@ namespace proscryption
             PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
         }
 
-        private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
+        private async void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
             _currentStance = newStance;
-            switch (newStance)
-            {
-                case PlayerStance.Standard:
-                    currentData = standardBulletData;
-                    break;
-                case PlayerStance.Blood:
-                    currentData = bloodBulletData;
-                    break;
-                case PlayerStance.Light:
-                    currentData = lightBulletData;
-                    break;
-            }
+            await UniTask.WaitForEndOfFrame();
+            currentStanceData = _playerModel.GetCurrentData();
         }
 
         public void Update()
@@ -111,17 +99,17 @@ namespace proscryption
             {
                 case PlayerStance.Standard:
                     break;
-                case PlayerStance.Blood: 
+                case PlayerStance.Blood:
                     break;
-                case PlayerStance.Light: 
+                case PlayerStance.Light:
                     break;
             }
 
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
-            GameObject bullet = Instantiate(currentData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
-            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentData.speed,
-                currentData.bulletForce, _currentStance);
+            GameObject bullet = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
+            bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(), currentStanceData.bulletSpeed,
+                currentStanceData.bulletForce, _currentStance);
             OnShoot?.Invoke();
             if (MuzzleFlashEffect != null)
             {
@@ -129,7 +117,7 @@ namespace proscryption
                 MuzzleFlashEffect.Play();
             }
 
-            Destroy(bullet, currentData.duration);
+            Destroy(bullet, currentStanceData.bulletDuration);
 
             // 0 = empty, 1 = standard, 2 = blood, 3=light
             bullets[_currentBulletIndex] = 0;
@@ -146,7 +134,6 @@ namespace proscryption
             await UniTask.CompletedTask;
         }
 
-       
 
         public void ReloadInput()
         {
@@ -182,14 +169,14 @@ namespace proscryption
         /// </summary>
         int CalculateDamage()
         {
-            int damage = UnityEngine.Random.Range(currentData.minDamage, currentData.maxDamage);
+            int damage = UnityEngine.Random.Range(currentStanceData.minDamage, currentStanceData.maxDamage);
 
             return damage;
         }
 
         bool CalculateIsCritical()
         {
-            return UnityEngine.Random.value < (currentData.critChance / 100f);
+            return UnityEngine.Random.value < (currentStanceData.critChance / 100f);
         }
 
         bool CanAttack()
@@ -200,7 +187,7 @@ namespace proscryption
 
                 if (_playerModel.CurrentHealth - data.bloodDamage <= 0)
                     return false;
-                
+
                 _playerModel.TakeDamage(data.bloodDamage);
             }
 

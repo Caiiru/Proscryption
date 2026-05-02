@@ -39,9 +39,6 @@ namespace proscryption
         [SerializeField] private PlayerBloodStanceData BaseBloodData;
         [SerializeField] PlayerFaithStanceData BaseLightData;
 
-        //Timers
-        float LightDuration;
-        float BloodDuration;
         [SerializeField] private float _currentStanceTimer = 0;
 
         //Cooldown
@@ -130,8 +127,6 @@ namespace proscryption
 
         void SetupTimers()
         {
-            LightDuration = BaseLightData.stanceCooldown;
-            BloodDuration = BaseBloodData.stanceDuration;
             LightCooldown = BaseLightData.stanceCooldown;
             BloodCooldown = BaseBloodData.stanceCooldown;
         }
@@ -357,6 +352,27 @@ namespace proscryption
                     break;
                 case SimpleRewardType.ReloadTime:
                     reloadCooldown += _value;
+                    break;
+                case SimpleRewardType.StandardDamage:
+                    this.BaseStandardData.minDamage += (int)_value;
+                    this.BaseStandardData.maxDamage += (int)_value;
+                    break;
+                case SimpleRewardType.BloodDamage:
+                    this.BaseBloodData.minDamage += (int)_value;
+                    this.BaseBloodData.maxDamage += (int)_value;
+                    break;
+                case SimpleRewardType.LightDamage:
+                    this.BaseLightData.minDamage += (int)_value;
+                    this.BaseLightData.maxDamage += (int)_value;
+                    break;
+                case SimpleRewardType.BloodDuration:
+                    this.BaseBloodData.stanceDuration += (int)_value;
+                    break;
+                case SimpleRewardType.LightDuration:
+                    this.BaseLightData.stanceDuration += (int)_value;
+                    break;
+                case SimpleRewardType.Cure:
+                    this.BaseLightData.healAmount += (int)_value;
                     break;
             }
         }
