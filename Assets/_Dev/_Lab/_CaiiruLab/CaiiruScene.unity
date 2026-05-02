@@ -4063,50 +4063,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: bloodBookPrefab
-      value: 
-      objectReference: {fileID: 2951774839896175847, guid: ae220800f707e9944aee5f10393a719f, type: 3}
-    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: lightBookPrefab
-      value: 
-      objectReference: {fileID: 4751759467514864947, guid: ebd990dab4952e0468ca8d155dc12ae7, type: 3}
-    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: selectMoveOffset
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: standardBookPrefab
-      value: 
-      objectReference: {fileID: 5384104197653239417, guid: 3c2bec8560339424a9c1a7287e85ed9a, type: 3}
-    - target: {fileID: 1977637973175657091, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: selectAnimationDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2062931201139246308, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_Color.a
-      value: 0.95686275
-      objectReference: {fileID: 0}
-    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_Color.b
-      value: 0.084905684
-      objectReference: {fileID: 0}
-    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_Color.g
-      value: 0.084905684
-      objectReference: {fileID: 0}
-    - target: {fileID: 6672310034757399885, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_Color.r
-      value: 0.084905684
-      objectReference: {fileID: 0}
-    - target: {fileID: 8553536007965383311, guid: 1009abdebad9ece47b46bbea8e5973b8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
