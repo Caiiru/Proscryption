@@ -2003,25 +2003,6 @@ Transform:
   - {fileID: 1949114304}
   m_Father: {fileID: 860232326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &952938934 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5712211188501300756, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
-  m_PrefabInstance: {fileID: 1742795077}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &952938937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952938934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
 --- !u!1 &1010429627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,29 +3247,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: CAM_Holder
       objectReference: {fileID: 0}
-    - target: {fileID: 8771326674787581880, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -112.72706
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 2.326816
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -108.187386
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5712211188501300756, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 952938937}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
 --- !u!1001 &1805796379
 PrefabInstance:
@@ -4218,10 +4192,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 1238283276}
-    - target: {fileID: 758348147772611608, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: _bodyMaterial
       value: 
@@ -4272,18 +4242,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2996229423250799355, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: BaseBloodData
-      value: 
-      objectReference: {fileID: 11400000, guid: e780771e2689a0743b8985e6a73a9fab, type: 2}
-    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: BaseLightData
-      value: 
-      objectReference: {fileID: 11400000, guid: 172c427f462c7de41b45b73d5df67747, type: 2}
-    - target: {fileID: 3464906276277422550, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: _currentState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

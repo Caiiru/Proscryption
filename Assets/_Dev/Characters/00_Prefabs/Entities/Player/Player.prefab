@@ -176,8 +176,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 435722084706151540}
   tattooAnimationDuration: 0.5
   stancesDelayMilliseconds: 200
-  _bodyMaterial: {fileID: 0}
-  _detailsMaterial: {fileID: 0}
+  _bodyMaterial: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
+  _detailsMaterial: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
 --- !u!114 &7373672771933974766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,11 +930,11 @@ PrefabInstance:
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
     - target: {fileID: -3683619683739921377, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f684140c81e60f4fa77d018352b3c28, type: 3}
       propertyPath: m_Name
       value: MDL_PlayerFinal
