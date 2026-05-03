@@ -58,10 +58,7 @@ public class PlayerView : MonoBehaviour
         EventManager.OnEntityDamaged += HandleDamageTaken;
         EventManager.OnHitDetected += HandleHitDetected;
 
-        PlayerEvents.OnPlayerStanceChanged += (oldStance, newStance) =>
-        {
-            HandleStanceChanged(oldStance, newStance).Forget();
-        };
+        PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
 
@@ -71,10 +68,7 @@ public class PlayerView : MonoBehaviour
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
-        PlayerEvents.OnPlayerStanceChanged -= (oldStance, newStance) =>
-        {
-            HandleStanceChanged(oldStance, newStance).Forget();
-        };
+        PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
     }
 
     void Start()
@@ -100,6 +94,11 @@ public class PlayerView : MonoBehaviour
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
     }
     // ===== STATE CHANGE HANDLERS =====
+
+    private void OnPlayerStanceChangedEvent(PlayerStance oldStance, PlayerStance newStance)
+    {
+        HandleStanceChanged(oldStance, newStance).Forget();
+    }
 
     /// <summary>
     /// React to player state changes with appropriate animations
@@ -202,7 +201,7 @@ public class PlayerView : MonoBehaviour
             //DisableTattoo
             if (_bodyMaterial == null) return;
             if (_detailsMaterial == null) return;
-            
+
             _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration).onComplete = () =>
             {
                 _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);

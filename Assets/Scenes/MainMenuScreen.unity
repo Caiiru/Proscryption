@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 373847635}
   - component: {fileID: 373847634}
   - component: {fileID: 373847636}
+  - component: {fileID: 373847637}
   m_Layer: 5
   m_Name: BTN_Config
   m_TagString: Untagged
@@ -681,6 +682,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &373847637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373847632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b4e18e82ed9284ab07c166161e4456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.HoverButton
 --- !u!1 &438211721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,7 +1737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 0.80784315}
+  m_Color: {r: 0.3773585, g: 0.3755785, b: 0.3755785, a: 0.4745098}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -2125,6 +2138,7 @@ GameObject:
   - component: {fileID: 1846704080}
   - component: {fileID: 1846704079}
   - component: {fileID: 1846704081}
+  - component: {fileID: 1846704082}
   m_Layer: 5
   m_Name: BTN_Play
   m_TagString: Untagged
@@ -2246,6 +2260,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1846704082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846704077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b4e18e82ed9284ab07c166161e4456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.HoverButton
 --- !u!1 &1985364943
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,8 +2486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.MainMenuManager
   PlayButton: {fileID: 873301968}
-  ConfigButton: {fileID: 0}
-  QuitButton: {fileID: 0}
+  ConfigButton: {fileID: 373847636}
+  QuitButton: {fileID: 2145854909}
 --- !u!4 &2038235113
 Transform:
   m_ObjectHideFlags: 0
@@ -2489,6 +2515,7 @@ GameObject:
   - component: {fileID: 2145854908}
   - component: {fileID: 2145854907}
   - component: {fileID: 2145854909}
+  - component: {fileID: 2145854910}
   m_Layer: 5
   m_Name: BTN_Quit
   m_TagString: Untagged
@@ -2610,6 +2637,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2145854910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145854905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b4e18e82ed9284ab07c166161e4456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.HoverButton
 --- !u!1001 &4749902076751967921
 PrefabInstance:
   m_ObjectHideFlags: 0
