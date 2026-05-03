@@ -6,9 +6,7 @@ namespace proscryption
 {
     public class MainMenuManager : MonoBehaviour
     {
-
-        [Header("Main Menu")]
-        public Button PlayButton;
+        [Header("Main Menu")] public Button PlayButton;
         public Button ConfigButton;
         public Button QuitButton;
 
@@ -16,6 +14,7 @@ namespace proscryption
         {
             BindButtons();
         }
+
         void BindButtons()
         {
             if (PlayButton == null || ConfigButton == null || QuitButton == null)
@@ -24,9 +23,25 @@ namespace proscryption
                 return;
             }
 
-            PlayButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget());
+            // PlayButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget());
+            PlayButton.onClick.AddListener(() => Debug.Log("Play BUtton"));
             ConfigButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Config).Forget());
             QuitButton.onClick.AddListener(() => Application.Quit());
+        }
+
+        public void PlayButtonClicked()
+        {
+            AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget();
+        }
+
+        public void ConfigButtonClicked()
+        {
+            AppManager.Instance.ChangeAppState(AppState.Config).Forget();
+        }
+
+        public void QuitButtonClicked()
+        {
+            Application.Quit();
         }
     }
 }
