@@ -10,7 +10,8 @@ namespace proscryption
         public Transform closedTransform;
         public Transform openTransform;
 
-        [Header("Icons")] public Image openIcon;
+        [Header("Icons")] public float iconSize = 128;
+        public Image openIcon;
         public Image closedIcon;
 
         [Header("Opened")] public TextMeshProUGUI titleText;
@@ -39,7 +40,16 @@ namespace proscryption
             isOpened = false;
 
             _currentRewardData = rewardData;
-            closedIcon.sprite = _currentRewardData.rewardIcon;
+            Sprite _icon = RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(),
+                _currentRewardData.rewards[0].type);
+            // closedIcon.sprite = _currentRewardData.rewardIcon;
+            closedIcon.sprite = _icon;
+            closedIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, iconSize);
+            closedIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, iconSize);
+
+            openIcon.sprite = _icon;
+            openIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, iconSize);
+            openIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, iconSize);
 
             // openIcon.sprite = _currentRewardData.rewardIcon;
             titleText.text = _currentRewardData.rewardName;
@@ -52,17 +62,18 @@ namespace proscryption
             }
 
             // Create Mini Rewards - Effects
-            for (int i = 0; i < _currentRewardData.rewards.Length; i++)
-            {
-                var miniRewardGO = Instantiate(miniRewardPrefab, effectTransform);
+            // for (int i = 0; i < _currentRewardData.rewards.Length; i++)
+            // {
+            //     var miniRewardGO = Instantiate(miniRewardPrefab, effectTransform);
+            //
+            //     Sprite _image =
+            //         RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(),
+            //             _currentRewardData.rewards[i].type);
+            //
+            //     miniRewardGO.GetComponent<EffectCardHUD>()
+            //         .Setup(_image, _currentRewardData.rewards[i].value.ToString());
+            // }
 
-                Sprite _image =
-                    RewardsListIconUtility.GetIconForSimpleRewardType(HUDManager.Instance.GetRewardsListIcon(),
-                        _currentRewardData.rewards[i].type);
-
-                miniRewardGO.GetComponent<EffectCardHUD>()
-                    .Setup(_image, _currentRewardData.rewards[i].value.ToString());
-            }
 
             closedTransform.gameObject.SetActive(true);
             openTransform.gameObject.SetActive(false);
