@@ -41,7 +41,7 @@ namespace proscryption
             _currentRewardData = rewardData;
             closedIcon.sprite = _currentRewardData.rewardIcon;
 
-            openIcon.sprite = _currentRewardData.rewardIcon;
+            // openIcon.sprite = _currentRewardData.rewardIcon;
             titleText.text = _currentRewardData.rewardName;
             descriptionText.text = _currentRewardData.rewardDescription;
 
@@ -87,7 +87,7 @@ namespace proscryption
 
         private void OnOpenClick()
         {
-            _rewardScreen.SelectCard(this);
+            _rewardScreen.SelectBook(this);
         }
 
         public async UniTask SelectAnimation()

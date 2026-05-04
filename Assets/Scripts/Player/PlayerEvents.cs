@@ -40,6 +40,7 @@ namespace proscryption
         public static event Action<float, float> OnCurrentStanceDurationUpdated;
 
         //Reward
+        public static event Action OnPlayerOpenRewardScreen;
         public static event Action OnPlayerCloseRewardScreen;
         public static event Action<RewardData> OnPlayerGetReward;
 
@@ -159,6 +160,11 @@ namespace proscryption
         #endregion
 
         #region Reward
+
+        public static void BroadcastPlayerOpenRewardScreen()
+        {
+            OnPlayerOpenRewardScreen?.Invoke();
+        }
 
         public static void BroadcastPlayerCloseRewardScreen()
         {

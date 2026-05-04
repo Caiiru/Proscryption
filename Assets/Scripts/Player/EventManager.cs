@@ -83,5 +83,6 @@ public enum PlayerState
     Rolling,
     Stunned,
     Reloading,
-    Dead
+    Dead,
+    Menu,
 }

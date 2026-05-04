@@ -8,7 +8,9 @@ namespace proscryption
 {
     public class RewardScreenHUD : MonoBehaviour
     {
-        public GameObject rewardCardPrefab;
+        public GameObject standardBookPrefab;
+        public GameObject bloodBookPrefab;
+        public GameObject lightBookPrefab;
         public Transform rewardCardParent;
         private Transform _container;
         private HorizontalLayoutGroup _layout;
@@ -64,6 +66,7 @@ namespace proscryption
 
         private async void HandleWaveEnded()
         {
+            PlayerEvents.BroadcastPlayerOpenRewardScreen();
             // Debug.Log("Showing Reward Screen");
             _currentCards = new Transform[CARDS_COUNT];
             await ShowRewardScreen();
@@ -89,12 +92,26 @@ namespace proscryption
 
         public void ShowReward(RewardData rewardData, int index)
         {
-            var rewardCard = Instantiate(rewardCardPrefab, rewardCardParent);
+            GameObject bookStance = null;
+            switch (rewardData.rewardStance)
+            {
+                case PlayerStance.Blood:
+                    bookStance = bloodBookPrefab;
+                    break;
+                case PlayerStance.Light:
+                    bookStance = lightBookPrefab;
+                    break;
+                case PlayerStance.Standard:
+                    bookStance = standardBookPrefab;
+                    break;
+            }
+
+            var rewardCard = Instantiate(bookStance, rewardCardParent);
             rewardCard.GetComponent<RewardCardHUD>().Setup(rewardData, this);
             _currentCards[index] = rewardCard.transform;
         }
 
-        public async UniTask SelectCard(RewardCardHUD rewardCardHUD)
+        public async UniTask SelectBook(RewardCardHUD rewardCardHUD)
         {
             if (!_canSelect) return;
 
@@ -129,7 +146,7 @@ namespace proscryption
             cardTransform.DOScale(1.05f, selectAnimationDuration).SetEase(Ease.OutSine);
             await rewardCardHUD.SelectAnimation();
 
-            await UniTask.Delay(100);
+            await UniTask.Delay(1000);
             _canSelect = true;
         }
 
