@@ -1149,7 +1149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1418526657633803074
 Transform:
   m_ObjectHideFlags: 0
@@ -1388,7 +1388,7 @@ MonoBehaviour:
   AnimatedTarget: {fileID: 0}
   LayerIndex: 0
   Instructions:
-  - FullHash: 1432961145
+  - FullHash: 0
     Camera: {fileID: 6137368788894376929}
     ActivateAfter: 1
     MinDuration: 0

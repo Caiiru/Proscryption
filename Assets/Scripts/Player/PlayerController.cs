@@ -423,6 +423,7 @@ namespace proscryption
         {
             _canGetInput = true;
             _model.SetState(PlayerState.Idle);
+            AppManager.Instance.SetCursorVisibility(false);
         }
 
         // ===== PUBLIC DEBUG METHODS =====

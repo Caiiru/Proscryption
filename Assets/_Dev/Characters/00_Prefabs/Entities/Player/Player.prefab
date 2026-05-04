@@ -147,7 +147,7 @@ MonoBehaviour:
   _currentState: 0
   _currentStance: 0
   _isInvulnerable: 0
-  reloadCooldown: 3
+  reloadCooldown: 1
   rollForce: 20
   rollDuration: 0.5
   rollCooldown: 1.5
@@ -176,8 +176,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 435722084706151540}
   tattooAnimationDuration: 0.5
   stancesDelayMilliseconds: 200
-  _bodyMaterial: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
-  _detailsMaterial: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
+  _bodyMaterial: {fileID: 0}
+  _detailsMaterial: {fileID: 0}
 --- !u!114 &7373672771933974766
 MonoBehaviour:
   m_ObjectHideFlags: 0

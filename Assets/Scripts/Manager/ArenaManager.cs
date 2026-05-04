@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace proscryption
@@ -7,18 +8,17 @@ namespace proscryption
     {
         private EnemyManager _enemyManager;
         public bool isActivate;
-        [Header("Arena Settings")]
-        public float spawnInterval = 8;
+        [Header("Arena Settings")] public float spawnInterval = 8;
         private float _currentInterval = 0;
         private bool _canSpawn = false;
 
-        [Header("Wave Settings")]
-        public WaveData[] wavesData;
+        [Header("Wave Settings")] public WaveData[] wavesData;
         private int _currentWaveIndex = -1;
 
         //Spawn Settings
-        [Tooltip("Number of enemies to spawn in the current wave")]
-        [SerializeField] int enemiesToSpawn = 2;
+        [Tooltip("Number of enemies to spawn in the current wave")] [SerializeField]
+        int enemiesToSpawn = 2;
+
         public int enemiesAlive = 0;
 
         GameObject[] _spawnPoint;
@@ -29,7 +29,6 @@ namespace proscryption
             EventManager.OnEntityDied += HandleEntityDied;
             GetEnemySpawnPoints();
         }
-
 
 
         void OnDisable()
@@ -55,26 +54,42 @@ namespace proscryption
         {
             _spawnPoint = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
         }
+
         private Vector3 EnemyGetRandomSpawnPoint()
         {
             int r = UnityEngine.Random.Range(0, _spawnPoint.Length);
 
             return _spawnPoint[r].transform.position;
         }
-        private void HandleEntityDied(GameObject entity)
+
+        private async void HandleEntityDied(GameObject entity)
         {
             if (!isActivate) return;
             if (entity.CompareTag("Enemy"))
             {
                 enemiesAlive--;
-                // Debug.Log(enemiesAlive);
-                if (enemiesAlive <= 0)
+                // Debug.Log(enemiesAlive); 
+            }
+
+            Debug.Log("start check");
+            await UniTask.WaitForSeconds(0.2f);
+
+            Debug.Log("endcheck");
+            var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            int aliveEnemies = enemies.Length;
+            foreach (var en in enemies)
+            {
+                if (en.GetComponent<EnemyEntity>().IsDead)
                 {
-                    Debug.Log("Wave Ended");
-                    ArenaEvents.BroadcastArenaWaveEnded();
-                    isActivate = false;
+                    aliveEnemies -= 1;
                 }
-                return;
+            }
+
+            if (aliveEnemies <= 0 && enemiesAlive <= 0)
+            {
+                Debug.Log("Wave Ended");
+                ArenaEvents.BroadcastArenaWaveEnded();
+                isActivate = false;
             }
         }
 
@@ -84,8 +99,10 @@ namespace proscryption
             if (_currentWaveIndex >= wavesData.Length)
             {
                 Debug.Log("All waves completed!");
+                EventManager.BroadcastGameWin();
                 return;
             }
+
             enemiesToSpawn = wavesData[_currentWaveIndex].enemyCount;
             spawnInterval = wavesData[_currentWaveIndex].spawnInterval;
             _currentInterval = spawnInterval - 1;
@@ -106,8 +123,8 @@ namespace proscryption
 
             SpawnEnemy();
             _currentInterval = 0;
-
         }
+
         private void SpawnEnemy()
         {
             if (enemiesToSpawn <= 0)
@@ -115,10 +132,10 @@ namespace proscryption
                 _canSpawn = false;
                 return;
             }
+
             var enemy = _enemyManager.enemyPool.Get();
             enemy.transform.position = EnemyGetRandomSpawnPoint();
             enemiesToSpawn--;
-
         }
 
 
@@ -133,11 +150,14 @@ namespace proscryption
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
         }
+
         #endregion
     }
 }
+
 [Serializable]
 public struct WaveData
 {

@@ -14,9 +14,9 @@ namespace proscryption
 
 
         //Mask
-        private float _maxRightMask;
+        public float _maxRightMask;
         private float _initialRightMask;
-
+        public float _maskLimit = 200;
         private float _currentHealth = 0;
         private float _maxHealth = 0;
 
@@ -27,24 +27,20 @@ namespace proscryption
 
         void OnEnable()
         {
-
-
             _initialMaskWidth = _maskRect.rect.width;
             _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
             _initialRightMask = _mask.padding.z;
             PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
-
         }
 
         void OnDisable()
         {
-
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
             PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
         }
 
-        void HandleHealthChanged(float newHealth,float maxHealth)
+        void HandleHealthChanged(float newHealth, float maxHealth)
         {
             this._currentHealth = newHealth;
             this._maxHealth = maxHealth;
@@ -52,41 +48,42 @@ namespace proscryption
             this.gameObject.SetActive(true);
             UpdateHealthVisual();
         }
+
         void UpdateHealthVisual()
         {
-
-
             float targetWidth = _currentHealth * _maxRightMask / _maxHealth;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
             var padding = _mask.padding;
             padding.z = newRightMask;
             _mask.padding = padding;
-
         }
+
         void UpgradeHealth()
         {
-            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
+            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,
+                _frameStartWidth + (lifeUpgrades * _frameStepValue));
 
             _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
-            _maskRect.
-            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
+            _maskRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,
+                _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
 
             UpdateHealthVisual();
         }
 
         private void HandleGetNewReward(RewardData data)
         {
+            bool hasHealthBeenUpgraded = false;
             foreach (var rewards in data.rewards)
             {
                 if (rewards.type == SimpleRewardType.Health)
                 {
+                    hasHealthBeenUpgraded = true;
                     lifeUpgrades += rewards.value;
                 }
             }
+
+            if (!hasHealthBeenUpgraded) return;
             UpgradeHealth();
-
         }
-
-
     }
 }

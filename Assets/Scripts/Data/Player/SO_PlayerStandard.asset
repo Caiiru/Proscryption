@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHealth: 50
   maxStamina: 100
   staminaRegenPerSec: 1
-  moveSpeed: 3
+  moveSpeed: 2
   rollForce: 3
   rollCooldown: 2
   rollStaminaCost: 20
@@ -25,7 +25,7 @@ MonoBehaviour:
   minDamage: 5
   maxDamage: 10
   critChance: 10
-  bulletSpeed: 4
+  bulletSpeed: 15
   bulletDuration: 4
   bulletForce: 15
   bulletPrefab: {fileID: 245508191954373797, guid: 30252ae9863675e478929cd7535199aa, type: 3}

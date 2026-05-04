@@ -68,6 +68,7 @@ namespace proscryption
         {
             PlayerEvents.BroadcastPlayerOpenRewardScreen();
             // Debug.Log("Showing Reward Screen");
+            
             _currentCards = new Transform[CARDS_COUNT];
             await ShowRewardScreen();
 

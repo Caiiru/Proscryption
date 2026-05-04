@@ -95,15 +95,23 @@ namespace proscryption
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
             PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
             PlayerEvents.OnPlayerHitLightShot += HandleLightShot;
+            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
         }
 
 
         void OnDisable()
         {
+            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
             PlayerEvents.OnPlayerReloadEnded -= HandleReloadEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
             PlayerEvents.OnPlayerHitLightShot -= HandleLightShot;
+        }
+
+        private void HandleWaveEnded()
+        {
+            SetState(PlayerState.Menu);
+            AppManager.Instance.SetCursorVisibility(true);
         }
 
 
@@ -320,11 +328,7 @@ namespace proscryption
             if (newState == PlayerState.Menu)
             {
                 AppManager.Instance.SetCursorVisibility(true);
-            }
-            else
-            {
-                AppManager.Instance.SetCursorVisibility(false);
-            }
+            } 
         }
 
 

@@ -23292,30 +23292,9 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.033333335
-    functionName: EnableParryImunity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.16666667
     functionName: PlaySound
     data: Defend
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.8333333
-    functionName: DisableParryImunity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.1666666
-    functionName: SetCanMove
-    data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

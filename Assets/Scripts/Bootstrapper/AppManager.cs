@@ -6,7 +6,17 @@ using UnityEngine.SceneManagement;
 namespace proscryption
 {
     [Serializable]
-    public enum AppState { Initializing, MainMenu, Config, Cutscene, Playing, Paused, GameOver }
+    public enum AppState
+    {
+        Initializing,
+        MainMenu,
+        Config,
+        Cutscene,
+        Playing,
+        Paused,
+        GameOver
+    }
+
     public class AppManager : MonoBehaviour
     {
         public static AppManager Instance { get; private set; }
@@ -18,12 +28,12 @@ namespace proscryption
         public float LoadingProgress { get; private set; } = 0f;
 
 
-
         void Awake()
         {
             DontDestroyOnLoad(this);
             Instance = this;
         }
+
         void Start()
         {
             Scene activeScene = SceneManager.GetActiveScene();
@@ -61,8 +71,8 @@ namespace proscryption
                     break;
                 case AppState.Playing:
                     SceneManager.LoadScene("LoadingScreen");
+                    SetCursorVisibility(false);
                     await LoadSceneAsync("GameScreen");
-                    SetCursor(CursorLockMode.Locked);
                     break;
                 case AppState.Paused:
                     SetCursor(CursorLockMode.None);
@@ -79,6 +89,7 @@ namespace proscryption
                     break;
             }
         }
+
         private async UniTask LoadSceneAsync(string sceneName)
         {
             // 1. Inicia o carregamento mas bloqueia a exibição (Ativação)
@@ -113,19 +124,17 @@ namespace proscryption
 
                 EventManager.OnGameLoaded += UnloadLoadingScreen;
             }
-
-            // 6. Finalmente, descarregamos o loading e resetamos o progresso
-
         }
+
         private void UnloadLoadingScreen()
         {
             SceneManager.UnloadSceneAsync("LoadingScreen");
         }
+
         private void EnsureInitializer(Scene gameScene)
         {
             if (Initializer.Instance == null)
             {
-
                 foreach (GameObject rootObject in gameScene.GetRootGameObjects())
                 {
                     Initializer existingManager = rootObject.GetComponentInChildren<Initializer>(true);
@@ -139,6 +148,7 @@ namespace proscryption
                 SceneManager.MoveGameObjectToScene(systemsRoot, gameScene);
                 systemsRoot.AddComponent<Initializer>();
             }
+
             Initializer.Instance.Initialize();
         }
 
@@ -146,11 +156,10 @@ namespace proscryption
         {
             // Cursor.lockState = mode;
         }
+
         public void SetCursorVisibility(bool visible)
         {
             Cursor.visible = visible;
-
         }
- 
     }
 }

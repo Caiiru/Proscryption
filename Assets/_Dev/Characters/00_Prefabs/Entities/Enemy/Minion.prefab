@@ -1602,7 +1602,7 @@ MonoBehaviour:
   _playerMask:
     serializedVersion: 2
     m_Bits: 8
-  _moveSpeed: 1
+  _moveSpeed: 2
   _turnRate: 15
   _isAttacking: 0
   _attackRange: 2
