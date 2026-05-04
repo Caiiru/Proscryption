@@ -37,10 +37,13 @@ namespace proscryption
         [Range(0, 100)] [SerializeField] float _critChance = 10;
 
         [Tooltip("Delay para ele se recuperar e voltar a se mexer")]
-        public float _takeDamageDelay = 0.1f;
+        public float _takeDamageDelay = 1f;
 
         private bool _canBeStunned = true;
         public float stunDelay = 1f;
+
+        public float takingDamageDelay = 0.1f;
+        private float takingDamageCurrentCooldown = 0f;
 
 
         [SerializeField] Transform _playerTransform;
@@ -162,6 +165,8 @@ namespace proscryption
 
         private void HandleCurrentState()
         {
+            if (_enemyEntity.IsDead) return;
+
             switch (currentState)
             {
                 case EnemyState.Roaming:
@@ -169,6 +174,18 @@ namespace proscryption
                     break;
                 case EnemyState.Attacking:
                     Attack().Forget();
+                    break;
+                case EnemyState.TakingDamage:
+                    if (takingDamageCurrentCooldown > 0)
+                    {
+                        takingDamageCurrentCooldown -= 1 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        takingDamageCurrentCooldown = takingDamageDelay;
+                        ChangeState(EnemyState.Roaming);
+                    }
+
                     break;
             }
         }
@@ -222,9 +239,9 @@ namespace proscryption
 
             await UniTask.WaitForEndOfFrame();
             await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
+            _animator.SetBool(ANIM_IS_STUNNED, false);
             await UniTask.Delay((int)(_takeDamageDelay * 500));
 
-            _animator.SetBool(ANIM_IS_STUNNED, false);
             HandleStunDelay().Forget();
             await UniTask.Delay((int)(_takeDamageDelay * 1000));
 
@@ -267,6 +284,7 @@ namespace proscryption
                 return;
             }
 
+            if (!_navMeshAgent.enabled) return;
             _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
             _animator.SetFloat(ANIM_SPEED, 0.5f);
@@ -365,6 +383,7 @@ namespace proscryption
 
         private async UniTask HandleStunDelay()
         {
+            if (!_canBeStunned) return;
             await UniTask.WaitForSeconds(stunDelay);
             _canBeStunned = true;
         }
@@ -375,8 +394,11 @@ namespace proscryption
 
         private async UniTask HandleDeath(Vector3? directionForce, ForceMode? forceMode)
         {
+            Debug.Log("Minion Death");
             _navMeshAgent.enabled = false;
             _animator.enabled = false;
+            _moveSpeed = 0;
+            _attackRange = 0;
             EnableRagdoll();
             _takeDamageCollider.enabled = false;
 
