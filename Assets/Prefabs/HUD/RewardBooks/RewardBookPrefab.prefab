@@ -511,7 +511,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 152, y: -234}
-  m_SizeDelta: {x: 256, y: 404}
+  m_SizeDelta: {x: 256, y: 484}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9049050795262136379
 MonoBehaviour:
@@ -529,7 +529,7 @@ MonoBehaviour:
     m_Left: 12
     m_Right: 12
     m_Top: 12
-    m_Bottom: 0
+    m_Bottom: 80
   m_ChildAlignment: 1
   m_Spacing: 4
   m_ChildForceExpandWidth: 1
@@ -717,7 +717,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '+ 5 damage '
+  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut purus
+    scelerisque, pulvinar neque non, efficitur lacus. Integer eleifend efficitur.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
   m_sharedMaterial: {fileID: -3114853547759373109, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
@@ -744,8 +745,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
