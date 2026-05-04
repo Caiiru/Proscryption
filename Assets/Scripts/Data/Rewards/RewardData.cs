@@ -6,18 +6,20 @@ namespace proscryption
     public class RewardData : ScriptableObject
     {
         public string rewardName;
-        [SpritePreview]
-        public Sprite rewardIcon;
         public string rewardDescription;
-        public PlayerStance rewardStance; 
+
+        public string loreDescription;
+        public PlayerStance rewardStance;
         public SimpleReward[] rewards;
     }
+
     [System.Serializable]
     public struct SimpleReward
     {
         public SimpleRewardType type;
         public float value;
     }
+
     public enum SimpleRewardType
     {
         Health,
@@ -30,6 +32,5 @@ namespace proscryption
         StandardDamage,
         BloodDamage,
         LightDamage,
-    
     }
 }

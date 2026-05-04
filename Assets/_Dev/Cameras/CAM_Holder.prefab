@@ -93,7 +93,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356375637261624668}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
@@ -953,6 +953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3003899521026024557}
   - component: {fileID: 5483144467577351482}
+  - component: {fileID: 3835671302337154464}
   m_Layer: 0
   m_Name: CAM_Holder
   m_TagString: Untagged
@@ -993,6 +994,20 @@ MonoBehaviour:
   _camera: {fileID: 5660801458522368935}
   stateDrivenCamera: {fileID: 3786575582296469871}
   _target: {fileID: 0}
+--- !u!114 &3835671302337154464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5712211188501300756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &6731510478006964282
 GameObject:
   m_ObjectHideFlags: 0
