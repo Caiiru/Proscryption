@@ -1,3 +1,4 @@
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -15,7 +16,8 @@ namespace proscryption
         public Image closedIcon;
 
         [Header("Opened")] public TextMeshProUGUI titleText;
-        public TextMeshProUGUI descriptionText;
+        public TextMeshProUGUI rewardDescriptionText;
+        public TextMeshProUGUI loreDescriptionText;
         public Transform effectTransform;
 
         public Button selectButton;
@@ -53,13 +55,56 @@ namespace proscryption
 
             // openIcon.sprite = _currentRewardData.rewardIcon;
             titleText.text = _currentRewardData.rewardName;
-            descriptionText.text = _currentRewardData.rewardDescription;
+            loreDescriptionText.text = _currentRewardData.loreDescription;
+
+
+            rewardDescriptionText.text = _currentRewardData.rewardDescription;
+            string desc = _currentRewardData.rewardDescription;
+            int valueStart = -1;
+            int valueEnd = -1;
+            for (int i = 0; i < desc.Length; i++)
+            {
+                var c = desc[i];
+                if (c.ToString() == "{")
+                {
+                    valueStart = i;
+                }
+                else if (c.ToString() == "}")
+                {
+                    valueEnd = i;
+                }
+            }
+
+            string finalString = "";
+            bool hasValue = false;
+            for (int i = 0; i < desc.Length; i++)
+            {
+                if (i == valueStart || i == valueEnd)
+                {
+                    continue;
+                }
+                if (i > valueStart && i < valueEnd)
+                {
+                    if (!hasValue)
+                    {
+                        hasValue = true;
+                        finalString += rewardData.rewards[0].value;
+                    }
+                }
+                else
+                {
+                    finalString += desc[i];
+                }
+            }
+
+            rewardDescriptionText.text = finalString;
+
 
             // Clear previous effects
-            foreach (Transform child in effectTransform)
-            {
-                Destroy(child.gameObject);
-            }
+            // foreach (Transform child in effectTransform)
+            // {
+            //     Destroy(child.gameObject);
+            // }
 
             // Create Mini Rewards - Effects
             // for (int i = 0; i < _currentRewardData.rewards.Length; i++)
@@ -87,7 +132,7 @@ namespace proscryption
         {
             openButton.onClick.AddListener(OnOpenClick);
             selectButton.onClick.AddListener(OnChooseClick);
-            backButton.onClick.AddListener(OnCloseClick);
+            // backButton.onClick.AddListener(OnCloseClick);
         }
 
         private void OnChooseClick()
