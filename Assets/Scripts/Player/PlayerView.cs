@@ -26,25 +26,22 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_DIE = "die";
 
 
+    [Header("VFX")] public VisualEffect takeDamageVFX;
 
-    [Header("VFX")]
-    public VisualEffect takeDamageVFX;
-
-    [Header("Material")]
-    public SkinnedMeshRenderer meshRenderer;
+    [Header("Material")] public SkinnedMeshRenderer meshRenderer;
     public float tattooAnimationDuration = 0.5f;
     public int stancesDelayMilliseconds = 200;
 
     [SerializeField] private Material _bodyMaterial;
+
     [SerializeField] private Material _detailsMaterial;
+
     // parameter material
     private const string PARAM_TATTO_ID = "_Tattoo_ID";
     private const string PARAM_ANIMATION_FACTOR = "_Animation_Factor";
     private const string PARAM_EYE_ID = "_Eye_ID";
 
     //Color
-
-
 
 
     void Awake()
@@ -61,7 +58,7 @@ public class PlayerView : MonoBehaviour
         EventManager.OnEntityDamaged += HandleDamageTaken;
         EventManager.OnHitDetected += HandleHitDetected;
 
-        PlayerEvents.OnPlayerStanceChanged += (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
+        PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
 
@@ -71,27 +68,37 @@ public class PlayerView : MonoBehaviour
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
-        PlayerEvents.OnPlayerStanceChanged -= (oldStance, newStance) => { HandleStanceChanged(oldStance, newStance).Forget(); };
+        PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
     }
+
     void Start()
     {
         if (takeDamageVFX)
         {
             takeDamageVFX.Stop();
         }
+
         SetupStart();
-
-
     }
 
     private void SetupStart()
     {
+        _bodyMaterial = meshRenderer.materials[0];
+        _detailsMaterial = meshRenderer.materials[1];
 
-        _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
-        _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 0);
-        _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+        if (_bodyMaterial != null)
+            _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
+        if (_bodyMaterial != null)
+            _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 0);
+        if (_detailsMaterial != null)
+            _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
     }
     // ===== STATE CHANGE HANDLERS =====
+
+    private void OnPlayerStanceChangedEvent(PlayerStance oldStance, PlayerStance newStance)
+    {
+        HandleStanceChanged(oldStance, newStance).Forget();
+    }
 
     /// <summary>
     /// React to player state changes with appropriate animations
@@ -155,12 +162,11 @@ public class PlayerView : MonoBehaviour
         //     return;
 
 
-
         // Debug.Log($"[PlayerView] Hit animation played", gameObject);
     }
+
     private void HandleHitDetected(Vector3 hitPos, float damage, GameObject target)
     {
-
         if (target != gameObject) return;
         if (!_model.IsAlive) return;
         if (_model.IsInvulnerable) return;
@@ -173,9 +179,8 @@ public class PlayerView : MonoBehaviour
         {
             takeDamageVFX.Play();
         }
-
-
     }
+
     public void UpdateInputAnimation(Vector2 moveInput)
     {
         // Debug.Log(moveInput);
@@ -194,6 +199,9 @@ public class PlayerView : MonoBehaviour
         if (newStance == PlayerStance.Standard)
         {
             //DisableTattoo
+            if (_bodyMaterial == null) return;
+            if (_detailsMaterial == null) return;
+
             _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration).onComplete = () =>
             {
                 _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
@@ -214,6 +222,7 @@ public class PlayerView : MonoBehaviour
             _bodyMaterial.DOFloat(0, PARAM_ANIMATION_FACTOR, tattooAnimationDuration / 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
         }
+
         await UniTask.Delay(stancesDelayMilliseconds / 2);
 
         _bodyMaterial.DOFloat(1, PARAM_ANIMATION_FACTOR, tattooAnimationDuration);
@@ -227,8 +236,6 @@ public class PlayerView : MonoBehaviour
         {
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
-
         }
     }
-
 }

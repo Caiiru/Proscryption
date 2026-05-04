@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f031ba193aa8f429bc5972cf227c34, type: 3}
+  m_Name: SO_RewardsIcons_Database
+  m_EditorClassIdentifier: Assembly-CSharp::proscryption.RewardsListIcon
+  rewardsIcons:
+  - type: 0
+    icon: {fileID: 21300000, guid: e49b68a994526a4479568a364a1b9b82, type: 3}
+  - type: 1
+    icon: {fileID: 21300000, guid: e0849433ba7e06a439b9a1ef6aa590f3, type: 3}
+  - type: 2
+    icon: {fileID: 21300000, guid: fac700f1888b64545b886cb8c86b62e6, type: 3}
+  - type: 3
+    icon: {fileID: 21300000, guid: 919e20451f27f89408340c1bdc38cfea, type: 3}
+  - type: 4
+    icon: {fileID: 21300000, guid: d5c6e14dfc6c8074aaaab7aaf803b47a, type: 3}
+  - type: 5
+    icon: {fileID: 21300000, guid: a4efacef2f6658a4fa4d4e3c7c85587b, type: 3}
+  - type: 6
+    icon: {fileID: 21300000, guid: 6925122f82f45334386b11be4c7ee9e9, type: 3}
+  - type: 7
+    icon: {fileID: 21300000, guid: 692be2d6d67455d4681def189fef1aff, type: 3}
+  - type: 8
+    icon: {fileID: 21300000, guid: 8c98c5444b028d44f95fcd20dae1cb92, type: 3}
+  - type: 9
+    icon: {fileID: 21300000, guid: 05cf94771f1e97549990434a6070078b, type: 3}

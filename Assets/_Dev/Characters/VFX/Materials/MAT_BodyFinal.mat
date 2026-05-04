@@ -79,11 +79,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Animation_Factor: 0
+    - _Animation_Factor: 0.04394889
     - _Power_ID: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Tattoo_ID: 0
+    - _Tattoo_ID: 2
     m_Colors:
     - _Blood_Emissive_Color: {r: 4.152602, g: 1.9158078, b: 0, a: 1}
     - _Emissive_Color: {r: 4, g: 0.03654843, b: 0, a: 1}
