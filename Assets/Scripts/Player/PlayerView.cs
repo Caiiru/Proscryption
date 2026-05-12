@@ -16,9 +16,10 @@ public class PlayerView : MonoBehaviour
     private Animator _animator;
     private PlayerModel _model;
 
-    // Animator parameter constants (no magic strings!) 
-    private const string PARAM_IS_MOVING = "isMoving";
+    private const string PARAM_X_VELOCITY = "MoveX";
+    private const string PARAM_Y_VELOCITY = "MoveY";
     private const string PARAM_IS_INPUTING_TO_MOVE = "isMoveInput";
+    private const string PARAM_IS_AIMING = "IsAiming";
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "TakeDamage";
@@ -105,8 +106,7 @@ public class PlayerView : MonoBehaviour
     /// </summary>
     private void HandleStateChanged(PlayerState prev, PlayerState next)
     {
-        // Clear all state animations first
-        _animator.SetBool(PARAM_IS_MOVING, false);
+        // Clear all state animations first 
         _animator.SetBool(PARAM_IS_ATTACKING, false);
         _animator.SetBool(PARAM_IS_ROLLING, false);
         _animator.SetBool(PARAM_IS_RELOADING, false);
@@ -119,7 +119,6 @@ public class PlayerView : MonoBehaviour
                 break;
 
             case PlayerState.Moving:
-                _animator.SetBool(PARAM_IS_MOVING, true);
                 break;
 
             case PlayerState.Attacking:
@@ -181,17 +180,14 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    public void UpdateInputAnimation(Vector2 moveInput)
+    public void UpdateInputAnimation(Vector2 moveInput, Vector3 lookingDirection)
     {
-        // Debug.Log(moveInput);
-        if (moveInput.magnitude > 0.1f)
-        {
-            _animator.SetBool(PARAM_IS_INPUTING_TO_MOVE, true);
-        }
-        else
-        {
-            _animator.SetBool(PARAM_IS_INPUTING_TO_MOVE, false);
-        }
+        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
+
+
+        _animator.SetFloat(PARAM_X_VELOCITY, localLookDir.x);
+        _animator.SetFloat(PARAM_Y_VELOCITY, localLookDir.z);
     }
 
     public async UniTask HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
@@ -237,5 +233,10 @@ public class PlayerView : MonoBehaviour
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
         }
+    }
+
+    public void SetAiming(bool aiming)
+    {
+        _animator.SetBool(PARAM_IS_AIMING, aiming);
     }
 }

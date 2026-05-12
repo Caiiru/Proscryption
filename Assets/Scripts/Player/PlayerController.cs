@@ -22,6 +22,10 @@ namespace proscryption
         private float _rollCooldownTimer = 0f;
         private float _rollTimer = 0f;
         private bool _isRolling = false;
+
+        private Vector3 _lookingDirection;
+
+        private bool _isAiming = false;
         //Data SO
 
 
@@ -64,8 +68,6 @@ namespace proscryption
 
         void SetupEvents()
         {
-            this._characterInput.OnLookInput += HandleLookInput;
-
             PlayerEvents.OnPlayerMoveInput += HandleMoveInput;
             PlayerEvents.OnPlayerRollInput += HandleRollInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
@@ -81,14 +83,17 @@ namespace proscryption
             _characterInput.OnInteractInput += HandleInteractInput;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
             PlayerEvents.OnPlayerOpenRewardScreen += HandleOpenRewardScreen;
+            PlayerEvents.OnPlayerAimInput += HandleAiming;
+            PlayerEvents.OnPlayerReleaseAimInput += HandleReleaseAiming;
         }
 
 
         void OnDisable()
         {
+            PlayerEvents.OnPlayerReleaseAimInput -= HandleReleaseAiming;
+            PlayerEvents.OnPlayerAimInput += HandleAiming;
             PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
             PlayerEvents.OnPlayerOpenRewardScreen -= HandleOpenRewardScreen;
-            this._characterInput.OnLookInput -= HandleLookInput;
             PlayerEvents.OnPlayerMoveInput -= HandleMoveInput;
             PlayerEvents.OnPlayerRollInput -= HandleRollInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
@@ -145,6 +150,19 @@ namespace proscryption
             }
         }
 
+        private void HandleAiming()
+        {
+            _isAiming = true;
+            _view.SetAiming(true);
+        }
+
+        private void HandleReleaseAiming()
+        {
+            _isAiming = false;
+            _view.SetAiming(false);
+        }
+
+
         private void HandleInteractInput(bool isPressed)
         {
             if (!_canGetInput) return;
@@ -196,15 +214,17 @@ namespace proscryption
 
             if (!_model.CanAttack()) return;
 
-            if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return;
+            if (!_isAiming) return;
 
-            // Start Attack animation that calls "ExecuteAttack" on CombatSystem
+            if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return; 
+            
             _model.SetState(PlayerState.Attacking);
         }
 
         void Update()
         {
             RotateTowardsMousePosition(Mouse.current.position.ReadValue());
+            _view.UpdateInputAnimation(_moveInput.normalized, _lookingDirection.normalized);
         }
 
         // ===== PHYSICS LOOP =====
@@ -239,7 +259,6 @@ namespace proscryption
 
             // Update animation with current velocity
             // _view.UpdateMovementAnimation(_currentVelocity);
-            _view.UpdateInputAnimation(_moveInput);
             // Debug.Log("late update");
         }
 
@@ -296,10 +315,6 @@ namespace proscryption
             }
         }
 
-        private void HandleLookInput(Vector2 input)
-        {
-            if (_mainCamera == null) return;
-        }
 
         // ===== HELPER METHODS =====
 
@@ -390,11 +405,17 @@ namespace proscryption
                 targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane
                 PlayerEvents.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
                 Vector3 direction = targetPoint - transform.position;
-                RotateTowardsDirection(direction);
+                _lookingDirection = direction;
+                RotateTowardsDirection(_lookingDirection);
                 // Debug.DrawLine(transform.position, transform.position + direction * 2f, Color.green, 0.5f);
             }
             // Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.5f);
             // Debug.DrawLine(transform.position, transform.position + transform.forward * 2f, Color.blue, 0.5f);
+        }
+
+        public Vector3 GetLookingDirection()
+        {
+            return _lookingDirection;
         }
 
         private void UpdateTimers()
