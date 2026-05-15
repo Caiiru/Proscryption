@@ -62,17 +62,13 @@ public class PlayerView : MonoBehaviour
     {
         // Listen to state and event changes
         PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
-        EventManager.OnHitDetected += HandleHitDetected;
-        EventManager.OnEntityDamaged += HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
 
     void OnDisable()
     {
-        EventManager.OnHitDetected -= HandleHitDetected;
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
-        EventManager.OnEntityDamaged -= HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
     }
 
@@ -150,25 +146,9 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// React to damage received
-    /// </summary>
-    private void HandleDamageTaken(int damage, GameObject damageSource)
+
+    public void TakeDamageAnimation()
     {
-        // Only if damage was to this player
-        // if (damageSource == gameObject || damageSource.GetComponent<BaseWeapon>()?.transform.parent != transform)
-        //     return;
-
-
-        // Debug.Log($"[PlayerView] Hit animation played", gameObject);
-    }
-
-    private void HandleHitDetected(Vector3 hitPos, float damage, GameObject target)
-    {
-        if (target != gameObject) return;
-        if (!_model.IsAlive) return;
-        if (_model.IsInvulnerable) return;
-
         Debug.Log("VIEW - TAKE DAMAGE");
         if (_model.CurrentState != PlayerState.Attacking)
             _animator.SetTrigger(PARAM_TAKE_DAMAGE);
@@ -250,12 +230,12 @@ public class PlayerView : MonoBehaviour
     }
 
     public void RollAnimation(Vector2 moveInput)
-    { 
+    {
         Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
         Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
 
         Debug.Log(localLookDir);
- 
+
         // Caso não tenha nenhum input, evita rodar a lógica (ou define um padrão)
         if (localLookDir == Vector3.zero)
         {

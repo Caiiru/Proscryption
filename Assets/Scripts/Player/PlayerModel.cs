@@ -81,6 +81,8 @@ namespace proscryption
         // ===== Debug =====
         [Space] [Header("DEBUG")] public bool killPlayer = false;
 
+        public bool takeDamage = false;
+
         void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -97,6 +99,8 @@ namespace proscryption
             _playerView = GetComponent<PlayerView>();
             _combatSystem = GetComponent<CombatSystem>();
         }
+
+        #region Enable and Disable
 
         void OnEnable()
         {
@@ -116,6 +120,7 @@ namespace proscryption
             PlayerEvents.OnPlayerHitLightShot -= HandleLightShot;
         }
 
+        #endregion
 
         void Start()
         {
@@ -130,6 +135,12 @@ namespace proscryption
             {
                 killPlayer = false;
                 HandleHitDetected(transform.position, maxHealth, gameObject);
+            }
+
+            if (takeDamage)
+            {
+                takeDamage = false;
+                HandleHitDetected(transform.position, 10, gameObject);
             }
 
             UpdateCurrentState();
@@ -444,6 +455,7 @@ namespace proscryption
         {
             _currentHealth -= damage;
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            _playerView.TakeDamageAnimation();
 
             if (_currentHealth <= 0)
             {
