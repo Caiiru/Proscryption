@@ -23,8 +23,15 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "TakeDamage";
-    private const string PARAM_IS_RELOADING = "isReloading";
+    private const string PARAM_IS_RELOADING = "Reloading";
+    private const string PARAM_STOP_RELOADING = "Stop Reloading";
+    private const string PARAM_INSERT_BULLET = "InsertBullet";
     private const string PARAM_DIE = "die";
+
+    private const string PARAM_FORWARD_DASH = "Forward Dodge";
+    private const string PARAM_BACKWRD_DASH = "Backward Dodge";
+    private const string PARAM_LEFT_DASH = "Left Dodge";
+    private const string PARAM_RIGHT_DASH = "Right Dodge";
 
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
@@ -55,10 +62,8 @@ public class PlayerView : MonoBehaviour
     {
         // Listen to state and event changes
         PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
-        PlayerEvents.OnPlayerAttack += HandleAttackPlayed;
-        EventManager.OnEntityDamaged += HandleDamageTaken;
         EventManager.OnHitDetected += HandleHitDetected;
-
+        EventManager.OnEntityDamaged += HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
@@ -67,7 +72,6 @@ public class PlayerView : MonoBehaviour
     {
         EventManager.OnHitDetected -= HandleHitDetected;
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
-        PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
         EventManager.OnEntityDamaged -= HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
     }
@@ -108,8 +112,12 @@ public class PlayerView : MonoBehaviour
     {
         // Clear all state animations first 
         _animator.SetBool(PARAM_IS_ATTACKING, false);
-        _animator.SetBool(PARAM_IS_ROLLING, false);
-        _animator.SetBool(PARAM_IS_RELOADING, false);
+        // _animator.SetBool(PARAM_IS_ROLLING, false);
+        // _animator.SetBool(PARAM_IS_RELOADING, false);
+        if (prev == PlayerState.Reloading)
+        {
+            _animator.SetTrigger(PARAM_STOP_RELOADING);
+        }
 
         // Set new animation state
         switch (next)
@@ -140,15 +148,6 @@ public class PlayerView : MonoBehaviour
                 _animator.SetBool(PARAM_IS_RELOADING, true);
                 break;
         }
-    }
-
-    /// <summary>
-    /// React to player attack event
-    /// </summary>
-    private void HandleAttackPlayed()
-    {
-        // VFX, SFX, and animations handled via state change above
-        // Debug.Log($"[PlayerView] Attack played - {damage} damage", gameObject);
     }
 
     /// <summary>
@@ -238,5 +237,56 @@ public class PlayerView : MonoBehaviour
     public void SetAiming(bool aiming)
     {
         _animator.SetBool(PARAM_IS_AIMING, aiming);
+    }
+
+    public void InsertBulletVisual()
+    {
+        _animator.SetTrigger(PARAM_INSERT_BULLET);
+    }
+
+    public void StopReloading()
+    {
+        _animator.SetTrigger(PARAM_STOP_RELOADING);
+    }
+
+    public void RollAnimation(Vector2 moveInput)
+    { 
+        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
+
+        Debug.Log(localLookDir);
+ 
+        // Caso não tenha nenhum input, evita rodar a lógica (ou define um padrão)
+        if (localLookDir == Vector3.zero)
+        {
+            _animator.SetTrigger(PARAM_FORWARD_DASH);
+            return;
+        }
+
+        // 1. Verifica se o movimento horizontal (X) é maior que o vertical (Y)
+        if (Mathf.Abs(localLookDir.x) > Mathf.Abs(localLookDir.z))
+        {
+            // Movimento predominantemente Horizontal
+            if (localLookDir.x > 0)
+            {
+                _animator.SetTrigger(PARAM_RIGHT_DASH);
+            }
+            else
+            {
+                _animator.SetTrigger(PARAM_LEFT_DASH);
+            }
+        }
+        else
+        {
+            // Movimento predominantemente Vertical
+            if (localLookDir.z > 0)
+            {
+                _animator.SetTrigger(PARAM_FORWARD_DASH);
+            }
+            else
+            {
+                _animator.SetTrigger(PARAM_BACKWRD_DASH);
+            }
+        }
     }
 }

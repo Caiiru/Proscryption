@@ -21,7 +21,6 @@ namespace proscryption
 
         private float _rollCooldownTimer = 0f;
         private float _rollTimer = 0f;
-        private bool _isRolling = false;
 
         private Vector3 _lookingDirection;
 
@@ -52,11 +51,6 @@ namespace proscryption
             _rigidbody = GetComponent<Rigidbody>();
             _characterInput = GetComponent<CharacterInput>();
             RefreshMainCamera();
-
-            if (_model == null) Debug.LogError("[PlayerController] PlayerModel not found!");
-            if (_view == null) Debug.LogError("[PlayerController] PlayerView not found!");
-            if (_rigidbody == null) Debug.LogError("[PlayerController] Rigidbody not found!");
-            if (_characterInput == null) Debug.LogError("[PlayerController] CharacterInput not found!");
         }
 
         void OnEnable()
@@ -141,12 +135,12 @@ namespace proscryption
             if (_moveInput.magnitude > 0.1f)
             {
                 if (_model.CurrentState == PlayerState.Idle)
-                    _model.SetState(PlayerState.Moving);
+                    _model.ChangeState(PlayerState.Moving);
             }
             else
             {
                 if (_model.CurrentState == PlayerState.Moving)
-                    _model.SetState(PlayerState.Idle);
+                    _model.ChangeState(PlayerState.Idle);
             }
         }
 
@@ -166,7 +160,6 @@ namespace proscryption
         private void HandleInteractInput(bool isPressed)
         {
             if (!_canGetInput) return;
-            // Debug.Log($"Interact input: {(isPressed ? "Pressed" : "Released")}");
             PlayerEvents.BroadcastPlayerCastInteract();
         }
 
@@ -179,23 +172,25 @@ namespace proscryption
             // Ask model if we can roll
             if (!_model.CanRoll())
             {
-                Debug.Log("[PlayerController] Cannot roll - state doesn't allow it or not enough stamina", gameObject);
                 return;
             }
 
             // Consume stamina
             if (!_model.TryConsumeStamina(_model.ROLL_STAMINA_COST))
             {
-                Debug.Log("[PlayerController] Not enough stamina to roll", gameObject);
                 return;
             }
 
             // Start roll
-            _model.SetState(PlayerState.Rolling);
+            // _model.ChangeState(PlayerState.Rolling);
             _model.SetInvulnerable(true, _model.rollDuration);
             _rollTimer = _model.rollDuration;
             _rollCooldownTimer = _model.rollCooldown;
-            _isRolling = true;
+            _model.isRolling = true;
+            _model.ChangeState(PlayerState.Rolling);
+
+            Vector2 rollDirection = GetCameraRelativeMovement(_moveInput);
+            _view.RollAnimation(rollDirection);
         }
 
 
@@ -204,8 +199,10 @@ namespace proscryption
             if (!_canGetInput) return;
             if (!_model.CanReload()) return;
             if (!_model.TryConsumeStamina(_model.GetCurrentData().rollStaminaCost)) return;
-
-            _model.SetState(PlayerState.Reloading);
+            if (_model.CurrentState != PlayerState.Reloading)
+            {
+                _model.ChangeState(PlayerState.Reloading);
+            }
         }
 
         private void HandleAttackInput()
@@ -216,9 +213,9 @@ namespace proscryption
 
             if (!_isAiming) return;
 
-            if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return; 
-            
-            _model.SetState(PlayerState.Attacking);
+            if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return;
+
+            _model.ChangeState(PlayerState.Attacking);
         }
 
         void Update()
@@ -242,7 +239,7 @@ namespace proscryption
             UpdateTimers();
 
             // Handle rolling
-            if (_isRolling)
+            if (_model.isRolling)
             {
                 HandleRolling();
             }
@@ -256,38 +253,26 @@ namespace proscryption
         void LateUpdate()
         {
             if (!_model.IsAlive) return;
-
-            // Update animation with current velocity
-            // _view.UpdateMovementAnimation(_currentVelocity);
-            // Debug.Log("late update");
         }
 
         // ===== MOVEMENT LOGIC =====
 
         private void HandleMovement()
         {
-            // Calculate camera-relative movement direction
             if (!_model.CanMove) return;
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
             _currentVelocity = movement * _model.MoveSpeed;
 
-            // Preserve Y velocity (gravity)
             _currentVelocity.y = _rigidbody.linearVelocity.y;
 
-            // Apply velocity
             _rigidbody.linearVelocity = _currentVelocity;
-
-            // Rotate player toward movement direction
-            // if (_moveInput.magnitude > 0.1f)
-            // {
-            //     RotateTowardsVelocity(_currentVelocity);
-            // }
         }
 
         private void HandleRolling()
         {
             // Apply roll force in the direction we're rolling
             Vector3 rollDirection = GetCameraRelativeMovement(_moveInput);
+            // Vector3 rollDirection = _moveInput;
             if (rollDirection.magnitude < 0.1f)
             {
                 // If no input, roll forward
@@ -301,18 +286,18 @@ namespace proscryption
             _rigidbody.linearVelocity = rollVelocity;
             _currentVelocity = rollVelocity;
 
-            // Check if roll is finished
-            _rollTimer -= Time.fixedDeltaTime;
-            if (_rollTimer <= 0)
-            {
-                _isRolling = false;
-                if (_moveInput.magnitude < 0.1f)
-                {
-                    _model.SetState(PlayerState.Idle);
-                }
-                else
-                    _model.SetState(PlayerState.Moving);
-            }
+            // // Check if roll is finished
+            // _rollTimer -= Time.fixedDeltaTime;
+            // Debug.Log(_rollTimer);
+            // if (_rollTimer <= 0)
+            // {
+            //     if (_moveInput.magnitude < 0.1f)
+            //     {
+            //         _model.ChangeState(PlayerState.Idle);
+            //     }
+            //     else
+            //         _model.ChangeState(PlayerState.Moving);
+            // }
         }
 
 
@@ -320,7 +305,8 @@ namespace proscryption
 
         private Vector3 GetCameraRelativeMovement(Vector2 input)
         {
-            RefreshMainCamera();
+            if (!_mainCamera)
+                RefreshMainCamera();
 
             if (_mainCamera == null)
             {
@@ -437,23 +423,15 @@ namespace proscryption
         private void HandleOpenRewardScreen()
         {
             _canGetInput = false;
-            _model.SetState(PlayerState.Menu);
+            _model.ChangeState(PlayerState.Menu);
         }
 
         private void HandleCloseRewardScreen()
         {
             _canGetInput = true;
-            _model.SetState(PlayerState.Idle);
+            _model.ChangeState(PlayerState.Idle);
         }
 
-        // ===== PUBLIC DEBUG METHODS =====
-
-        public void PrintState()
-        {
-            Debug.Log(
-                $"[PlayerController] State: {_model.CurrentState} | Health: {_model.CurrentHealth}/{_model.MaxHealth} | Stamina: {_model.CurrentStamina}/{_model.MaxStamina}",
-                gameObject);
-        }
 
         public void OnGameWin()
         {
