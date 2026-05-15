@@ -62,12 +62,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.47, y: 0.47, z: 0.47}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.47, y: 0.47, z: 1.19}
+  m_Center: {x: 0, y: 0, z: -0.58}
 --- !u!1 &6260249363979486373
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,12 +130,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.47, y: 0.47, z: 0.47}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.47, y: 0.47, z: 1.19}
+  m_Center: {x: 0, y: 0, z: -0.58}
 --- !u!1001 &2652099358005898775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,15 +158,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.907192
+      value: 34.45
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.35000002
+      value: -0.000017039394
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.7254694
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1586,11 +1586,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8992607365620754104, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -34.952297
+      value: -32.737167
       objectReference: {fileID: 0}
     - target: {fileID: 8992607365620754104, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -2.8566134
+      value: 10.134905
+      objectReference: {fileID: 0}
+    - target: {fileID: 8992607365620754104, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -23.104256
       objectReference: {fileID: 0}
     - target: {fileID: 9124592202416877427, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2317,7 +2321,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: ea87d7f4637c0c34a828d09f11f2b59c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2456,10 +2460,11 @@ MonoBehaviour:
   _moveSpeed: 1
   _turnRate: 15
   _isAttacking: 0
-  _attackRange: 2
+  _attackRange: 1.5
   _critChance: 10
-  _takeDamageDelay: 0.5
-  stunDelay: 1
+  _takeDamageDelay: 0.2
+  stunDelay: 0.3
+  jumpForce: 45
   _playerTransform: {fileID: 0}
   _clawsHitBox:
   - {fileID: 8910874999408403171}
