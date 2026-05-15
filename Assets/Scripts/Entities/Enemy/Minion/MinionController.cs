@@ -42,6 +42,9 @@ namespace proscryption
         private bool _canBeStunned = true;
         public float stunDelay = 1f;
 
+        [Tooltip("Após a antecipação, o minion vai dar um salto e se deslocará com certa força em linha reta")]
+        public float jumpForce = 5;
+
 
         [SerializeField] Transform _playerTransform;
         [SerializeField] BoxCollider[] _clawsHitBox;
@@ -72,6 +75,7 @@ namespace proscryption
         Animator _animator;
         private const string ANIM_SPEED = "Speed"; // float
         private const string ANIM_ATTACK = "Attack"; // trigger 
+        private const string ANIM_ANTECIPATION = "Attack"; // trigger 
         private const string ANIM_DEATH = "Die"; // trigger 
         private const string ANIM_TAKE_DAMAGE = "TakeDamage"; // trigger 
         private const string ANIM_IS_STUNNED = "MinionIsStunned"; // boolean 
@@ -202,12 +206,9 @@ namespace proscryption
             }
             else
             {
+                SetVelocity(0, 0);
                 _isAttacking = true;
-                _animator.SetTrigger(ANIM_ATTACK);
-                await UniTask.Delay(1000);
-                float _duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
-                await UniTask.Delay(Mathf.FloorToInt(_duration * 2000));
-                _isAttacking = false;
+                _animator.SetTrigger(ANIM_ANTECIPATION);
             }
         }
 
@@ -216,15 +217,16 @@ namespace proscryption
             //Stun Enemy
             if (!_canBeStunned) return;
             _canBeStunned = false;
-            _animator.SetBool(ANIM_IS_STUNNED, true);
-            _animator.SetFloat(ANIM_SPEED, 0);
-            _navMeshAgent.speed = 0;
+
+
+            _animator.SetTrigger(ANIM_TAKE_DAMAGE);
+
+            SetVelocity(0, 0);
 
             await UniTask.WaitForEndOfFrame();
             await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
             await UniTask.Delay((int)(_takeDamageDelay * 500));
 
-            _animator.SetBool(ANIM_IS_STUNNED, false);
             HandleStunDelay().Forget();
             await UniTask.Delay((int)(_takeDamageDelay * 1000));
 
@@ -263,17 +265,23 @@ namespace proscryption
         {
             if (_isAttacking)
             {
-                _navMeshAgent.SetDestination(transform.position);
                 return;
             }
 
             _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
-            _animator.SetFloat(ANIM_SPEED, 0.5f);
+            SetVelocity(_moveSpeed, 0.75f);
+        }
+
+        private void SetVelocity(float velocity, float animSpeed)
+        {
+            _navMeshAgent.speed = velocity;
+            _animator.SetFloat(ANIM_SPEED, animSpeed);
         }
 
         private void RotateTowardsPlayer()
         {
+            if (_isAttacking) return;
             // Vector3 _distance = _playerTransform.position - _transform.position;
             Vector3 _distance = _transform.InverseTransformPoint(_playerTransform.position);
             float angle = Mathf.Atan2(_distance.x, _distance.z) * Mathf.Rad2Deg;
@@ -317,6 +325,26 @@ namespace proscryption
             }
         }
 
+        public async void AntecipationDone()
+        {
+            _animator.SetTrigger(ANIM_ATTACK);
+
+            // _rigidbody.isKinematic = true;
+            _navMeshAgent.enabled = false;
+
+            float duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
+
+
+            await UniTask.WaitForSeconds(duration / 2);
+            _rigidbody.AddForce(transform.forward * jumpForce, ForceMode.Impulse); 
+            // await UniTask.Delay(1000);
+            await UniTask.Delay(Mathf.FloorToInt(duration * 2000));
+
+            _rigidbody.isKinematic = false;
+            _navMeshAgent.enabled = true;
+            _isAttacking = false;
+        }
+
         public int GetAttackDamage()
         {
             return _enemyEntity.GetAttackDamage();
@@ -326,7 +354,6 @@ namespace proscryption
         {
             return _enemyEntity.IsCritical();
         }
-
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {

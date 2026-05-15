@@ -11,21 +11,27 @@ namespace proscryption
         private PlayerInput _playerInput;
 
         #region Input Actions
+
         private InputAction _moveAction;
         private InputAction _rollAction;
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
-        private InputAction _aimAction;
         private InputAction _reloadAction;
         private InputAction _pauseAction;
+
+        private InputAction _aimAction;
+        private InputAction _releaseAimAction;
+
 
         private InputAction _defaultStanceAction;
         private InputAction _bloodStanceAction;
         private InputAction _lightStanceAction;
+
         #endregion
 
         #region Public Input Properties
+
         /// <summary>
         /// Valor atual do input de movimento (X: horizontal, Y: vertical)
         /// </summary>
@@ -50,16 +56,20 @@ namespace proscryption
         /// Valor de input: boolean 
         /// </summary>
         public bool Attackinput { get; private set; }
+
         public bool AimInput { get; private set; }
+        public bool ReleaseAimInput { get; private set; }
         public bool ReloadInput { get; private set; }
         public bool PauseInput { get; private set; }
 
         public bool DefaultStanceInput { get; private set; }
         public bool BloodStanceInput { get; private set; }
         public bool LightStanceInput { get; private set; }
+
         #endregion
 
         #region Public Callbacks
+
         /// <summary>
         /// Callback acionado quando o movimento muda
         /// </summary>
@@ -89,12 +99,14 @@ namespace proscryption
         /// Callback para quando o player apertar para usar a habilidade de Parry  
         /// </summary>
         public Action<Boolean> OnAimInput;
+
         public Action OnReloadInput;
         public Action OnPauseInput;
 
         public Action OnDefaultStanceInput;
         public Action OnBloodStanceInput;
         public Action OnLightStanceInput;
+
         #endregion
 
         private void Awake()
@@ -110,6 +122,7 @@ namespace proscryption
                 Destroy(gameObject);
                 return;
             }
+
             CharacterInput.Instance = this;
         }
 
@@ -131,6 +144,8 @@ namespace proscryption
             _reloadAction = _playerInput.actions["Reload"];
             _pauseAction = _playerInput.actions["Pause"];
 
+            _aimAction = _playerInput.actions["Aim"];
+            _releaseAimAction = _playerInput.actions["ReleaseAim"];
             //Stances
             _defaultStanceAction = _playerInput.actions["ChangeStance_Default"];
             _bloodStanceAction = _playerInput.actions["ChangeStance_Blood"];
@@ -164,32 +179,43 @@ namespace proscryption
                 _lookAction.performed += HandleLookInput;
                 _lookAction.canceled += HandleLookInput;
             }
+
             if (_attackAction != null)
             {
                 _attackAction.performed += HandleAttackInput;
                 _attackAction.canceled += HandleAttackInput;
             }
+
             if (_aimAction != null)
             {
                 _aimAction.performed += HandleAimInput;
-
             }
+
+            if (_releaseAimAction != null)
+            {
+                _releaseAimAction.performed += HandleReleaseAimInput;
+            }
+
             if (_reloadAction != null)
             {
                 _reloadAction.performed += HandleReloadInput;
             }
+
             if (_pauseAction != null)
             {
                 _pauseAction.performed += HandlePauseInput;
             }
+
             if (_defaultStanceAction != null)
             {
                 _defaultStanceAction.performed += (context) => HandleStanceInput(context, OnDefaultStanceInput);
             }
+
             if (_bloodStanceAction != null)
             {
                 _bloodStanceAction.performed += (context) => HandleStanceInput(context, OnBloodStanceInput);
             }
+
             if (_lightStanceAction != null)
             {
                 _lightStanceAction.performed += (context) => HandleStanceInput(context, OnLightStanceInput);
@@ -221,16 +247,18 @@ namespace proscryption
                 _lookAction.performed -= HandleLookInput;
                 _lookAction.canceled -= HandleLookInput;
             }
+
             if (_attackAction != null)
             {
                 _attackAction.performed -= HandleAttackInput;
                 _attackAction.canceled -= HandleAttackInput;
             }
+
             if (_aimAction != null)
             {
                 _aimAction.performed -= HandleAimInput;
-
             }
+
             if (_reloadAction != null)
             {
                 _reloadAction.performed -= HandleReloadInput;
@@ -240,18 +268,20 @@ namespace proscryption
             {
                 _defaultStanceAction.performed -= (context) => HandleStanceInput(context, OnDefaultStanceInput);
             }
+
             if (_bloodStanceAction != null)
             {
                 _bloodStanceAction.performed -= (context) => HandleStanceInput(context, OnBloodStanceInput);
             }
+
             if (_lightStanceAction != null)
             {
                 _lightStanceAction.performed -= (context) => HandleStanceInput(context, OnLightStanceInput);
             }
-
         }
 
         #region Input Handlers
+
         private void HandleMoveInput(InputAction.CallbackContext context)
         {
             MoveInput = context.ReadValue<Vector2>();
@@ -289,13 +319,22 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerAttackInput();
         }
 
+        private void HandleReleaseAimInput(InputAction.CallbackContext context)
+        {
+            PlayerEvents.BroadcastPlayerReleaseAimInput();
+            // EventManager.BroadcastPlayerParryInput();
+        }
+
         private void HandleAimInput(InputAction.CallbackContext context)
         {
             AimInput = context.ReadValueAsButton();
             OnAimInput?.Invoke(AimInput);
-            // if (AimInput)
-                // EventManager.BroadcastPlayerParryInput();
+
+            if (AimInput)
+                PlayerEvents.BroadcastPlayerAimInput();
+            // EventManager.BroadcastPlayerParryInput();
         }
+
         private void HandlePauseInput(InputAction.CallbackContext context)
         {
             PauseInput = context.ReadValueAsButton();
@@ -316,6 +355,7 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerReloadInput();
             }
         }
+
         private void HandleStanceInput(InputAction.CallbackContext context, Action stanceInputCallback)
         {
             bool inputValue = context.ReadValueAsButton();
@@ -337,7 +377,5 @@ namespace proscryption
         {
             UnregisterCallbacks();
         }
-
-         
     }
 }

@@ -1,4 +1,3 @@
-
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
@@ -19,17 +18,10 @@ namespace proscryption
         private BaseWeapon _weapon;
 
         public float angleOffset = 30f;
+        public float rotateAnimationDuration = 0.5f;
 
         PlayerStance _currentStance = PlayerStance.Standard;
         GameObject[] bulletIcons;
-
-        [Header("Colors")]
-        public Color StandardColor = Color.gray;
-        public Color BloodColor = Color.darkRed;
-        public Color LightColor = Color.yellow;
-        public Color EmptyColor = Color.black;
-        [SerializeField] private Color _currentStanceColor = Color.gray;
-
 
 
         public void Initialize(BaseWeapon weapon)
@@ -39,6 +31,8 @@ namespace proscryption
             for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
             {
                 bulletIcons[i] = bulletContainerTransform.GetChild(i).gameObject;
+                TextMeshProUGUI bulletNumber = bulletIcons[i].GetComponentInChildren<TextMeshProUGUI>();
+                bulletNumber.text = i.ToString();
             }
 
             StandardStanceTransform.gameObject.SetActive(true);
@@ -47,13 +41,19 @@ namespace proscryption
 
             SetupEvents();
         }
+
         private void SetupEvents()
         {
             // EventManager.OnPlayerAttack += HandleAttackPlayed;
             if (_weapon)
             {
-                _weapon.OnShoot += HandleAttackPlayed;
+                _weapon.OnShootAction += HandleAttackPlayed;
+                _weapon.OnReloadBulletAction += async (index, isRotating) =>
+                {
+                    HandleReloadOneBullet(index, isRotating).Forget();
+                };
             }
+
             PlayerEvents.OnPlayerReloadEnded += Reload;
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
         }
@@ -63,40 +63,80 @@ namespace proscryption
         {
             // EventManager.OnPlayerAttack -= HandleAttackPlayed;
             if (_weapon)
-                _weapon.OnShoot -= HandleAttackPlayed;
+            {
+                _weapon.OnReloadBulletAction += async (index, isRotating) =>
+                {
+                    HandleReloadOneBullet(index, isRotating).Forget();
+                };
+                _weapon.OnShootAction -= HandleAttackPlayed;
+            }
+
             PlayerEvents.OnPlayerReloadEnded -= Reload;
             PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
-
         }
 
-        private void HandleAttackPlayed()
+        private void HandleAttackPlayed(int index)
         {
-            ShootBullet(_weapon.bulletIndex).Forget();
-
-
+            ShootBullet(index).Forget();
         }
-        public UniTask ShootBullet(int b_index)
+
+        UniTask ShootBullet(int index)
         {
-            if (b_index >= 0 && b_index < bulletIcons.Length)
+            if (index >= 0 && index < bulletIcons.Length)
             {
                 // bulletIcons[b_index].GetComponent<UnityEngine.UI.Image>().color = EmptyColor;
-                bulletIcons[b_index].transform.gameObject.SetActive(false);
+                bulletIcons[index].transform.gameObject.SetActive(false);
             }
+
+            // RotateClockwise(b_index);
+            RotateAntiClockwise(index);
             UniTask.Delay(2000).Forget();
-            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (b_index + 1) * 2), 0.5f, RotateMode.Fast); // Rotate the entire counter 
             return UniTask.CompletedTask;
         }
-        private void Reload()
+
+        private void RotateAntiClockwise(int index)
         {
-            for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
-            {
-                bulletIcons[i].transform.gameObject.SetActive(true);
-
-            }
-            Debug.Log("Reload");
-
+            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (index + -1) * 2), rotateAnimationDuration,
+                RotateMode.Fast); // Rotate the entire counter  
         }
 
+        private void RotateClockwise(int index)
+        {
+            bulletBackground.DORotate(new Vector3(0, 0, -angleOffset * (index - 1) * 2), rotateAnimationDuration,
+                RotateMode.Fast); // Rotate the entire counter 
+        }
+
+        private void RotateToIndex(int index)
+        {
+            Debug.Log(index);
+            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (index) * 2), rotateAnimationDuration,
+                RotateMode.FastBeyond360);
+        }
+
+        private void Reload()
+        {
+            // for (int i = 0; i < BaseWeapon.MAX_BULLETS; i++)
+            // {
+            //     bulletIcons[i].transform.gameObject.SetActive(true);
+            // }
+            //
+            // Debug.Log("Reload");
+        }
+
+
+        private async UniTask HandleReloadOneBullet(int index, bool rotate)
+        {
+            // Debug.Log("Reload one bullet");
+            int i = 0;
+            if (rotate)
+            { 
+                RotateToIndex(index);
+                await UniTask.WaitForSeconds(rotateAnimationDuration);
+            }
+
+
+            bulletIcons[index].transform.gameObject.SetActive(true);
+        }
 
         private void HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
         {
@@ -133,7 +173,6 @@ namespace proscryption
 
                 // bulletIcons[i].GetComponent<UnityEngine.UI.Image>().color = bulletsColor;
             }
-            _currentStanceColor = bulletsColor;
         }
     }
 }

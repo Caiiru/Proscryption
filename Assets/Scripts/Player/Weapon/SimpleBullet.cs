@@ -40,7 +40,7 @@ namespace proscryption
 
         void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
+            // Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
             if (other.CompareTag("Player")) return;
             other.TryGetComponent<BaseEntity>(out BaseEntity entity);
             if (entity == null)

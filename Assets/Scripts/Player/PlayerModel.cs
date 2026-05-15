@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Timers;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace proscryption
@@ -22,11 +24,13 @@ namespace proscryption
 
         //Reload
         private bool _canReload = true;
-
+        public float currentReloadTimer = 0;
         public float reloadCooldown;
 
         //Roll
         [Header("Roll Settings")] [SerializeField]
+        public bool isRolling = false;
+
         public float rollForce = 20f;
 
         [SerializeField] public float rollDuration = 0.5f;
@@ -36,16 +40,16 @@ namespace proscryption
         [Header("PlayerStances Data")] [SerializeField]
         private PlayerStanceData BaseStandardData;
 
-        [SerializeField] private PlayerBloodStanceData BaseBloodData;
+        [SerializeField] PlayerBloodStanceData BaseBloodData;
         [SerializeField] PlayerFaithStanceData BaseLightData;
 
-        [SerializeField] private float _currentStanceTimer = 0;
+        [SerializeField] float _currentStanceTimer = 0;
 
         //Cooldown
         float LightCooldown;
         float BloodCooldown;
-        [SerializeField] private float _lightCooldownTimer = 0;
-        [SerializeField] private float _bloodCooldownTimer = 0;
+        [SerializeField] float _lightCooldownTimer = 0;
+        [SerializeField] float _bloodCooldownTimer = 0;
 
         //Upgardes
         private int _healthUpgrade = 0;
@@ -70,9 +74,14 @@ namespace proscryption
 
         // ===== REFERENCES =====
         private Rigidbody _rigidbody;
+        private PlayerView _playerView;
+
+        private CombatSystem _combatSystem;
 
         // ===== Debug =====
         [Space] [Header("DEBUG")] public bool killPlayer = false;
+
+        public bool takeDamage = false;
 
         void Awake()
         {
@@ -86,7 +95,12 @@ namespace proscryption
             // Initialize state
             _currentHealth = maxHealth;
             _currentStamina = maxStamina;
+
+            _playerView = GetComponent<PlayerView>();
+            _combatSystem = GetComponent<CombatSystem>();
         }
+
+        #region Enable and Disable
 
         void OnEnable()
         {
@@ -106,6 +120,7 @@ namespace proscryption
             PlayerEvents.OnPlayerHitLightShot -= HandleLightShot;
         }
 
+        #endregion
 
         void Start()
         {
@@ -122,6 +137,13 @@ namespace proscryption
                 HandleHitDetected(transform.position, maxHealth, gameObject);
             }
 
+            if (takeDamage)
+            {
+                takeDamage = false;
+                HandleHitDetected(transform.position, 10, gameObject);
+            }
+
+            UpdateCurrentState();
             HandleTimers();
         }
 
@@ -147,6 +169,30 @@ namespace proscryption
             }
         }
 
+        void UpdateCurrentState()
+        {
+            switch (_currentState)
+            {
+                case PlayerState.Reloading:
+                    currentReloadTimer -= Time.deltaTime;
+                    if (_combatSystem.GetWeapon().IsFull())
+                    {
+                        ChangeState(PlayerState.Idle);
+                        _playerView.StopReloading();
+                        return;
+                    }
+
+                    if (currentReloadTimer <= 0)
+                    {
+                        _playerView.InsertBulletVisual();
+                        currentReloadTimer = reloadCooldown;
+                    }
+
+                    break;
+            }
+        }
+
+
         private void HandleCurrentStanceTimer()
         {
             if (_currentStanceTimer > 0)
@@ -155,17 +201,7 @@ namespace proscryption
                 _currentStanceTimer -= Time.deltaTime;
                 return;
             }
-            // switch (_currentStance)
-            // {
-            //     case PlayerStance.Blood:
-            //         _bloodCooldownTimer = BloodCooldown;
 
-            //         break;
-            //     case PlayerStance.Light:
-            //         _lightCooldownTimer = LightCooldown;
-            //         break;
-
-            // }
             if (_currentStance != PlayerStance.Standard)
             {
                 ChangeStance(PlayerStance.Standard);
@@ -308,7 +344,7 @@ namespace proscryption
         /// <summary>
         /// Change player state. Broadcasts event if state actually changes.
         /// </summary>
-        public void SetState(PlayerState newState)
+        public void ChangeState(PlayerState newState)
         {
             if (_currentState == newState) return;
 
@@ -316,6 +352,11 @@ namespace proscryption
             _currentState = newState;
 
             PlayerEvents.BroadcastPlayerStateChanged(prev, newState);
+
+            if (newState == PlayerState.Reloading)
+            {
+                currentReloadTimer = reloadCooldown;
+            }
 
             if (newState == PlayerState.Menu)
             {
@@ -330,7 +371,7 @@ namespace proscryption
 
         private void HandleReloadEnded()
         {
-            this.SetState(PlayerState.Idle);
+            this.ChangeState(PlayerState.Idle);
         }
 
         // ===== REWARD MANAGMENT =====
@@ -414,10 +455,11 @@ namespace proscryption
         {
             _currentHealth -= damage;
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            _playerView.TakeDamageAnimation();
 
             if (_currentHealth <= 0)
             {
-                SetState(PlayerState.Dead);
+                ChangeState(PlayerState.Dead);
                 EventManager.BroadcastEntityDied(gameObject);
             }
         }
@@ -468,6 +510,16 @@ namespace proscryption
             this._canMove = true;
         }
 
+        public async UniTask SetEndRoll()
+        {
+            //Animation call 
+
+            await UniTask.WaitForSeconds(0.1f);
+
+            this.isRolling = false;
+            ChangeState(PlayerState.Idle);
+        }
+
         // ===== QUERY METHODS (Controllers ask "can I do this?") =====
 
         public bool GetCanMove()
@@ -478,16 +530,19 @@ namespace proscryption
 
         public bool CanAttack()
         {
-            return (_currentState == PlayerState.Idle ||
-                    _currentState == PlayerState.Moving) &&
-                   IsAlive;
+            if (!IsAlive) return false;
+            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+                return false;
+            if (isRolling) return false;
+
+            return true;
         }
 
         public bool CanRoll()
         {
             return (_currentState == PlayerState.Idle ||
                     _currentState == PlayerState.Moving) &&
-                   _currentStamina >= 0 &&
+                   _currentStamina >= ROLL_STAMINA_COST &&
                    IsAlive;
         }
 
@@ -513,12 +568,6 @@ namespace proscryption
         }
     }
 
-    /// <summary>
-    /// PlayerModel - MVC Model Layer
-    /// Centralizes all player state data (health, stamina, position, state)
-    /// Controllers ask "CanI do this?" before acting
-    /// Model broadcasts state changes via EventManager
-    /// </summary>
     public enum PlayerStance
     {
         Standard,

@@ -10,7 +10,6 @@ namespace proscryption
     /// </summary>
     public class CombatSystem : MonoBehaviour
     {
-
         [SerializeField] private const int ATTACK_STAMINA_COST = 10;
 
 
@@ -36,12 +35,11 @@ namespace proscryption
 
             PlayerEvents.OnPlayerReloadInput += ExecuteReload;
             _currentWeapon.GetComponent<BaseWeapon>().Setup(this);
-
         }
+
         void OnDisable()
         {
             PlayerEvents.OnPlayerReloadInput -= ExecuteReload;
-
         }
 
 
@@ -54,24 +52,29 @@ namespace proscryption
             _currentWeapon.OnAttack();
 
             PlayerEvents.BroadcastPlayerAttack();
-
         }
+
         /// <summary>
         /// Triggered by animation event 
         /// </summary>
         private void ExecuteReload()
-        {
-            _currentWeapon.ReloadInput();
+        { 
         }
 
         public BaseWeapon GetWeapon()
         {
             return _currentWeapon;
         }
+
         public PlayerModel GetModel()
         {
             return _model;
         }
 
+        public void InsertBullet()
+        {
+            Debug.Log("Insert Bullet");
+            _currentWeapon.ReloadOneBullet();
+        }
     }
 }

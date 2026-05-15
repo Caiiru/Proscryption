@@ -24,20 +24,19 @@ namespace proscryption
         //Bullets Mechacnics
         public const int MAX_BULLETS = 6;
         [SerializeField] private int _currentBullets = MAX_BULLETS;
-        private int _currentBulletIndex;
+        [SerializeField] private int _currentBulletIndex;
         public int bulletIndex => _currentBulletIndex;
 
         [Tooltip("0 = empty, 1 = standard, 2 = blood, 3=light")]
         public int[] bullets = new int[MAX_BULLETS];
 
+ 
 
-        //Reload 
-        [SerializeField] private bool _isReloading = false;
-        [SerializeField] private float _reloadTimer = 0f;
-
-        public Action OnShoot;
+        public Action<int> OnShootAction;
+        public Action<int, bool> OnReloadBulletAction;
 
         [Header("Data")] [SerializeField] private PlayerStanceData currentStanceData;
+
 
         private CombatSystem _combatSystem;
         private PlayerModel _playerModel;
@@ -53,16 +52,24 @@ namespace proscryption
                 minDamage = maxDamage;
                 maxDamage = temp;
             }
-
-            _currentBullets = MAX_BULLETS;
-            _isReloading = false;
-            _reloadTimer = 0f;
+ 
             _currentBulletIndex = 0;
 
             for (int i = 0; i < MAX_BULLETS; i++)
             {
                 bullets[i] = 1;
             }
+
+            int b = 0;
+            foreach (int bullet in bullets)
+            {
+                if (bullet != 0)
+                {
+                    b++;
+                }
+            }
+
+            _currentBullets = b;
 
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
 
@@ -94,8 +101,8 @@ namespace proscryption
 
             if (currentStanceData == null)
                 currentStanceData = _playerModel.GetCurrentData();
-            
-            
+
+
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
 
@@ -104,7 +111,7 @@ namespace proscryption
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(),
                 currentStanceData.bulletSpeed,
                 currentStanceData.bulletForce, _currentStance);
-            OnShoot?.Invoke();
+            OnShootAction?.Invoke(_currentBulletIndex);
             if (MuzzleFlashEffect != null)
             {
                 MuzzleFlashEffect.gameObject.SetActive(true);
@@ -117,10 +124,10 @@ namespace proscryption
             bullets[_currentBulletIndex] = 0;
 
             _currentBullets--;
-            _currentBulletIndex++;
-            if (_currentBulletIndex >= MAX_BULLETS)
+            _currentBulletIndex--;
+            if (_currentBulletIndex < 0)
             {
-                _currentBulletIndex = 0;
+                _currentBulletIndex = MAX_BULLETS - 1;
             }
 
             await UniTask.Delay(500);
@@ -128,34 +135,32 @@ namespace proscryption
             await UniTask.CompletedTask;
         }
 
-
-        public void ReloadInput()
+        public void ReloadOneBullet()
         {
-            if (_isReloading) return;
-            _isReloading = true;
-            _reloadTimer = _playerModel.reloadCooldown;
-        }
-
-        private void HandleReload()
-        {
-            if (!_isReloading) return;
-
-            _reloadTimer -= Time.deltaTime;
-
-            if (_reloadTimer > 0f)
+            if (_currentBullets == MAX_BULLETS)
+            {
+                //ended
+                PlayerEvents.BroadcastPlayerReloadEnded(); 
                 return;
+            }
 
-            _isReloading = false;
-            _currentBullets = MAX_BULLETS;
             for (int i = 0; i < MAX_BULLETS; i++)
             {
                 if (bullets[i] == 0)
                 {
-                    bullets[i] = 1; // Reset to standard bullets on reload
+                    _currentBulletIndex = i;
                 }
             }
 
-            PlayerEvents.BroadcastPlayerReloadEnded();
+            bullets[_currentBulletIndex] = 1;
+            _currentBullets++;
+            OnReloadBulletAction?.Invoke(_currentBulletIndex, true);
+        }
+ 
+
+        private void HandleReload()
+        { 
+          
         }
 
         /// <summary>
@@ -185,12 +190,17 @@ namespace proscryption
                 _playerModel.TakeDamage(data.bloodDamage);
             }
 
-            return ConsumeBullet() && !_isReloading;
+            return CanConsumeBullet();
         }
 
-        bool ConsumeBullet()
+        bool CanConsumeBullet()
         {
             return _currentBullets > 0;
+        }
+
+        public bool IsFull()
+        {
+            return _currentBullets == MAX_BULLETS;
         }
     }
 }

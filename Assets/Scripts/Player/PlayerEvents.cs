@@ -19,6 +19,7 @@ namespace proscryption
         public static event Action OnPlayerReloadInput;
         public static event Action OnPlayerReloadEnded;
         public static event Action OnPlayerAimInput;
+        public static event Action OnPlayerReleaseAimInput;
         public static event Action OnPlayerCastInteract;
         public static event Action<Vector2> OnMouseLookInput;
 
@@ -65,6 +66,11 @@ namespace proscryption
         public static void BroadcastPlayerAimInput()
         {
             OnPlayerAimInput?.Invoke();
+        }
+
+        public static void BroadcastPlayerReleaseAimInput()
+        {
+            OnPlayerReleaseAimInput?.Invoke();
         }
 
         public static void BroadcastPlayerRollInput()

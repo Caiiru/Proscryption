@@ -16,14 +16,22 @@ public class PlayerView : MonoBehaviour
     private Animator _animator;
     private PlayerModel _model;
 
-    // Animator parameter constants (no magic strings!) 
-    private const string PARAM_IS_MOVING = "isMoving";
+    private const string PARAM_X_VELOCITY = "MoveX";
+    private const string PARAM_Y_VELOCITY = "MoveY";
     private const string PARAM_IS_INPUTING_TO_MOVE = "isMoveInput";
+    private const string PARAM_IS_AIMING = "IsAiming";
     private const string PARAM_IS_ATTACKING = "isAttacking";
     private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "TakeDamage";
-    private const string PARAM_IS_RELOADING = "isReloading";
+    private const string PARAM_IS_RELOADING = "Reloading";
+    private const string PARAM_STOP_RELOADING = "Stop Reloading";
+    private const string PARAM_INSERT_BULLET = "InsertBullet";
     private const string PARAM_DIE = "die";
+
+    private const string PARAM_FORWARD_DASH = "Forward Dodge";
+    private const string PARAM_BACKWRD_DASH = "Backward Dodge";
+    private const string PARAM_LEFT_DASH = "Left Dodge";
+    private const string PARAM_RIGHT_DASH = "Right Dodge";
 
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
@@ -54,20 +62,13 @@ public class PlayerView : MonoBehaviour
     {
         // Listen to state and event changes
         PlayerEvents.OnPlayerStateChanged += HandleStateChanged;
-        PlayerEvents.OnPlayerAttack += HandleAttackPlayed;
-        EventManager.OnEntityDamaged += HandleDamageTaken;
-        EventManager.OnHitDetected += HandleHitDetected;
-
         PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
 
     void OnDisable()
     {
-        EventManager.OnHitDetected -= HandleHitDetected;
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
-        PlayerEvents.OnPlayerAttack -= HandleAttackPlayed;
-        EventManager.OnEntityDamaged -= HandleDamageTaken;
         PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
     }
 
@@ -105,11 +106,14 @@ public class PlayerView : MonoBehaviour
     /// </summary>
     private void HandleStateChanged(PlayerState prev, PlayerState next)
     {
-        // Clear all state animations first
-        _animator.SetBool(PARAM_IS_MOVING, false);
+        // Clear all state animations first 
         _animator.SetBool(PARAM_IS_ATTACKING, false);
-        _animator.SetBool(PARAM_IS_ROLLING, false);
-        _animator.SetBool(PARAM_IS_RELOADING, false);
+        // _animator.SetBool(PARAM_IS_ROLLING, false);
+        // _animator.SetBool(PARAM_IS_RELOADING, false);
+        if (prev == PlayerState.Reloading)
+        {
+            _animator.SetTrigger(PARAM_STOP_RELOADING);
+        }
 
         // Set new animation state
         switch (next)
@@ -119,7 +123,6 @@ public class PlayerView : MonoBehaviour
                 break;
 
             case PlayerState.Moving:
-                _animator.SetBool(PARAM_IS_MOVING, true);
                 break;
 
             case PlayerState.Attacking:
@@ -143,34 +146,9 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// React to player attack event
-    /// </summary>
-    private void HandleAttackPlayed()
+
+    public void TakeDamageAnimation()
     {
-        // VFX, SFX, and animations handled via state change above
-        // Debug.Log($"[PlayerView] Attack played - {damage} damage", gameObject);
-    }
-
-    /// <summary>
-    /// React to damage received
-    /// </summary>
-    private void HandleDamageTaken(int damage, GameObject damageSource)
-    {
-        // Only if damage was to this player
-        // if (damageSource == gameObject || damageSource.GetComponent<BaseWeapon>()?.transform.parent != transform)
-        //     return;
-
-
-        // Debug.Log($"[PlayerView] Hit animation played", gameObject);
-    }
-
-    private void HandleHitDetected(Vector3 hitPos, float damage, GameObject target)
-    {
-        if (target != gameObject) return;
-        if (!_model.IsAlive) return;
-        if (_model.IsInvulnerable) return;
-
         Debug.Log("VIEW - TAKE DAMAGE");
         if (_model.CurrentState != PlayerState.Attacking)
             _animator.SetTrigger(PARAM_TAKE_DAMAGE);
@@ -181,17 +159,14 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    public void UpdateInputAnimation(Vector2 moveInput)
+    public void UpdateInputAnimation(Vector2 moveInput, Vector3 lookingDirection)
     {
-        // Debug.Log(moveInput);
-        if (moveInput.magnitude > 0.1f)
-        {
-            _animator.SetBool(PARAM_IS_INPUTING_TO_MOVE, true);
-        }
-        else
-        {
-            _animator.SetBool(PARAM_IS_INPUTING_TO_MOVE, false);
-        }
+        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
+
+
+        _animator.SetFloat(PARAM_X_VELOCITY, localLookDir.x);
+        _animator.SetFloat(PARAM_Y_VELOCITY, localLookDir.z);
     }
 
     public async UniTask HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
@@ -236,6 +211,62 @@ public class PlayerView : MonoBehaviour
         {
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
+        }
+    }
+
+    public void SetAiming(bool aiming)
+    {
+        _animator.SetBool(PARAM_IS_AIMING, aiming);
+    }
+
+    public void InsertBulletVisual()
+    {
+        _animator.SetTrigger(PARAM_INSERT_BULLET);
+    }
+
+    public void StopReloading()
+    {
+        _animator.SetTrigger(PARAM_STOP_RELOADING);
+    }
+
+    public void RollAnimation(Vector2 moveInput)
+    {
+        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
+
+        Debug.Log(localLookDir);
+
+        // Caso não tenha nenhum input, evita rodar a lógica (ou define um padrão)
+        if (localLookDir == Vector3.zero)
+        {
+            _animator.SetTrigger(PARAM_FORWARD_DASH);
+            return;
+        }
+
+        // 1. Verifica se o movimento horizontal (X) é maior que o vertical (Y)
+        if (Mathf.Abs(localLookDir.x) > Mathf.Abs(localLookDir.z))
+        {
+            // Movimento predominantemente Horizontal
+            if (localLookDir.x > 0)
+            {
+                _animator.SetTrigger(PARAM_RIGHT_DASH);
+            }
+            else
+            {
+                _animator.SetTrigger(PARAM_LEFT_DASH);
+            }
+        }
+        else
+        {
+            // Movimento predominantemente Vertical
+            if (localLookDir.z > 0)
+            {
+                _animator.SetTrigger(PARAM_FORWARD_DASH);
+            }
+            else
+            {
+                _animator.SetTrigger(PARAM_BACKWRD_DASH);
+            }
         }
     }
 }
