@@ -140,14 +140,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
   maxHealth: 25
-  maxStamina: 25
-  staminaRegenPerSec: 5
+  maxStamina: 50
+  staminaRegenPerSec: 10
   moveSpeed: 3
   _currentHealth: 0
   _currentState: 0
   _currentStance: 0
   _isInvulnerable: 0
-  reloadCooldown: 3
+  currentReloadTimer: 0
+  reloadCooldown: 0.5
+  isRolling: 0
   rollForce: 20
   rollDuration: 0.5
   rollCooldown: 1.5
@@ -160,6 +162,7 @@ MonoBehaviour:
   _bloodCooldownTimer: 0
   collectedRewards: []
   killPlayer: 0
+  takeDamage: 0
 --- !u!114 &948268413005835966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,14 +410,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805239192847994045}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.46662158, y: 0.87380254, z: 0.11455551, w: -0.07490291}
-  m_LocalPosition: {x: -0.07999977, y: 0.072999954, z: -0.23200007}
+  m_LocalRotation: {x: -0.6832119, y: 0.7166315, z: 0.120521374, w: -0.071661025}
+  m_LocalPosition: {x: -0.118, y: 0.049, z: -0.249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2894750736572645532}
   m_Father: {fileID: 7130980238188620726}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -4.291, y: -164.446, z: -87.851}
 --- !u!1 &4748121001596499799
 GameObject:
   m_ObjectHideFlags: 0

@@ -1800,11 +1800,7 @@ MonoBehaviour:
   LightStanceTransform: {fileID: 215702176637333563}
   bulletForeground: {fileID: 6706727029744830252, guid: dfd25825b166e9c4680f8294f4f03f27, type: 3}
   angleOffset: 30
-  StandardColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  BloodColor: {r: 0.38679248, g: 0.23171058, b: 0.23171058, a: 1}
-  LightColor: {r: 0.4339623, g: 0.41814092, b: 0.23540407, a: 1}
-  EmptyColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
-  _currentStanceColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  rotateAnimationDuration: 0.5
 --- !u!1 &4047739309400704079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4477,8 +4473,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press E to Interact
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 05a3f2c8112e6df4b9306541ba038ee2, type: 2}
-  m_sharedMaterial: {fileID: -2063715749308278787, guid: 05a3f2c8112e6df4b9306541ba038ee2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
+  m_sharedMaterial: {fileID: -3114853547759373109, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5253,6 +5249,14 @@ PrefabInstance:
       propertyPath: m_Spacing
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 4811792833230687028, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4811792833230687028, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6324202841267563857, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5353,6 +5357,14 @@ PrefabInstance:
       propertyPath: selectAnimationDuration
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7479414178367686175, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
+    - target: {fileID: 7479414178367686175, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -3114853547759373109, guid: 1d92980a610138549a60a405cd512a7d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
