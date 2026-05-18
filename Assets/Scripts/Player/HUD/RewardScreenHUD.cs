@@ -42,13 +42,13 @@ namespace proscryption
 
         private void SetupEvents()
         {
-            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+            //ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
         }
 
         private void OnDestroy()
         {
-            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
+            //ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
             PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
         }
 

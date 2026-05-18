@@ -4,7 +4,15 @@ using UnityEngine;
 namespace proscryption
 {
     [Serializable]
-    public enum GameState { Starting, Roaming, Combat, Dead, Paused }
+    public enum GameState
+    {
+        Starting,
+        Roaming,
+        Combat,
+        Dead,
+        Paused
+    }
+
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
@@ -18,8 +26,10 @@ namespace proscryption
         //Ref
         [SerializeField] GameObject _playerObject;
 
-        [Header("Level Settings")]
-        public Transform playerSpawnPoint;
+        [Header("Level Settings")] public Transform playerSpawnPoint;
+
+        public GameObject bookPrefab;
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -31,20 +41,21 @@ namespace proscryption
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
         void Start()
         {
             if (Initializer.Instance == null)
             {
                 InitializeGameSession();
-            } 
+            }
         }
 
         public void Initialize(GameObject playerObject)
         {
             _playerObject = playerObject;
             InitializeGameSession();
-
         }
+
         public void InitializeGameSession()
         {
             Debug.Log("initializing...");
@@ -57,18 +68,26 @@ namespace proscryption
             ChangeGameState(GameState.Roaming);
             OnGameLoaded?.Invoke();
         }
+
         private void SetupEvents()
         {
             PlayerEvents.OnPlayerStateChanged += OnPlayerStateChanged;
             EventManager.OnHitDetected += HandleHitDetected;
             EventManager.OnGamePauseInput += HandleGamePauseToggle;
+
+            SetupArenaEvents();
         }
 
+        void SetupArenaEvents()
+        {
+            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+        }
 
 
         private void OnDestroy()
         {
             // Clean up event subscriptions
+            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
             EventManager.OnGamePauseInput -= HandleGamePauseToggle;
@@ -81,7 +100,6 @@ namespace proscryption
         }
 
 
-
         public void ChangeGameState(GameState newState)
         {
             if (CurrentState == newState) return;
@@ -89,6 +107,7 @@ namespace proscryption
             CurrentState = newState;
             OnGameStateChanged?.Invoke(newState);
         }
+
         private void OnPlayerStateChanged(PlayerState oldState, PlayerState newState)
         {
             switch (newState)
@@ -102,11 +121,12 @@ namespace proscryption
                     break;
             }
         }
+
         private void HandleHitDetected(Vector3 vector, float arg2, GameObject @object)
         {
             ChangeGameState(GameState.Combat);
-
         }
+
         public GameObject GetPlayerObject()
         {
             return _playerObject;
@@ -118,8 +138,10 @@ namespace proscryption
             if (index < 0 || index >= _spawnPoint.Length)
             {
                 Debug.LogWarning($"Invalid spawn point index: {index}. Returning default position.");
-                return new Vector3(0, 0.5f, 0); ;
+                return new Vector3(0, 0.5f, 0);
+                ;
             }
+
             this.playerSpawnPoint = _spawnPoint[index].transform;
             return _spawnPoint[index].transform.position;
         }
@@ -135,6 +157,8 @@ namespace proscryption
                 ChangeGameState(GameState.Paused);
         }
 
-       
+        private void HandleWaveEnded()
+        {
+        }
     }
 }

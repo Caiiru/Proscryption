@@ -16,7 +16,7 @@ namespace proscryption
         /// Broadcast when any entity dies (deadEntity)
         public static event Action<GameObject> OnEntityDied;
 
-       
+        public static event Action OnUpgradeBookInteract;
 
         // ===== GAME EVENTS =====
         public static event Action OnGameLoaded;
@@ -24,8 +24,6 @@ namespace proscryption
         public static event Action OnGameWin;
 
         // ===== ARENA EVENTS =====
-
-
 
 
         public static void BroadcastHitDetected(Vector3 hitPos, int damage, GameObject target)
@@ -46,7 +44,12 @@ namespace proscryption
             // Debug.Log($"[Event] {deadEntity.name} died", deadEntity);
         }
 
-         
+        public static void BroadcastBookInteract()
+        {
+            OnUpgradeBookInteract?.Invoke();
+        }
+
+
         public static void BroadcastPauseInput()
         {
             Debug.Log("Broadcasting pause input from EventManager.");
@@ -57,7 +60,6 @@ namespace proscryption
         {
             OnGameLoaded?.Invoke();
         }
- 
 
 
         public static void BroadcastGameWin()
@@ -65,13 +67,9 @@ namespace proscryption
             Debug.Log("Broadcast... GAME WIN ");
             OnGameWin?.Invoke();
         }
-
-
     }
-
-
-
 }
+
 /// <summary>
 /// Player state machine for behavior and animation control
 /// </summary>
