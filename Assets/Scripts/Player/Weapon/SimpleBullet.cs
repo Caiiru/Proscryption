@@ -5,7 +5,7 @@ namespace proscryption
     [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(SphereCollider))]
     public class SimpleBullet : MonoBehaviour
     {
-        private float _speed = 20f;
+        public float _speed = 20f;
         private int _damage = 10;
         private float m_bulletForce;
         private bool _isCritical = false;
