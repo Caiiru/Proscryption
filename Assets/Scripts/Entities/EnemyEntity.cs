@@ -16,8 +16,8 @@ namespace proscryption
         public Action<Vector3?, ForceMode?> OnTakeDamage;
         public Action<Vector3?, ForceMode?> OnDeath;
 
-        [Header("VFX")] public VisualEffect takeDamageVFX;
-        public VisualEffect deathVFX;
+        [Header("VFX")] public GameObject takeDamageVFX;
+        public GameObject deathVFX;
 
         public override void Start()
         {
@@ -31,12 +31,28 @@ namespace proscryption
         {
             if (takeDamageVFX)
             {
-                takeDamageVFX.Stop();
+                if (takeDamageVFX.TryGetComponent<VisualEffect>(out VisualEffect takeDamageVisualEffect))
+                    takeDamageVisualEffect.Stop();
+                else
+                {
+                    if (takeDamageVFX.TryGetComponent<ParticleSystem>(out ParticleSystem takeDamageParticleSystem))
+                    {
+                        takeDamageParticleSystem.Stop();
+                    }
+                }
             }
 
             if (deathVFX)
             {
-                deathVFX.Stop();
+                if (deathVFX.TryGetComponent<VisualEffect>(out VisualEffect deathVisualEffect))
+                    deathVisualEffect.Stop();
+                else
+                {
+                    if (deathVFX.TryGetComponent<ParticleSystem>(out ParticleSystem deathParticleSystem))
+                    {
+                        deathParticleSystem.Stop();
+                    }
+                }
             }
         }
 
@@ -48,7 +64,15 @@ namespace proscryption
             OnTakeDamage?.Invoke(dmgForce, forceMode);
             if (takeDamageVFX)
             {
-                takeDamageVFX.Play();
+                if (takeDamageVFX.TryGetComponent<VisualEffect>(out VisualEffect takeDamageVisualEffect))
+                    takeDamageVisualEffect.Play();
+                else
+                {
+                    if (takeDamageVFX.TryGetComponent<ParticleSystem>(out ParticleSystem takeDamageParticleSystem))
+                    {
+                        takeDamageParticleSystem.Play();
+                    }
+                }
             }
         }
 
@@ -62,7 +86,15 @@ namespace proscryption
             OnDeath?.Invoke(force, mode);
             if (deathVFX)
             {
-                deathVFX.Play();
+                if (deathVFX.TryGetComponent<VisualEffect>(out VisualEffect deathVisualEffect))
+                    deathVisualEffect.Play();
+                else
+                {
+                    if (deathVFX.TryGetComponent<ParticleSystem>(out ParticleSystem deathParticleSystem))
+                    {
+                        deathParticleSystem.Play();
+                    }
+                }
             }
         }
 
