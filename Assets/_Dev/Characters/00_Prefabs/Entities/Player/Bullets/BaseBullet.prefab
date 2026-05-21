@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6880630234419171120}
+  - {fileID: 1280438914822092163}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &859910012958355685
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.SimpleBullet
   _speed: 2
---- !u!1001 &2114642220895852684
+--- !u!1001 &6044208055361135167
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -144,6 +144,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5841992674435678226, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9112627334904405416, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
       propertyPath: m_Name
       value: VFX_BulletTrail
@@ -153,8 +157,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
---- !u!4 &6880630234419171120 stripped
+--- !u!4 &1280438914822092163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4766039151635355580, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
-  m_PrefabInstance: {fileID: 2114642220895852684}
+  m_PrefabInstance: {fileID: 6044208055361135167}
   m_PrefabAsset: {fileID: 0}
