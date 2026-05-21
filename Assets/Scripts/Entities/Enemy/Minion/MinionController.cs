@@ -57,10 +57,12 @@ namespace proscryption
         #region Visual and Ragdoll
 
         CapsuleCollider _takeDamageCollider;
-        [SerializeField] Collider[] _ragdollColliders;
+        [Header("Ragdoll")] [SerializeField] Collider[] _ragdollColliders;
         [SerializeField] Rigidbody[] _ragdollRigidbodies;
 
-        [SerializeField] SkinnedMeshRenderer _bodyRenderer;
+        [Space] [Header("Visual")] [SerializeField]
+        SkinnedMeshRenderer _bodyRenderer;
+
         [SerializeField] SkinnedMeshRenderer _eyesRenderer;
 
         public Material DissolveMaterial;
@@ -151,6 +153,13 @@ namespace proscryption
             switch (currentState)
             {
                 case EnemyState.TakingDamage:
+
+                    if (!_canBeStunned)
+                    {
+                        ChangeState(EnemyState.Attacking);
+                        return UniTask.CompletedTask;
+                    }
+
                     HandleTakeDamageState().Forget();
                     return UniTask.CompletedTask;
                     break;
@@ -215,7 +224,6 @@ namespace proscryption
         private async UniTask HandleTakeDamageState()
         {
             //Stun Enemy
-            if (!_canBeStunned) return;
             _canBeStunned = false;
 
 
@@ -336,7 +344,7 @@ namespace proscryption
 
 
             await UniTask.WaitForSeconds(duration / 2);
-            _rigidbody.AddForce(transform.forward * jumpForce, ForceMode.Impulse); 
+            _rigidbody.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
             // await UniTask.Delay(1000);
             await UniTask.Delay(Mathf.FloorToInt(duration * 2000));
 
@@ -420,7 +428,8 @@ namespace proscryption
             float dissolveDuration = 3;
             _bodyRenderer.material.DOFloat(1, "_DissolveAmount", dissolveDuration);
             await UniTask.Delay(Mathf.FloorToInt(Mathf.FloorToInt(dissolveDuration) * 1000));
-            Destroy(this.gameObject);
+            // if (this.gameObject)
+            //     Destroy(this.gameObject);
         }
 
         private void ToggleColliders(bool isActivate)

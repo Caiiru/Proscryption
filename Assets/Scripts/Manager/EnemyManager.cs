@@ -7,7 +7,7 @@ namespace proscryption
 {
     public class EnemyManager : MonoBehaviour
     {
-        public ObjectPool<GameObject> enemyPool;
+        // public ObjectPool<GameObject> enemyPool;
 
         public GameObject enemyPrefab;
 
@@ -74,11 +74,7 @@ namespace proscryption
             //     enemy.SetActive(false);
             //     Destroy(enemy);
             // }
-
-            foreach (var enemy in _enemies)
-            {
-                enemy.SetActive(false);
-            }
+ 
         }
 
         private void OnEntityDieHandler(GameObject entity)
@@ -91,8 +87,7 @@ namespace proscryption
             for (int i = 0; i < _enemies.Length; i++)
             {
                 if (_enemies[i] == entity)
-                {
-                    _enemies[i].SetActive(false);
+                { 
                     _enemiesAlive--;
                 }
             }
@@ -100,8 +95,10 @@ namespace proscryption
             if (_enemiesAlive == 0)
             {
                 //Game win 
+                EventManager.BroadcastGameWin();
                 
-                OnGameWinHandler();
+                
+                // OnGameWinHandler();
             }
         }
 

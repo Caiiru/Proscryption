@@ -110,14 +110,14 @@ namespace proscryption
         }
         private void SpawnEnemy()
         {
-            if (enemiesToSpawn <= 0)
-            {
-                _canSpawn = false;
-                return;
-            }
-            var enemy = _enemyManager.enemyPool.Get();
-            enemy.transform.position = EnemyGetRandomSpawnPoint();
-            enemiesToSpawn--;
+            // if (enemiesToSpawn <= 0)
+            // {
+            //     _canSpawn = false;
+            //     return;
+            // }
+            // var enemy = _enemyManager.enemyPool.Get();
+            // enemy.transform.position = EnemyGetRandomSpawnPoint();
+            // enemiesToSpawn--;
 
         }
 

@@ -8,6 +8,8 @@ namespace proscryption
 {
     public class PlayerModel : MonoBehaviour
     {
+        private bool _gameWasEnded = false;
+
         // ===== CONFIGURATION =====
         [SerializeField] private float maxHealth = 100;
         [SerializeField] private float maxStamina = 100;
@@ -109,11 +111,14 @@ namespace proscryption
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
             PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
             PlayerEvents.OnPlayerHitLightShot += HandleLightShot;
+
+            EventManager.OnGameWin += HandleGameWin;
         }
 
 
         void OnDisable()
         {
+            EventManager.OnGameWin -= HandleGameWin;
             PlayerEvents.OnPlayerReloadEnded -= HandleReloadEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
@@ -347,6 +352,8 @@ namespace proscryption
         public void ChangeState(PlayerState newState)
         {
             if (_currentState == newState) return;
+            if (_gameWasEnded) return;
+
 
             PlayerState prev = _currentState;
             _currentState = newState;
@@ -358,14 +365,7 @@ namespace proscryption
                 currentReloadTimer = reloadCooldown;
             }
 
-            if (newState == PlayerState.Menu)
-            {
-                AppManager.Instance.SetCursorVisibility(true);
-            }
-            else
-            {
-                AppManager.Instance.SetCursorVisibility(false);
-            }
+            AppManager.Instance.SetCursorVisibility(newState is PlayerState.Menu or PlayerState.Dead);
         }
 
 
@@ -460,6 +460,7 @@ namespace proscryption
             if (_currentHealth <= 0)
             {
                 ChangeState(PlayerState.Dead);
+                _gameWasEnded = true;
                 EventManager.BroadcastEntityDied(gameObject);
             }
         }
@@ -495,6 +496,13 @@ namespace proscryption
             }
         }
 
+
+        private void HandleGameWin()
+        {
+            _gameWasEnded = true;
+            ChangeState(PlayerState.Menu);
+        }
+
         private void EndInvulnerability()
         {
             _isInvulnerable = false;
@@ -524,42 +532,47 @@ namespace proscryption
 
         public bool GetCanMove()
         {
-            return _currentState == PlayerState.Idle ||
-                   _currentState == PlayerState.Moving;
+            return _currentState is PlayerState.Idle or PlayerState.Moving && !_gameWasEnded;
         }
 
         public bool CanAttack()
         {
             if (!IsAlive) return false;
-            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+            if (_gameWasEnded) return false;
+            if (_currentState is not (PlayerState.Idle or PlayerState.Moving))
                 return false;
-            if (isRolling) return false;
-
-            return true;
+            
+            return !isRolling;
         }
 
         public bool CanRoll()
         {
-            return (_currentState == PlayerState.Idle ||
-                    _currentState == PlayerState.Moving) &&
-                   _currentStamina >= ROLL_STAMINA_COST &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+                return false;
+            if (_currentStamina >= ROLL_STAMINA_COST) return false;
+
+            return true;
         }
 
         public bool CanRotate()
         {
-            return _currentState != PlayerState.Rolling &&
-                   _currentState != PlayerState.Attacking &&
-                   _currentState != PlayerState.Menu &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            return (_currentState == PlayerState.Idle || _currentState == PlayerState.Moving) &&
+                   _currentState != PlayerState.Menu;
         }
 
         public bool CanReload()
         {
-            return (_currentState == PlayerState.Idle ||
-                    _currentState == PlayerState.Moving) &&
-                   _canReload &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+                return false;
+
+
+            return _canReload;
         }
 
         public PlayerStanceData GetCurrentData()

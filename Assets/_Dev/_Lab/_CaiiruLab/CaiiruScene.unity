@@ -461,11 +461,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3485899924577345434, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: health
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3485899924577345434, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: maxHealth
-      value: 5
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: stunDelay
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: _moveSpeed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2431,17 +2439,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minion
       objectReference: {fileID: 0}
-    - target: {fileID: 2886613303431697222, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: _turnRate
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3485899924577345434, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
-      propertyPath: health
-      value: 5
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: jumpForce
+      value: 55
       objectReference: {fileID: 0}
-    - target: {fileID: 3485899924577345434, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
-      propertyPath: maxHealth
-      value: 5
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: _moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631419064678949215, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
+      propertyPath: _attackRange
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2550,6 +2562,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2263247863235009596, guid: c02f24111f8242d448be4b80481f259e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4355990986492020641, guid: c02f24111f8242d448be4b80481f259e, type: 3}
       propertyPath: m_Name
       value: GameManager

@@ -158,7 +158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.45
+      value: 11.39
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -166,7 +166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.19
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2463,7 +2463,7 @@ MonoBehaviour:
   _attackRange: 1.5
   _critChance: 10
   _takeDamageDelay: 0.2
-  stunDelay: 0.3
+  stunDelay: 4
   jumpForce: 45
   _playerTransform: {fileID: 0}
   _clawsHitBox:
@@ -2486,8 +2486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d481578254eea4a9a7e287d8f6cacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.EnemyEntity
-  health: 100
-  maxHealth: 100
+  health: 50
+  maxHealth: 50
   canTakeDamage: 1
   takeDamageDelay: 0.25
   canAttack: 0
