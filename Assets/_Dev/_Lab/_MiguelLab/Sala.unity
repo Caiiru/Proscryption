@@ -1326,6 +1326,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 953f9dd55c54e7347b5dc9ca30aecb02, type: 2}
+    - target: {fileID: -1102599546426310344, guid: a8f546b34630c54409ab360e59e2c203, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
+    - target: {fileID: -1102599546426310344, guid: a8f546b34630c54409ab360e59e2c203, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 38346ca63ea135540b5f259ab92e3a59, type: 2}
     - target: {fileID: 919132149155446097, guid: a8f546b34630c54409ab360e59e2c203, type: 3}
       propertyPath: m_Name
       value: MDL_PlayerV8_Temp

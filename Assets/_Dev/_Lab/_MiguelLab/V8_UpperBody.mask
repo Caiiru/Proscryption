@@ -154,4 +154,6 @@ AvatarMask:
   - m_Path: ARM_PlayerV8/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R
     m_Weight: 0
   - m_Path: SK_PlayerV8
-    m_Weight: 1
+    m_Weight: 0
+  - m_Path: SK_Saia
+    m_Weight: 0
