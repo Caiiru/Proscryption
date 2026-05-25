@@ -348,6 +348,11 @@ namespace proscryption
         {
             if (_currentState == newState) return;
 
+            if (_currentState == PlayerState.Reloading)
+            {
+                _playerView.StopReloading();
+            }
+
             PlayerState prev = _currentState;
             _currentState = newState;
 
@@ -372,6 +377,8 @@ namespace proscryption
         private void HandleReloadEnded()
         {
             this.ChangeState(PlayerState.Idle);
+            
+            _playerView.StopReloading();
         }
 
         // ===== REWARD MANAGMENT =====
@@ -462,6 +469,8 @@ namespace proscryption
                 ChangeState(PlayerState.Dead);
                 EventManager.BroadcastEntityDied(gameObject);
             }
+            
+            _playerView.StopReloading();
         }
 
         private void HandleLightShot()

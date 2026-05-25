@@ -18,12 +18,13 @@ public class PlayerView : MonoBehaviour
 
     private const string PARAM_X_VELOCITY = "MoveX";
     private const string PARAM_Y_VELOCITY = "MoveY";
+    private const string PARAM_IS_WALKING = "Is Walking";
     private const string PARAM_IS_INPUTING_TO_MOVE = "isMoveInput";
-    private const string PARAM_IS_AIMING = "IsAiming";
-    private const string PARAM_IS_ATTACKING = "isAttacking";
+    private const string PARAM_IS_AIMING = "Is Aiming";
+    private const string PARAM_IS_ATTACKING = "Shooting";
     private const string PARAM_IS_ROLLING = "isRolling";
-    private const string PARAM_TAKE_DAMAGE = "TakeDamage";
-    private const string PARAM_IS_RELOADING = "Reloading";
+    private const string PARAM_TAKE_DAMAGE = "Take Damage";
+    private const string PARAM_IS_RELOADING = "Is Reloading";
     private const string PARAM_STOP_RELOADING = "Stop Reloading";
     private const string PARAM_INSERT_BULLET = "InsertBullet";
     private const string PARAM_DIE = "die";
@@ -84,6 +85,7 @@ public class PlayerView : MonoBehaviour
 
     private void SetupStart()
     {
+        meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _bodyMaterial = meshRenderer.materials[0];
         _detailsMaterial = meshRenderer.materials[1];
 
@@ -108,8 +110,6 @@ public class PlayerView : MonoBehaviour
     {
         // Clear all state animations first 
         _animator.SetBool(PARAM_IS_ATTACKING, false);
-        // _animator.SetBool(PARAM_IS_ROLLING, false);
-        // _animator.SetBool(PARAM_IS_RELOADING, false);
         if (prev == PlayerState.Reloading)
         {
             _animator.SetTrigger(PARAM_STOP_RELOADING);
@@ -164,7 +164,8 @@ public class PlayerView : MonoBehaviour
         Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
         Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
 
-
+        bool isWalking = moveInput.x != 0 || moveInput.y != 0;
+        _animator.SetBool(PARAM_IS_WALKING, isWalking);
         _animator.SetFloat(PARAM_X_VELOCITY, localLookDir.x);
         _animator.SetFloat(PARAM_Y_VELOCITY, localLookDir.z);
     }
@@ -221,12 +222,12 @@ public class PlayerView : MonoBehaviour
 
     public void InsertBulletVisual()
     {
-        _animator.SetTrigger(PARAM_INSERT_BULLET);
+        //_animator.SetTrigger(PARAM_INSERT_BULLET);
     }
 
     public void StopReloading()
     {
-        _animator.SetTrigger(PARAM_STOP_RELOADING);
+        _animator.SetBool(PARAM_IS_RELOADING, false);
     }
 
     public void RollAnimation(Vector2 moveInput)

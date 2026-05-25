@@ -189,6 +189,9 @@ namespace proscryption
             _model.isRolling = true;
             _model.ChangeState(PlayerState.Rolling);
 
+            if (_model.CurrentState == PlayerState.Reloading)
+                _view.StopReloading();
+
             Vector2 rollDirection = GetCameraRelativeMovement(_moveInput);
             _view.RollAnimation(rollDirection);
         }
@@ -202,6 +205,10 @@ namespace proscryption
             if (_model.CurrentState != PlayerState.Reloading)
             {
                 _model.ChangeState(PlayerState.Reloading);
+            }
+            else
+            {
+                _model.ChangeState(PlayerState.Idle);
             }
         }
 
