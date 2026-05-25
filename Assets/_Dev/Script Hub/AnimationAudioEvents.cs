@@ -24,6 +24,6 @@ public class AnimationAudioEvents : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"No sound found for event: {eventName}");
+        Debug.LogWarning($"No sound found for event: {eventName} from {transform.gameObject.name}");
     }
 }

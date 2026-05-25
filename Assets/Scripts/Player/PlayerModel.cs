@@ -78,6 +78,8 @@ namespace proscryption
 
         private CombatSystem _combatSystem;
 
+        private AnimationAudioEvents _audioEvents;
+
         // ===== Debug =====
         [Space] [Header("DEBUG")] public bool killPlayer = false;
 
@@ -98,6 +100,7 @@ namespace proscryption
 
             _playerView = GetComponent<PlayerView>();
             _combatSystem = GetComponent<CombatSystem>();
+            _audioEvents = GetComponent<AnimationAudioEvents>();
         }
 
         #region Enable and Disable
@@ -348,6 +351,11 @@ namespace proscryption
         {
             if (_currentState == newState) return;
 
+            if (_currentState == PlayerState.Reloading)
+            {
+                _playerView.StopReloading();
+            }
+
             PlayerState prev = _currentState;
             _currentState = newState;
 
@@ -372,6 +380,8 @@ namespace proscryption
         private void HandleReloadEnded()
         {
             this.ChangeState(PlayerState.Idle);
+
+            _playerView.StopReloading();
         }
 
         // ===== REWARD MANAGMENT =====
@@ -462,6 +472,8 @@ namespace proscryption
                 ChangeState(PlayerState.Dead);
                 EventManager.BroadcastEntityDied(gameObject);
             }
+
+            _playerView.StopReloading();
         }
 
         private void HandleLightShot()
@@ -478,6 +490,7 @@ namespace proscryption
 
             _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
+            _audioEvents.PlaySound("Heal");
         }
 
         // ===== INVULNERABILITY =====
@@ -531,11 +544,24 @@ namespace proscryption
         public bool CanAttack()
         {
             if (!IsAlive) return false;
-            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+            if (_currentState == PlayerState.Reloading)
+            {
+                CancelReload();
                 return false;
+
+            }
+
             if (isRolling) return false;
 
+            if (!_combatSystem.GetWeapon().CanConsumeBullet()) return false;
+
             return true;
+        }
+
+        private void CancelReload()
+        {
+            _playerView.StopReloading();
+            _currentState = PlayerState.Idle;
         }
 
         public bool CanRoll()

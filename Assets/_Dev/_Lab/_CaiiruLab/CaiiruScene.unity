@@ -1428,84 +1428,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
---- !u!21 &929288092
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_BodyFinal (Instance) (Instance)
-  m_Shader: {fileID: -6465566751694194690, guid: 8f17b0c5278c94a41a156be91822403c, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _SampleTexture2D_0b1f5f284f94481383d43c699ab7a4aa_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: c716dffe4aabcb44e955228163180f78, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_16f385473fc84a14bb2da8e7a9cbe969_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 00913236227e8804e857c1dfec8061f7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_98525d2683de4f439dd6964f2b2bfe85_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 9ab2d983c7b35784d884d198bb8fb3b1, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_a9548c5a1e5948ff96d11931a39ca707_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 4b7912e463c489549bd5bece42c5299d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_bfa60e07729041629fcd1819d09da0b6_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 42b85bdde4233964abd1abf4217323be, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_c1f7e040502544e689176a6f59a6ed7c_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: a6a94cda64d8e0648a38a787d771f9f9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_f6987efbcd0142a78624c35e1e9e6b92_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: b259a28b37ecf7b4395d15c10bfce155, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Animation_Factor: 1
-    - _Power_ID: 1
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _Tattoo_ID: 1
-    m_Colors:
-    - _Blood_Emissive_Color: {r: 4.152602, g: 1.9158078, b: 0, a: 1}
-    - _Emissive_Color: {r: 4, g: 0.03654843, b: 0, a: 1}
-    - _Faith_Emissive_Color: {r: 8, g: 3.9696085, b: 1.018868, a: 1}
-    - _Light_Emissive_Color: {r: 83.115204, g: 129.26833, b: 81.09758, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &946156044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,70 +1688,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
   m_PrefabInstance: {fileID: 5757133134912884005}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1238283276
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_DetailsV3 (Instance) (Instance)
-  m_Shader: {fileID: -6465566751694194690, guid: ff7d9bc9b8bf25448b0c9eb9c17c0e37, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _SampleTexture2D_0ebfc0e9171a4095816b170e574a6263_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 9c6177015d8b7fd4a9380ce1b0244be9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_6d05bc1187db4112aa90bf84f8ec091a_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 2e9cc4d87b4d94d488df291b0392b170, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_9469eb0674914a0d80b1ce1e8937ca5c_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 472804f65e6362a4d83398823669e368, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_bade4b8ed2b443f3a832c1ef3253353d_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 58aa1228906ac754683f3defb20556c4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Eye_ID: 1
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    m_Colors:
-    - _Blood_Emissive_Color: {r: 4.152602, g: 1.9158078, b: 0, a: 1}
-    - _Color: {r: 8, g: 0, b: 0.14343262, a: 1}
-    - _Color_1: {r: 9.874542, g: 4.366729, b: 1.0712948, a: 1}
-    - _Light_Emissive_Color: {r: 3.962742, g: 96.82452, b: 0, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1251263477
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,10 +2195,6 @@ PrefabInstance:
     - target: {fileID: 2886613303431697222, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: m_Name
       value: Minion
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886613303431697222, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3485899924577345434, guid: c71b5876f00d5604993bb497fbafc87f, type: 3}
       propertyPath: health
@@ -3659,14 +3513,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: _bodyMaterial
-      value: 
-      objectReference: {fileID: 929288092}
-    - target: {fileID: 948268413005835966, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
-      propertyPath: _detailsMaterial
-      value: 
-      objectReference: {fileID: 1238283276}
     - target: {fileID: 1067021595199211702, guid: 3cf5e5f7d88c20645b8d46fae0b59fea, type: 3}
       propertyPath: m_Name
       value: Player
