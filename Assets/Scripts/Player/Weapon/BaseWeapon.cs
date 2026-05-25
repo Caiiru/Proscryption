@@ -193,7 +193,7 @@ namespace proscryption
             return CanConsumeBullet();
         }
 
-        bool CanConsumeBullet()
+        public bool CanConsumeBullet()
         {
             return _currentBullets > 0;
         }

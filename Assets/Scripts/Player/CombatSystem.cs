@@ -33,13 +33,8 @@ namespace proscryption
             if (_currentWeapon == null)
                 Debug.LogWarning("[CombatSystem] BaseWeapon not found on children!", gameObject);
 
-            PlayerEvents.OnPlayerReloadInput += ExecuteReload;
-            _currentWeapon.GetComponent<BaseWeapon>().Setup(this);
-        }
 
-        void OnDisable()
-        {
-            PlayerEvents.OnPlayerReloadInput -= ExecuteReload;
+            _currentWeapon.GetComponent<BaseWeapon>().Setup(this);
         }
 
 
@@ -54,11 +49,9 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerAttack();
         }
 
-        /// <summary>
-        /// Triggered by animation event 
-        /// </summary>
-        private void ExecuteReload()
-        { 
+        public bool HasBullets()
+        {
+            return _currentWeapon.CanConsumeBullet();
         }
 
         public BaseWeapon GetWeapon()

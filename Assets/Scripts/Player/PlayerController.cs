@@ -221,8 +221,8 @@ namespace proscryption
             if (!_isAiming) return;
 
             if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return;
-
-            _model.ChangeState(PlayerState.Attacking);
+            if (_model.CanAttack())
+                _model.ChangeState(PlayerState.Attacking);
         }
 
         void Update()

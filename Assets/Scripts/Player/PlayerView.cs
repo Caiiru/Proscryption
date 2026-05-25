@@ -27,7 +27,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_RELOADING = "Is Reloading";
     private const string PARAM_STOP_RELOADING = "Stop Reloading";
     private const string PARAM_INSERT_BULLET = "InsertBullet";
-    private const string PARAM_DIE = "die";
+    private const string PARAM_DIE = "Death";
 
     private const string PARAM_FORWARD_DASH = "Forward Dodge";
     private const string PARAM_BACKWRD_DASH = "Backward Dodge";
@@ -136,7 +136,7 @@ public class PlayerView : MonoBehaviour
 
             case PlayerState.Dead:
                 _animator.SetTrigger(PARAM_DIE);
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
                 break;
 
 
