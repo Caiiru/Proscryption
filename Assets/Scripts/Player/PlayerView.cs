@@ -39,7 +39,8 @@ public class PlayerView : MonoBehaviour
 
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
-
+    public GameObject EnterBloodStanceVFX;
+    public GameObject EnterFaithStanceVFX;
     [Header("Material")] public SkinnedMeshRenderer meshRenderer;
     public float tattooAnimationDuration = 0.5f;
     public int stancesDelayMilliseconds = 200;
@@ -52,8 +53,6 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_TATTO_ID = "_Tattoo_ID";
     private const string PARAM_ANIMATION_FACTOR = "_Animation_Factor";
     private const string PARAM_EYE_ID = "_Eye_ID";
-
-    //Color
 
 
     void Awake()

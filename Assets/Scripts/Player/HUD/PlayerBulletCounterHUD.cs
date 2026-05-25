@@ -42,13 +42,13 @@ namespace proscryption
             SetupEvents();
         }
 
-        private void SetupEvents()
+        private async void SetupEvents()
         {
             // EventManager.OnPlayerAttack += HandleAttackPlayed;
             if (_weapon)
             {
                 _weapon.OnShootAction += HandleAttackPlayed;
-                _weapon.OnReloadBulletAction += async (index, isRotating) =>
+                _weapon.OnReloadBulletAction += (index, isRotating) =>
                 {
                     HandleReloadOneBullet(index, isRotating).Forget();
                 };
@@ -129,7 +129,7 @@ namespace proscryption
             // Debug.Log("Reload one bullet");
             int i = 0;
             if (rotate)
-            { 
+            {
                 RotateToIndex(index);
                 await UniTask.WaitForSeconds(rotateAnimationDuration);
             }

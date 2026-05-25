@@ -23,7 +23,7 @@ namespace proscryption
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
-        private bool _canAttack = false;
+        private bool _canAttack = true;
 
         //Reload
         private bool _canReload = true;

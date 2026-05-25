@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -83,6 +84,7 @@ namespace proscryption
                 {
                     continue;
                 }
+
                 if (i > valueStart && i < valueEnd)
                 {
                     if (!hasValue)
@@ -141,9 +143,16 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerCloseRewardScreen();
         }
 
-        private void OnOpenClick()
+        private async void OnOpenClick()
         {
-            _rewardScreen.SelectBook(this);
+            try
+            {
+                await _rewardScreen.SelectBook(this);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         public async UniTask SelectAnimation()
