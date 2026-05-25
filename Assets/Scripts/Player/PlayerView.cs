@@ -221,6 +221,8 @@ public class PlayerView : MonoBehaviour
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 2);
             _animator.SetTrigger(PARAM_BLOOD_STANCE);
+            if (EnterBloodStanceVFX == null) return;
+            EnterBloodStanceVFX.SetActive(true);
             VisualEffect vfx = GetVisualEffect(EnterBloodStanceVFX);
             if (vfx)
             {
@@ -232,6 +234,8 @@ public class PlayerView : MonoBehaviour
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
             _animator.SetTrigger(PARAM_FAITH_STANCE);
+            if (EnterFaithStanceVFX == null) return;
+            EnterFaithStanceVFX.SetActive(true);
             VisualEffect vfx = GetVisualEffect(EnterFaithStanceVFX);
             if (vfx)
             {

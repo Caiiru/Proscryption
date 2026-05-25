@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace proscryption
 {
@@ -15,6 +16,8 @@ namespace proscryption
         private Vector3 moveDirection;
 
         private PlayerStance _bulletStance;
+
+        [Header("VFX")] public GameObject HitVFX;
 
         public void Initialize(int damage,
             bool isCritical = false,
@@ -42,9 +45,20 @@ namespace proscryption
         {
             // Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
             if (other.CompareTag("Player")) return;
+
+
             other.TryGetComponent<BaseEntity>(out BaseEntity entity);
             if (entity == null)
             {
+                if (HitVFX)
+                {
+                    HitVFX.SetActive(true);
+                    HitVFX.TryGetComponent(out VisualEffect vfx);
+
+                    if (vfx)
+                        vfx.Play();
+                }
+
                 Destroy(this.gameObject);
                 return;
             }

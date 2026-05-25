@@ -30,7 +30,6 @@ namespace proscryption
         [Tooltip("0 = empty, 1 = standard, 2 = blood, 3=light")]
         public int[] bullets = new int[MAX_BULLETS];
 
- 
 
         public Action<int> OnShootAction;
         public Action<int, bool> OnReloadBulletAction;
@@ -41,7 +40,9 @@ namespace proscryption
         private CombatSystem _combatSystem;
         private PlayerModel _playerModel;
 
-        [Header("Effects")] public VisualEffect MuzzleFlashEffect;
+        [Header("Effects")] public VisualEffect StandardMuzzleFlashEffect;
+        public VisualEffect BloodMuzzleFlashEffect;
+        public VisualEffect FaithMuzzleFlashEffect;
 
 
         public void Setup(CombatSystem combatSystem)
@@ -52,7 +53,7 @@ namespace proscryption
                 minDamage = maxDamage;
                 maxDamage = temp;
             }
- 
+
             _currentBulletIndex = 0;
 
             for (int i = 0; i < MAX_BULLETS; i++)
@@ -112,11 +113,13 @@ namespace proscryption
                 currentStanceData.bulletSpeed,
                 currentStanceData.bulletForce, _currentStance);
             OnShootAction?.Invoke(_currentBulletIndex);
-            if (MuzzleFlashEffect != null)
-            {
-                MuzzleFlashEffect.gameObject.SetActive(true);
-                MuzzleFlashEffect.Play();
-            }
+            // if (StandardMuzzleFlashEffect != null)
+            // {
+            //     StandardMuzzleFlashEffect.gameObject.SetActive(true);
+            //     StandardMuzzleFlashEffect.Play();
+            // }
+
+            ShowMuzzle();
 
             Destroy(bullet, currentStanceData.bulletDuration);
 
@@ -131,7 +134,7 @@ namespace proscryption
             }
 
             await UniTask.Delay(500);
-            MuzzleFlashEffect.gameObject.SetActive(false);
+            HiddeMuzzle();
             await UniTask.CompletedTask;
         }
 
@@ -140,7 +143,7 @@ namespace proscryption
             if (_currentBullets == MAX_BULLETS)
             {
                 //ended
-                PlayerEvents.BroadcastPlayerReloadEnded(); 
+                PlayerEvents.BroadcastPlayerReloadEnded();
                 return;
             }
 
@@ -156,11 +159,10 @@ namespace proscryption
             _currentBullets++;
             OnReloadBulletAction?.Invoke(_currentBulletIndex, true);
         }
- 
+
 
         private void HandleReload()
-        { 
-          
+        {
         }
 
         /// <summary>
@@ -201,6 +203,44 @@ namespace proscryption
         public bool IsFull()
         {
             return _currentBullets == MAX_BULLETS;
+        }
+
+        private void HiddeMuzzle()
+        {
+            StandardMuzzleFlashEffect.gameObject.SetActive(false);
+            BloodMuzzleFlashEffect.gameObject.SetActive(false);
+            FaithMuzzleFlashEffect.gameObject.SetActive(false);
+        }
+
+        private void ShowMuzzle()
+        {
+            switch (_currentStance)
+            {
+                case PlayerStance.Standard:
+                    if (StandardMuzzleFlashEffect != null)
+                    {
+                        StandardMuzzleFlashEffect.gameObject.SetActive(true);
+                        StandardMuzzleFlashEffect.Play();
+                    }
+
+                    break;
+                case PlayerStance.Blood:
+                    if (BloodMuzzleFlashEffect != null)
+                    {
+                        BloodMuzzleFlashEffect.gameObject.SetActive(true);
+                        BloodMuzzleFlashEffect.Play();
+                    }
+
+                    break;
+                case PlayerStance.Light:
+                    if (FaithMuzzleFlashEffect != null)
+                    {
+                        FaithMuzzleFlashEffect.gameObject.SetActive(true);
+                        FaithMuzzleFlashEffect.Play();
+                    }
+
+                    break;
+            }
         }
     }
 }
