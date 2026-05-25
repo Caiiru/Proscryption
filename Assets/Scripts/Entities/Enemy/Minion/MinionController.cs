@@ -396,6 +396,8 @@ namespace proscryption
             await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
 
             _rigidbody.isKinematic = true;
+
+            if (_enemyEntity.IsDead) return;
             _navMeshAgent.enabled = enabled;
         }
 
@@ -432,6 +434,11 @@ namespace proscryption
 
         private async UniTask HandleDeath(Vector3? directionForce, ForceMode? forceMode)
         {
+            if (_navMeshAgent.isActiveAndEnabled &&
+                _navMeshAgent.isOnNavMesh)
+                _navMeshAgent.SetDestination(transform.position);
+
+
             _navMeshAgent.enabled = false;
             _animator.enabled = false;
             EnableRagdoll();
