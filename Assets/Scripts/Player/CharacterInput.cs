@@ -208,17 +208,17 @@ namespace proscryption
 
             if (_defaultStanceAction != null)
             {
-                _defaultStanceAction.performed += (context) => HandleStanceInput(context, OnDefaultStanceInput);
+                _defaultStanceAction.performed += HandleStandardStanceInput;
             }
 
             if (_bloodStanceAction != null)
             {
-                _bloodStanceAction.performed += (context) => HandleStanceInput(context, OnBloodStanceInput);
+                _bloodStanceAction.performed += HandleBloodStanceInput;
             }
 
             if (_lightStanceAction != null)
             {
-                _lightStanceAction.performed += (context) => HandleStanceInput(context, OnLightStanceInput);
+                _lightStanceAction.performed += HandleLightStanceInput;
             }
         }
 
@@ -254,10 +254,7 @@ namespace proscryption
                 _attackAction.canceled -= HandleAttackInput;
             }
 
-            if (_aimAction != null)
-            {
-                _aimAction.performed -= HandleAimInput;
-            }
+            _aimAction.performed -= HandleAimInput;
 
             if (_reloadAction != null)
             {
@@ -266,17 +263,17 @@ namespace proscryption
 
             if (_defaultStanceAction != null)
             {
-                _defaultStanceAction.performed -= (context) => HandleStanceInput(context, OnDefaultStanceInput);
+                _defaultStanceAction.performed -= HandleStandardStanceInput;
             }
 
             if (_bloodStanceAction != null)
             {
-                _bloodStanceAction.performed -= (context) => HandleStanceInput(context, OnBloodStanceInput);
+                _bloodStanceAction.performed -= HandleBloodStanceInput;
             }
 
             if (_lightStanceAction != null)
             {
-                _lightStanceAction.performed -= (context) => HandleStanceInput(context, OnLightStanceInput);
+                _lightStanceAction.performed -= HandleLightStanceInput;
             }
         }
 
@@ -354,6 +351,21 @@ namespace proscryption
                 OnReloadInput?.Invoke();
                 PlayerEvents.BroadcastPlayerReloadInput();
             }
+        }
+
+        private void HandleBloodStanceInput(InputAction.CallbackContext context)
+        {
+            HandleStanceInput(context, OnBloodStanceInput);
+        }
+
+        private void HandleLightStanceInput(InputAction.CallbackContext context)
+        {
+            HandleStanceInput(context, OnLightStanceInput);
+        }
+
+        private void HandleStandardStanceInput(InputAction.CallbackContext context)
+        {
+            HandleStanceInput(context, OnDefaultStanceInput);
         }
 
         private void HandleStanceInput(InputAction.CallbackContext context, Action stanceInputCallback)

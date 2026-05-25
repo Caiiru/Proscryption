@@ -34,6 +34,9 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_LEFT_DASH = "Left Dodge";
     private const string PARAM_RIGHT_DASH = "Right Dodge";
 
+    private const string PARAM_BLOOD_STANCE = "BloodMode";
+    private const string PARAM_FAITH_STANCE = "FaithMode";
+
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
 
@@ -66,11 +69,21 @@ public class PlayerView : MonoBehaviour
         PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
-
-    void OnDisable()
+    void Unregister()
     {
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
+        _animator = null;
+    }
+
+    void OnDisable()
+    {
+        Unregister();
+    }
+
+    private void OnDestroy()
+    {
+        Unregister();
     }
 
     void Start()
@@ -207,17 +220,20 @@ public class PlayerView : MonoBehaviour
         {
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 2);
+            _animator.SetTrigger(PARAM_BLOOD_STANCE);
         }
         else
         {
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
+            _animator.SetTrigger(PARAM_FAITH_STANCE);
         }
     }
 
     public void SetAiming(bool aiming)
     {
-        _animator.SetBool(PARAM_IS_AIMING, aiming);
+        if (_animator)
+            _animator.SetBool(PARAM_IS_AIMING, aiming);
     }
 
     public void InsertBulletVisual()

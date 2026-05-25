@@ -555,7 +555,6 @@ namespace proscryption
             {
                 CancelReload();
                 return false;
-
             }
 
             if (isRolling) return false;
@@ -586,7 +585,8 @@ namespace proscryption
         {
             if (_gameWasEnded) return false;
             if (!IsAlive) return false;
-            return (_currentState == PlayerState.Idle || _currentState == PlayerState.Moving) &&
+            return (_currentState == PlayerState.Idle || _currentState == PlayerState.Moving ||
+                    _currentState == PlayerState.Reloading) &&
                    _currentState != PlayerState.Menu;
         }
 

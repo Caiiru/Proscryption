@@ -32,7 +32,7 @@ namespace proscryption
             {
                 bulletIcons[i] = bulletContainerTransform.GetChild(i).gameObject;
                 TextMeshProUGUI bulletNumber = bulletIcons[i].GetComponentInChildren<TextMeshProUGUI>();
-                bulletNumber.text = i.ToString();
+                // bulletNumber.text = i.ToString();
             }
 
             StandardStanceTransform.gameObject.SetActive(true);

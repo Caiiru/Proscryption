@@ -385,6 +385,7 @@ namespace proscryption
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
+            if (_isAttacking) return;
             _navMeshAgent.enabled = false;
             ChangeState(EnemyState.TakingDamage);
             await UniTask.WaitForEndOfFrame();
@@ -443,8 +444,10 @@ namespace proscryption
 
             await UniTask.Delay(Mathf.FloorToInt(5000));
             //Dissolve Minion
-            _eyesRenderer.enabled = false;
-            _bodyRenderer.material = DissolveMaterial;
+            if (_eyesRenderer)
+                _eyesRenderer.enabled = false;
+            if (_bodyRenderer)
+                _bodyRenderer.material = DissolveMaterial;
             float dissolveDuration = 3;
             _bodyRenderer.material.DOFloat(1, "_DissolveAmount", dissolveDuration);
             await UniTask.Delay(Mathf.FloorToInt(Mathf.FloorToInt(dissolveDuration) * 1000));
