@@ -23,6 +23,7 @@ namespace proscryption
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
+        private bool _canAttack = false;
 
         //Reload
         private bool _canReload = true;
@@ -558,6 +559,11 @@ namespace proscryption
             }
 
             if (isRolling) return false;
+            if (!_canAttack)
+            {
+                Debug.Log("Cant Attack");
+                return false;
+            }
 
             if (!_combatSystem.GetWeapon().CanConsumeBullet()) return false;
 
@@ -599,6 +605,16 @@ namespace proscryption
 
 
             return _canReload;
+        }
+
+        public void SetCanAttack()
+        {
+            _canAttack = true;
+        }
+
+        public void SetCantAttack()
+        {
+            _canAttack = false;
         }
 
         public PlayerStanceData GetCurrentData()
