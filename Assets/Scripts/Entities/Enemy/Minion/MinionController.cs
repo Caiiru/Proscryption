@@ -18,6 +18,8 @@ namespace proscryption
         [Space] [Header("Vision")] [SerializeField]
         private LayerMask _playerMask = 1 << 3;
 
+        public float visionRange = 5f;
+
         #endregion
 
         #region Movement Settings
@@ -171,11 +173,6 @@ namespace proscryption
             return UniTask.CompletedTask;
         }
 
-        private UniTask LeaveCurrentState()
-        {
-            return UniTask.CompletedTask;
-        }
-
         private void HandleCurrentState()
         {
             if (_enemyEntity.IsDead) return;
@@ -202,6 +199,12 @@ namespace proscryption
                     break;
             }
         }
+
+        private UniTask LeaveCurrentState()
+        {
+            return UniTask.CompletedTask;
+        }
+
 
         private async void ChangeState(EnemyState newState)
         {
@@ -270,12 +273,13 @@ namespace proscryption
         {
             Vector3 centerPosition = _transform.position;
             centerPosition.y = 1;
-            if (Physics.Linecast(centerPosition, _playerTransform.position, _playerMask))
-            {
-                return true;
-            }
+            bool clearPath = Physics.Linecast(centerPosition, _playerTransform.position, _playerMask);
+            bool isOnRange = Vector3.Distance(centerPosition, _playerTransform.position) < visionRange;
+            
+            
 
-            return false;
+
+            return clearPath && isOnRange;
         }
 
         void FixedUpdate()
