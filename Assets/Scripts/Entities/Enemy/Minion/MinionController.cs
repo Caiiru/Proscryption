@@ -293,7 +293,8 @@ namespace proscryption
                 return;
             }
 
-            if (_navMeshAgent.destination != _playerTransform.position)
+            if (_navMeshAgent.destination != _playerTransform.position && _navMeshAgent.isActiveAndEnabled &&
+                _navMeshAgent.isOnNavMesh)
                 _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
             SetVelocity(_moveSpeed, 0.75f);
