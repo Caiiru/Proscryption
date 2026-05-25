@@ -138,6 +138,54 @@ namespace proscryption
             await UniTask.CompletedTask;
         }
 
+        public async UniTask OnAttackRaycast(EnemyEntity entity)
+        {
+            Debug.Log("Raycast Attack");
+            Vector3 forceDir = entity.transform.position - _playerModel.gameObject.transform.position;
+            forceDir.y = 0;
+            int dmg = CalculateDamage();
+            entity.TakeDamage(dmg, _playerModel.gameObject, CalculateIsCritical(),
+                forceDir.normalized * currentStanceData.bulletForce, ForceMode.Impulse);
+
+
+            OnShootAction?.Invoke(_currentBulletIndex);
+            ShowMuzzle();
+            bullets[_currentBulletIndex] = 0;
+
+            _currentBullets--;
+            _currentBulletIndex--;
+            if (_currentBulletIndex < 0)
+            {
+                _currentBulletIndex = MAX_BULLETS - 1;
+            }
+
+            int child = currentStanceData.bulletPrefab.transform.childCount;
+            for (int i = 0; i < child; i++)
+            {
+                if (currentStanceData.bulletPrefab.transform.GetChild(i).GetComponent<VisualEffect>())
+                {
+                    var hitVFX = Instantiate(currentStanceData.bulletPrefab.transform.GetChild(i).gameObject,
+                        entity.transform);
+                    hitVFX.transform.position = Vector3.zero; //Enemy child
+                    hitVFX.gameObject.SetActive(true);
+                    hitVFX.GetComponent<VisualEffect>().Play();
+
+                    Destroy(hitVFX, 2f);
+                }
+            }
+
+            await UniTask.Delay(500);
+            HiddeMuzzle();
+
+            EventManager.BroadcastHitDetected(entity.transform.position, dmg, entity.gameObject);
+            if (_currentStance == PlayerStance.Light)
+            {
+                PlayerEvents.BroadcastPlayerHitLightShot();
+            }
+
+            await UniTask.CompletedTask;
+        }
+
         public void ReloadOneBullet()
         {
             if (_currentBullets == MAX_BULLETS)
@@ -168,14 +216,14 @@ namespace proscryption
         /// <summary>
         /// Calculate damage with variance and crit 
         /// </summary>
-        int CalculateDamage()
+        public int CalculateDamage()
         {
             int damage = UnityEngine.Random.Range(currentStanceData.minDamage, currentStanceData.maxDamage);
 
             return damage;
         }
 
-        bool CalculateIsCritical()
+        public bool CalculateIsCritical()
         {
             return UnityEngine.Random.value < (currentStanceData.critChance / 100f);
         }

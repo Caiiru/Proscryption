@@ -206,10 +206,6 @@ namespace proscryption
             {
                 _model.ChangeState(PlayerState.Reloading);
             }
-            else
-            {
-                _model.ChangeState(PlayerState.Idle);
-            }
         }
 
         private void HandleAttackInput()

@@ -16,6 +16,10 @@ namespace proscryption
         [SerializeField] private float staminaRegenPerSec = 10f;
         [SerializeField] private float moveSpeed = 6f;
 
+        [Tooltip("Quando o jogador estiver recarregando, ele vai aplicar esse multiplicador sob o movespeed atual")]
+        [SerializeField]
+        private float moveSpeedReloadMultiplier = 0.5f;
+
         // ===== STATE DATA =====
         [SerializeField] private float _currentHealth;
         private float _currentStamina;
@@ -600,8 +604,8 @@ namespace proscryption
         {
             if (_gameWasEnded) return false;
             if (!IsAlive) return false;
-            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
-                return false;
+            // if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+            //     return false;
 
 
             return _canReload;

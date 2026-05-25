@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using proscryption;
 using UnityEngine;
 
@@ -17,6 +19,12 @@ namespace proscryption
         private PlayerController _controller;
         private PlayerModel _model;
         [SerializeField] private BaseWeapon _currentWeapon;
+
+        [Header("Attack Settings")] public LayerMask enemyMask;
+        public float attackRaycastLimit = 5f;
+        public Transform raycastStartTransform;
+
+        public RaycastHit[] _raycastHits = new RaycastHit[3];
 
         // ===== STATE =====
         private float _lastAttackTime = 0f;
@@ -44,9 +52,21 @@ namespace proscryption
         private void ExecuteAttack()
         {
             _lastAttackTime = Time.time;
-            _currentWeapon.OnAttack();
 
             PlayerEvents.BroadcastPlayerAttack();
+
+            // Ray attackRay = new Ray(raycastStartTransform.position, raycastStartTransform.forward * attackRaycastLimit);
+            // // Debug.DrawLine(raycastStartTransform.position,
+            // //     raycastStartTransform.position + raycastStartTransform.forward * attackRaycastLimit,
+            // //     Color.red, 1f);
+            // Debug.DrawRay(raycastStartTransform.position, raycastStartTransform.forward * attackRaycastLimit);
+            // if (Physics.Raycast(attackRay, attackRaycastLimit))
+            // {
+            //     Debug.Log("HIT RAYCAST");
+            //     return;
+            // }
+
+            _currentWeapon.OnAttack();
         }
 
         public bool HasBullets()
