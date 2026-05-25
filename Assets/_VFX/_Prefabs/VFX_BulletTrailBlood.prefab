@@ -274,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766039151635355580}
   m_Layer: 0
-  m_Name: VFX_BulletTrail
+  m_Name: VFX_BulletTrailBlood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
