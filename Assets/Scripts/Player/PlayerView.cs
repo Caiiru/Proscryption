@@ -86,8 +86,8 @@ public class PlayerView : MonoBehaviour
     private void SetupStart()
     {
         meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        _bodyMaterial = meshRenderer.materials[0];
-        _detailsMaterial = meshRenderer.materials[1];
+        _bodyMaterial = meshRenderer.materials[1];
+        _detailsMaterial = meshRenderer.materials[0];
 
         if (_bodyMaterial != null)
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
