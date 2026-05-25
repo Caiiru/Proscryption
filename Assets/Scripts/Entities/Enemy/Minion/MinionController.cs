@@ -44,8 +44,11 @@ namespace proscryption
 
         [Tooltip("Após a antecipação, o minion vai dar um salto e se deslocará com certa força em linha reta")]
         public float jumpForce = 5;
+//Unstuck minion
 
+        private float takeDamageStateMaxTime = 4f;
 
+        private float takeDamageStateTimer = 0;
         [SerializeField] Transform _playerTransform;
         [SerializeField] BoxCollider[] _clawsHitBox;
 
@@ -161,7 +164,7 @@ namespace proscryption
                     }
 
                     HandleTakeDamageState().Forget();
-                    return UniTask.CompletedTask;
+
                     break;
             }
 
@@ -175,6 +178,9 @@ namespace proscryption
 
         private void HandleCurrentState()
         {
+            if (_enemyEntity.IsDead) return;
+
+
             switch (currentState)
             {
                 case EnemyState.Roaming:
@@ -182,6 +188,17 @@ namespace proscryption
                     break;
                 case EnemyState.Attacking:
                     Attack().Forget();
+                    break;
+
+                case EnemyState.TakingDamage:
+
+                    takeDamageStateTimer += Time.time;
+                    if (takeDamageStateTimer >= takeDamageStateMaxTime)
+                    {
+                        takeDamageStateTimer = 0;
+                        ChangeState(EnemyState.Attacking);
+                    }
+
                     break;
             }
         }
@@ -276,7 +293,8 @@ namespace proscryption
                 return;
             }
 
-            _navMeshAgent.SetDestination(_playerTransform.position);
+            if (_navMeshAgent.destination != _playerTransform.position)
+                _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
             SetVelocity(_moveSpeed, 0.75f);
         }
@@ -347,6 +365,8 @@ namespace proscryption
             _rigidbody.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
             // await UniTask.Delay(1000);
             await UniTask.Delay(Mathf.FloorToInt(duration * 2000));
+
+            if (_enemyEntity.IsDead) return;
 
             _rigidbody.isKinematic = false;
             _navMeshAgent.enabled = true;
