@@ -125,7 +125,7 @@ public class PlayerView : MonoBehaviour
         _animator.SetBool(PARAM_IS_ATTACKING, false);
         if (prev == PlayerState.Reloading)
         {
-            _animator.SetTrigger(PARAM_STOP_RELOADING);
+            // _animator.SetTrigger(PARAM_STOP_RELOADING);
         }
 
         // Set new animation state
@@ -257,7 +257,7 @@ public class PlayerView : MonoBehaviour
 
     public void StopReloading()
     {
-        // _animator.SetBool(PARAM_IS_RELOADING, false);
+        _animator.SetBool(PARAM_IS_RELOADING, false);
     }
 
     public void RollAnimation(Vector2 moveInput)

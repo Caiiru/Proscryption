@@ -1255,6 +1255,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_StanceSwitchBlood
       objectReference: {fileID: 0}
+    - target: {fileID: 2702162865590661505, guid: 8a6944c07a23d0a4e9d98a25e600b5e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4170096206425186295, guid: 8a6944c07a23d0a4e9d98a25e600b5e2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2320,6 +2328,14 @@ PrefabInstance:
     - target: {fileID: 422015537077991806, guid: b3003b85425ee2149a37973c43874cda, type: 3}
       propertyPath: m_Name
       value: VFX_StanceSwitchFaith
+      objectReference: {fileID: 0}
+    - target: {fileID: 422015537077991806, guid: b3003b85425ee2149a37973c43874cda, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1838707031840626440, guid: b3003b85425ee2149a37973c43874cda, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4343363943723429331, guid: b3003b85425ee2149a37973c43874cda, type: 3}
       propertyPath: m_LocalPosition.x
