@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using JetBrains.Annotations;
 using proscryption;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -220,12 +221,22 @@ public class PlayerView : MonoBehaviour
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 2);
             _animator.SetTrigger(PARAM_BLOOD_STANCE);
+            VisualEffect vfx = GetVisualEffect(EnterBloodStanceVFX);
+            if (vfx)
+            {
+                vfx.Play();
+            }
         }
         else
         {
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
             _animator.SetTrigger(PARAM_FAITH_STANCE);
+            VisualEffect vfx = GetVisualEffect(EnterFaithStanceVFX);
+            if (vfx)
+            {
+                vfx.Play();
+            }
         }
     }
 
@@ -242,7 +253,7 @@ public class PlayerView : MonoBehaviour
 
     public void StopReloading()
     {
-        _animator.SetBool(PARAM_IS_RELOADING, false);
+        // _animator.SetBool(PARAM_IS_RELOADING, false);
     }
 
     public void RollAnimation(Vector2 moveInput)
@@ -284,5 +295,31 @@ public class PlayerView : MonoBehaviour
                 _animator.SetTrigger(PARAM_BACKWRD_DASH);
             }
         }
+    }
+
+    [CanBeNull]
+    VisualEffect GetVisualEffect(GameObject vfxHolder)
+    {
+        vfxHolder.TryGetComponent<VisualEffect>(out VisualEffect vfx);
+        if (vfx != null)
+        {
+            return vfx;
+        }
+
+        VisualEffect vfx2 = vfxHolder.GetComponentInChildren<VisualEffect>();
+        return vfx2 != null ? vfx2 : null;
+    }
+
+    [CanBeNull]
+    ParticleSystem GetParticleSystem(GameObject vfxHolder)
+    {
+        vfxHolder.TryGetComponent<ParticleSystem>(out ParticleSystem vfx);
+        if (vfx != null)
+        {
+            return vfx;
+        }
+
+        ParticleSystem vfx2 = vfxHolder.GetComponentInChildren<ParticleSystem>();
+        return vfx2 != null ? vfx2 : null;
     }
 }
