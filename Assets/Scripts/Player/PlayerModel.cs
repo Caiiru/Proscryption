@@ -18,7 +18,7 @@ namespace proscryption
 
         [Tooltip("Quando o jogador estiver recarregando, ele vai aplicar esse multiplicador sob o movespeed atual")]
         [SerializeField]
-        private float moveSpeedReloadMultiplier = 0.5f;
+        public float moveSpeedReloadMultiplier = 0.5f;
 
         // ===== STATE DATA =====
         [SerializeField] private float _currentHealth;

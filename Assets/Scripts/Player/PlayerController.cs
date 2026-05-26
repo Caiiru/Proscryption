@@ -25,6 +25,8 @@ namespace proscryption
         private Vector3 _lookingDirection;
 
         private bool _isAiming = false;
+
+        private bool isBackwards = false;
         //Data SO
 
 
@@ -264,7 +266,11 @@ namespace proscryption
         {
             if (!_model.CanMove) return;
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
-            _currentVelocity = movement * _model.MoveSpeed;
+
+
+            _currentVelocity = isBackwards
+                ? movement * (_model.MoveSpeed * _model.moveSpeedReloadMultiplier)
+                : movement * _model.MoveSpeed;
 
             _currentVelocity.y = _rigidbody.linearVelocity.y;
 
@@ -322,6 +328,14 @@ namespace proscryption
 
             // Combine based on input magnitude
             Vector3 movement = (forward * input.y + right * input.x).normalized * input.magnitude;
+
+            if (movement.magnitude > 0.1f)
+            {
+                float dotProduct = Vector3.Dot(transform.forward, movement.normalized);
+                isBackwards = dotProduct < 0.5f;
+                // Debug.Log(
+                // $"is Backwards: {isBackwards},  forward: {transform.forward}, right: {right}, dotProduct: {dotProduct}");
+            }
 
             return movement;
         }

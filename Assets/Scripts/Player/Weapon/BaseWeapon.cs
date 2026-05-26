@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
 namespace proscryption
@@ -19,7 +20,12 @@ namespace proscryption
         private int critChance = 10;
 
         public GameObject bulletPrefab;
+
         public Transform _bulletSpawnPoint;
+
+
+        [Tooltip("Only visual for raycast shots")]
+        public GameObject bulletPrefabVISUAL;
 
         //Bullets Mechacnics
         public const int MAX_BULLETS = 6;
@@ -100,18 +106,65 @@ namespace proscryption
         {
             if (!CanAttack()) return;
 
+            if (Camera.main == null)
+            {
+                return;
+            }
+
+            Camera mainCamera = Camera.main;
+
+            Vector3 raycastVec = Vector3.forward;
+
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
             if (currentStanceData == null)
                 currentStanceData = _playerModel.GetCurrentData();
 
-
             Quaternion bulletRotation = _bulletSpawnPoint.rotation;
             bulletRotation.x = 0;
+
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, 1 << 6))
+            {
+                Vector3 targetPoint = hitInfo.point;
+                targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane 
+                raycastVec = targetPoint - transform.position;
+                raycastVec = raycastVec.normalized;
+
+
+                Debug.DrawRay(transform.position, raycastVec * _combatSystem.attackRaycastLimit, Color.red, 1f);
+
+                foreach (var enemy in enemies)
+                {
+                    if (Vector3.Distance(enemy.transform.position, targetPoint) < 3f)
+                    {
+                        if (enemy.transform.GetComponent<EnemyEntity>())
+                        {
+                            OnAttackRaycast(enemy.GetComponent<EnemyEntity>());
+                            GameObject b = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position,
+                                bulletRotation);
+                            SimpleBullet bulletComponent = b.GetComponent<SimpleBullet>();
+                            bulletComponent.Initialize(CalculateDamage(), CalculateIsCritical(),
+                                currentStanceData.bulletSpeed,
+                                currentStanceData.bulletForce, _currentStance);
+
+                            bulletComponent.SetMoveDirection(raycastVec);
+                            bulletComponent.DisableDamage();
+                            return;
+                        }
+                    }
+                }
+            }
 
 
             GameObject bullet = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(),
                 currentStanceData.bulletSpeed,
                 currentStanceData.bulletForce, _currentStance);
+            bullet.GetComponent<SimpleBullet>().SetMoveDirection(raycastVec);
             OnShootAction?.Invoke(_currentBulletIndex);
             // if (StandardMuzzleFlashEffect != null)
             // {

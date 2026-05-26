@@ -17,6 +17,8 @@ namespace proscryption
 
         private PlayerStance _bulletStance;
 
+        public bool isVisual;
+
         [Header("VFX")] public GameObject HitVFX;
 
         public void Initialize(int damage,
@@ -32,13 +34,26 @@ namespace proscryption
             _rigidbody = GetComponent<Rigidbody>();
             moveDirection = transform.forward;
             moveDirection.y = 0;
-            _rigidbody.linearVelocity = moveDirection * speed;
+            this._speed = speed;
+
+            _rigidbody.linearVelocity = moveDirection * _speed;
 
             _collider = GetComponent<SphereCollider>();
 
             this._bulletStance = bulletStance;
 
             Debug.Log($"[SimpleBullet.Initialize - BULLET {transform.position} ]");
+        }
+
+        public void SetMoveDirection(Vector3 moveDirection)
+        {
+            this.moveDirection = moveDirection;
+            _rigidbody.linearVelocity = moveDirection * _speed;
+        }
+
+        public void DisableDamage()
+        {
+            isVisual = true;
         }
 
         void OnTriggerEnter(Collider other)
@@ -60,6 +75,13 @@ namespace proscryption
                 }
 
                 Destroy(this.gameObject);
+                return;
+            }
+
+            if (isVisual)
+            {
+                gameObject.SetActive(false);
+                Destroy(gameObject, 1f);
                 return;
             }
 

@@ -48,6 +48,7 @@ Transform:
   - {fileID: 5552577356987236469}
   - {fileID: 1068963405789122233}
   - {fileID: 8092840863366001059}
+  - {fileID: 6187087308448097639}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6794402935568589503
@@ -145,6 +146,7 @@ MonoBehaviour:
   maxStamina: 50
   staminaRegenPerSec: 10
   moveSpeed: 3
+  moveSpeedReloadMultiplier: 0.8
   _currentHealth: 0
   _currentState: 0
   _currentStance: 0
@@ -210,6 +212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.CombatSystem
   _currentWeapon: {fileID: 0}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
+  attackRaycastLimit: 1.5
+  raycastStartTransform: {fileID: 6187087308448097639}
 --- !u!54 &758348147772611608
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -812,6 +819,37 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &8507388249529127244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6187087308448097639}
+  m_Layer: 3
+  m_Name: RaycastStart
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6187087308448097639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8507388249529127244}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.385, z: 0.274}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2996229423250799355}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8516388917631808979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,7 +2114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5301725836636189323, guid: a8f546b34630c54409ab360e59e2c203, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5301725836636189323, guid: a8f546b34630c54409ab360e59e2c203, type: 3}
       propertyPath: m_LocalRotation.w
