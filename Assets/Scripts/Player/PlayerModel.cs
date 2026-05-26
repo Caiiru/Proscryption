@@ -569,7 +569,11 @@ namespace proscryption
                 return false;
             }
 
-            if (!_combatSystem.GetWeapon().CanConsumeBullet()) return false;
+            if (!_combatSystem.GetWeapon().CanConsumeBullet())
+            {
+                PlayerEvents.BroadcastPlayerReloadInput();
+                return false;
+            }
 
             return true;
         }
