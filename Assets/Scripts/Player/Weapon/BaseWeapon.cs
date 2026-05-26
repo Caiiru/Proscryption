@@ -180,15 +180,33 @@ namespace proscryption
             bullets[_currentBulletIndex] = 0;
 
             _currentBullets--;
-            _currentBulletIndex--;
-            if (_currentBulletIndex < 0)
-            {
-                _currentBulletIndex = MAX_BULLETS - 1;
-            }
 
+            //
+            // if (_currentBulletIndex < 0)
+            // {
+            //     _currentBulletIndex = MAX_BULLETS - 1;
+            // }
+            LoseBullet();
             await UniTask.Delay(500);
             HiddeMuzzle();
             await UniTask.CompletedTask;
+        }
+
+        private void LoseBullet()
+        {
+            bool hasNextBullet = false;
+            while (!hasNextBullet && _currentBullets > 0)
+            {
+                int nextBulletIndex = _currentBulletIndex - 1 < 0 ? MAX_BULLETS - 1 : _currentBulletIndex - 1;
+                if (bullets[nextBulletIndex] != 0)
+                {
+                    hasNextBullet = true;
+                }
+
+                _currentBulletIndex = nextBulletIndex;
+            }
+
+            PlayerEvents.BroadcastBulletChanged(_currentBulletIndex);
         }
 
         public async UniTask OnAttackRaycast(EnemyEntity entity)
@@ -206,11 +224,8 @@ namespace proscryption
             bullets[_currentBulletIndex] = 0;
 
             _currentBullets--;
-            _currentBulletIndex--;
-            if (_currentBulletIndex < 0)
-            {
-                _currentBulletIndex = MAX_BULLETS - 1;
-            }
+
+            LoseBullet();
 
             int child = currentStanceData.bulletPrefab.transform.childCount;
             for (int i = 0; i < child; i++)
