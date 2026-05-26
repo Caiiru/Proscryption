@@ -1699,7 +1699,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 512, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7748846179835435560
 CanvasRenderer:
@@ -1729,7 +1729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b2a926138be4abd4e9bcc1e3ba9d16f8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb0fa34a84c0a044289c3a80c6dfff2b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5244,6 +5244,10 @@ PrefabInstance:
     - target: {fileID: 3653900405652601871, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
       propertyPath: m_Name
       value: RewardScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653900405652601871, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3712465285911738793, guid: 9cb661dd49eeac542ba4b4a6954c5212, type: 3}
       propertyPath: m_Spacing
