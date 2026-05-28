@@ -216,7 +216,7 @@ namespace proscryption
 
             if (!_model.CanAttack()) return;
 
-            if (!_isAiming) return;
+            // if (!_isAiming) return;
 
             if (!_model.TryConsumeStamina(_model.GetCurrentData().attackStaminaCost)) return;
             if (_model.CanAttack())

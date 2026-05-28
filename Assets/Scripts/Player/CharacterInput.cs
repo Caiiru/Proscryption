@@ -318,7 +318,8 @@ namespace proscryption
 
         private void HandleReleaseAimInput(InputAction.CallbackContext context)
         {
-            PlayerEvents.BroadcastPlayerReleaseAimInput();
+            // PlayerEvents.BroadcastPlayerReleaseAimInput();
+            
             // EventManager.BroadcastPlayerParryInput();
         }
 
