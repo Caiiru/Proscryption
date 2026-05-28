@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHealth: 30
   maxStamina: 100
   staminaRegenPerSec: 1
-  moveSpeed: 5
+  moveSpeed: 2
   rollForce: 3
   rollCooldown: 2
   rollStaminaCost: 20

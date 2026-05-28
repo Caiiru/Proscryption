@@ -137,14 +137,6 @@ namespace proscryption
         }
 
 
-        private void HandleLookInput(Vector2 vector)
-        {
-            if (aimIndicator != null)
-            {
-                aimIndicator.transform.position = Mouse.current.position.ReadValue();
-            }
-        }
-
         private void OnGameWin()
         {
             if (winScreen != null)
@@ -152,6 +144,7 @@ namespace proscryption
                 winScreen.SetActive(true);
 
                 winScreen.GetComponent<PlayerDeathScreenHUD>().ShowDeathScreen();
+                SetAimIndicatorVisibility(false);
             }
 
             _isActive = false;
@@ -163,16 +156,20 @@ namespace proscryption
             {
                 case GameState.Roaming:
                     // _isActive = false;
+                    SetAimIndicatorVisibility(true);
                     break;
                 case GameState.Dead:
                     // _isActive = false;
                     UpdateDeathScreenVisibility(true);
+                    SetAimIndicatorVisibility(false);
                     return;
                 case GameState.Combat:
                     // _isActive = true;
                     break;
                 case GameState.Paused:
+                    SetAimIndicatorVisibility(false);
                     return;
+                
 
                 // Handle other states as needed
             }
@@ -229,5 +226,25 @@ namespace proscryption
 
             return rewardListIconData;
         }
+
+        #region Cursor
+
+        private void HandleLookInput(Vector2 vector)
+        {
+            if (aimIndicator != null)
+            {
+                aimIndicator.transform.position = Mouse.current.position.ReadValue();
+            }
+        }
+
+        private void SetAimIndicatorVisibility(bool isVisible)
+        {
+            if (aimIndicator != null)
+            {
+                aimIndicator.SetActive(isVisible);
+            }
+        }
+
+        #endregion
     }
 }

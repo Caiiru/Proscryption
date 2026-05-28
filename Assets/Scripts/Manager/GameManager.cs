@@ -16,7 +16,7 @@ namespace proscryption
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
-        public GameState CurrentState { get; private set; } = GameState.Starting;
+        public GameState CurrentState = GameState.Starting;
 
         // Events
         public static Action<GameState> OnGameStateChanged;
@@ -65,6 +65,7 @@ namespace proscryption
             OnGameStateChanged?.Invoke(CurrentState);
 
 
+            _playerObject = GameObject.FindGameObjectWithTag("Player");
             ChangeGameState(GameState.Roaming);
             OnGameLoaded?.Invoke();
         }
@@ -74,20 +75,16 @@ namespace proscryption
             PlayerEvents.OnPlayerStateChanged += OnPlayerStateChanged;
             EventManager.OnHitDetected += HandleHitDetected;
             EventManager.OnGamePauseInput += HandleGamePauseToggle;
-
-            SetupArenaEvents();
-        }
-
-        void SetupArenaEvents()
-        {
-            ArenaEvents.OnArenaWaveEnded += HandleWaveEnded;
+            EventManager.OnGameWin += HandleGameEnd;
+            EventManager.OnEntityDied += HandleEntityDied;
         }
 
 
         private void OnDestroy()
         {
             // Clean up event subscriptions
-            ArenaEvents.OnArenaWaveEnded -= HandleWaveEnded;
+            EventManager.OnEntityDied -= HandleEntityDied;
+            EventManager.OnGameWin -= HandleGameEnd;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerStateChanged -= OnPlayerStateChanged;
             EventManager.OnGamePauseInput -= HandleGamePauseToggle;
@@ -157,8 +154,21 @@ namespace proscryption
                 ChangeGameState(GameState.Paused);
         }
 
-        private void HandleWaveEnded()
+        private void HandleEntityDied(GameObject obj)
         {
+            if (obj == _playerObject)
+            {
+                //Lose
+                HandleGameEnd();
+                ChangeGameState(GameState.Paused);
+            }
+        }
+
+
+        private void HandleGameEnd()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

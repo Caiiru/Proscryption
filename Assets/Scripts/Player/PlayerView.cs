@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using JetBrains.Annotations;
 using proscryption;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -34,9 +35,13 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_LEFT_DASH = "Left Dodge";
     private const string PARAM_RIGHT_DASH = "Right Dodge";
 
+    private const string PARAM_BLOOD_STANCE = "BloodMode";
+    private const string PARAM_FAITH_STANCE = "FaithMode";
+
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
-
+    public GameObject EnterBloodStanceVFX;
+    public GameObject EnterFaithStanceVFX;
     [Header("Material")] public SkinnedMeshRenderer meshRenderer;
     public float tattooAnimationDuration = 0.5f;
     public int stancesDelayMilliseconds = 200;
@@ -49,8 +54,6 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_TATTO_ID = "_Tattoo_ID";
     private const string PARAM_ANIMATION_FACTOR = "_Animation_Factor";
     private const string PARAM_EYE_ID = "_Eye_ID";
-
-    //Color
 
 
     void Awake()
@@ -66,11 +69,21 @@ public class PlayerView : MonoBehaviour
         PlayerEvents.OnPlayerStanceChanged += OnPlayerStanceChangedEvent;
     }
 
-
-    void OnDisable()
+    void Unregister()
     {
         PlayerEvents.OnPlayerStateChanged -= HandleStateChanged;
         PlayerEvents.OnPlayerStanceChanged -= OnPlayerStanceChangedEvent;
+        _animator = null;
+    }
+
+    void OnDisable()
+    {
+        Unregister();
+    }
+
+    private void OnDestroy()
+    {
+        Unregister();
     }
 
     void Start()
@@ -112,7 +125,7 @@ public class PlayerView : MonoBehaviour
         _animator.SetBool(PARAM_IS_ATTACKING, false);
         if (prev == PlayerState.Reloading)
         {
-            _animator.SetTrigger(PARAM_STOP_RELOADING);
+            // _animator.SetTrigger(PARAM_STOP_RELOADING);
         }
 
         // Set new animation state
@@ -207,17 +220,34 @@ public class PlayerView : MonoBehaviour
         {
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 2);
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 2);
+            _animator.SetTrigger(PARAM_BLOOD_STANCE);
+            if (EnterBloodStanceVFX == null) return;
+            EnterBloodStanceVFX.SetActive(true);
+            VisualEffect vfx = GetVisualEffect(EnterBloodStanceVFX);
+            if (vfx)
+            {
+                vfx.Play();
+            }
         }
         else
         {
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 1);
             _bodyMaterial.SetFloat(PARAM_TATTO_ID, 1);
+            _animator.SetTrigger(PARAM_FAITH_STANCE);
+            if (EnterFaithStanceVFX == null) return;
+            EnterFaithStanceVFX.SetActive(true);
+            VisualEffect vfx = GetVisualEffect(EnterFaithStanceVFX);
+            if (vfx)
+            {
+                vfx.Play();
+            }
         }
     }
 
     public void SetAiming(bool aiming)
     {
-        _animator.SetBool(PARAM_IS_AIMING, aiming);
+        if (_animator)
+            _animator.SetBool(PARAM_IS_AIMING, aiming);
     }
 
     public void InsertBulletVisual()
@@ -269,5 +299,31 @@ public class PlayerView : MonoBehaviour
                 _animator.SetTrigger(PARAM_BACKWRD_DASH);
             }
         }
+    }
+
+    [CanBeNull]
+    VisualEffect GetVisualEffect(GameObject vfxHolder)
+    {
+        vfxHolder.TryGetComponent<VisualEffect>(out VisualEffect vfx);
+        if (vfx != null)
+        {
+            return vfx;
+        }
+
+        VisualEffect vfx2 = vfxHolder.GetComponentInChildren<VisualEffect>();
+        return vfx2 != null ? vfx2 : null;
+    }
+
+    [CanBeNull]
+    ParticleSystem GetParticleSystem(GameObject vfxHolder)
+    {
+        vfxHolder.TryGetComponent<ParticleSystem>(out ParticleSystem vfx);
+        if (vfx != null)
+        {
+            return vfx;
+        }
+
+        ParticleSystem vfx2 = vfxHolder.GetComponentInChildren<ParticleSystem>();
+        return vfx2 != null ? vfx2 : null;
     }
 }

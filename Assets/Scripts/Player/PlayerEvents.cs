@@ -45,7 +45,11 @@ namespace proscryption
         public static event Action OnPlayerCloseRewardScreen;
         public static event Action<RewardData> OnPlayerGetReward;
 
-        //============================ BROADCAST METHODS ============================
+        // HUD
+
+        public static event Action<int> OnBulletChanged;
+
+        // //============================ BROADCAST METHODS ============================
 
         #region Inputs Broadcasts
 
@@ -180,6 +184,15 @@ namespace proscryption
         public static void BroadcastPlayerGetReward(RewardData reward)
         {
             OnPlayerGetReward?.Invoke(reward);
+        }
+
+        #endregion
+
+        #region HUD
+
+        public static void BroadcastBulletChanged(int newIndex)
+        {
+            OnBulletChanged?.Invoke(newIndex);
         }
 
         #endregion

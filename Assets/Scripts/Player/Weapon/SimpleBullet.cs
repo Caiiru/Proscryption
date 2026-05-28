@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace proscryption
 {
@@ -16,6 +17,10 @@ namespace proscryption
 
         private PlayerStance _bulletStance;
 
+        public bool isVisual;
+
+        [Header("VFX")] public GameObject HitVFX;
+
         public void Initialize(int damage,
             bool isCritical = false,
             // ReSharper disable once MethodOverloadWithOptionalParameter
@@ -29,7 +34,9 @@ namespace proscryption
             _rigidbody = GetComponent<Rigidbody>();
             moveDirection = transform.forward;
             moveDirection.y = 0;
-            _rigidbody.linearVelocity = moveDirection * speed;
+            this._speed = speed;
+
+            _rigidbody.linearVelocity = moveDirection * _speed;
 
             _collider = GetComponent<SphereCollider>();
 
@@ -38,14 +45,43 @@ namespace proscryption
             Debug.Log($"[SimpleBullet.Initialize - BULLET {transform.position} ]");
         }
 
+        public void SetMoveDirection(Vector3 moveDirection)
+        {
+            this.moveDirection = moveDirection;
+            _rigidbody.linearVelocity = moveDirection * _speed;
+        }
+
+        public void DisableDamage()
+        {
+            isVisual = true;
+        }
+
         void OnTriggerEnter(Collider other)
         {
             // Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
             if (other.CompareTag("Player")) return;
+
+
             other.TryGetComponent<BaseEntity>(out BaseEntity entity);
             if (entity == null)
             {
+                if (HitVFX)
+                {
+                    HitVFX.SetActive(true);
+                    HitVFX.TryGetComponent(out VisualEffect vfx);
+
+                    if (vfx)
+                        vfx.Play();
+                }
+
                 Destroy(this.gameObject);
+                return;
+            }
+
+            if (isVisual)
+            {
+                gameObject.SetActive(false);
+                Destroy(gameObject, 1f);
                 return;
             }
 

@@ -8,11 +8,17 @@ namespace proscryption
 {
     public class PlayerModel : MonoBehaviour
     {
+        private bool _gameWasEnded = false;
+
         // ===== CONFIGURATION =====
         [SerializeField] private float maxHealth = 100;
         [SerializeField] private float maxStamina = 100;
         [SerializeField] private float staminaRegenPerSec = 10f;
         [SerializeField] private float moveSpeed = 6f;
+
+        [Tooltip("Quando o jogador estiver recarregando, ele vai aplicar esse multiplicador sob o movespeed atual")]
+        [SerializeField]
+        public float moveSpeedReloadMultiplier = 0.5f;
 
         // ===== STATE DATA =====
         [SerializeField] private float _currentHealth;
@@ -21,6 +27,7 @@ namespace proscryption
         [SerializeField] private PlayerStance _currentStance = PlayerStance.Standard;
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
+        private bool _canAttack = true;
 
         //Reload
         private bool _canReload = true;
@@ -112,11 +119,14 @@ namespace proscryption
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
             PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
             PlayerEvents.OnPlayerHitLightShot += HandleLightShot;
+
+            EventManager.OnGameWin += HandleGameWin;
         }
 
 
         void OnDisable()
         {
+            EventManager.OnGameWin -= HandleGameWin;
             PlayerEvents.OnPlayerReloadEnded -= HandleReloadEnded;
             EventManager.OnHitDetected -= HandleHitDetected;
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
@@ -350,6 +360,8 @@ namespace proscryption
         public void ChangeState(PlayerState newState)
         {
             if (_currentState == newState) return;
+            if (_gameWasEnded) return;
+
 
             if (_currentState == PlayerState.Reloading)
             {
@@ -366,14 +378,7 @@ namespace proscryption
                 currentReloadTimer = reloadCooldown;
             }
 
-            if (newState == PlayerState.Menu)
-            {
-                AppManager.Instance.SetCursorVisibility(true);
-            }
-            else
-            {
-                AppManager.Instance.SetCursorVisibility(false);
-            }
+            AppManager.Instance.SetCursorVisibility(newState is PlayerState.Menu or PlayerState.Dead);
         }
 
 
@@ -470,6 +475,7 @@ namespace proscryption
             if (_currentHealth <= 0)
             {
                 ChangeState(PlayerState.Dead);
+                _gameWasEnded = true;
                 EventManager.BroadcastEntityDied(gameObject);
             }
 
@@ -508,6 +514,13 @@ namespace proscryption
             }
         }
 
+
+        private void HandleGameWin()
+        {
+            _gameWasEnded = true;
+            ChangeState(PlayerState.Menu);
+        }
+
         private void EndInvulnerability()
         {
             _isInvulnerable = false;
@@ -537,8 +550,7 @@ namespace proscryption
 
         public bool GetCanMove()
         {
-            return _currentState == PlayerState.Idle ||
-                   _currentState == PlayerState.Moving;
+            return _currentState is PlayerState.Idle or PlayerState.Moving && !_gameWasEnded;
         }
 
         public bool CanAttack()
@@ -548,12 +560,20 @@ namespace proscryption
             {
                 CancelReload();
                 return false;
-
             }
 
             if (isRolling) return false;
+            if (!_canAttack)
+            {
+                Debug.Log("Cant Attack");
+                return false;
+            }
 
-            if (!_combatSystem.GetWeapon().CanConsumeBullet()) return false;
+            if (!_combatSystem.GetWeapon().CanConsumeBullet())
+            {
+                PlayerEvents.BroadcastPlayerReloadInput();
+                return false;
+            }
 
             return true;
         }
@@ -566,26 +586,43 @@ namespace proscryption
 
         public bool CanRoll()
         {
-            return (_currentState == PlayerState.Idle ||
-                    _currentState == PlayerState.Moving) &&
-                   _currentStamina >= ROLL_STAMINA_COST &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+                return false;
+            if (_currentStamina >= ROLL_STAMINA_COST) return false;
+
+            return true;
         }
 
         public bool CanRotate()
         {
-            return _currentState != PlayerState.Rolling &&
-                   _currentState != PlayerState.Attacking &&
-                   _currentState != PlayerState.Menu &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            return (_currentState == PlayerState.Idle || _currentState == PlayerState.Moving ||
+                    _currentState == PlayerState.Reloading) &&
+                   _currentState != PlayerState.Menu;
         }
 
         public bool CanReload()
         {
-            return (_currentState == PlayerState.Idle ||
-                    _currentState == PlayerState.Moving) &&
-                   _canReload &&
-                   IsAlive;
+            if (_gameWasEnded) return false;
+            if (!IsAlive) return false;
+            // if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
+            //     return false;
+
+
+            return _canReload;
+        }
+
+        public void SetCanAttack()
+        {
+            _canAttack = true;
+        }
+
+        public void SetCantAttack()
+        {
+            _canAttack = false;
         }
 
         public PlayerStanceData GetCurrentData()

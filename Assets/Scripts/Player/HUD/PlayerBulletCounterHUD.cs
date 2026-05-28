@@ -32,7 +32,7 @@ namespace proscryption
             {
                 bulletIcons[i] = bulletContainerTransform.GetChild(i).gameObject;
                 TextMeshProUGUI bulletNumber = bulletIcons[i].GetComponentInChildren<TextMeshProUGUI>();
-                bulletNumber.text = i.ToString();
+                // bulletNumber.text = i.ToString();
             }
 
             StandardStanceTransform.gameObject.SetActive(true);
@@ -42,20 +42,18 @@ namespace proscryption
             SetupEvents();
         }
 
-        private void SetupEvents()
+        private async void SetupEvents()
         {
             // EventManager.OnPlayerAttack += HandleAttackPlayed;
             if (_weapon)
             {
                 _weapon.OnShootAction += HandleAttackPlayed;
-                _weapon.OnReloadBulletAction += async (index, isRotating) =>
-                {
-                    HandleReloadOneBullet(index, isRotating).Forget();
-                };
+                _weapon.OnReloadBulletAction += HandleReloadBulletAction;
             }
 
             PlayerEvents.OnPlayerReloadEnded += Reload;
             PlayerEvents.OnPlayerStanceChanged += HandleStanceChanged;
+            PlayerEvents.OnBulletChanged += HandleBulletChanged;
         }
 
 
@@ -64,15 +62,13 @@ namespace proscryption
             // EventManager.OnPlayerAttack -= HandleAttackPlayed;
             if (_weapon)
             {
-                _weapon.OnReloadBulletAction += async (index, isRotating) =>
-                {
-                    HandleReloadOneBullet(index, isRotating).Forget();
-                };
+                _weapon.OnReloadBulletAction -= HandleReloadBulletAction;
                 _weapon.OnShootAction -= HandleAttackPlayed;
             }
 
             PlayerEvents.OnPlayerReloadEnded -= Reload;
             PlayerEvents.OnPlayerStanceChanged -= HandleStanceChanged;
+            PlayerEvents.OnBulletChanged -= HandleBulletChanged;
         }
 
         private void HandleAttackPlayed(int index)
@@ -89,14 +85,20 @@ namespace proscryption
             }
 
             // RotateClockwise(b_index);
-            RotateAntiClockwise(index);
-            UniTask.Delay(2000).Forget();
+            // RotateAntiClockwise(index);
+            // UniTask.Delay(2000).Forget();
             return UniTask.CompletedTask;
         }
 
+        private void HandleBulletChanged(int index)
+        {
+            RotateAntiClockwise(index);
+        }
+
+
         private void RotateAntiClockwise(int index)
         {
-            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (index + -1) * 2), rotateAnimationDuration,
+            bulletBackground.DORotate(new Vector3(0, 0, angleOffset * (index) * 2), rotateAnimationDuration,
                 RotateMode.Fast); // Rotate the entire counter  
         }
 
@@ -123,13 +125,18 @@ namespace proscryption
             // Debug.Log("Reload");
         }
 
+        private void HandleReloadBulletAction(int index, bool isRotating)
+        {
+            HandleReloadOneBullet(index, isRotating).Forget();
+        }
+
 
         private async UniTask HandleReloadOneBullet(int index, bool rotate)
         {
             // Debug.Log("Reload one bullet");
             int i = 0;
             if (rotate)
-            { 
+            {
                 RotateToIndex(index);
                 await UniTask.WaitForSeconds(rotateAnimationDuration);
             }

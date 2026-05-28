@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1356375637261624668}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4618104, y: -0.00000001796458, z: 0.000000009353358, w: 0.8869787}
-  m_LocalPosition: {x: 0, y: 6, z: -3}
+  m_LocalPosition: {x: -112.72706, y: 2.326816, z: -108.187386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1149,7 +1149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1418526657633803074
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7020028854514171272}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1426,7 +1426,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8626968717723312802}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
   m_Name: 
@@ -1525,13 +1525,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachinePositionComposer
-  CameraDistance: 4
+  CameraDistance: 8
   DeadZoneDepth: 0
   Composition:
     ScreenPosition: {x: 0.000000014901161, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.081873685, y: 0.09130436}
+      Size: {x: 0.02, y: 0.02}
     HardLimits:
       Enabled: 0
       Size: {x: 0.8, y: 0.8}
@@ -1551,7 +1551,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8866530585680856476}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
   m_Name: 

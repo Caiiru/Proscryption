@@ -18,6 +18,8 @@ namespace proscryption
         [Space] [Header("Vision")] [SerializeField]
         private LayerMask _playerMask = 1 << 3;
 
+        public float visionRange = 5f;
+
         #endregion
 
         #region Movement Settings
@@ -60,10 +62,12 @@ namespace proscryption
         #region Visual and Ragdoll
 
         CapsuleCollider _takeDamageCollider;
-        [SerializeField] Collider[] _ragdollColliders;
+        [Header("Ragdoll")] [SerializeField] Collider[] _ragdollColliders;
         [SerializeField] Rigidbody[] _ragdollRigidbodies;
 
-        [SerializeField] SkinnedMeshRenderer _bodyRenderer;
+        [Space] [Header("Visual")] [SerializeField]
+        SkinnedMeshRenderer _bodyRenderer;
+
         [SerializeField] SkinnedMeshRenderer _eyesRenderer;
 
         public Material DissolveMaterial;
@@ -154,16 +158,18 @@ namespace proscryption
             switch (currentState)
             {
                 case EnemyState.TakingDamage:
+
+                    if (!_canBeStunned)
+                    {
+                        ChangeState(EnemyState.Attacking);
+                        return UniTask.CompletedTask;
+                    }
+
                     HandleTakeDamageState().Forget();
 
                     break;
             }
 
-            return UniTask.CompletedTask;
-        }
-
-        private UniTask LeaveCurrentState()
-        {
             return UniTask.CompletedTask;
         }
 
@@ -193,6 +199,12 @@ namespace proscryption
                     break;
             }
         }
+
+        private UniTask LeaveCurrentState()
+        {
+            return UniTask.CompletedTask;
+        }
+
 
         private async void ChangeState(EnemyState newState)
         {
@@ -232,7 +244,6 @@ namespace proscryption
         private async UniTask HandleTakeDamageState()
         {
             //Stun Enemy
-            if (!_canBeStunned) return;
             _canBeStunned = false;
 
 
@@ -262,12 +273,13 @@ namespace proscryption
         {
             Vector3 centerPosition = _transform.position;
             centerPosition.y = 1;
-            if (Physics.Linecast(centerPosition, _playerTransform.position, _playerMask))
-            {
-                return true;
-            }
+            bool clearPath = Physics.Linecast(centerPosition, _playerTransform.position, _playerMask);
+            bool isOnRange = Vector3.Distance(centerPosition, _playerTransform.position) < visionRange;
+            
+            
 
-            return false;
+
+            return clearPath && isOnRange;
         }
 
         void FixedUpdate()
@@ -285,7 +297,8 @@ namespace proscryption
                 return;
             }
 
-            if (_navMeshAgent.destination != _playerTransform.position)
+            if (_navMeshAgent.destination != _playerTransform.position && _navMeshAgent.isActiveAndEnabled &&
+                _navMeshAgent.isOnNavMesh)
                 _navMeshAgent.SetDestination(_playerTransform.position);
             // _rigidbody.MovePosition(transform.position + transform.forward * Time.fixedDeltaTime * _moveSpeed);
             SetVelocity(_moveSpeed, 0.75f);
@@ -377,6 +390,7 @@ namespace proscryption
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
+            if (_isAttacking) return;
             _navMeshAgent.enabled = false;
             ChangeState(EnemyState.TakingDamage);
             await UniTask.WaitForEndOfFrame();
@@ -386,6 +400,8 @@ namespace proscryption
             await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
 
             _rigidbody.isKinematic = true;
+
+            if (_enemyEntity.IsDead) return;
             _navMeshAgent.enabled = enabled;
         }
 
@@ -422,6 +438,11 @@ namespace proscryption
 
         private async UniTask HandleDeath(Vector3? directionForce, ForceMode? forceMode)
         {
+            if (_navMeshAgent.isActiveAndEnabled &&
+                _navMeshAgent.isOnNavMesh)
+                _navMeshAgent.SetDestination(transform.position);
+
+
             _navMeshAgent.enabled = false;
             _animator.enabled = false;
             EnableRagdoll();
@@ -435,12 +456,15 @@ namespace proscryption
 
             await UniTask.Delay(Mathf.FloorToInt(5000));
             //Dissolve Minion
-            _eyesRenderer.enabled = false;
-            _bodyRenderer.material = DissolveMaterial;
+            if (_eyesRenderer)
+                _eyesRenderer.enabled = false;
+            if (_bodyRenderer)
+                _bodyRenderer.material = DissolveMaterial;
             float dissolveDuration = 3;
             _bodyRenderer.material.DOFloat(1, "_DissolveAmount", dissolveDuration);
             await UniTask.Delay(Mathf.FloorToInt(Mathf.FloorToInt(dissolveDuration) * 1000));
-            Destroy(this.gameObject);
+            // if (this.gameObject)
+            //     Destroy(this.gameObject);
         }
 
         private void ToggleColliders(bool isActivate)
