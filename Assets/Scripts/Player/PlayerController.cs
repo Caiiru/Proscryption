@@ -65,7 +65,8 @@ namespace proscryption
         void SetupEvents()
         {
             PlayerEvents.OnPlayerMoveInput += HandleMoveInput;
-            PlayerEvents.OnPlayerRollInput += HandleRollInput;
+            PlayerEvents.OnPlayerRunInput += HandleRunInput;
+            PlayerEvents.OnPlayerReleaseRunInput += HandleReleaseRunInput;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
             EventManager.OnGameWin += OnGameWin;
             PlayerEvents.OnPlayerStateChanged += HandlePlayerState;
@@ -79,19 +80,16 @@ namespace proscryption
             _characterInput.OnInteractInput += HandleInteractInput;
             PlayerEvents.OnPlayerCloseRewardScreen += HandleCloseRewardScreen;
             PlayerEvents.OnPlayerOpenRewardScreen += HandleOpenRewardScreen;
-            PlayerEvents.OnPlayerAimInput += HandleAiming;
-            PlayerEvents.OnPlayerReleaseAimInput += HandleReleaseAiming;
         }
 
 
         void OnDisable()
         {
-            PlayerEvents.OnPlayerReleaseAimInput -= HandleReleaseAiming;
-            PlayerEvents.OnPlayerAimInput += HandleAiming;
             PlayerEvents.OnPlayerCloseRewardScreen -= HandleCloseRewardScreen;
             PlayerEvents.OnPlayerOpenRewardScreen -= HandleOpenRewardScreen;
             PlayerEvents.OnPlayerMoveInput -= HandleMoveInput;
-            PlayerEvents.OnPlayerRollInput -= HandleRollInput;
+            PlayerEvents.OnPlayerRunInput -= HandleRunInput;
+            PlayerEvents.OnPlayerReleaseRunInput -= HandleReleaseRunInput;
             SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
             PlayerEvents.OnPlayerStateChanged -= HandlePlayerState;
             EventManager.OnGameWin -= OnGameWin;
@@ -146,18 +144,6 @@ namespace proscryption
             }
         }
 
-        private void HandleAiming()
-        {
-            _isAiming = true;
-            _view.SetAiming(true);
-        }
-
-        private void HandleReleaseAiming()
-        {
-            _isAiming = false;
-            _view.SetAiming(false);
-        }
-
 
         private void HandleInteractInput(bool isPressed)
         {
@@ -165,37 +151,40 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerCastInteract();
         }
 
-        /// <summary>
-        /// Handle roll input from EventManager
-        /// </summary>
-        private void HandleRollInput()
+        private void HandleRunInput()
         {
             if (!_canGetInput) return;
             // Ask model if we can roll
-            if (!_model.CanRoll())
+            if (!_model.CanRun())
             {
                 return;
             }
 
+            Debug.Log($"[PlayerController.HandleRunInput - I CAN RUN!! ]");
+
             // Consume stamina
-            if (!_model.TryConsumeStamina(_model.ROLL_STAMINA_COST))
-            {
-                return;
-            }
+
 
             // Start roll
             // _model.ChangeState(PlayerState.Rolling);
-            _model.SetInvulnerable(true, _model.rollDuration);
-            _rollTimer = _model.rollDuration;
-            _rollCooldownTimer = _model.rollCooldown;
-            _model.isRolling = true;
-            _model.ChangeState(PlayerState.Rolling);
+            // _model.SetInvulnerable(true, _model.rollDuration);
+            // _rollTimer = _model.rollDuration;
+            // _rollCooldownTimer = _model.rollCooldown; 
+            _model.ChangeState(PlayerState.Running);
 
-            if (_model.CurrentState == PlayerState.Reloading)
-                _view.StopReloading();
+            //
+            // if (_model.CurrentState == PlayerState.Reloading)
+            //     _view.StopReloading();
 
-            Vector2 rollDirection = GetCameraRelativeMovement(_moveInput);
-            _view.RollAnimation(rollDirection);
+            // Vector2 rollDirection = GetCameraRelativeMovement(_moveInput);
+            // _view.RollAnimation(rollDirection);
+        }
+
+        private void HandleReleaseRunInput()
+        {
+            if (!_canGetInput) return;
+
+            _model.ChangeState(PlayerState.Idle);
         }
 
 
@@ -203,7 +192,6 @@ namespace proscryption
         {
             if (!_canGetInput) return;
             if (!_model.CanReload()) return;
-            if (!_model.TryConsumeStamina(_model.GetCurrentData().rollStaminaCost)) return;
             if (_model.CurrentState != PlayerState.Reloading)
             {
                 _model.ChangeState(PlayerState.Reloading);
@@ -226,7 +214,6 @@ namespace proscryption
         void Update()
         {
             RotateTowardsMousePosition(Mouse.current.position.ReadValue());
-            _view.UpdateInputAnimation(_moveInput.normalized, _lookingDirection.normalized);
         }
 
         // ===== PHYSICS LOOP =====
@@ -243,16 +230,8 @@ namespace proscryption
 
             UpdateTimers();
 
-            // Handle rolling
-            if (_model.isRolling)
-            {
-                HandleRolling();
-            }
-            else
-            {
-                // Handle normal movement
-                HandleMovement();
-            }
+
+            HandleMovement();
         }
 
         void LateUpdate()
@@ -267,47 +246,56 @@ namespace proscryption
             if (!_model.CanMove) return;
             Vector3 movement = GetCameraRelativeMovement(_moveInput);
 
-
-            _currentVelocity = isBackwards
-                ? movement * (_model.MoveSpeed * _model.moveSpeedReloadMultiplier)
-                : movement * _model.MoveSpeed;
+            if (_model.isRunning)
+            {
+                //RotateTowardsDirection(new Vector3(transform.position.x + _moveInput.x, transform.position.y,
+                //  transform.position.z + _moveInput.y));
+                _currentVelocity = movement * _model.MoveSpeed;
+                RotateTowardsVelocity(_currentVelocity);
+            }
+            else
+            {
+                _currentVelocity = isBackwards
+                    ? movement * (_model.MoveSpeed * _model.moveSpeedReloadMultiplier)
+                    : movement * _model.MoveSpeed;
+            }
 
             _currentVelocity.y = _rigidbody.linearVelocity.y;
 
             _rigidbody.linearVelocity = _currentVelocity;
         }
 
-        private void HandleRolling()
-        {
-            // Apply roll force in the direction we're rolling
-            Vector3 rollDirection = GetCameraRelativeMovement(_moveInput);
-            // Vector3 rollDirection = _moveInput;
-            if (rollDirection.magnitude < 0.1f)
-            {
-                // If no input, roll forward
-                rollDirection = transform.forward;
-            }
-
-            // Apply roll velocity
-            Vector3 rollVelocity = rollDirection * _model.rollForce;
-            rollVelocity.y = _rigidbody.linearVelocity.y; // Preserve gravity
-
-            _rigidbody.linearVelocity = rollVelocity;
-            _currentVelocity = rollVelocity;
-
-            // // Check if roll is finished
-            // _rollTimer -= Time.fixedDeltaTime;
-            // Debug.Log(_rollTimer);
-            // if (_rollTimer <= 0)
-            // {
-            //     if (_moveInput.magnitude < 0.1f)
-            //     {
-            //         _model.ChangeState(PlayerState.Idle);
-            //     }
-            //     else
-            //         _model.ChangeState(PlayerState.Moving);
-            // }
-        }
+        // private void HandleRolling()
+        // {
+        //     // Apply roll force in the direction we're rolling
+        //     Vector3 rollDirection = GetCameraRelativeMovement(_moveInput);
+        //     // Vector3 rollDirection = _moveInput;
+        //     if (rollDirection.magnitude < 0.1f)
+        //     {
+        //         // If no input, roll forward
+        //         rollDirection = transform.forward;
+        //     }
+        //
+        //     // Apply roll velocity
+        //     Vector3 rollVelocity = rollDirection * _model.rollForce;
+        //     rollVelocity.y = _rigidbody.linearVelocity.y; // Preserve gravity
+        //
+        //     _rigidbody.linearVelocity = rollVelocity;
+        //     _currentVelocity = rollVelocity;
+        //
+        //     // // Check if roll is finished
+        //     // _rollTimer -= Time.fixedDeltaTime;
+        //     // Debug.Log(_rollTimer);
+        //     // if (_rollTimer <= 0)
+        //     // {
+        //     //     if (_moveInput.magnitude < 0.1f)
+        //     //     {
+        //     //         _model.ChangeState(PlayerState.Idle);
+        //     //     }
+        //     //     else
+        //     //         _model.ChangeState(PlayerState.Moving);
+        //     // }
+        // }
 
 
         // ===== HELPER METHODS =====
@@ -398,8 +386,9 @@ namespace proscryption
 
         private void RotateTowardsMousePosition(Vector2 mousePosition)
         {
-            if (_model.CurrentState == PlayerState.Rolling) return;
+            if (_model.CurrentState == PlayerState.Running) return;
             if (_mainCamera == null) return;
+            _view.UpdateInputAnimation(_moveInput.normalized, _lookingDirection.normalized);
 
             Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, _mouseLayerMask))

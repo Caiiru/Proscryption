@@ -15,6 +15,7 @@ namespace proscryption
         [SerializeField] private float maxStamina = 100;
         [SerializeField] private float staminaRegenPerSec = 10f;
         [SerializeField] private float moveSpeed = 6f;
+        [SerializeField] private float runSpeed = 6f;
 
         [Tooltip("Quando o jogador estiver recarregando, ele vai aplicar esse multiplicador sob o movespeed atual")]
         [SerializeField]
@@ -36,7 +37,7 @@ namespace proscryption
 
         //Roll
         [Header("Roll Settings")] [SerializeField]
-        public bool isRolling = false;
+        public bool isRunning = false;
 
         public float rollForce = 20f;
 
@@ -120,6 +121,7 @@ namespace proscryption
             PlayerEvents.OnPlayerReloadEnded += HandleReloadEnded;
             PlayerEvents.OnPlayerHitLightShot += HandleLightShot;
 
+
             EventManager.OnGameWin += HandleGameWin;
         }
 
@@ -202,6 +204,18 @@ namespace proscryption
                     }
 
                     break;
+                case PlayerState.Running:
+                    if (!TryConsumeStamina(0.1f))
+                    {
+                        moveSpeed = _currentData.moveSpeed;
+                        ChangeState(PlayerState.Idle);
+                    }
+                    else
+                    {
+                        moveSpeed = _currentData.runSpeed;
+                    }
+
+                    break;
             }
         }
 
@@ -263,10 +277,8 @@ namespace proscryption
             PlayerStanceData data = (PlayerStanceData)_currentData;
             maxHealth = data.maxHealth;
             moveSpeed = data.moveSpeed;
+            runSpeed = data.runSpeed;
             maxStamina = data.maxStamina;
-            rollForce = data.rollForce;
-            ROLL_STAMINA_COST = data.rollStaminaCost;
-            rollCooldown = data.rollCooldown;
 
             if (_currentStance != PlayerStance.Standard)
                 _currentStanceTimer = data.stanceDuration;
@@ -322,7 +334,7 @@ namespace proscryption
         /// <summary>
         /// Try to consume stamina for an action. Returns true if successful.
         /// </summary>
-        public bool TryConsumeStamina(int amount)
+        public bool TryConsumeStamina(float amount)
         {
             if (_currentStamina >= amount)
             {
@@ -362,10 +374,22 @@ namespace proscryption
             if (_currentState == newState) return;
             if (_gameWasEnded) return;
 
-
+            //EXIT STATE
             if (_currentState == PlayerState.Reloading)
             {
                 _playerView.StopReloading();
+            }
+
+            switch (_currentState)
+            {
+                case PlayerState.Reloading:
+                    _playerView.StopReloading();
+                    break;
+                case PlayerState.Running:
+                    isRunning = false;
+                    _playerView.SetRunning(isRunning);
+                    _combatSystem.ShowWeapon();
+                    break;
             }
 
             PlayerState prev = _currentState;
@@ -373,9 +397,19 @@ namespace proscryption
 
             PlayerEvents.BroadcastPlayerStateChanged(prev, newState);
 
-            if (newState == PlayerState.Reloading)
+
+            //ENTER STATE
+            switch (_currentState)
             {
-                currentReloadTimer = reloadCooldown;
+                case PlayerState.Reloading:
+                    currentReloadTimer = reloadCooldown;
+                    break;
+                case PlayerState.Running:
+                    isRunning = true;
+                    _playerView.SetRunning(isRunning);
+                    _combatSystem.HideWeapon();
+                    Debug.Log("IM RUNNING");
+                    break;
             }
 
             AppManager.Instance.SetCursorVisibility(newState is PlayerState.Menu or PlayerState.Dead);
@@ -542,7 +576,7 @@ namespace proscryption
 
             await UniTask.WaitForSeconds(0.1f);
 
-            this.isRolling = false;
+            this.isRunning = false;
             ChangeState(PlayerState.Idle);
         }
 
@@ -562,7 +596,7 @@ namespace proscryption
                 return false;
             }
 
-            if (isRolling) return false;
+            if (isRunning) return false;
             if (!_canAttack)
             {
                 Debug.Log("Cant Attack");
@@ -584,15 +618,13 @@ namespace proscryption
             _currentState = PlayerState.Idle;
         }
 
-        public bool CanRoll()
+        public bool CanRun()
         {
             if (_gameWasEnded) return false;
             if (!IsAlive) return false;
-            if (_currentState != PlayerState.Idle || _currentState == PlayerState.Moving)
-                return false;
-            if (_currentStamina >= ROLL_STAMINA_COST) return false;
+ 
 
-            return true;
+            return _currentState == PlayerState.Moving;
         }
 
         public bool CanRotate()

@@ -30,10 +30,7 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_INSERT_BULLET = "InsertBullet";
     private const string PARAM_DIE = "Death";
 
-    private const string PARAM_FORWARD_DASH = "Forward Dodge";
-    private const string PARAM_BACKWRD_DASH = "Backward Dodge";
-    private const string PARAM_LEFT_DASH = "Left Dodge";
-    private const string PARAM_RIGHT_DASH = "Right Dodge";
+    private const string PARAM_IS_RUNNING = "IsRunning";
 
     private const string PARAM_BLOOD_STANCE = "BloodMode";
     private const string PARAM_FAITH_STANCE = "FaithMode";
@@ -143,8 +140,7 @@ public class PlayerView : MonoBehaviour
                 _animator.SetBool(PARAM_IS_ATTACKING, true);
                 break;
 
-            case PlayerState.Rolling:
-                _animator.SetBool(PARAM_IS_ROLLING, true);
+            case PlayerState.Running:
                 break;
 
             case PlayerState.Dead:
@@ -260,45 +256,52 @@ public class PlayerView : MonoBehaviour
         _animator.SetBool(PARAM_IS_RELOADING, false);
     }
 
+    public void SetRunning(bool isRunning)
+    {
+        _animator.SetBool(PARAM_IS_RUNNING, isRunning);
+
+        
+    }
+
     public void RollAnimation(Vector2 moveInput)
     {
-        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-        Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
-
-        Debug.Log(localLookDir);
-
-        // Caso não tenha nenhum input, evita rodar a lógica (ou define um padrão)
-        if (localLookDir == Vector3.zero)
-        {
-            _animator.SetTrigger(PARAM_FORWARD_DASH);
-            return;
-        }
-
-        // 1. Verifica se o movimento horizontal (X) é maior que o vertical (Y)
-        if (Mathf.Abs(localLookDir.x) > Mathf.Abs(localLookDir.z))
-        {
-            // Movimento predominantemente Horizontal
-            if (localLookDir.x > 0)
-            {
-                _animator.SetTrigger(PARAM_RIGHT_DASH);
-            }
-            else
-            {
-                _animator.SetTrigger(PARAM_LEFT_DASH);
-            }
-        }
-        else
-        {
-            // Movimento predominantemente Vertical
-            if (localLookDir.z > 0)
-            {
-                _animator.SetTrigger(PARAM_FORWARD_DASH);
-            }
-            else
-            {
-                _animator.SetTrigger(PARAM_BACKWRD_DASH);
-            }
-        }
+        // Vector3 worldMoveDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        // Vector3 localLookDir = transform.InverseTransformDirection(worldMoveDirection);
+        //
+        // Debug.Log(localLookDir);
+        //
+        // // Caso não tenha nenhum input, evita rodar a lógica (ou define um padrão)
+        // if (localLookDir == Vector3.zero)
+        // {
+        //     _animator.SetTrigger(PARAM_FORWARD_DASH);
+        //     return;
+        // }
+        //
+        // // 1. Verifica se o movimento horizontal (X) é maior que o vertical (Y)
+        // if (Mathf.Abs(localLookDir.x) > Mathf.Abs(localLookDir.z))
+        // {
+        //     // Movimento predominantemente Horizontal
+        //     if (localLookDir.x > 0)
+        //     {
+        //         _animator.SetTrigger(PARAM_RIGHT_DASH);
+        //     }
+        //     else
+        //     {
+        //         _animator.SetTrigger(PARAM_LEFT_DASH);
+        //     }
+        // }
+        // else
+        // {
+        //     // Movimento predominantemente Vertical
+        //     if (localLookDir.z > 0)
+        //     {
+        //         _animator.SetTrigger(PARAM_FORWARD_DASH);
+        //     }
+        //     else
+        //     {
+        //         _animator.SetTrigger(PARAM_BACKWRD_DASH);
+        //     }
+        // }
     }
 
     [CanBeNull]
