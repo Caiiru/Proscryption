@@ -16,9 +16,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegenPerSec: 1
   moveSpeed: 1.5
-  rollForce: 3
-  rollCooldown: 2
-  rollStaminaCost: 20
+  runSpeed: 3
   attackStaminaCost: 10
   stanceDuration: -1
   stanceCooldown: -1

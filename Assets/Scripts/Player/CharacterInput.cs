@@ -13,7 +13,7 @@ namespace proscryption
         #region Input Actions
 
         private InputAction _moveAction;
-        private InputAction _rollAction;
+        private InputAction _runAction;
         private InputAction _interactAction;
         private InputAction _lookAction;
         private InputAction _attackAction;
@@ -40,7 +40,7 @@ namespace proscryption
         /// <summary>
         /// Valor atual do input de roll
         /// </summary>
-        public bool RollInput { get; private set; }
+        public bool RunInput { get; private set; }
 
         /// <summary>
         /// Valor atual do input de interação
@@ -56,9 +56,7 @@ namespace proscryption
         /// Valor de input: boolean 
         /// </summary>
         public bool Attackinput { get; private set; }
-
-        public bool AimInput { get; private set; }
-        public bool ReleaseAimInput { get; private set; }
+ 
         public bool ReloadInput { get; private set; }
         public bool PauseInput { get; private set; }
 
@@ -78,7 +76,7 @@ namespace proscryption
         /// <summary>
         /// Callback acionado quando roll é pressionado
         /// </summary>
-        public Action<bool> OnRollInput;
+        public Action<bool> OnRunInput;
 
         /// <summary>
         /// Callback acionado quando interact é pressionado
@@ -137,7 +135,7 @@ namespace proscryption
 
             // Obter referências das ações
             _moveAction = _playerInput.actions["Move"];
-            _rollAction = _playerInput.actions["Roll"];
+            _runAction = _playerInput.actions["Sprint"];
             _interactAction = _playerInput.actions["Interact"];
             _lookAction = _playerInput.actions["Look"];
             _attackAction = _playerInput.actions["Attack"];
@@ -163,10 +161,10 @@ namespace proscryption
                 _moveAction.canceled += HandleMoveInput;
             }
 
-            if (_rollAction != null)
+            if (_runAction != null)
             {
-                _rollAction.performed += HandleRollInput;
-                _rollAction.canceled += HandleRollInput;
+                _runAction.performed += HandleRunInput;
+                _runAction.canceled += HandleRunCancel;
             }
 
             if (_interactAction != null)
@@ -185,11 +183,7 @@ namespace proscryption
                 _attackAction.performed += HandleAttackInput;
                 _attackAction.canceled += HandleAttackInput;
             }
-
-            if (_aimAction != null)
-            {
-                _aimAction.performed += HandleAimInput;
-            }
+ 
 
             if (_releaseAimAction != null)
             {
@@ -231,10 +225,10 @@ namespace proscryption
                 _moveAction.canceled -= HandleMoveInput;
             }
 
-            if (_rollAction != null)
+            if (_runAction != null)
             {
-                _rollAction.performed -= HandleRollInput;
-                _rollAction.canceled -= HandleRollInput;
+                _runAction.performed -= HandleRunInput;
+                _runAction.canceled -= HandleRunCancel;
             }
 
             if (_interactAction != null)
@@ -253,8 +247,7 @@ namespace proscryption
                 _attackAction.performed -= HandleAttackInput;
                 _attackAction.canceled -= HandleAttackInput;
             }
-
-            _aimAction.performed -= HandleAimInput;
+ 
 
             if (_reloadAction != null)
             {
@@ -286,13 +279,23 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerMoveInput(MoveInput);
         }
 
-        private void HandleRollInput(InputAction.CallbackContext context)
+        private void HandleRunInput(InputAction.CallbackContext context)
         {
-            RollInput = context.ReadValueAsButton();
-            OnRollInput?.Invoke(RollInput);
+            RunInput = context.ReadValueAsButton();
+            OnRunInput?.Invoke(RunInput);
             // NEW: Broadcast to EventManager when roll is performed
-            if (RollInput)
-                PlayerEvents.BroadcastPlayerRollInput();
+            if (RunInput)
+            {
+                Debug.Log($"[CharacterInput.HandleRunInput - INPUT START ]");
+                PlayerEvents.BroadcastPlayerRunInput();
+            }
+        }
+
+        private void HandleRunCancel(InputAction.CallbackContext context)
+        {
+            Debug.Log($"[CharacterInput.HandleRunCancel - CANCEL {context}]");
+            
+            PlayerEvents.BroadcastPlayerReleaseRunInput();
         }
 
         private void HandleInteractInput(InputAction.CallbackContext context)
@@ -318,19 +321,12 @@ namespace proscryption
 
         private void HandleReleaseAimInput(InputAction.CallbackContext context)
         {
-            PlayerEvents.BroadcastPlayerReleaseAimInput();
+            // PlayerEvents.BroadcastPlayerReleaseAimInput();
+
             // EventManager.BroadcastPlayerParryInput();
         }
 
-        private void HandleAimInput(InputAction.CallbackContext context)
-        {
-            AimInput = context.ReadValueAsButton();
-            OnAimInput?.Invoke(AimInput);
-
-            if (AimInput)
-                PlayerEvents.BroadcastPlayerAimInput();
-            // EventManager.BroadcastPlayerParryInput();
-        }
+     
 
         private void HandlePauseInput(InputAction.CallbackContext context)
         {

@@ -78,7 +78,7 @@ public enum PlayerState
     Idle,
     Moving,
     Attacking,
-    Rolling,
+    Running,
     Stunned,
     Reloading,
     Dead,

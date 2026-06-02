@@ -89,5 +89,15 @@ namespace proscryption
             Debug.Log("Insert Bullet");
             _currentWeapon.ReloadOneBullet();
         }
+
+        public void HideWeapon()
+        {
+            _currentWeapon.gameObject.SetActive(false);
+        }
+        
+        public void ShowWeapon()
+        {
+            _currentWeapon.gameObject.SetActive(true);
+        }
     }
 }
