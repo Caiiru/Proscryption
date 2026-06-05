@@ -386,9 +386,9 @@ namespace proscryption
 
         private void RotateTowardsMousePosition(Vector2 mousePosition)
         {
-            if (_model.CurrentState == PlayerState.Running) return;
             if (_mainCamera == null) return;
-            _view.UpdateInputAnimation(_moveInput.normalized, _lookingDirection.normalized);
+            if (_model.CurrentState != PlayerState.Running)
+                _view.UpdateInputAnimation(_moveInput.normalized, _lookingDirection.normalized);
 
             Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, _mouseLayerMask))
@@ -398,7 +398,9 @@ namespace proscryption
                 PlayerEvents.BroadcastMouseLookInput(new Vector2(hitInfo.point.x, hitInfo.point.z));
                 Vector3 direction = targetPoint - transform.position;
                 _lookingDirection = direction;
-                RotateTowardsDirection(_lookingDirection);
+
+                if (_model.CurrentState != PlayerState.Running)
+                    RotateTowardsDirection(_lookingDirection);
                 // Debug.DrawLine(transform.position, transform.position + direction * 2f, Color.green, 0.5f);
             }
             // Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.red, 0.5f);

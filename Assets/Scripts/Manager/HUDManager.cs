@@ -86,7 +86,7 @@ namespace proscryption
 
         internal void Initialize()
         {
-            #region Check GO
+            #region Check Game objects
 
             if (healthBar == null)
             {
@@ -233,6 +233,7 @@ namespace proscryption
         {
             if (aimIndicator != null)
             {
+                Debug.Log(vector);
                 aimIndicator.transform.position = Mouse.current.position.ReadValue();
             }
         }

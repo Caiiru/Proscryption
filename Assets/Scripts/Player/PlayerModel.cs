@@ -184,40 +184,7 @@ namespace proscryption
             }
         }
 
-        void UpdateCurrentState()
-        {
-            switch (_currentState)
-            {
-                case PlayerState.Reloading:
-                    currentReloadTimer -= Time.deltaTime;
-                    if (_combatSystem.GetWeapon().IsFull())
-                    {
-                        ChangeState(PlayerState.Idle);
-                        _playerView.StopReloading();
-                        return;
-                    }
-
-                    if (currentReloadTimer <= 0)
-                    {
-                        _playerView.InsertBulletVisual();
-                        currentReloadTimer = reloadCooldown;
-                    }
-
-                    break;
-                case PlayerState.Running:
-                    if (!TryConsumeStamina(0.1f))
-                    {
-                        moveSpeed = _currentData.moveSpeed;
-                        ChangeState(PlayerState.Idle);
-                    }
-                    else
-                    {
-                        moveSpeed = _currentData.runSpeed;
-                    }
-
-                    break;
-            }
-        }
+      
 
 
         private void HandleCurrentStanceTimer()
@@ -389,6 +356,8 @@ namespace proscryption
                     isRunning = false;
                     _playerView.SetRunning(isRunning);
                     _combatSystem.ShowWeapon();
+
+                    moveSpeed = _currentData.moveSpeed;
                     break;
             }
 
@@ -414,6 +383,41 @@ namespace proscryption
 
             AppManager.Instance.SetCursorVisibility(newState is PlayerState.Menu or PlayerState.Dead);
         }
+        void UpdateCurrentState()
+        {
+            switch (_currentState)
+            {
+                case PlayerState.Reloading:
+                    currentReloadTimer -= Time.deltaTime;
+                    if (_combatSystem.GetWeapon().IsFull())
+                    {
+                        ChangeState(PlayerState.Idle);
+                        _playerView.StopReloading();
+                        return;
+                    }
+
+                    if (currentReloadTimer <= 0)
+                    {
+                        _playerView.InsertBulletVisual();
+                        currentReloadTimer = reloadCooldown;
+                    }
+
+                    break;
+                case PlayerState.Running:
+                    if (!TryConsumeStamina(0.1f))
+                    {
+                        moveSpeed = _currentData.moveSpeed;
+                        ChangeState(PlayerState.Idle);
+                    }
+                    else
+                    {
+                        moveSpeed = _currentData.runSpeed;
+                    }
+
+                    break;
+            }
+        }
+        //END
 
 
         private void HandleReloadEnded()
@@ -622,7 +626,7 @@ namespace proscryption
         {
             if (_gameWasEnded) return false;
             if (!IsAlive) return false;
- 
+
 
             return _currentState == PlayerState.Moving;
         }
