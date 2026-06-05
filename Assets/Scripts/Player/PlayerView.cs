@@ -31,10 +31,12 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_DIE = "Death";
 
     private const string PARAM_IS_RUNNING = "IsRunning";
+    private const string PARAM_TRIGGER_RUNNING_INPUT = "isRunning_Trigger";
 
     private const string PARAM_BLOOD_STANCE = "BloodMode";
     private const string PARAM_FAITH_STANCE = "FaithMode";
 
+    private bool _isRunning = false;
 
     [Header("VFX")] public VisualEffect takeDamageVFX;
     public GameObject EnterBloodStanceVFX;
@@ -44,7 +46,6 @@ public class PlayerView : MonoBehaviour
     public int stancesDelayMilliseconds = 200;
 
     [SerializeField] private Material _bodyMaterial;
-
     [SerializeField] private Material _detailsMaterial;
 
     // parameter material
@@ -258,9 +259,19 @@ public class PlayerView : MonoBehaviour
 
     public void SetRunning(bool isRunning)
     {
-        _animator.SetBool(PARAM_IS_RUNNING, isRunning);
+        //_isRunning is just to save the trigger to animator override
+        //cause is any state - so need trigger just when first run input
+        if (!_isRunning && isRunning)
+        {
+            _animator.SetTrigger(PARAM_TRIGGER_RUNNING_INPUT);
+        }
 
-        
+        if (!isRunning)
+        {
+            _isRunning = false;
+        }
+
+        _animator.SetBool(PARAM_IS_RUNNING, isRunning);
     }
 
     public void RollAnimation(Vector2 moveInput)
