@@ -52,7 +52,7 @@ namespace proscryption
 
         public static void BroadcastPauseInput()
         {
-            Debug.Log("Broadcasting pause input from EventManager.");
+          //  Debug.Log("Broadcasting pause input from EventManager.");//
             OnGamePauseInput?.Invoke();
         }
 

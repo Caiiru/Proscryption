@@ -2601,10 +2601,10 @@ MonoBehaviour:
   canTakeDamage: 1
   takeDamageDelay: 0.1
   canAttack: 0
-  attackTime: 6
-  minDamage: 3
-  maxDamage: 8
-  criticalChange: 0
+  attackTime: 2
+  minDamage: 10
+  maxDamage: 25
+  criticalChange: 87
   takeDamageVFX: {fileID: 3564071014570566478, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
   deathVFX: {fileID: 1277154925287174, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
 --- !u!95 &4812802207369274769

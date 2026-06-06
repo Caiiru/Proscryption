@@ -233,7 +233,7 @@ namespace proscryption
         {
             if (aimIndicator != null)
             {
-                Debug.Log(vector);
+               // Debug.Log(vector);
                 aimIndicator.transform.position = Mouse.current.position.ReadValue();
             }
         }
