@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.SimpleBullet
   _speed: 2
+  isVisual: 0
+  HitVFX: {fileID: 0}
 --- !u!1001 &6044208055361135167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,6 +148,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5841992674435678226, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104950675617849902, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9112627334904405416, guid: 193ed42b3fadada40b22ce8fe685b04b, type: 3}
