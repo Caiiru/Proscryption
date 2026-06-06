@@ -48,7 +48,6 @@ Transform:
   - {fileID: 5552577356987236469}
   - {fileID: 1068963405789122233}
   - {fileID: 8092840863366001059}
-  - {fileID: 6187087308448097639}
   - {fileID: 8918845861332143113}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -217,7 +216,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
-  attackRaycastLimit: 1.5
+  attackRaycastLimit: 99
   raycastStartTransform: {fileID: 8918845861332143113}
 --- !u!54 &758348147772611608
 Rigidbody:
@@ -609,7 +608,7 @@ Transform:
   m_GameObject: {fileID: 4748121001596499799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -821,37 +820,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &8507388249529127244
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6187087308448097639}
-  m_Layer: 3
-  m_Name: RaycastStart
-  m_TagString: Untagged
-  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6187087308448097639
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8507388249529127244}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.385, z: 0.274}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2996229423250799355}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8516388917631808979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +995,7 @@ Transform:
   m_GameObject: {fileID: 8982005399387499660}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.385, z: 0.274}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1148,6 +1116,18 @@ PrefabInstance:
     - target: {fileID: 4207700127917382641, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
       propertyPath: m_Name
       value: VFXG_StandardRevolverMuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290202410148793745, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290202410148793745, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290202410148793745, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.053
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

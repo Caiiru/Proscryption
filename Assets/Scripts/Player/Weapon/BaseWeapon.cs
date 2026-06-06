@@ -130,41 +130,55 @@ namespace proscryption
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, 1 << 6))
             {
                 Vector3 targetPoint = hitInfo.point;
-                targetPoint.y = transform.position.y; // Keep player rotation on horizontal plane 
-                raycastVec = targetPoint - transform.position;
-                raycastVec = raycastVec.normalized;
+                targetPoint.y = _playerModel.transform.position.y; // Keep player rotation on horizontal plane 
+                Debug.DrawLine(_playerModel.transform.position, targetPoint, Color.yellow, 1f);
+                // Debug.DrawLine(_playerModel.transform.position, hitInfo.point, Color.blue, 2f);
+                raycastVec = targetPoint - _playerModel.transform.position;
+                // raycastVec = _playerModel.transform.position - targetPoint; 
 
-
-                Debug.DrawRay(transform.position, raycastVec * _combatSystem.attackRaycastLimit, Color.red, 1f);
-
-                foreach (var enemy in enemies)
-                {
-                    if (Vector3.Distance(enemy.transform.position, targetPoint) < 3f)
-                    {
-                        if (enemy.transform.GetComponent<EnemyEntity>())
-                        {
-                            OnAttackRaycast(enemy.GetComponent<EnemyEntity>());
-                            GameObject b = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position,
-                                bulletRotation);
-                            SimpleBullet bulletComponent = b.GetComponent<SimpleBullet>();
-                            bulletComponent.Initialize(CalculateDamage(), CalculateIsCritical(),
-                                currentStanceData.bulletSpeed,
-                                currentStanceData.bulletForce, _currentStance);
-
-                            bulletComponent.SetMoveDirection(raycastVec);
-                            bulletComponent.DisableDamage();
-                            return;
-                        }
-                    }
-                }
+                // Debug.DrawRay(raycastVec, Color.red, 1f);
             }
 
+            // if (Physics.Raycast(_playerModel.transform.position, raycastVec, out hitInfo, 1000f, 1 << 7))
+            // {
+            //     Debug.DrawRay(_playerModel.transform.position, raycastVec, Color.red,
+            //         1f);
+            //     OnAttackRaycast(hitInfo.transform.GetComponent<EnemyEntity>()).Forget();
+            //     GameObject b = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position,
+            //         bulletRotation);
+            //     SimpleBullet bulletComponent = b.GetComponent<SimpleBullet>();
+            //     bulletComponent.Initialize(CalculateDamage(), CalculateIsCritical(),
+            //         currentStanceData.bulletSpeed,
+            //         currentStanceData.bulletForce, _currentStance);
+            //
+            //     bulletComponent.SetMoveDirection(raycastVec);
+            //     bulletComponent.DisableDamage();
+            //
+            //     Debug.Log("HIT ENEMY RAYCAST");
+            // }
 
             GameObject bullet = Instantiate(currentStanceData.bulletPrefab, _bulletSpawnPoint.position, bulletRotation);
             bullet.GetComponent<SimpleBullet>().Initialize(CalculateDamage(), CalculateIsCritical(),
                 currentStanceData.bulletSpeed,
                 currentStanceData.bulletForce, _currentStance);
             bullet.GetComponent<SimpleBullet>().SetMoveDirection(raycastVec);
+
+            OnShootAction?.Invoke(_currentBulletIndex);
+            ShowMuzzle();
+            bullets[_currentBulletIndex] = 0;
+
+            _currentBullets--;
+
+            LoseBullet();
+
+            await UniTask.Delay(500);
+            HiddeMuzzle();
+
+            return;
+
+            // Debug.DrawLine(enemy.transform.position, targetPoint, Color.cyan);
+
+            //fallbakc
             OnShootAction?.Invoke(_currentBulletIndex);
             // if (StandardMuzzleFlashEffect != null)
             // {
@@ -219,14 +233,6 @@ namespace proscryption
                 forceDir.normalized * currentStanceData.bulletForce, ForceMode.Impulse);
 
 
-            OnShootAction?.Invoke(_currentBulletIndex);
-            ShowMuzzle();
-            bullets[_currentBulletIndex] = 0;
-
-            _currentBullets--;
-
-            LoseBullet();
-
             int child = currentStanceData.bulletPrefab.transform.childCount;
             for (int i = 0; i < child; i++)
             {
@@ -242,8 +248,6 @@ namespace proscryption
                 }
             }
 
-            await UniTask.Delay(500);
-            HiddeMuzzle();
 
             EventManager.BroadcastHitDetected(entity.transform.position, dmg, entity.gameObject);
             if (_currentStance == PlayerStance.Light)

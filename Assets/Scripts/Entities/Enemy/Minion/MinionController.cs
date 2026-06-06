@@ -137,13 +137,15 @@ namespace proscryption
         private void SubscribeEvents()
         {
             _enemyEntity.OnTakeDamage += HandleTakeDamage;
-            _enemyEntity.OnDeath += (force, mode) => { HandleDeath(force, mode).Forget(); };
+            // _enemyEntity.OnDeath += (force, mode) => { HandleDeath(force, mode).Forget(); };
+            _enemyEntity.OnDeath += ReceiveDeathEvent;
         }
 
 
-        void OnDestroy()
+        void OnDisable()
         {
-            _enemyEntity.OnDeath -= (force, mode) => { HandleDeath(force, mode).Forget(); };
+            // _enemyEntity.OnDeath -= (force, mode) => { HandleDeath(force, mode).Forget(); };
+            _enemyEntity.OnDeath -= ReceiveDeathEvent;
             _enemyEntity.OnTakeDamage -= HandleTakeDamage;
         }
 
@@ -152,6 +154,7 @@ namespace proscryption
             HandleCurrentState();
         }
 
+        #region States Handler
 
         private UniTask EnterCurrentState()
         {
@@ -214,6 +217,8 @@ namespace proscryption
             await EnterCurrentState();
         }
 
+        #endregion
+
         #region States
 
         private void Roam()
@@ -275,8 +280,6 @@ namespace proscryption
             centerPosition.y = 1;
             bool clearPath = Physics.Linecast(centerPosition, _playerTransform.position, _playerMask);
             bool isOnRange = Vector3.Distance(centerPosition, _playerTransform.position) < visionRange;
-            
-            
 
 
             return clearPath && isOnRange;
@@ -436,6 +439,11 @@ namespace proscryption
 
         #region Death & Ragdoll
 
+        private void ReceiveDeathEvent(Vector3? arg1, ForceMode? arg2)
+        {
+            HandleDeath(arg1, arg2).Forget();
+        }
+
         private async UniTask HandleDeath(Vector3? directionForce, ForceMode? forceMode)
         {
             if (_navMeshAgent.isActiveAndEnabled &&
@@ -502,6 +510,7 @@ namespace proscryption
 
         #endregion
 
+#if UNITY_EDITOR
         void OnDrawGizmosSelected()
         {
             if (_playerTransform == null) return;
@@ -524,6 +533,7 @@ namespace proscryption
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_centerPosition, _navMeshAgent.stoppingDistance);
         }
+#endif
     }
 
 
