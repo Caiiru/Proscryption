@@ -39,11 +39,6 @@ namespace proscryption
         [Header("Roll Settings")] [SerializeField]
         public bool isRunning = false;
 
-        public float rollForce = 20f;
-
-        [SerializeField] public float rollDuration = 0.5f;
-        [SerializeField] public float rollCooldown = 1.5f;
-        [SerializeField] public int ROLL_STAMINA_COST = 20;
 
         [Header("PlayerStances Data")] [SerializeField]
         private PlayerStanceData BaseStandardData;
@@ -183,8 +178,6 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerLightCooldownUpdated(_lightCooldownTimer, LightCooldown);
             }
         }
-
-      
 
 
         private void HandleCurrentStanceTimer()
@@ -383,6 +376,7 @@ namespace proscryption
 
             AppManager.Instance.SetCursorVisibility(newState is PlayerState.Menu or PlayerState.Dead);
         }
+
         void UpdateCurrentState()
         {
             switch (_currentState)
@@ -628,7 +622,7 @@ namespace proscryption
             if (!IsAlive) return false;
 
 
-            return _currentState == PlayerState.Moving;
+            return _currentState is PlayerState.Moving or PlayerState.Idle;
         }
 
         public bool CanRotate()

@@ -40,7 +40,7 @@ namespace proscryption
         [SerializeField] private Vector2 _moveInput = Vector2.zero;
         private Vector3 _currentVelocity = Vector3.zero;
         [SerializeField] private bool _canGetInput = true;
-
+        [SerializeField] private bool _isRunningInput;
 
         // Ref
         [SerializeField] LayerMask _mouseLayerMask = 1 << 6; // Assuming "Ground" layer is layer 6
@@ -160,8 +160,7 @@ namespace proscryption
                 return;
             }
 
-            Debug.Log($"[PlayerController.HandleRunInput - I CAN RUN!! ]");
-
+            _isRunningInput = true;
             // Consume stamina
 
 
@@ -170,7 +169,6 @@ namespace proscryption
             // _model.SetInvulnerable(true, _model.rollDuration);
             // _rollTimer = _model.rollDuration;
             // _rollCooldownTimer = _model.rollCooldown; 
-            _model.ChangeState(PlayerState.Running);
 
             //
             // if (_model.CurrentState == PlayerState.Reloading)
@@ -183,8 +181,13 @@ namespace proscryption
         private void HandleReleaseRunInput()
         {
             if (!_canGetInput) return;
-
-            _model.ChangeState(PlayerState.Idle);
+            _isRunningInput = false;
+            if (_moveInput != Vector2.zero)
+                _model.ChangeState(PlayerState.Moving);
+            else
+            {
+                _model.ChangeState(PlayerState.Idle);
+            }
         }
 
 
@@ -214,6 +217,19 @@ namespace proscryption
         void Update()
         {
             RotateTowardsMousePosition(Mouse.current.position.ReadValue());
+
+            if (_moveInput == Vector2.zero && _isRunningInput && _model.CurrentState == PlayerState.Running)
+            {
+                //end run
+                _isRunningInput = false;
+                _model.ChangeState(PlayerState.Idle);
+            }
+
+            if (_moveInput == Vector2.zero || !_isRunningInput) return;
+
+
+            if (_model.CurrentState != PlayerState.Running)
+                _model.ChangeState(PlayerState.Running);
         }
 
         // ===== PHYSICS LOOP =====
