@@ -69,11 +69,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 649742773
-      Data2: 1180237941
-      Data3: 172234138
-      Data4: 2112292698
-    Path: event:/SFX/AMB_forest
+      Data1: -774652064
+      Data2: 1098544921
+      Data3: 2081259958
+      Data4: 230953795
+    Path: event:/SFX/SFX_ENVIRONMENT/SFX_AMB_Forest
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
