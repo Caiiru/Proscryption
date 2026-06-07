@@ -81,7 +81,7 @@ namespace proscryption
             if (isVisual)
             {
                 // gameObject.SetActive(false);
-
+                DisableBullet();
                 return;
             }
 
@@ -103,7 +103,10 @@ namespace proscryption
         void DisableBullet()
         {
             this._collider.radius = 0;
+            this._collider.enabled = false;
             this._rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+            _rigidbody.freezeRotation = true;
             Destroy(gameObject, 5f);
         }
     }

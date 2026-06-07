@@ -27,7 +27,5 @@ namespace proscryption
         public float bulletForce = 0;
 
         public GameObject bulletPrefab;
-
-        [Header("EFFECTS")] public GameObject impactEffect;
-    }
+}
 }
