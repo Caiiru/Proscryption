@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using Cysharp.Threading.Tasks;
+using FMODUnity;
 using UnityEngine;
 
 namespace proscryption
@@ -210,22 +211,32 @@ namespace proscryption
             }
 
             PlayerStance _prevStance = _currentStance;
+            RuntimeManager.StudioSystem.setParameterByName("Posture", 1);
 
             if (_currentStance == newStance)
             {
                 if (_currentStance == PlayerStance.Standard) return;
 
-
                 _currentStance = PlayerStance.Standard;
             }
-
             else
-            {
                 this._currentStance = newStance;
+
+            switch (newStance)
+            {
+                case PlayerStance.Blood:
+                    RuntimeManager.StudioSystem.setParameterByName("Posture", 2);
+                    break;
+                case PlayerStance.Light:
+                    RuntimeManager.StudioSystem.setParameterByName("Posture", 0);
+                    break;
             }
 
             PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
             HandleStanceChanged(_prevStance, _currentStance);
+
+            Debug.Log(RuntimeManager.StudioSystem.getParameterByName("Posture", out float v));
+            Debug.Log(v);
         }
 
         private void SetupCurrentStance()
