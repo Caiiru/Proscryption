@@ -79,7 +79,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Animation_Factor: 0.04394889
+    - _Animation_Factor: 0
     - _Power_ID: 1
     - _QueueControl: 0
     - _QueueOffset: 0
