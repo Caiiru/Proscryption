@@ -2764,7 +2764,7 @@ MonoBehaviour:
   _critChance: 10
   _takeDamageDelay: 0.1
   stunDelay: 1
-  jumpForce: 55
+  jumpForce: 100
   _playerTransform: {fileID: 0}
   _clawsHitBox:
   - {fileID: 8910874999408403171}
