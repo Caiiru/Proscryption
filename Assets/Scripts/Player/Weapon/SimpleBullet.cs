@@ -74,14 +74,14 @@ namespace proscryption
                         vfx.Play();
                 }
 
-                Destroy(this.gameObject);
+                DisableBullet();
                 return;
             }
 
             if (isVisual)
             {
-                gameObject.SetActive(false);
-                Destroy(gameObject, 1f);
+                // gameObject.SetActive(false);
+
                 return;
             }
 
@@ -96,8 +96,15 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerHitLightShot();
             }
 
-            this._collider.enabled = false;
-            Destroy(this.gameObject);
+            // this._collider.enabled = false;
+            DisableBullet();
+        }
+
+        void DisableBullet()
+        {
+            this._collider.radius = 0;
+            this._rigidbody.linearVelocity = Vector3.zero;
+            Destroy(gameObject, 5f);
         }
     }
 }
