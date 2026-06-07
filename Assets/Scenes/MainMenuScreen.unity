@@ -10488,6 +10488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2038235113}
   - component: {fileID: 2038235112}
+  - component: {fileID: 2038235114}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -10525,6 +10526,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2038235114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038235111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63437acbc0bcf51438d75cd47f3ab64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationAudioEvents
+  events:
+  - name: Menu
+    fmodEvent:
+      Guid:
+        Data1: 977301045
+        Data2: 1075080678
+        Data3: 1710178453
+        Data4: 681252377
+      Path: event:/MUSIC/MSC_menu
+  - name: Gameplay
+    fmodEvent:
+      Guid:
+        Data1: 1345741583
+        Data2: 1183275777
+        Data3: -1582438995
+        Data4: 1214421960
+      Path: event:/MUSIC/MSC_mainGameplay
 --- !u!1 &2058585733
 GameObject:
   m_ObjectHideFlags: 0

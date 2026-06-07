@@ -1,35 +1,54 @@
 using Cysharp.Threading.Tasks;
 using System;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace proscryption
 {
     [Serializable]
-    public enum AppState { Initializing, MainMenu, Config, Cutscene, Playing, Paused, GameOver }
+    public enum AppState
+    {
+        Initializing,
+        MainMenu,
+        Config,
+        Cutscene,
+        Playing,
+        Paused,
+        GameOver
+    }
+
     public class AppManager : MonoBehaviour
     {
         public static AppManager Instance { get; private set; }
         public AppState CurrentState = AppState.Initializing;
 
-
-        //LoadingScreen
-
+        private AnimationAudioEvents audioEvents;
         public float LoadingProgress { get; private set; } = 0f;
 
+        [Header("Audios")] [SerializeField] string menuMusicEventName;
 
+        [SerializeField] private string gameplayMusicEventName;
+
+        private EventInstance? menuMusicEvent;
+        private EventInstance? gameplayMusicEvent;
 
         void Awake()
         {
+            audioEvents = GetComponent<AnimationAudioEvents>();
             DontDestroyOnLoad(this);
             Instance = this;
         }
+
         void Start()
         {
             Scene activeScene = SceneManager.GetActiveScene();
 
+
             if (activeScene.name == "Bootstrapper")
             {
+                menuMusicEvent = audioEvents.PlaySoundAndSaveReference(menuMusicEventName);
                 ChangeAppState(AppState.MainMenu).Forget();
                 return;
             }
@@ -51,6 +70,12 @@ namespace proscryption
             switch (newState)
             {
                 case AppState.MainMenu:
+
+                    menuMusicEvent?.start();
+
+                    menuMusicEvent?.setParameterByName("MenuFade", 1);
+                    gameplayMusicEvent?.setPaused(true);
+
                     SceneManager.LoadScene("MainMenuScreen"); // Example: Load main menu scene
                     // Load main menu scene or show main menu UI
                     break;
@@ -60,8 +85,13 @@ namespace proscryption
 
                     break;
                 case AppState.Playing:
+                    menuMusicEvent?.setParameterByName("MenuFade", 0);
                     SceneManager.LoadScene("LoadingScreen");
                     await LoadSceneAsync("GameScreen");
+
+                    // RuntimeManager.StudioSystem.setParameterByName("MenuFade", 0);
+
+                    gameplayMusicEvent = audioEvents.PlaySoundAndSaveReference(gameplayMusicEventName);
                     SetCursor(CursorLockMode.Locked);
                     break;
                 case AppState.Paused:
@@ -79,6 +109,7 @@ namespace proscryption
                     break;
             }
         }
+
         private async UniTask LoadSceneAsync(string sceneName)
         {
             // 1. Inicia o carregamento mas bloqueia a exibição (Ativação)
@@ -96,7 +127,7 @@ namespace proscryption
             LoadingProgress = 1f;
 
             // 3. Pequeno delay de "respiro" para o jogador ver que terminou
-            await UniTask.Delay(1000);
+            await UniTask.Delay(1500);
 
             // 4. AGORA permitimos que a cena finalize e apareça
             operation.allowSceneActivation = true;
@@ -115,17 +146,17 @@ namespace proscryption
             }
 
             // 6. Finalmente, descarregamos o loading e resetamos o progresso
-
         }
+
         private void UnloadLoadingScreen()
         {
             SceneManager.UnloadSceneAsync("LoadingScreen");
         }
+
         private void EnsureInitializer(Scene gameScene)
         {
             if (Initializer.Instance == null)
             {
-
                 foreach (GameObject rootObject in gameScene.GetRootGameObjects())
                 {
                     Initializer existingManager = rootObject.GetComponentInChildren<Initializer>(true);
@@ -139,6 +170,7 @@ namespace proscryption
                 SceneManager.MoveGameObjectToScene(systemsRoot, gameScene);
                 systemsRoot.AddComponent<Initializer>();
             }
+
             Initializer.Instance.Initialize();
         }
 
@@ -146,11 +178,10 @@ namespace proscryption
         {
             // Cursor.lockState = mode;
         }
+
         public void SetCursorVisibility(bool visible)
         {
             Cursor.visible = visible;
-
         }
- 
     }
 }

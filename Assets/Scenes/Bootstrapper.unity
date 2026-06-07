@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399458569}
   - component: {fileID: 1399458568}
+  - component: {fileID: 1399458570}
   m_Layer: 0
   m_Name: Bootstrapper
   m_TagString: Untagged
@@ -286,6 +287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.AppManager
   CurrentState: 0
+  menuMusicEventName: Menu
+  gameplayMusicEventName: Gameplay
 --- !u!4 &1399458569
 Transform:
   m_ObjectHideFlags: 0
@@ -301,6 +304,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399458570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399458567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63437acbc0bcf51438d75cd47f3ab64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationAudioEvents
+  events:
+  - name: Menu
+    fmodEvent:
+      Guid:
+        Data1: 977301045
+        Data2: 1075080678
+        Data3: 1710178453
+        Data4: 681252377
+      Path: event:/MUSIC/MSC_menu
+  - name: Gameplay
+    fmodEvent:
+      Guid:
+        Data1: 1345741583
+        Data2: 1183275777
+        Data3: -1582438995
+        Data4: 1214421960
+      Path: event:/MUSIC/MSC_mainGameplay
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
