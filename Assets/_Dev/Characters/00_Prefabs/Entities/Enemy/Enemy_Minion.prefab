@@ -2645,51 +2645,51 @@ MonoBehaviour:
   - name: MinionAttack
     fmodEvent:
       Guid:
-        Data1: 1865009693
-        Data2: 1147255893
-        Data3: 1170539967
-        Data4: 258735322
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Attack_01
+        Data1: 764488682
+        Data2: 1204185072
+        Data3: 55940014
+        Data4: 879433113
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Attack_01
   - name: MinionDeath
     fmodEvent:
       Guid:
-        Data1: 1091577455
-        Data2: 1320003332
-        Data3: 624248240
-        Data4: -96288173
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Death
+        Data1: 1898619865
+        Data2: 1225864653
+        Data3: 465038226
+        Data4: 714743318
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Death
   - name: MinionStunned
     fmodEvent:
       Guid:
-        Data1: -1908012775
-        Data2: 1202699806
-        Data3: -535921266
-        Data4: -988388042
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Stunned
+        Data1: 1907729710
+        Data2: 1269654163
+        Data3: 1009366442
+        Data4: 1782549013
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Stunned
   - name: MinionTakeDamage
     fmodEvent:
       Guid:
-        Data1: 1174184294
-        Data2: 1151514617
-        Data3: -1396518215
-        Data4: 90440435
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_TakeDamage
+        Data1: 1130691926
+        Data2: 1302084139
+        Data3: 1202551227
+        Data4: 1779619385
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_TakeDamage
   - name: MinionFootsteps
     fmodEvent:
       Guid:
-        Data1: -1333592580
-        Data2: 1181657488
-        Data3: 2041456314
-        Data4: -1741580151
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Footsteps
+        Data1: -2130947787
+        Data2: 1193157549
+        Data3: 1139358617
+        Data4: 139898286
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Footsteps
   - name: MinionAntecipation
     fmodEvent:
       Guid:
-        Data1: -650884418
-        Data2: 1236622006
-        Data3: 1592926082
-        Data4: 1757901943
-      Path: event:/SFX/SFX_ENEMY_MINION/SFX_MINION_Antecipation
+        Data1: 895300725
+        Data2: 1318674325
+        Data3: 875885441
+        Data4: 1289023815
+      Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Antecipation
 --- !u!54 &3690017675556465067
 Rigidbody:
   m_ObjectHideFlags: 0
