@@ -65,7 +65,6 @@ namespace proscryption
             OnTakeDamage?.Invoke(dmgForce, forceMode);
             if (takeDamageVFX)
             {
-                Debug.Log($"[EnemyEntity.TakeDamage - Take Damage Call Visual?  ]");
                 if (takeDamageVFX.TryGetComponent<VisualEffect>(out VisualEffect takeDamageVisualEffect))
                     takeDamageVisualEffect.Play();
                 else

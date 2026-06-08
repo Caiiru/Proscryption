@@ -539,7 +539,6 @@ namespace proscryption
 
             RuntimeManager.StudioSystem.getParameterByName("HP", out float dbgHP);
             Debug.Log($"[PlayerModel.TakeDamage - {dbgHP} ]");
-
         }
 
         private async UniTask HandleTakeDamage()
@@ -692,6 +691,11 @@ namespace proscryption
         public PlayerStanceData GetCurrentData()
         {
             return _currentData;
+        }
+
+        public PlayerStance GetCurrentStance()
+        {
+            return _currentStance;
         }
     }
 

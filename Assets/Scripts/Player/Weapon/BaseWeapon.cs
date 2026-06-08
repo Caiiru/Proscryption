@@ -302,7 +302,7 @@ namespace proscryption
 
         bool CanAttack()
         {
-            if (_currentStance == PlayerStance.Blood)
+            if (_playerModel.GetCurrentStance() == PlayerStance.Blood)
             {
                 PlayerBloodStanceData data = (PlayerBloodStanceData)_playerModel.GetCurrentData();
 
@@ -334,6 +334,8 @@ namespace proscryption
 
         private void ShowMuzzle()
         {
+            Debug.Log($"[BaseWeapon.ShowMuzzle - {_currentStance} ]");
+            _currentStance = _playerModel.GetCurrentStance();
             switch (_currentStance)
             {
                 case PlayerStance.Standard:
