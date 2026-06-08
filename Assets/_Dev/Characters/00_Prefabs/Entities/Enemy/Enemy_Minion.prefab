@@ -1890,6 +1890,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4899713870669567526}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2883510378270680224}
     - targetCorrespondingSourceObject: {fileID: 7305520779672590501, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1900261584542590552}
@@ -1921,6 +1924,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6814810425185669449}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2474280745929989584}
     - targetCorrespondingSourceObject: {fileID: -9160070622296883202, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7353810097146841941}
@@ -2849,6 +2855,37 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0.2, y: -0.2, z: 0}
+--- !u!114 &2474280745929989584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886613303431697222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -322323435
+      Data2: 1184855041
+      Data3: 77109163
+      Data4: -1856134560
+    Path: event:/SFX/SFX_ENEMIES/SFX_ENEMY_MINION/SFX_MINION_Idle
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!137 &4054687034638939804 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7166631974265513845, guid: 901c4e35abf428340abad48d56c8c84e, type: 3}
@@ -3372,6 +3409,68 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1001 &4734045960005374236
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2541331109397318140}
+    m_Modifications:
+    - target: {fileID: 3564071014570566478, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_Name
+      value: VFX_BloodV2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+--- !u!4 &2883510378270680224 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7617553853084841404, guid: fd4a70a095ee6d9429b20a95f8706a1f, type: 3}
+  m_PrefabInstance: {fileID: 4734045960005374236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4894957432369591776
 PrefabInstance:
   m_ObjectHideFlags: 0

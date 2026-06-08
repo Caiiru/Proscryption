@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.SimpleBullet
   _speed: 20
+  isVisual: 0
   HitVFX: {fileID: 8026906921884245852}
 --- !u!1 &2184547277417846011
 GameObject:
@@ -425,6 +426,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6037484328639179207}
     m_Modifications:
+    - target: {fileID: 4682257068605623567, guid: f12870d661cf3ea4fba66e1bdd4c8ccd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6405428298617187877, guid: f12870d661cf3ea4fba66e1bdd4c8ccd, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -481,6 +486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_BulletTrailFaith Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8140586515588485519, guid: f12870d661cf3ea4fba66e1bdd4c8ccd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f1a038825567a194ea541ea563518e45, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
