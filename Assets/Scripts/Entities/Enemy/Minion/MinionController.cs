@@ -120,7 +120,6 @@ namespace proscryption
             }
 
             _navMeshAgent.speed = _moveSpeed;
-            _navMeshAgent.acceleration = 1f;
             _navMeshAgent.angularSpeed = _turnRate;
 
             _ragdollColliders = _transform.GetComponentsInChildren<Collider>();
@@ -145,7 +144,7 @@ namespace proscryption
         private void HandleEntityDied(GameObject obj)
         {
             if (obj == this.gameObject) return;
-            
+
             if (obj == _playerTransform.gameObject)
             {
                 ChangeState(EnemyState.Roaming);
@@ -171,6 +170,11 @@ namespace proscryption
         {
             switch (currentState)
             {
+                case EnemyState.Attacking:
+                    if (_canBeStunned)
+                        _animator.SetFloat(ANIM_SPEED, 0.75f);
+                    break;
+
                 case EnemyState.TakingDamage:
 
                     if (!_canBeStunned)
@@ -251,6 +255,7 @@ namespace proscryption
             }
             else
             {
+                _animator.SetFloat(ANIM_SPEED, 0f);
                 SetVelocity(0, 0);
                 _isAttacking = true;
                 _animator.SetTrigger(ANIM_ANTECIPATION);
@@ -326,7 +331,6 @@ namespace proscryption
         private void SetVelocity(float velocity, float animSpeed)
         {
             _navMeshAgent.speed = velocity;
-            _animator.SetFloat(ANIM_SPEED, animSpeed);
         }
 
         private void RotateTowardsPlayer()
@@ -395,6 +399,7 @@ namespace proscryption
             _rigidbody.isKinematic = false;
             _navMeshAgent.enabled = true;
             _isAttacking = false;
+            _animator.SetFloat(ANIM_SPEED, 0.75f);
         }
 
         public int GetAttackDamage()
@@ -409,12 +414,13 @@ namespace proscryption
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
+            await TakeDamageVisual();
             if (_isAttacking) return;
             _navMeshAgent.enabled = false;
+            _animator.SetFloat(ANIM_SPEED, 0f);
             ChangeState(EnemyState.TakingDamage);
             await UniTask.WaitForEndOfFrame();
 
-            await TakeDamageVisual();
 
             AddKnockback(directionForce, forceMode);
 
@@ -423,6 +429,7 @@ namespace proscryption
             _rigidbody.isKinematic = true;
 
             if (_enemyEntity.IsDead) return;
+            _animator.SetFloat(ANIM_SPEED, 0.75f);
             _navMeshAgent.enabled = enabled;
         }
 
