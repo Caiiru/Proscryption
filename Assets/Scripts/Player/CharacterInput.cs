@@ -285,15 +285,13 @@ namespace proscryption
             OnRunInput?.Invoke(RunInput);
             // NEW: Broadcast to EventManager when roll is performed
             if (RunInput)
-            {
-                Debug.Log($"[CharacterInput.HandleRunInput - INPUT START ]");
+            { 
                 PlayerEvents.BroadcastPlayerRunInput();
             }
         }
 
         private void HandleRunCancel(InputAction.CallbackContext context)
-        {
-            Debug.Log($"[CharacterInput.HandleRunCancel - CANCEL {context}]");
+        { 
             
             PlayerEvents.BroadcastPlayerReleaseRunInput();
         }

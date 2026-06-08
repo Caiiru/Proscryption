@@ -12,13 +12,14 @@ namespace proscryption
 
         public static event Action OnPlayerHitLightShot;
 
+        public static event Action OnPlayerDeath;
         //Inputs
 
         public static event Action OnPlayerAttackInput;
         public static event Action OnPlayerRunInput;
         public static event Action OnPlayerReleaseRunInput;
         public static event Action OnPlayerReloadInput;
-        public static event Action OnPlayerReloadEnded; 
+        public static event Action OnPlayerReloadEnded;
         public static event Action OnPlayerReleaseAimInput;
         public static event Action OnPlayerCastInteract;
         public static event Action<Vector2> OnMouseLookInput;
@@ -65,7 +66,8 @@ namespace proscryption
         public static void BroadcastPlayerAttackInput()
         {
             OnPlayerAttackInput?.Invoke();
-        } 
+        }
+
         public static void BroadcastPlayerRunInput()
         {
             OnPlayerRunInput?.Invoke();
@@ -101,6 +103,11 @@ namespace proscryption
         public static void BroadcastPlayerAttack()
         {
             OnPlayerAttack?.Invoke();
+        }
+
+        public static void BroadcastPlayerDeath()
+        {
+            OnPlayerDeath?.Invoke();
         }
 
         #region State Changes Broadcasts

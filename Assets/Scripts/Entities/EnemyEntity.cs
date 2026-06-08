@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -62,8 +63,10 @@ namespace proscryption
             base.TakeDamage(damage, source, isCritical, dmgForce, forceMode);
 
             OnTakeDamage?.Invoke(dmgForce, forceMode);
+            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 1);
             if (takeDamageVFX)
             {
+                Debug.Log($"[EnemyEntity.TakeDamage - Take Damage Call Visual?  ]");
                 if (takeDamageVFX.TryGetComponent<VisualEffect>(out VisualEffect takeDamageVisualEffect))
                     takeDamageVisualEffect.Play();
                 else
@@ -85,6 +88,7 @@ namespace proscryption
             base.Death(force, mode);
             OnDeath?.Invoke(force, mode);
             // Debug.Log("Minion Death Entity");
+            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 2);
             if (deathVFX)
             {
                 if (deathVFX.TryGetComponent<VisualEffect>(out VisualEffect deathVisualEffect))

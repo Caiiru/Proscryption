@@ -30,6 +30,7 @@ namespace proscryption
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
         private bool _canAttack = true;
+        private bool canTakeDamage;
 
         //Reload
         private bool _canReload = true;
@@ -138,6 +139,8 @@ namespace proscryption
             _currentData = BaseStandardData; // Start with standard stance data 
             SetupTimers();
             SetupCurrentStance();
+            canTakeDamage = true;
+            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
         }
 
         void Update()
@@ -381,7 +384,6 @@ namespace proscryption
                     isRunning = true;
                     _playerView.SetRunning(isRunning);
                     _combatSystem.HideWeapon();
-                    Debug.Log("IM RUNNING");
                     break;
             }
 
@@ -511,6 +513,10 @@ namespace proscryption
 
         public void TakeDamage(float damage)
         {
+            if (!canTakeDamage) return;
+            canTakeDamage = false;
+
+            HandleTakeDamage().Forget();
             _currentHealth -= damage;
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
             _playerView.TakeDamageAnimation();
@@ -518,11 +524,18 @@ namespace proscryption
             if (_currentHealth <= 0)
             {
                 ChangeState(PlayerState.Dead);
+                PlayerEvents.BroadcastPlayerDeath();
                 _gameWasEnded = true;
                 EventManager.BroadcastEntityDied(gameObject);
             }
 
             _playerView.StopReloading();
+        }
+
+        private async UniTask HandleTakeDamage()
+        {
+            await UniTask.WaitForEndOfFrame();
+            canTakeDamage = true;
         }
 
         private void HandleLightShot()

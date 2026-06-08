@@ -56,6 +56,7 @@ namespace proscryption
 
 
         //References 
+        private PlayerModel _playerModel;
 
         #endregion
 
@@ -98,6 +99,7 @@ namespace proscryption
             _navMeshAgent = GetComponent<NavMeshAgent>();
 
             _playerTransform = GameManager.Instance.GetPlayerObject().transform;
+            _playerModel = _playerTransform.GetComponent<PlayerModel>();
         }
 
         void OnValidate()
@@ -138,17 +140,12 @@ namespace proscryption
             _enemyEntity.OnTakeDamage += HandleTakeDamage;
             // _enemyEntity.OnDeath += (force, mode) => { HandleDeath(force, mode).Forget(); };
             _enemyEntity.OnDeath += ReceiveDeathEvent;
-            EventManager.OnEntityDied += HandleEntityDied;
+            PlayerEvents.OnPlayerDeath += HandlePlayerDied;
         }
 
-        private void HandleEntityDied(GameObject obj)
+        private void HandlePlayerDied()
         {
-            if (obj == this.gameObject) return;
-
-            if (obj == _playerTransform.gameObject)
-            {
-                ChangeState(EnemyState.Roaming);
-            }
+            ChangeState(EnemyState.Roaming);
         }
 
 
@@ -157,11 +154,18 @@ namespace proscryption
             // _enemyEntity.OnDeath -= (force, mode) => { HandleDeath(force, mode).Forget(); };
             _enemyEntity.OnDeath -= ReceiveDeathEvent;
             _enemyEntity.OnTakeDamage -= HandleTakeDamage;
+            PlayerEvents.OnPlayerDeath -= HandlePlayerDied;
         }
 
         void Update()
         {
             HandleCurrentState();
+
+
+            if (!_playerModel.IsAlive)
+            {
+                _animator.SetFloat(ANIM_SPEED, 0f);
+            }
         }
 
         #region States Handler
@@ -170,8 +174,14 @@ namespace proscryption
         {
             switch (currentState)
             {
+                case EnemyState.Roaming:
+
+                    _animator.SetFloat(ANIM_SPEED, 0f);
+
+                    break;
+
                 case EnemyState.Attacking:
-                    if (_canBeStunned)
+                    if (_canBeStunned && _playerModel.IsAlive)
                         _animator.SetFloat(ANIM_SPEED, 0.75f);
                     break;
 
@@ -303,7 +313,7 @@ namespace proscryption
             bool isOnRange = Vector3.Distance(centerPosition, _playerTransform.position) < visionRange;
 
 
-            return clearPath && isOnRange;
+            return clearPath && isOnRange && _playerModel.IsAlive;
         }
 
         void FixedUpdate()
@@ -356,7 +366,19 @@ namespace proscryption
 
             Vector3 _distance = _playerTransform.position - _transform.position;
             float distance = _distance.sqrMagnitude;
-            return distance <= _attackRange * _attackRange;
+
+            if (distance > _attackRange * _attackRange)
+            {
+                return false;
+            }
+
+            Vector3 directionToPlayer = _distance.normalized;
+
+            float dotProduct = Vector3.Dot(_transform.forward, directionToPlayer);
+
+            float viewThreshold = 0.75f;
+
+            return dotProduct >= viewThreshold;
         }
 
         public void EnableClawsHitBox()
@@ -414,8 +436,8 @@ namespace proscryption
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
-            await TakeDamageVisual();
             if (_isAttacking) return;
+            await TakeDamageVisual();
             _navMeshAgent.enabled = false;
             _animator.SetFloat(ANIM_SPEED, 0f);
             ChangeState(EnemyState.TakingDamage);
