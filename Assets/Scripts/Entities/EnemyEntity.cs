@@ -63,7 +63,6 @@ namespace proscryption
             base.TakeDamage(damage, source, isCritical, dmgForce, forceMode);
 
             OnTakeDamage?.Invoke(dmgForce, forceMode);
-            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 1);
             if (takeDamageVFX)
             {
                 Debug.Log($"[EnemyEntity.TakeDamage - Take Damage Call Visual?  ]");

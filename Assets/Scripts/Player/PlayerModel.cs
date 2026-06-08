@@ -140,7 +140,7 @@ namespace proscryption
             SetupTimers();
             SetupCurrentStance();
             canTakeDamage = true;
-            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
+            // RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
         }
 
         void Update()
@@ -521,8 +521,10 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
             _playerView.TakeDamageAnimation();
 
+
             if (_currentHealth <= 0)
             {
+                _currentHealth = 0;
                 ChangeState(PlayerState.Dead);
                 PlayerEvents.BroadcastPlayerDeath();
                 _gameWasEnded = true;
@@ -530,6 +532,14 @@ namespace proscryption
             }
 
             _playerView.StopReloading();
+
+
+            //SOUND
+            RuntimeManager.StudioSystem.setParameterByName("HP", _currentHealth / maxHealth * 100);
+
+            RuntimeManager.StudioSystem.getParameterByName("HP", out float dbgHP);
+            Debug.Log($"[PlayerModel.TakeDamage - {dbgHP} ]");
+
         }
 
         private async UniTask HandleTakeDamage()

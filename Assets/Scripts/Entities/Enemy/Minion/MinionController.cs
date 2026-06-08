@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using FMODUnity;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -250,6 +251,7 @@ namespace proscryption
         {
             if (SeePlayer())
             {
+                RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
                 ChangeState(EnemyState.Attacking);
                 return;
             }
