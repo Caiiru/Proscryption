@@ -2733,7 +2733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5164893686432267086, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: CameraDistance
-      value: 4.09
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5164893686432267086, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: Composition.ScreenPosition.y
@@ -2749,7 +2749,7 @@ PrefabInstance:
       objectReference: {fileID: 2996229423250799355}
     - target: {fileID: 5660801458522368935, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: field of view
-      value: 55
+      value: 60.000004
       objectReference: {fileID: 0}
     - target: {fileID: 5712211188501300756, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_Name
@@ -2817,11 +2817,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176407359815297961, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.594853
+      value: 5.2736225
       objectReference: {fileID: 0}
     - target: {fileID: 8176407359815297961, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.133388
+      value: 2.2009845
       objectReference: {fileID: 0}
     - target: {fileID: 8526218610105114934, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2841,11 +2841,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8644244752002886390, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.945006
+      value: 4.764244
       objectReference: {fileID: 0}
     - target: {fileID: 8644244752002886390, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.0467682
+      value: 1.4733014
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691618338670128171, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
+      propertyPath: CameraDistance
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8771326674787581880, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_Enabled
@@ -2861,15 +2865,15 @@ PrefabInstance:
       objectReference: {fileID: 2996229423250799355}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2799999
+      value: -1.28
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.594853
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.133388
+      value: 2.13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

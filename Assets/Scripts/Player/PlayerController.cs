@@ -114,7 +114,7 @@ namespace proscryption
 
             _canGetInput = true;
 
-            _camera.transform.SetParent(GameManager.Instance.gameObject.transform);
+            _camera.transform.parent = null;
         }
 
         // ===== INPUT HANDLERS =====
