@@ -4,6 +4,7 @@ using System.Timers;
 using Cysharp.Threading.Tasks;
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace proscryption
 {
@@ -309,8 +310,8 @@ namespace proscryption
         /// Try to consume stamina for an action. Returns true if successful.
         /// </summary>
         public bool TryConsumeStamina(float amount)
-        {
-            if (_currentStamina >= amount)
+        { 
+            if (_currentStamina > amount && _currentStamina - amount > 3)
             {
                 _currentStamina -= amount;
                 PlayerEvents.BroadcastPlayerStaminaChanged(_currentStamina, maxStamina);
@@ -530,7 +531,7 @@ namespace proscryption
                 PlayerEvents.BroadcastPlayerDeath();
 
                 RuntimeManager.StudioSystem.setParameterByName("HP", 100);
-                
+
                 _gameWasEnded = true;
                 EventManager.BroadcastEntityDied(gameObject);
                 return;

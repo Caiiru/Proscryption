@@ -1114,13 +1114,10 @@ MonoBehaviour:
   maskFormatRect: {fileID: 2546302048250229798}
   mask: {fileID: 855143289349665323}
   maskRect: {fileID: 2546302048250229798}
-  _minRightMask: 0
-  _maxRightMask: 0
-  _initialRightMask: 0
   _currentStamina: 0
   _maxStamina: 0
-  _initialMaskWidth: 0
-  staminaUpgrades: 0
+  _maskPaddingEmpty: 0
+  _maskPaddingFull: 0
 --- !u!1 &1826184976052492823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2226,7 +2223,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2546302048250229798}
-  - component: {fileID: 5957201163964657182}
   - component: {fileID: 8083606855868812156}
   - component: {fileID: 8660822257763447346}
   - component: {fileID: 6741553110179613939}
@@ -2257,20 +2253,6 @@ RectTransform:
   m_AnchoredPosition: {x: -16.3, y: 4.3}
   m_SizeDelta: {x: 550, y: 128}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &5957201163964657182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4735811987596837143}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
-  m_Padding: {x: 0, y: 12, z: 0, w: 12}
-  m_Softness: {x: 0, y: 0}
 --- !u!114 &8083606855868812156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3558,7 +3540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 37.2, y: 0}
   m_SizeDelta: {x: -0.0000076293945, y: 0.0000019073486}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7734477853427078731
@@ -4673,8 +4655,6 @@ MonoBehaviour:
   fillBarRect: {fileID: 7093102677783728018}
   _mask: {fileID: 994881098329370204}
   _maskRect: {fileID: 2864554013902425957}
-  _initialMaskWidth: 0
-  lifeUpgrades: 0
 --- !u!1 &9004107299174939364
 GameObject:
   m_ObjectHideFlags: 0

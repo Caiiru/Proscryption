@@ -22,29 +22,33 @@ namespace proscryption
 
         private float _frameStartWidth = 1920;
         private float _frameStepValue = 2;
-        [SerializeField] private float _initialMaskWidth;
-        [SerializeField] private float lifeUpgrades = 0; //1 hp -> +4 size
+
+
+        private float _maskPaddingEmpty;
+        private float _maskPaddingFull;
 
         void OnEnable()
         {
-
-
-            _initialMaskWidth = _maskRect.rect.width;
+            // _initialMaskWidth = _maskRect.rect.width;
             _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
             _initialRightMask = _mask.padding.z;
             PlayerEvents.OnPlayerHealthChanged += HandleHealthChanged;
             PlayerEvents.OnPlayerGetReward += HandleGetNewReward;
-
         }
 
         void OnDisable()
         {
-
             PlayerEvents.OnPlayerGetReward -= HandleGetNewReward;
             PlayerEvents.OnPlayerHealthChanged -= HandleHealthChanged;
         }
 
-        void HandleHealthChanged(float newHealth,float maxHealth)
+        private void Start()
+        {
+            _maskPaddingFull = _mask.padding.z;
+            _maskPaddingEmpty = 298f;
+        }
+
+        void HandleHealthChanged(float newHealth, float maxHealth)
         {
             this._currentHealth = newHealth;
             this._maxHealth = maxHealth;
@@ -52,41 +56,44 @@ namespace proscryption
             this.gameObject.SetActive(true);
             UpdateHealthVisual();
         }
+
         void UpdateHealthVisual()
         {
-
-
             float targetWidth = _currentHealth * _maxRightMask / _maxHealth;
             float newRightMask = _maxRightMask + _initialRightMask - targetWidth;
-            var padding = _mask.padding;
-            padding.z = newRightMask;
-            _mask.padding = padding;
 
+            float healthPercentage = _currentHealth / _maxHealth;
+            float targetPaddingZ = Mathf.Lerp(_maskPaddingEmpty,_maskPaddingFull, healthPercentage);
+            
+            
+            
+            
+            var padding = _mask.padding;
+            padding.z = targetPaddingZ;
+            _mask.padding = padding;
         }
+
         void UpgradeHealth()
         {
-            healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
-
-            _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
-            _maskRect.
-            SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
+            // healthFrame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _frameStartWidth + (lifeUpgrades * _frameStepValue));
+            //
+            // _maxRightMask = fillBarRect.rect.width - _mask.padding.x - _mask.padding.z;
+            // _maskRect.
+            // SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _initialMaskWidth + (lifeUpgrades * _frameStepValue / 3.15f));
 
             UpdateHealthVisual();
         }
 
         private void HandleGetNewReward(RewardData data)
         {
-            foreach (var rewards in data.rewards)
-            {
-                if (rewards.type == SimpleRewardType.Health)
-                {
-                    lifeUpgrades += rewards.value;
-                }
-            }
-            UpgradeHealth();
-
+            // foreach (var rewards in data.rewards)
+            // {
+            //     if (rewards.type == SimpleRewardType.Health)
+            //     {
+            //         lifeUpgrades += rewards.value;
+            //     }
+            // }
+            // UpgradeHealth();
         }
-
-
     }
 }
