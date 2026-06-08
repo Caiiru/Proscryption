@@ -2840,7 +2840,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198027391745543122, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198087647727163214, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 198355779183106702, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198531521579340364, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
