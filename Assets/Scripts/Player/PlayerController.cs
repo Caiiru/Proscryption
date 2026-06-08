@@ -45,6 +45,7 @@ namespace proscryption
         // Ref
         [SerializeField] LayerMask _mouseLayerMask = 1 << 6; // Assuming "Ground" layer is layer 6
         CharacterInput _characterInput;
+        [SerializeField] private GameObject _camera;
 
         void Awake()
         {
@@ -112,6 +113,8 @@ namespace proscryption
             }
 
             _canGetInput = true;
+
+            _camera.transform.SetParent(GameManager.Instance.gameObject.transform);
         }
 
         // ===== INPUT HANDLERS =====

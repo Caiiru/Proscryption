@@ -47,7 +47,7 @@ namespace proscryption
             enemyManagerPrefab = Instantiate(enemyManagerPrefab);
             playerPrefab = Instantiate(playerPrefab);
             hudManagerPrefab = Instantiate(hudManagerPrefab);
-            mainCameraPrefab = Instantiate(mainCameraPrefab);
+            // mainCameraPrefab = Instantiate(mainCameraPrefab);
             audioManagerPrefab = Instantiate(audioManagerPrefab);
             arenaManagerPrefab= Instantiate(arenaManagerPrefab);
         }
@@ -58,14 +58,14 @@ namespace proscryption
             {
                 GameManager.Instance.Initialize(playerPrefab);
             }
-            if (mainCameraPrefab)
-            {
-                mainCameraPrefab.TryGetComponent<CameraController>(out var cameraController);
-                if (cameraController != null)
-                {
-                    cameraController.SetTarget(playerPrefab.transform);
-                }
-            }
+            // if (mainCameraPrefab)
+            // {
+            //     mainCameraPrefab.TryGetComponent<CameraController>(out var cameraController);
+            //     if (cameraController != null)
+            //     {
+            //         cameraController.SetTarget(playerPrefab.transform);
+            //     }
+            // }
             hudManagerPrefab.TryGetComponent<HUDManager>(out var hudManager);
             if (hudManager != null)
             {
