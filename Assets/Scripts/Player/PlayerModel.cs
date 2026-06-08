@@ -520,6 +520,7 @@ namespace proscryption
             _currentHealth -= damage;
             PlayerEvents.BroadcastPlayerHealthChanged(_currentHealth, maxHealth);
             _playerView.TakeDamageAnimation();
+            _playerView.StopReloading();
 
 
             if (_currentHealth <= 0)
@@ -527,11 +528,13 @@ namespace proscryption
                 _currentHealth = 0;
                 ChangeState(PlayerState.Dead);
                 PlayerEvents.BroadcastPlayerDeath();
+
+                RuntimeManager.StudioSystem.setParameterByName("HP", 100);
+                
                 _gameWasEnded = true;
                 EventManager.BroadcastEntityDied(gameObject);
+                return;
             }
-
-            _playerView.StopReloading();
 
 
             //SOUND

@@ -164,8 +164,8 @@ namespace proscryption
             }
 
             _isRunningInput = true;
-            // Consume stamina
 
+            // Consume stamina
 
             // Start roll
             // _model.ChangeState(PlayerState.Rolling);
@@ -233,6 +233,14 @@ namespace proscryption
 
             if (_model.CurrentState != PlayerState.Running)
                 _model.ChangeState(PlayerState.Running);
+
+
+            if (!_model.TryConsumeStamina(0.5f))
+            {
+                _isRunningInput = false;
+                _model.isRunning = false;
+                _model.ChangeState(PlayerState.Idle);
+            }
         }
 
         // ===== PHYSICS LOOP =====
