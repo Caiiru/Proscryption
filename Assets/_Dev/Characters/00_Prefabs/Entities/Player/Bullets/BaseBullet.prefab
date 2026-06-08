@@ -147,6 +147,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5841992674435678226, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6501596689371460758, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -155,6 +159,46 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1afd6471f6bfc8348815520a1627b5c1, type: 2}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.9948807
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.43589783
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.025642395
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
+      value: -0.5262952
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inWeight
+      value: 0.2938207
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
+      value: -0.5262952
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].tangentMode
+      value: 136
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654382193378535446, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9112627334904405416, guid: ee0731ac43c161144a3a88d5e3e55cdc, type: 3}
       propertyPath: m_Name
       value: VFX_BulletTrail Default

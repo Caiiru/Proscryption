@@ -60,21 +60,15 @@ namespace proscryption
         public override void TakeDamage(int damage, GameObject source = null, bool isCritical = false,
             Vector3? dmgForce = null, ForceMode? forceMode = null)
         {
+            if (takeDamageVFX)
+            {
+                var tkDMGVFX = Instantiate(takeDamageVFX, null);
+                tkDMGVFX.transform.position = transform.position;
+            }
+
             base.TakeDamage(damage, source, isCritical, dmgForce, forceMode);
 
             OnTakeDamage?.Invoke(dmgForce, forceMode);
-            if (takeDamageVFX)
-            {
-                if (takeDamageVFX.TryGetComponent<VisualEffect>(out VisualEffect takeDamageVisualEffect))
-                    takeDamageVisualEffect.Play();
-                else
-                {
-                    if (takeDamageVFX.TryGetComponent<ParticleSystem>(out ParticleSystem takeDamageParticleSystem))
-                    {
-                        takeDamageParticleSystem.Play();
-                    }
-                }
-            }
         }
 
 

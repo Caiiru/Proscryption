@@ -18,13 +18,13 @@ MonoBehaviour:
   moveSpeed: 2
   runSpeed: 2.5
   attackStaminaCost: 10
-  stanceDuration: 10
-  stanceCooldown: 1
+  stanceDuration: 5
+  stanceCooldown: 5
   minDamage: 20
   maxDamage: 25
   critChance: 25
-  bulletSpeed: 12
+  bulletSpeed: 9
   bulletDuration: 3
-  bulletForce: 25
+  bulletForce: 40
   bulletPrefab: {fileID: 245508191954373797, guid: 3ecf384d0ea63e8408d96ee87e57b0f8, type: 3}
   bloodDamage: 2
