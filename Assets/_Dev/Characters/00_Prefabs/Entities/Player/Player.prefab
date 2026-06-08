@@ -1290,6 +1290,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 5775985900355865807}
     m_Modifications:
     - target: {fileID: 1232313068294886139, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: m_Asset
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232313068294886139, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.ctime1
       value: 63800
       objectReference: {fileID: 0}
@@ -1409,6 +1413,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.053
       objectReference: {fileID: 0}
+    - target: {fileID: 5372240467763565852, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 58ebc87d1fd329548b666e0a05149650, type: 2}
+    - target: {fileID: 8738159781297183481, guid: d6e011ee9d6fbae4d81ca83bc6077a5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 58ebc87d1fd329548b666e0a05149650, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1459,6 +1471,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1217781141501917306, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.555
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217781141501917306, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.129
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
+      propertyPath: m_Asset
+      value: 
+      objectReference: {fileID: 8926484042661614526, guid: c6a5bd818ac532b41b634efdc339c58e, type: 3}
     - target: {fileID: 2160142946577169044, guid: bb01283b486994a44866dace12e44bd6, type: 3}
       propertyPath: m_Enabled
       value: 1
