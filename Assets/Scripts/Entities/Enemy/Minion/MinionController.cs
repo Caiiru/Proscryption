@@ -300,6 +300,10 @@ namespace proscryption
 
 
             await UniTask.WaitForEndOfFrame();
+            
+            if (_isAttacking)
+                _animator.ResetTrigger(ANIM_TAKE_DAMAGE);
+            
             await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
         }
 
@@ -438,8 +442,8 @@ namespace proscryption
 
         private async void HandleTakeDamage(Vector3? directionForce, ForceMode? forceMode)
         {
-            if (_isAttacking) return;
             await TakeDamageVisual();
+            if (_isAttacking) return;
             _navMeshAgent.enabled = false;
             _animator.SetFloat(ANIM_SPEED, 0f);
             ChangeState(EnemyState.TakingDamage);
