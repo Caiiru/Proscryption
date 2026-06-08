@@ -255,6 +255,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198355779183106702, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 199146105760861778, guid: f5d5b022da7311b40a1a169c178038fc, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -2309,8 +2313,8 @@ MonoBehaviour:
   _moveSpeed: 2
   _turnRate: 3
   _isAttacking: 0
-  _attackRange: 2.5
-  _critChance: 10
+  _attackRange: 3
+  _critChance: 82.1
   _takeDamageDelay: 0.1
   stunDelay: 1
   jumpForce: 75
