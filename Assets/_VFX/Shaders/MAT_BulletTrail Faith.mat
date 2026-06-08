@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_BulletTrail
+  m_Name: MAT_BulletTrail Faith
   m_Shader: {fileID: -6465566751694194690, guid: 6165d41eb1a19d2449f276fe4ac2b6aa, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -58,6 +58,6 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
+    - _Color: {r: 0.7176471, g: 0.5260426, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
