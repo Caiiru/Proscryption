@@ -634,6 +634,14 @@ MonoBehaviour:
         Data3: -1645146997
         Data4: -1680987418
       Path: event:/SFX/SFX_PLAYER/POSTURES/LIGHT/SFX_PLAYER_LIGHT_Activate
+  - name: OpenRevolver
+    fmodEvent:
+      Guid:
+        Data1: -603626972
+        Data2: 1129383530
+        Data3: 1902119565
+        Data4: 658100997
+      Path: event:/SFX/SFX_PLAYER/COMBAT/ATTACK/WEAPONS/REVOLVER/RELOAD/SFX_PLAYER_RELOAD_OpenRevolver
 --- !u!114 &5778651959162310787
 MonoBehaviour:
   m_ObjectHideFlags: 0

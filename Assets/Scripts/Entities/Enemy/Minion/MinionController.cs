@@ -139,6 +139,15 @@ namespace proscryption
             _enemyEntity.OnTakeDamage += HandleTakeDamage;
             // _enemyEntity.OnDeath += (force, mode) => { HandleDeath(force, mode).Forget(); };
             _enemyEntity.OnDeath += ReceiveDeathEvent;
+            EventManager.OnEntityDied += HandleEntityDied;
+        }
+
+        private void HandleEntityDied(GameObject obj)
+        {
+            if (obj == _playerTransform.gameObject)
+            {
+                ChangeState(EnemyState.Roaming);
+            }
         }
 
 
@@ -251,15 +260,11 @@ namespace proscryption
             //Stun Enemy
             _canBeStunned = false;
 
-
-            _animator.SetTrigger(ANIM_TAKE_DAMAGE);
-
             SetVelocity(0, 0);
+            // await TakeDamageVisual();
 
-            await UniTask.WaitForEndOfFrame();
-            await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
             await UniTask.Delay((int)(_takeDamageDelay * 500));
-
+    
             HandleStunDelay().Forget();
             await UniTask.Delay((int)(_takeDamageDelay * 1000));
 
@@ -268,6 +273,15 @@ namespace proscryption
             ChangeState(EnemyState.Attacking);
 
             _navMeshAgent.speed = _moveSpeed;
+        }
+
+        private async UniTask TakeDamageVisual()
+        {
+            _animator.SetTrigger(ANIM_TAKE_DAMAGE);
+
+
+            await UniTask.WaitForEndOfFrame();
+            await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
         }
 
         #endregion
@@ -398,6 +412,8 @@ namespace proscryption
             ChangeState(EnemyState.TakingDamage);
             await UniTask.WaitForEndOfFrame();
 
+            await TakeDamageVisual();
+            
             AddKnockback(directionForce, forceMode);
 
             await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
