@@ -74,14 +74,14 @@ namespace proscryption
                         vfx.Play();
                 }
 
-                DisableBullet();
+                // DisableBullet();
                 return;
             }
 
             if (isVisual)
             {
                 // gameObject.SetActive(false);
-                DisableBullet();
+                // DisableBullet();
                 return;
             }
 
