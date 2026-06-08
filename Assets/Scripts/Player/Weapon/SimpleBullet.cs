@@ -42,7 +42,7 @@ namespace proscryption
 
             this._bulletStance = bulletStance;
 
-            Debug.Log($"[SimpleBullet.Initialize - BULLET {transform.position} ]");
+            // Debug.Log($"[SimpleBullet.Initialize - BULLET {transform.position} ]");
         }
 
         public void SetMoveDirection(Vector3 moveDirection)
@@ -58,7 +58,7 @@ namespace proscryption
 
         void OnTriggerEnter(Collider other)
         {
-            // Debug.Log($"[SimpleBullet.Initialize - BULLET Collided {other.gameObject.name}] ]");
+            Debug.Log($"[ BULLET Collided {other.gameObject.name}] ]");
             if (other.CompareTag("Player")) return;
 
 

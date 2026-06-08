@@ -144,6 +144,8 @@ namespace proscryption
 
         private void HandleEntityDied(GameObject obj)
         {
+            if (obj == this.gameObject) return;
+            
             if (obj == _playerTransform.gameObject)
             {
                 ChangeState(EnemyState.Roaming);
@@ -264,7 +266,7 @@ namespace proscryption
             // await TakeDamageVisual();
 
             await UniTask.Delay((int)(_takeDamageDelay * 500));
-    
+
             HandleStunDelay().Forget();
             await UniTask.Delay((int)(_takeDamageDelay * 1000));
 
@@ -413,7 +415,7 @@ namespace proscryption
             await UniTask.WaitForEndOfFrame();
 
             await TakeDamageVisual();
-            
+
             AddKnockback(directionForce, forceMode);
 
             await UniTask.Delay(Mathf.FloorToInt(_takeDamageDelay * 1000));
