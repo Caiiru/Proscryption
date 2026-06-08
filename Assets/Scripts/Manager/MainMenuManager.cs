@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ namespace proscryption
         [Header("Main Menu")] public Button PlayButton;
         public Button ConfigButton;
         public Button QuitButton;
+
+  
 
         void Start()
         {
@@ -25,14 +28,14 @@ namespace proscryption
             }
 
             // PlayButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget());
-            PlayButton.onClick.AddListener(() => Debug.Log("Play BUtton"));
+            // PlayButton.onClick.AddListener(() => Debug.Log("Play BUtton"));
             ConfigButton.onClick.AddListener(() => AppManager.Instance.ChangeAppState(AppState.Config).Forget());
             QuitButton.onClick.AddListener(() => Application.Quit());
         }
 
         public void PlayButtonClicked()
-        {
-            AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget();
+        { 
+            AppManager.Instance.ChangeAppState(AppState.Playing).Forget();
         }
 
         public void ConfigButtonClicked()

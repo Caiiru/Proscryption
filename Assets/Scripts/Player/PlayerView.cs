@@ -23,11 +23,8 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_IS_INPUTING_TO_MOVE = "isMoveInput";
     private const string PARAM_IS_AIMING = "Is Aiming";
     private const string PARAM_IS_ATTACKING = "Shooting";
-    private const string PARAM_IS_ROLLING = "isRolling";
     private const string PARAM_TAKE_DAMAGE = "Take Damage";
     private const string PARAM_IS_RELOADING = "Is Reloading";
-    private const string PARAM_STOP_RELOADING = "Stop Reloading";
-    private const string PARAM_INSERT_BULLET = "InsertBullet";
     private const string PARAM_DIE = "Death";
 
     private const string PARAM_IS_RUNNING = "IsRunning";
@@ -52,6 +49,10 @@ public class PlayerView : MonoBehaviour
     private const string PARAM_TATTO_ID = "_Tattoo_ID";
     private const string PARAM_ANIMATION_FACTOR = "_Animation_Factor";
     private const string PARAM_EYE_ID = "_Eye_ID";
+
+    [Header("Lightning")] [SerializeField] private Light standardLight;
+    [SerializeField] private Light bloodLight;
+    [SerializeField] private Light faithLight;
 
 
     void Awake()
@@ -106,6 +107,9 @@ public class PlayerView : MonoBehaviour
             _bodyMaterial.SetFloat(PARAM_ANIMATION_FACTOR, 0);
         if (_detailsMaterial != null)
             _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
+        
+        DisableLights();
+        standardLight.gameObject.SetActive(true);
     }
     // ===== STATE CHANGE HANDLERS =====
 
@@ -182,6 +186,7 @@ public class PlayerView : MonoBehaviour
 
     public async UniTask HandleStanceChanged(PlayerStance oldStance, PlayerStance newStance)
     {
+        DisableLights();
         if (newStance == PlayerStance.Standard)
         {
             //DisableTattoo
@@ -193,6 +198,8 @@ public class PlayerView : MonoBehaviour
                 _bodyMaterial.SetFloat(PARAM_TATTO_ID, 0);
                 _detailsMaterial.SetFloat(PARAM_EYE_ID, 0);
             };
+            
+            standardLight.gameObject.SetActive(true);
             return;
         }
 
@@ -221,6 +228,8 @@ public class PlayerView : MonoBehaviour
             if (EnterBloodStanceVFX == null) return;
             EnterBloodStanceVFX.SetActive(true);
             VisualEffect vfx = GetVisualEffect(EnterBloodStanceVFX);
+            
+            bloodLight.gameObject.SetActive(true);
             if (vfx)
             {
                 vfx.Play();
@@ -234,6 +243,8 @@ public class PlayerView : MonoBehaviour
             if (EnterFaithStanceVFX == null) return;
             EnterFaithStanceVFX.SetActive(true);
             VisualEffect vfx = GetVisualEffect(EnterFaithStanceVFX);
+            
+            faithLight.gameObject.SetActive(true);
             if (vfx)
             {
                 vfx.Play();
@@ -241,6 +252,12 @@ public class PlayerView : MonoBehaviour
         }
     }
 
+    private void DisableLights()
+    {
+        standardLight.gameObject.SetActive(false);
+        bloodLight.gameObject.SetActive(false);
+        faithLight.gameObject.SetActive(false);
+    }
     public void SetAiming(bool aiming)
     {
         if (_animator)
