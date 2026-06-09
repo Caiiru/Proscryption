@@ -18,8 +18,8 @@ MonoBehaviour:
   moveSpeed: 1.25
   runSpeed: 1.75
   attackStaminaCost: 10
-  stanceDuration: 5
-  stanceCooldown: 6
+  stanceDuration: 15
+  stanceCooldown: 7
   minDamage: 5
   maxDamage: 8
   critChance: 20
@@ -27,5 +27,4 @@ MonoBehaviour:
   bulletDuration: 6
   bulletForce: 5
   bulletPrefab: {fileID: 245508191954373797, guid: b63c39707695b6a43b52d55a935bcbbe, type: 3}
-  impactEffect: {fileID: 0}
   healAmount: 5

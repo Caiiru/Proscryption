@@ -18,8 +18,8 @@ MonoBehaviour:
   moveSpeed: 2
   runSpeed: 2.5
   attackStaminaCost: 10
-  stanceDuration: 5
-  stanceCooldown: 5
+  stanceDuration: 15
+  stanceCooldown: 7
   minDamage: 20
   maxDamage: 25
   critChance: 25
