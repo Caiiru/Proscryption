@@ -35,7 +35,7 @@ namespace proscryption
 
         public void PlayButtonClicked()
         { 
-            AppManager.Instance.ChangeAppState(AppState.Playing).Forget();
+            AppManager.Instance.ChangeAppState(AppState.Cutscene).Forget();
         }
 
         public void ConfigButtonClicked()
