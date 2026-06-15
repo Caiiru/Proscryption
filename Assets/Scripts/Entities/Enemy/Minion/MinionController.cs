@@ -412,6 +412,7 @@ namespace proscryption
             _animator.SetTrigger(ANIM_ATTACK);
 
             // _rigidbody.isKinematic = true;
+            _rigidbody.isKinematic = false;
             _navMeshAgent.enabled = false;
 
             float duration = _animator.GetCurrentAnimatorClipInfo(0).Length;
@@ -423,8 +424,8 @@ namespace proscryption
             await UniTask.Delay(Mathf.FloorToInt(duration * 2000));
 
             if (_enemyEntity.IsDead) return;
-
-            _rigidbody.isKinematic = false;
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
             _navMeshAgent.enabled = true;
             _isAttacking = false;
             _animator.SetFloat(ANIM_SPEED, 0.75f);

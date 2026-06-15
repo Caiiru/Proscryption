@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -10,7 +11,6 @@ namespace proscryption
         private int _damage = 10;
         private float m_bulletForce;
         private bool _isCritical = false;
-        private Rigidbody _rigidbody;
         private SphereCollider _collider;
 
         private Vector3 moveDirection;
@@ -31,12 +31,10 @@ namespace proscryption
             this.m_bulletForce = bulletForce;
             this._speed = speed;
 
-            _rigidbody = GetComponent<Rigidbody>();
             moveDirection = transform.forward;
             moveDirection.y = 0;
             this._speed = speed;
 
-            _rigidbody.linearVelocity = moveDirection * _speed;
 
             _collider = GetComponent<SphereCollider>();
 
@@ -48,12 +46,17 @@ namespace proscryption
         public void SetMoveDirection(Vector3 moveDirection)
         {
             this.moveDirection = moveDirection;
-            _rigidbody.linearVelocity = moveDirection * _speed;
         }
 
         public void DisableDamage()
         {
             isVisual = true;
+        }
+
+        private void Update()
+        {
+            if (moveDirection == Vector3.zero) return;
+            transform.position += moveDirection.normalized * _speed * Time.deltaTime;
         }
 
         void OnTriggerEnter(Collider other)
@@ -102,11 +105,10 @@ namespace proscryption
 
         void DisableBullet()
         {
+            moveDirection = Vector3.zero;
+            this._speed = 0;
             this._collider.radius = 0;
             this._collider.enabled = false;
-            this._rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
-            _rigidbody.freezeRotation = true;
             Destroy(gameObject, 5f);
         }
     }
