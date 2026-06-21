@@ -395,9 +395,17 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.m_ColorSpace
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1858024606670259633, guid: 06bd9468f9294e848a71f4969e2925d3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3311128551581385065, guid: 06bd9468f9294e848a71f4969e2925d3, type: 3}
       propertyPath: m_Name
       value: VFXG_StandardRevolverMuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 3311128551581385065, guid: 06bd9468f9294e848a71f4969e2925d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4922233864111475716, guid: 06bd9468f9294e848a71f4969e2925d3, type: 3}
       propertyPath: m_LocalPosition.x
