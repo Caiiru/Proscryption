@@ -1420,8 +1420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d481578254eea4a9a7e287d8f6cacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::proscryption.EnemyEntity
-  health: 50
-  maxHealth: 50
+  health: 5
+  maxHealth: 5
   canTakeDamage: 1
   takeDamageDelay: 0.1
   canAttack: 0
