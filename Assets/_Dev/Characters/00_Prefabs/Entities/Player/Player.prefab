@@ -415,7 +415,7 @@ MonoBehaviour:
   outOfCombatDelay: 15
   _outOfCombatTimer: 0
   currentReloadTimer: 0
-  reloadCooldown: 1.5
+  reloadCooldown: 0.1
   isRunning: 0
   BaseStandardData: {fileID: 11400000, guid: 8cdc7898020aa19459c4cb2ee8a83d87, type: 2}
   BaseBloodData: {fileID: 11400000, guid: e780771e2689a0743b8985e6a73a9fab, type: 2}
