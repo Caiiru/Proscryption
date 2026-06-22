@@ -31,7 +31,9 @@ namespace proscryption
         [SerializeField] private bool _isInvulnerable = false;
         private bool _canMove = true;
         private bool _canAttack = true;
-        private bool canTakeDamage;
+        private bool _canTakeDamage;
+
+        private bool _canChangeState = false;
 
         //Reload
         private bool _canReload = true;
@@ -140,7 +142,7 @@ namespace proscryption
             _currentData = BaseStandardData; // Start with standard stance data 
             SetupTimers();
             SetupCurrentStance();
-            canTakeDamage = true;
+            _canTakeDamage = true;
             // RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
         }
 
@@ -349,6 +351,8 @@ namespace proscryption
             if (_currentState == newState) return;
             if (_gameWasEnded) return;
 
+            if (!_canChangeState) return; 
+            
             //EXIT STATE
             if (_currentState == PlayerState.Reloading)
             {
@@ -514,8 +518,8 @@ namespace proscryption
 
         public void TakeDamage(float damage)
         {
-            if (!canTakeDamage) return;
-            canTakeDamage = false;
+            if (!_canTakeDamage) return;
+            _canTakeDamage = false;
 
             HandleTakeDamage().Forget();
             _currentHealth -= damage;
@@ -548,7 +552,7 @@ namespace proscryption
         private async UniTask HandleTakeDamage()
         {
             await UniTask.WaitForEndOfFrame();
-            canTakeDamage = true;
+            _canTakeDamage = true;
         }
 
         private void HandleLightShot()
@@ -598,11 +602,14 @@ namespace proscryption
         public void SetCantMove()
         {
             this._canMove = false;
+            _canChangeState = false;
         }
 
         public void SetCanMove()
         {
+            
             this._canMove = true;
+            _canChangeState = true;
         }
 
         public async UniTask SetEndRoll()
