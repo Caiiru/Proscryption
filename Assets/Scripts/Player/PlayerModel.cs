@@ -34,6 +34,9 @@ namespace proscryption
         private bool _canTakeDamage;
 
         private bool _canChangeState = false;
+        private bool _isOnCombat = false;
+        [SerializeField] private float outOfCombatDelay;
+        [SerializeField]private float _outOfCombatTimer = 0;
 
         //Reload
         private bool _canReload = true;
@@ -41,11 +44,13 @@ namespace proscryption
         public float reloadCooldown;
 
         //Roll
-        [Header("Roll Settings")] [SerializeField]
+        [Header("Roll Settings")]
+        [SerializeField]
         public bool isRunning = false;
 
 
-        [Header("PlayerStances Data")] [SerializeField]
+        [Header("PlayerStances Data")]
+        [SerializeField]
         private PlayerStanceData BaseStandardData;
 
         [SerializeField] PlayerBloodStanceData BaseBloodData;
@@ -89,7 +94,7 @@ namespace proscryption
         private AnimationAudioEvents _audioEvents;
 
         // ===== Debug =====
-        [Space] [Header("DEBUG")] public bool killPlayer = false;
+        [Space][Header("DEBUG")] public bool killPlayer = false;
 
         public bool takeDamage = false;
 
@@ -143,6 +148,8 @@ namespace proscryption
             SetupTimers();
             SetupCurrentStance();
             _canTakeDamage = true;
+            SetCanAttack();
+            SetCanMove();
             // RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
         }
 
@@ -183,6 +190,16 @@ namespace proscryption
             {
                 _lightCooldownTimer -= Time.deltaTime;
                 PlayerEvents.BroadcastPlayerLightCooldownUpdated(_lightCooldownTimer, LightCooldown);
+            }
+
+            if (_isOnCombat)
+            {
+                _outOfCombatTimer -= Time.deltaTime;
+                if (_outOfCombatTimer <= 0)
+                {
+                    _isOnCombat = false;
+                    RuntimeManager.StudioSystem.setParameterByName("Combat_state", 2);
+                }
             }
         }
 
@@ -241,8 +258,8 @@ namespace proscryption
             PlayerEvents.BroadcastPlayerStanceChanged(_prevStance, _currentStance);
             HandleStanceChanged(_prevStance, _currentStance);
 
-            Debug.Log(RuntimeManager.StudioSystem.getParameterByName("Posture", out float v));
-            Debug.Log(v);
+            // Debug.Log(RuntimeManager.StudioSystem.getParameterByName("Posture", out float v));
+            // Debug.Log(v);
         }
 
         private void SetupCurrentStance()
@@ -312,7 +329,7 @@ namespace proscryption
         /// Try to consume stamina for an action. Returns true if successful.
         /// </summary>
         public bool TryConsumeStamina(float amount)
-        { 
+        {
             if (_currentStamina > amount && _currentStamina - amount > 3)
             {
                 _currentStamina -= amount;
@@ -351,8 +368,8 @@ namespace proscryption
             if (_currentState == newState) return;
             if (_gameWasEnded) return;
 
-            if (!_canChangeState) return; 
-            
+            if (!_canChangeState) return;
+
             //EXIT STATE
             if (_currentState == PlayerState.Reloading)
             {
@@ -506,6 +523,8 @@ namespace proscryption
 
         private void HandleHitDetected(Vector3 hitPos, float damage, GameObject target)
         {
+            StartCombat();
+
             if (target != gameObject) return;
             if (!IsAlive) return;
             if (_isInvulnerable)
@@ -518,6 +537,7 @@ namespace proscryption
 
         public void TakeDamage(float damage)
         {
+            StartCombat();
             if (!_canTakeDamage) return;
             _canTakeDamage = false;
 
@@ -547,6 +567,12 @@ namespace proscryption
 
             RuntimeManager.StudioSystem.getParameterByName("HP", out float dbgHP);
             Debug.Log($"[PlayerModel.TakeDamage - {dbgHP} ]");
+        }
+
+        private void StartCombat()
+        {
+            _outOfCombatTimer = outOfCombatDelay;
+            _isOnCombat = true;
         }
 
         private async UniTask HandleTakeDamage()
@@ -607,7 +633,7 @@ namespace proscryption
 
         public void SetCanMove()
         {
-            
+
             this._canMove = true;
             _canChangeState = true;
         }

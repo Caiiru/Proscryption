@@ -80,7 +80,6 @@ namespace proscryption
             base.Death(force, mode);
             OnDeath?.Invoke(force, mode);
             // Debug.Log("Minion Death Entity");
-            RuntimeManager.StudioSystem.setParameterByName("Combat_state", 2);
             if (deathVFX)
             {
                 if (deathVFX.TryGetComponent<VisualEffect>(out VisualEffect deathVisualEffect))

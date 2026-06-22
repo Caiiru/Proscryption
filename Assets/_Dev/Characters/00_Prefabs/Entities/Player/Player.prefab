@@ -412,6 +412,8 @@ MonoBehaviour:
   _currentState: 0
   _currentStance: 0
   _isInvulnerable: 0
+  outOfCombatDelay: 15
+  _outOfCombatTimer: 0
   currentReloadTimer: 0
   reloadCooldown: 1.5
   isRunning: 0
@@ -2876,15 +2878,15 @@ PrefabInstance:
       objectReference: {fileID: 2996229423250799355}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1568319
+      value: -1.28
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.500882
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9148223302414240928, guid: 29932f780aadf0945b0779a6776324aa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.46662426
+      value: 2.13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

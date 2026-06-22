@@ -16,7 +16,9 @@ namespace proscryption
 
         #region Vision Settings
 
-        [Space] [Header("Vision")] [SerializeField]
+        [Space]
+        [Header("Vision")]
+        [SerializeField]
         private LayerMask _playerMask = 1 << 3;
 
         public float visionRange = 5f;
@@ -33,11 +35,13 @@ namespace proscryption
 
         #region Combat State
 
-        [Space] [Header("Attack")] [SerializeField]
+        [Space]
+        [Header("Attack")]
+        [SerializeField]
         bool _isAttacking;
 
         [SerializeField] float _attackRange = 2f;
-        [Range(0, 100)] [SerializeField] float _critChance = 10;
+        [Range(0, 100)][SerializeField] float _critChance = 10;
 
         [Tooltip("Delay para ele se recuperar e voltar a se mexer")]
         public float _takeDamageDelay = 0.1f;
@@ -47,7 +51,7 @@ namespace proscryption
 
         [Tooltip("Após a antecipação, o minion vai dar um salto e se deslocará com certa força em linha reta")]
         public float jumpForce = 5;
-//Unstuck minion
+        //Unstuck minion
 
         private float takeDamageStateMaxTime = 4f;
 
@@ -64,10 +68,12 @@ namespace proscryption
         #region Visual and Ragdoll
 
         CapsuleCollider _takeDamageCollider;
-        [Header("Ragdoll")] [SerializeField] Collider[] _ragdollColliders;
+        [Header("Ragdoll")][SerializeField] Collider[] _ragdollColliders;
         [SerializeField] Rigidbody[] _ragdollRigidbodies;
 
-        [Space] [Header("Visual")] [SerializeField]
+        [Space]
+        [Header("Visual")]
+        [SerializeField]
         SkinnedMeshRenderer _bodyRenderer;
 
         [SerializeField] SkinnedMeshRenderer _eyesRenderer;
@@ -251,7 +257,9 @@ namespace proscryption
         {
             if (SeePlayer())
             {
-                RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
+                RuntimeManager.StudioSystem.getParameterByName("Combat_state", out float v);
+                if (v != 0)
+                    RuntimeManager.StudioSystem.setParameterByName("Combat_state", 0);
                 ChangeState(EnemyState.Attacking);
                 return;
             }
@@ -278,6 +286,7 @@ namespace proscryption
         {
             //Stun Enemy
             _canBeStunned = false;
+ 
 
             SetVelocity(0, 0);
             // await TakeDamageVisual();
@@ -300,10 +309,10 @@ namespace proscryption
 
 
             await UniTask.WaitForEndOfFrame();
-            
+
             if (_isAttacking)
                 _animator.ResetTrigger(ANIM_TAKE_DAMAGE);
-            
+
             await UniTask.WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);
         }
 
